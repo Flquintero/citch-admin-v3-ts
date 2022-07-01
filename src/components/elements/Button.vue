@@ -16,7 +16,13 @@
 </template>
 
 <script lang="ts">
-export default {
+import Vue from 'vue';
+// Types
+interface BtnVariants {
+  [k: string]: any;
+}
+
+export default Vue.extend({
   name: 'Button',
   components: {},
   props: {
@@ -38,10 +44,10 @@ export default {
         light: 'c-btn-light',
         dimmed: 'c-btn-dimmed',
         tertiary: 'c-btn-tertiary',
-      },
+      } as BtnVariants,
     };
   },
-};
+});
 </script>
 <style lang="scss">
 .c-btn {

@@ -19,24 +19,30 @@
 //
 //   this.$alert.error('access denied');
 
-export const AlertType = {
-  INFO: 'info',
-  SUCCESS: 'success',
-  WARNING: 'warning',
-  ERROR: 'error',
-};
+export enum AlertType {
+  INFO = 'info',
+  SUCCESS = 'success',
+  WARNING = 'warning',
+  ERROR = 'error'
+}
 
-// export const Alert = {
-//   info: options,
-//   success: options,
-//   warning: options,
-//   error: options,
-// };
+interface AlertOptions {
+  type: AlertType;
+  message: string;
+  duration?: number;
+  title?: string;
+}
 
+export interface Alert {
+  info: (options: Omit<AlertOptions, 'type'> | string) => void;
+  success: (options: Omit<AlertOptions, 'type'> | string) => void;
+  warning: (options: Omit<AlertOptions, 'type'> | string) => void;
+  error: (options: Omit<AlertOptions, 'type'> | string) => void;
+}
 import Vue from 'vue';
 import AlertComponent from '@/components/functional/Alert.vue';
 
-let alertWrapper;
+let alertWrapper: HTMLDivElement;
 const wrapperId = 'c-alerts-wrapper';
 
 alertWrapper = document.createElement('div');
@@ -45,8 +51,8 @@ document.body.prepend(alertWrapper);
 
 const AlertConstructor = Vue.extend(AlertComponent);
 
-const createAlertFunction = (type) => (options) => {
-  let newAlertData = { type, message: '' };
+const createAlertFunction = (type:AlertType) => (options: Omit<AlertOptions, 'type'> | string) => {
+  let newAlertData: AlertOptions = { type, message: '' };
 
   // If the user only passes a string, that should be the content
   // Otherwise pass all the inputted options to the new alert
@@ -65,7 +71,7 @@ const createAlertFunction = (type) => (options) => {
   alertWrapper.appendChild(instance.$el);
 };
 
-export const $alert = {
+export const $alert: Alert = {
   info: createAlertFunction(AlertType.INFO),
   success: createAlertFunction(AlertType.SUCCESS),
   warning: createAlertFunction(AlertType.WARNING),

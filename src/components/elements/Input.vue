@@ -24,12 +24,13 @@
 </template>
 
 <script lang="ts">
-export default {
+import Vue from 'vue';
+export default Vue.extend({
   name: 'Input',
   props: {
     placeholder: String,
     type: String,
-    valueType: String || Number || null,
+    value: String || Number || null,
     name: String,
     label: String,
     required: {
@@ -41,7 +42,7 @@ export default {
       default: null,
     },
   },
-};
+});
 </script>
 <style lang="scss">
 .input {

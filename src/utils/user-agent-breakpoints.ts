@@ -1,4 +1,4 @@
-export function getUserAgent(deviceWidth) {
+export function getUserAgent(deviceWidth:number) {
   if (deviceWidth < 375) return 'mobile-small';
   if (deviceWidth >= 375 && deviceWidth < 768) return 'mobile';
   if (deviceWidth >= 768 && deviceWidth <= 1024) return 'tablet';

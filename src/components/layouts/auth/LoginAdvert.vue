@@ -5,8 +5,8 @@
       <div class="login-values__list">
         <div class="login-values__list-item">
           <span
-            >If you are not sure what text or picture to add to the ad, contact us to brainstorm or use the tap a
-            professional feature and they will help build it for a small fee.
+            >If you are not sure what text or picture to add to the ad, contact us to brainstorm or
+            use the tap a professional feature and they will help build it for a small fee.
           </span>
         </div>
       </div>
@@ -14,9 +14,10 @@
   </div>
 </template>
 <script lang="ts">
-export default {
+import Vue from 'vue';
+export default Vue.extend({
   name: 'LoginValues',
-};
+});
 </script>
 <style lang="scss">
 .login-values {

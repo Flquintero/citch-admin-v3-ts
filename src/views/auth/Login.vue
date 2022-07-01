@@ -17,15 +17,16 @@
   </div>
 </template>
 
-<script>
-import AuthLayout from '@/layouts/Auth';
+<script lang="ts">
+import Vue from 'vue';
+import AuthLayout from '@/layouts/Auth.vue';
 import LoginAdvert from '@/components/layouts/auth/LoginAdvert.vue';
 import LoginForm from '@/components/layouts/auth/LoginForm.vue';
 
-export default {
+export default Vue.extend({
   name: 'Login',
   components: { AuthLayout, LoginAdvert, LoginForm },
-};
+});
 </script>
 <style lang="scss">
 .login {

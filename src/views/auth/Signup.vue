@@ -16,18 +16,19 @@
   </div>
 </template>
 
-<script>
-import AuthLayout from '@/layouts/Auth';
+<script lang="ts">
+import Vue from 'vue';
+import AuthLayout from '@/layouts/Auth.vue';
 import SignupAdvert from '@/components/layouts/auth/SignupAdvert.vue';
 import SignupForm from '@/components/layouts/auth/SignupForm.vue';
 
-export default {
+export default Vue.extend({
   name: 'Signup',
   components: { AuthLayout, SignupAdvert, SignupForm },
   // mounted() {
   //   this.$alert.success('1');
   // },
-};
+});
 </script>
 <style lang="scss">
 .signup {

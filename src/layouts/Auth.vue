@@ -15,10 +15,11 @@
 </template>
 
 <script lang="ts">
-export default {
+import Vue from 'vue';
+export default Vue.extend({
   name: 'Auth',
   components: {},
-};
+});
 </script>
 <style lang="scss">
 .auth-layout {

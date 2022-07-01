@@ -9,10 +9,11 @@
 </template>
 
 <script lang="ts">
-export default {
+import Vue from 'vue';
+export default Vue.extend({
   name: 'Header',
   components: {},
-};
+});
 </script>
 <style lang="scss">
 .header-layout {

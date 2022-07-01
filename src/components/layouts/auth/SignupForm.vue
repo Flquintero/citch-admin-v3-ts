@@ -2,45 +2,55 @@
   <div class="signup-form">
     <CInput
       @input="setFormValue($event)"
-      :value="getFormValue('firstName')"
-      :error="getFormErrorValue('firstName')"
-      placeholder="First Name"
-      label="First Name"
-      name="firstName"
-      type="text"
-      required
+      v-bind="{
+        value: firstName,
+        error: getFormErrorValue('firstName'),
+        placeholder: 'First Name',
+        label: 'First Name',
+        name: 'firstName',
+        type: 'text',
+        required: true,
+      }"
     />
     <CInput
       @input="setFormValue($event)"
-      :value="getFormValue('lastName')"
-      placeholder="Last Name"
-      label="Last Name"
-      name="lastName"
-      type="text"
+      v-bind="{
+        value: lastName,
+        placeholder: 'Last Name',
+        label: 'Last Name',
+        name: 'lastName',
+        type: 'text',
+      }"
     />
     <CInput
       @input="setFormValue($event)"
-      :value="getFormValue('email')"
-      placeholder="Email"
-      label="Email Name"
-      name="email"
-      type="text"
+      v-bind="{
+        value: email,
+        placeholder: 'Email',
+        label: 'Email Name',
+        name: 'email',
+        type: 'text',
+      }"
     />
     <CInput
       @input="setFormValue($event)"
-      :value="getFormValue('password')"
-      placeholder="Password"
-      label="Password"
-      name="password"
-      type="password"
+      v-bind="{
+        value: password,
+        placeholder: 'Password',
+        label: 'Password',
+        name: 'password',
+        type: 'password',
+      }"
     />
     <CInput
       @input="setFormValue($event)"
-      :value="getFormValue('confirmPassword')"
-      placeholder="Confirm Password"
-      label="Confirm Password"
-      name="confirmPassword"
-      type="password"
+      v-bind="{
+        value: confirmPassword,
+        placeholder: 'Confirm Password',
+        label: 'Confirm Password',
+        name: 'confirmPassword',
+        type: 'password',
+      }"
     />
     <div class="signup-form__terms">
       <span
@@ -50,18 +60,22 @@
       >
     </div>
     <div class="signup-form__submit">
-      <CButton @click.native="submitSignup" v-bind="{ buttonText: 'Register', variant: 'primary', disabled: true }" />
+      <CButton
+        @click.native="submitSignup"
+        v-bind="{ buttonText: 'Register', variant: 'primary', disabled: true }"
+      />
     </div>
     <!-- <div>{{ $v }}</div> -->
   </div>
 </template>
 
 <script lang="ts">
+import Vue from 'vue';
 import CInput from '@/components/elements/Input.vue';
 import CButton from '@/components/elements/Button.vue';
 import { required } from 'vuelidate/lib/validators';
 
-export default {
+export default Vue.extend({
   name: 'SignupForm',
   components: { CInput, CButton },
   data() {
@@ -98,15 +112,12 @@ export default {
     submitSignup() {
       console.log('submit');
     },
-    getFormValue(field: any): () => any {
-      return (this.$data as any)[field];
-    },
     getFormErrorValue(field: any): () => any {
       let error = (this.$v as any)[field].$error;
       return error;
     },
   },
-};
+});
 </script>
 <style lang="scss" scoped>
 .signup-form {

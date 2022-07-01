@@ -17,10 +17,10 @@
 </template>
 
 <script lang="ts">
-//VUEX
+import Vue from 'vue';
 import { AlertType } from '@/utils/alert';
 
-export default {
+export default Vue.extend({
   name: 'Alert',
   props: {
     type: {
@@ -71,7 +71,7 @@ export default {
       }
     },
   },
-};
+});
 </script>
 
 <style lang="scss">

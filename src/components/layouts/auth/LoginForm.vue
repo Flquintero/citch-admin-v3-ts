@@ -2,31 +2,36 @@
   <div class="login-form">
     <CInput
       @input="setFormValue($event)"
-      :value="getFormValue('email')"
-      label="Email"
-      placeholder="Email"
-      name="email"
-      type="text"
+      v-bind="{
+        value: formData.email,
+        label: 'Email',
+        placeholder: 'Email',
+        name: 'email',
+        type: 'text',
+      }"
     />
     <CInput
       @input="setFormValue($event)"
-      :value="getFormValue('password')"
-      placeholder="Password"
-      label="Password"
-      name="password"
-      type="password"
+      v-bind="{
+        value: formData.password,
+        label: 'Password',
+        placeholder: 'Password',
+        name: 'password',
+        type: 'password',
+      }"
     />
     <div class="login-form__submit">
-      <CButton v-bind="{ buttonText: 'Login', variant: 'primary', disabled: !formData }" button-content="Register"
+      <CButton v-bind="{ buttonText: 'Login', variant: 'primary', disabled: !formData }"
     /></div>
   </div>
 </template>
 
 <script lang="ts">
+import Vue from 'vue';
 import CInput from '@/components/elements/Input.vue';
 import CButton from '@/components/elements/Button.vue';
 
-export default {
+export default Vue.extend({
   name: 'LoginForm',
   components: { CInput, CButton },
   data() {
@@ -44,11 +49,11 @@ export default {
     submitSignup() {
       console.log('submit');
     },
-    getFormValue(field: string) {
-      if (this.formData) return (this.formData as any)[field];
-    },
+    // getFormValue(field: string) {
+    //   return (this.formData as any)[field];
+    // },
   },
-};
+});
 </script>
 <style lang="scss" scoped>
 .login-form {

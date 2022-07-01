@@ -5,8 +5,8 @@ module.exports = defineConfig({
 
   pluginOptions: {
     'style-resources-loader': {
-      preProcessor: 'sass',
-      patterns: ['/Users/franciscoquintero/Documents/repositories/citch/citch-admin-v3-ts/src/assets/styles/main.scss'],
+      preProcessor: 'scss',
+      patterns: [path.resolve(__dirname, './src/assets/styles/main.scss')],
     },
   },
 });

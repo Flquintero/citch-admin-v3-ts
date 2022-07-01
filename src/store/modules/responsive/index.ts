@@ -3,9 +3,11 @@
 import { actions } from './actions';
 import { mutations } from './mutations';
 import { getters } from './getters';
+import{ IResponsiveState } from './types'
+
 
 //DEFINE THE STATES(DIFFERENT PROPS THAT WILL HANDLE DATA) THAT WILL BE DEFINED IN THIS STORE ALSO DEFINE ITS TYPE FROM THE OPTIONS IMPORTED
-export const state = {
+export const state: IResponsiveState = {
   deviceWidth: undefined,
   userAgent: undefined,
 };

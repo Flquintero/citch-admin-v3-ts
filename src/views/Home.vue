@@ -4,11 +4,12 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import Header from '@/layouts/Header.vue';
 
-export default {
+export default Vue.extend({
   name: 'Home',
   components: { Header },
-};
+});
 </script>

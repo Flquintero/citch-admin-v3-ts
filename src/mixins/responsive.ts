@@ -1,7 +1,8 @@
+import Vue from 'vue';
 import { getUserAgent } from '@/utils/user-agent-breakpoints';
 import { mapMutations } from 'vuex';
 
-export default {
+export default Vue.extend( {
   name: 'ResponsiveMixin',
   mounted() {
     // Run on window resize
@@ -24,4 +25,4 @@ export default {
       this.SET_USER_AGENT(userAgent);
     },
   },
-};
+});

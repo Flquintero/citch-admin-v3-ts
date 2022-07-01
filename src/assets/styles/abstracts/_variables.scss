@@ -1,0 +1,174 @@
+/*
+* Global Variables
+*/
+
+// Main Color Palette
+$dark-red: #b00020;
+$medium-red: #900f26;
+
+// Neutral Color Palette
+$white: #ffffff;
+$darker-white: #e6e6e6;
+$pale-grey: #e6e6e6;
+$light-pale: #f9f8f7;
+$pale: #e7e4e0;
+$lightest-grey: #fdfcfc;
+$light-grey: #9a9a9a;
+$warm-grey: #968c83;
+$mid-grey: #99a2a0;
+$obsidian: #565656;
+$dark-grey: #515151;
+$dark: #323d3b;
+$darker-grey: #262626;
+$black: #000000;
+$black-with-alpha: #2c273814;
+// CITCH NEW
+$medium-blue: #0075ff;
+$light-blue:#d4ebff;
+$burgundy: #a3166a;
+$dark-blue: #2e3458;
+
+// Negative Color Palette
+$negative-darker: #7D0D0D;
+$negative-dark: #A41B1B;
+$negative: #DB4429;
+$negative-300: #F7AA9E;
+$negative-med: #FAD6CF;
+$negative-light: #FDF2F0;
+
+// Color variables
+$primary: $medium-blue !default;
+$primary-light: $light-blue !default;
+$secondary: $burgundy  !default;
+$error: $negative  !default;
+
+$success: #4f7228;
+$success-light: #e2f6de;
+$info: #045b87;
+$info-light: #e1f5ff;
+$warning: #b97202;
+$warning-light: #f8ecd9;
+// $error: #900f26;
+$error-light: #f6e2e2;
+
+// Form elements
+$border: $pale  !default;
+
+// Buttons
+$button-primary-background: $burgundy  !default;
+$button-primary-color: $white  !default;
+$button-primary-disabled: $pale  !default;
+
+$button-primary-outline-background: $white  !default;
+$button-primary-outline-color: $dark-grey  !default;
+$button-primary-outline: $dark-grey  !default;
+
+$button-link-color: $dark-grey  !default;
+$link-color: $dark-grey  !default;
+$link-light-color: $white  !default;
+
+//Text
+//Text color
+$font-color-default: $dark-blue;
+$font-color-title: $dark-blue;
+$font-color-secondary: $dark-blue;
+$font-color-muted: $mid-grey;
+$font-color-dark: $dark;
+$font-color-highlighted: lighten($primary, 8%) !default;
+$font-color-light: $white  !default;
+
+//Text size
+$font-size-base: 14; // used by rem helper
+$font-size-site: 14px !default;
+$font-size-placehoder: 0.93rem !default;
+$font-size-sm: 0.71rem !default;
+$font-size-title: 5.15rem !default;
+$font-size-title-mobile: 2.42rem !default;
+$font-size-title-md: 3.42rem !default;
+$font-size-title-md-mobile: 2.42rem !default;
+$font-size-subtitle: 1.7rem !default;
+$font-size-subtitle-md: 1.14rem !default;
+
+// Font family
+$font-family-site: 'DM-Sans', Arial, Helvetica, sans-serif !default;
+
+// Media query breakpoints
+$device-breakpoints: (
+    xs: 375px,
+    sm: 768px,
+    md: 1024px,
+    lg: 1200px,
+    xl: 1440px) !default;
+
+// Spacing
+$space-base: 16px !default;
+
+$space-xs: (
+    $space-base * 0.25) !default;
+$space-sm: (
+    $space-base * 0.5) !default;
+$space-md: $space-base  !default;
+$space-lg: (
+    $space-base * 1.5) !default;
+$space-xl: (
+    $space-base * 3) !default;
+
+// Background color
+$section-background-color: $pale  !default;
+$section-dark-background-color: $darker-grey  !default;
+
+// Vue slick carousel
+$slick-dots-background-color: $white  !default;
+
+// Viewport
+$viewport-max-width: 1440px !default;
+
+// FAQ
+$circle-faq-color: $primary-light  !default;
+
+// Form elements
+$field-default-border-color: $pale  !default;
+$field-active-border-color: $warm-grey  !default;
+
+// Dialog
+$dialog-background-color: $white  !default;
+$dialog-background-secondary-color: rgba($pale, 0.3) !default;
+
+// Tooltip
+// $tooltip-background-color: $tooltip-green  !default;
+
+//Mega menu
+$mega-menu-active-tab-border-color: $dark-grey  !default;
+
+// Z-Index
+$z-index-loading-overlay: 90;
+$z-index-header: 100;
+$z-index-drawer: 180;
+$z-index-alert: 200;
+$z-index-header-actions: 300;
+$z-index-cookie-banner: 400;
+
+// Breadcrumbs
+$breadcrumbs-font-size: 12px !default;
+$breadcrumbs-font-color: $dark-grey  !default;
+$breadcrumbs-disabled-color: $dark-grey  !default;
+
+// Search overlay
+$search-recent-search-not-found-color: $light-grey  !default;
+
+// Global
+$hover-background-color: $dark-grey  !default;
+
+// miscellaneous color assignments
+$success-upload-color: $dark-grey;
+
+// border radius
+$roundness-circle: 100%;
+$roundness-pill: 24px;
+$roundness-1: 4px;
+$roundness-2: 8px;
+$roundness-3: 12px;
+
+// Transition times. Add more over time as needed
+$t-time-1: 350ms;
+

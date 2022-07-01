@@ -1,0 +1,44 @@
+// move to vars once approved
+$default-shadow: rgba(44, 39, 56, 0.08) 0 20px 24px -6px,
+    rgba(44, 39, 56, 0.16) 0 12px 10px -6px;
+
+@mixin button-hover-after($bg-color: inherit, $shadow: $default-shadow, $color: inherit) {
+    position: relative;
+    z-index: 1;
+
+    &:after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        box-shadow: $shadow;
+        background-color: $bg-color;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+        z-index: -1;
+    }
+
+    &:hover:after {
+        opacity: 1;
+    }
+
+    @if $color  !=inherit {
+        transition: color 0.3s ease-in-out;
+
+        &:hover {
+            color: $color;
+        }
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        color: #bfbfbf;
+        border-color: rgba($button-primary-disabled, 0.2);
+        background-color: rgba($button-primary-disabled, 0.2);
+        box-shadow: 0 4px 8px 0 rgba(44, 39, 56, 0.08);
+
+        &:hover:after {
+            opacity: 0;
+        }
+    }
+}

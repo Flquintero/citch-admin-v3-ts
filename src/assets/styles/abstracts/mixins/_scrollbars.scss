@@ -1,0 +1,36 @@
+/**
+* @description: Scrollbar custom styling
+*
+* @how to use:
+*   E.g.: @include scrollbars(4px, $primary, rgba($border, 0.1), 4px);
+*   1st param: scrollbar width
+*   2nd param: scrollbar scrollable part (thumb) color
+*   3rd param: scrollbar track color
+*   4th param: (optional) scrollbar border radius
+*/
+@mixin scrollbars($size, $scroller-color, $background-color, $radius: 0) {
+    // Firefox
+    scrollbar-width: thin;
+    scrollbar-color: $scroller-color $background-color;
+
+    // Google Chrome
+    &::-webkit-scrollbar {
+        width: $size;
+        height: $size;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: $scroller-color;
+        border-radius: $radius;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: $background-color;
+    }
+
+    // Internet Explorer
+    & {
+        scrollbar-face-color: $scroller-color;
+        scrollbar-track-color: $background-color;
+    }
+}

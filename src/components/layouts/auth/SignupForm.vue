@@ -73,7 +73,7 @@
 import Vue from 'vue';
 import CInput from '@/components/elements/Input.vue';
 import CButton from '@/components/elements/Button.vue';
-import { required } from 'vuelidate/lib/validators';
+import { required } from '@vuelidate/validators';
 
 export default Vue.extend({
   name: 'SignupForm',
@@ -87,23 +87,29 @@ export default Vue.extend({
       confirmPassword: null,
     };
   },
-  validations: {
-    firstName: {
-      required,
-    },
-    lastName: {
-      required,
-    },
-    email: {
-      required,
-    },
-    password: {
-      required,
-    },
-    confirmPassword: {
-      required,
-    },
-  },
+
+  //USE BELOW example in https://github.com/iamsandeepkumarmandal/Vue3-Form-Validation/blob/master/src/components/CreateEmployee/CreateEmployeeCard.vue
+  //   validations() {
+  //   return {
+  //     formData: {
+  //      //   firstName: {
+  //     required,
+  //   },
+  //   lastName: {
+  //     required,
+  //   },
+  //   email: {
+  //     required,
+  //   },
+  //   password: {
+  //     required,
+  //   },
+  //   confirmPassword: {
+  //     required,
+  //   },
+  //     },
+  //   };
+  // },
   methods: {
     setFormValue(valueObject: any) {
       this.$data[valueObject.field] = valueObject.value;

@@ -10,9 +10,20 @@
       class="input__field"
       :class="{ 'input__field--error': error }"
     />
-    <label class="input__label" v-if="value" :for="name">{{ label }}</label>
+    <label class="input__label" v-if="value && !error" :for="name">{{ label }}</label>
     <div v-if="error" class="input__status-message">
-      <span>This Field is required</span>
+      <div class="input__status-message--error" v-if="!validationObject.formData[name].required"
+        >Field is required</div
+      >
+      <div
+        class="input__status-message--error"
+        v-if="
+          validationObject.formData[name].minLength ||
+          validationObject.formData[name].minLength === false
+        "
+        >Must have at least
+        {{ validationObject.formData[name].$params.minLength.min }} characters</div
+      >
     </div>
     <div v-if="error" class="input__status-icon" :class="{ 'input__status-icon--error': error }">
       <font-awesome-icon icon="fa-duotone fa-circle-exclamation" />
@@ -25,6 +36,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { IValidationObject } from '@/types/forms';
 export default Vue.extend({
   name: 'Input',
   props: {
@@ -33,6 +45,7 @@ export default Vue.extend({
     value: String || Number || null,
     name: String,
     label: String,
+    validationObject: IValidationObject,
     required: {
       type: Boolean,
       default: false,

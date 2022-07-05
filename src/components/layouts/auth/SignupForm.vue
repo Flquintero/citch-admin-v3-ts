@@ -3,8 +3,9 @@
     <CInput
       @input="setFormValue($event)"
       v-bind="{
-        value: firstName,
-        error: getFormErrorValue('firstName'),
+        value: formData.firstName,
+        error: hasInputError('firstName'),
+        validationObject: $v,
         placeholder: 'First Name',
         label: 'First Name',
         name: 'firstName',
@@ -15,7 +16,9 @@
     <CInput
       @input="setFormValue($event)"
       v-bind="{
-        value: lastName,
+        value: formData.lastName,
+        error: hasInputError('lastName'),
+        validationObject: $v,
         placeholder: 'Last Name',
         label: 'Last Name',
         name: 'lastName',
@@ -25,7 +28,9 @@
     <CInput
       @input="setFormValue($event)"
       v-bind="{
-        value: email,
+        value: formData.email,
+        error: hasInputError('email'),
+        validationObject: $v,
         placeholder: 'Email',
         label: 'Email Name',
         name: 'email',
@@ -35,7 +40,9 @@
     <CInput
       @input="setFormValue($event)"
       v-bind="{
-        value: password,
+        value: formData.password,
+        error: hasInputError('password'),
+        validationObject: $v,
         placeholder: 'Password',
         label: 'Password',
         name: 'password',
@@ -45,7 +52,9 @@
     <CInput
       @input="setFormValue($event)"
       v-bind="{
-        value: confirmPassword,
+        value: formData.confirmPassword,
+        error: hasInputError('confirmPassword'),
+        validationObject: $v,
         placeholder: 'Confirm Password',
         label: 'Confirm Password',
         name: 'confirmPassword',
@@ -65,7 +74,7 @@
         v-bind="{ buttonText: 'Register', variant: 'primary', disabled: true }"
       />
     </div>
-    <!-- <div>{{ $v }}</div> -->
+    <div>{{ $v }}</div>
   </div>
 </template>
 
@@ -73,47 +82,55 @@
 import Vue from 'vue';
 import CInput from '@/components/elements/Input.vue';
 import CButton from '@/components/elements/Button.vue';
-import { required } from 'vuelidate/lib/validators';
+import { required, minLength } from 'vuelidate/lib/validators';
+import { IValidationObject } from '@/types/forms';
 
 export default Vue.extend({
   name: 'SignupForm',
   components: { CInput, CButton },
   data() {
     return {
-      firstName: null,
-      lastName: null,
-      email: null,
-      password: null,
-      confirmPassword: null,
+      formData: {
+        firstName: null,
+        lastName: null,
+        email: null,
+        password: null,
+        confirmPassword: null,
+      } as { [property: string]: any },
     };
   },
   validations: {
-    firstName: {
-      required,
-    },
-    lastName: {
-      required,
-    },
-    email: {
-      required,
-    },
-    password: {
-      required,
-    },
-    confirmPassword: {
-      required,
+    formData: {
+      firstName: {
+        required,
+      },
+      lastName: {
+        required,
+      },
+      email: {
+        required,
+      },
+      password: {
+        required,
+        minLength: minLength(5),
+      },
+      confirmPassword: {
+        required,
+      },
     },
   },
   methods: {
-    setFormValue(valueObject: any) {
-      this.$data[valueObject.field] = valueObject.value;
-      (this.$v as any)[valueObject.field].$touch();
+    setFormValue(valueObject: { [k: string]: string }) {
+      this.formData[valueObject.field] = valueObject.value;
+      (this.$v as IValidationObject).formData[valueObject.field].$touch();
     },
     submitSignup() {
       console.log('submit');
     },
-    getFormErrorValue(field: any): () => any {
-      let error = (this.$v as any)[field].$error;
+    hasInputError(field: string): () => boolean {
+      let error =
+        (this.$v as IValidationObject).formData[field].$error ||
+        (this.$v as IValidationObject).formData[field].$anyError;
       return error;
     },
   },

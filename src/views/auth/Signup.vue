@@ -45,6 +45,10 @@ export default Vue.extend({
     }
     &__redirect {
       padding: 0 20px;
+      a {
+        font-weight: bold;
+        text-decoration: underline;
+      }
     }
   }
   &__advert {

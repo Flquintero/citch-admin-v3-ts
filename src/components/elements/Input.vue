@@ -12,17 +12,14 @@
     />
     <label class="input__label" v-if="value && !error" :for="name">{{ label }}</label>
     <div v-if="error" class="input__status-message">
-      <div class="input__status-message--error" v-if="!validationObject.formData[name].required"
-        >Field is required</div
-      >
-      <div
-        class="input__status-message--error"
-        v-if="
-          validationObject.formData[name].minLength ||
-          validationObject.formData[name].minLength === false
-        "
+      <span v-if="validationObject.formData[name].required == false">Field is required.</span>
+      <span v-if="validationObject.formData[name].minLength === false"
         >Must have at least
-        {{ validationObject.formData[name].$params.minLength.min }} characters</div
+        {{ validationObject.formData[name].$params.minLength.min }} characters.</span
+      >
+      <span v-if="validationObject.formData[name].email === false">Must be a valid email.</span>
+      <span v-if="validationObject.formData[name].sameAsPassword === false"
+        >Must match Password.</span
       >
     </div>
     <div v-if="error" class="input__status-icon" :class="{ 'input__status-icon--error': error }">

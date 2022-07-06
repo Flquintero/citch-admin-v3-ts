@@ -23,6 +23,7 @@
         label: 'Last Name',
         name: 'lastName',
         type: 'text',
+        required: true,
       }"
     />
     <CInput
@@ -35,6 +36,7 @@
         label: 'Email Name',
         name: 'email',
         type: 'text',
+        required: true,
       }"
     />
     <CInput
@@ -47,6 +49,7 @@
         label: 'Password',
         name: 'password',
         type: 'password',
+        required: true,
       }"
     />
     <CInput
@@ -59,6 +62,7 @@
         label: 'Confirm Password',
         name: 'confirmPassword',
         type: 'password',
+        required: true,
       }"
     />
     <div class="signup-form__terms">
@@ -71,10 +75,9 @@
     <div class="signup-form__submit">
       <CButton
         @click.native="submitSignup"
-        v-bind="{ buttonText: 'Register', variant: 'primary', disabled: true }"
+        v-bind="{ buttonText: 'Register', variant: 'primary', disabled: $v.$invalid }"
       />
     </div>
-    <div>{{ $v }}</div>
   </div>
 </template>
 
@@ -82,7 +85,7 @@
 import Vue from 'vue';
 import CInput from '@/components/elements/Input.vue';
 import CButton from '@/components/elements/Button.vue';
-import { required, minLength } from 'vuelidate/lib/validators';
+import { required, minLength, email, sameAs } from 'vuelidate/lib/validators';
 import { IValidationObject } from '@/types/forms';
 
 export default Vue.extend({
@@ -109,13 +112,15 @@ export default Vue.extend({
       },
       email: {
         required,
+        email,
       },
       password: {
         required,
-        minLength: minLength(5),
+        minLength: minLength(6),
       },
       confirmPassword: {
         required,
+        sameAsPassword: sameAs('password'),
       },
     },
   },
@@ -144,6 +149,10 @@ export default Vue.extend({
   }
   &__terms {
     margin-bottom: 20px;
+    a {
+      font-weight: bold;
+      text-decoration: underline;
+    }
   }
   &__submit {
     height: 50px;

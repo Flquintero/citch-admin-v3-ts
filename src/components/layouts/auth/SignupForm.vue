@@ -1,10 +1,10 @@
 <template>
   <div class="signup-form">
     <CInput
-      @input="setFormValue($event)"
+      @input="setFormValue(formData, $v, $event)"
       v-bind="{
         value: formData.firstName,
-        error: hasInputError('firstName'),
+        error: hasInputError($v, 'firstName'),
         validationObject: $v,
         placeholder: 'First Name',
         label: 'First Name',
@@ -14,10 +14,10 @@
       }"
     />
     <CInput
-      @input="setFormValue($event)"
+      @input="setFormValue(formData, $v, $event)"
       v-bind="{
         value: formData.lastName,
-        error: hasInputError('lastName'),
+        error: hasInputError($v, 'lastName'),
         validationObject: $v,
         placeholder: 'Last Name',
         label: 'Last Name',
@@ -27,23 +27,23 @@
       }"
     />
     <CInput
-      @input="setFormValue($event)"
+      @input="setFormValue(formData, $v, $event)"
       v-bind="{
         value: formData.email,
-        error: hasInputError('email'),
+        error: hasInputError($v, 'email'),
         validationObject: $v,
         placeholder: 'Email',
-        label: 'Email Name',
+        label: 'Email',
         name: 'email',
         type: 'text',
         required: true,
       }"
     />
     <CInput
-      @input="setFormValue($event)"
+      @input="setFormValue(formData, $v, $event)"
       v-bind="{
         value: formData.password,
-        error: hasInputError('password'),
+        error: hasInputError($v, 'password'),
         validationObject: $v,
         placeholder: 'Password',
         label: 'Password',
@@ -53,10 +53,10 @@
       }"
     />
     <CInput
-      @input="setFormValue($event)"
+      @input="setFormValue(formData, $v, $event)"
       v-bind="{
         value: formData.confirmPassword,
-        error: hasInputError('confirmPassword'),
+        error: hasInputError($v, 'confirmPassword'),
         validationObject: $v,
         placeholder: 'Confirm Password',
         label: 'Confirm Password',
@@ -86,7 +86,7 @@ import Vue from 'vue';
 import CInput from '@/components/elements/Input.vue';
 import CButton from '@/components/elements/Button.vue';
 import { required, minLength, email, sameAs } from 'vuelidate/lib/validators';
-import { IValidationObject } from '@/types/forms';
+import { FormFunctions } from '@/utils/form-functionality';
 
 export default Vue.extend({
   name: 'SignupForm',
@@ -125,18 +125,9 @@ export default Vue.extend({
     },
   },
   methods: {
-    setFormValue(valueObject: { [k: string]: string }) {
-      this.formData[valueObject.field] = valueObject.value;
-      (this.$v as IValidationObject).formData[valueObject.field].$touch();
-    },
+    ...FormFunctions,
     submitSignup() {
       console.log('submit');
-    },
-    hasInputError(field: string): () => boolean {
-      let error =
-        (this.$v as IValidationObject).formData[field].$error ||
-        (this.$v as IValidationObject).formData[field].$anyError;
-      return error;
     },
   },
 });
@@ -149,10 +140,6 @@ export default Vue.extend({
   }
   &__terms {
     margin-bottom: 20px;
-    a {
-      font-weight: bold;
-      text-decoration: underline;
-    }
   }
   &__submit {
     height: 50px;

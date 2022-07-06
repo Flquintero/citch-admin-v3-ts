@@ -1,27 +1,33 @@
 <template>
   <div class="login-form">
     <CInput
-      @input="setFormValue($event)"
+      @input="setFormValue(formData, $v, $event)"
       v-bind="{
         value: formData.email,
-        label: 'Email',
+        error: hasInputError($v, 'email'),
+        validationObject: $v,
         placeholder: 'Email',
+        label: 'Email',
         name: 'email',
         type: 'text',
+        required: true,
       }"
     />
     <CInput
-      @input="setFormValue($event)"
+      @input="setFormValue(formData, $v, $event)"
       v-bind="{
         value: formData.password,
-        label: 'Password',
+        error: hasInputError($v, 'password'),
+        validationObject: $v,
         placeholder: 'Password',
+        label: 'Password',
         name: 'password',
         type: 'password',
+        required: true,
       }"
     />
     <div class="login-form__submit">
-      <CButton v-bind="{ buttonText: 'Login', variant: 'primary', disabled: !formData }"
+      <CButton v-bind="{ buttonText: 'Login', variant: 'primary', disabled: $v.$invalid }"
     /></div>
   </div>
 </template>
@@ -30,6 +36,8 @@
 import Vue from 'vue';
 import CInput from '@/components/elements/Input.vue';
 import CButton from '@/components/elements/Button.vue';
+import { required } from 'vuelidate/lib/validators';
+import { FormFunctions } from '@/utils/form-functionality';
 
 export default Vue.extend({
   name: 'LoginForm',
@@ -39,19 +47,24 @@ export default Vue.extend({
       formData: {
         email: null,
         password: null,
-      },
+      } as { [property: string]: any },
     };
   },
-  methods: {
-    setFormValue(valueObject: { [field: string]: string; value: string }) {
-      (this.formData as any)[valueObject.field] = valueObject.value;
+  validations: {
+    formData: {
+      email: {
+        required,
+      },
+      password: {
+        required,
+      },
     },
+  },
+  methods: {
+    ...FormFunctions,
     submitSignup() {
       console.log('submit');
     },
-    // getFormValue(field: string) {
-    //   return (this.formData as any)[field];
-    // },
   },
 });
 </script>

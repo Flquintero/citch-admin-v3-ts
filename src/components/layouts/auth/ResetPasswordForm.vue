@@ -1,5 +1,5 @@
 <template>
-  <div class="login-form">
+  <div class="reset-password-form">
     <CInput
       @input="setFormValue(formData, $v, $event)"
       v-bind="{
@@ -13,23 +13,8 @@
         required: true,
       }"
     />
-    <CInput
-      @input="setFormValue(formData, $v, $event)"
-      v-bind="{
-        value: formData.password,
-        error: hasInputError($v, 'password'),
-        validationObject: $v,
-        placeholder: 'Password',
-        label: 'Password',
-        name: 'password',
-        type: 'password',
-        required: true,
-      }"
-    />
-    <div class="login-form__reset-password">
-      <router-link to="/reset-password">Forgot Password?</router-link>
-    </div>
-    <div class="login-form__submit">
+
+    <div class="reset-password-form__submit">
       <CButton
         @click.native="submitLogin"
         v-bind="{ variant: 'primary', disabled: $v.$invalid || saving }"
@@ -46,20 +31,19 @@
 import Vue from 'vue';
 import CInput from '@/components/elements/Input.vue';
 import CButton from '@/components/elements/Button.vue';
-import { required } from 'vuelidate/lib/validators';
+import { required, email } from 'vuelidate/lib/validators';
 import { FormFunctions } from '@/utils/form-functionality';
 import Repository from '@/api-repository/index';
 const AuthRepository = Repository.get('auth');
 
 export default Vue.extend({
-  name: 'LoginForm',
+  name: 'ResetPasswordForm',
   components: { CInput, CButton },
   data() {
     return {
       saving: false,
       formData: {
         email: null,
-        password: null,
       } as { [property: string]: string | number | null },
     };
   },
@@ -67,9 +51,7 @@ export default Vue.extend({
     formData: {
       email: {
         required,
-      },
-      password: {
-        required,
+        email,
       },
     },
   },
@@ -91,7 +73,7 @@ export default Vue.extend({
 });
 </script>
 <style lang="scss" scoped>
-.login-form {
+.reset-password-form {
   padding: 20px;
   > .input {
     margin-bottom: 40px;

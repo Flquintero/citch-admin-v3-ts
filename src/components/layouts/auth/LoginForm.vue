@@ -27,7 +27,9 @@
       }"
     />
     <div class="login-form__submit">
-      <CButton v-bind="{ buttonText: 'Login', variant: 'primary', disabled: $v.$invalid }"
+      <CButton
+        @click.native="submitLogin"
+        v-bind="{ buttonText: 'Login', variant: 'primary', disabled: $v.$invalid }"
     /></div>
   </div>
 </template>
@@ -38,6 +40,8 @@ import CInput from '@/components/elements/Input.vue';
 import CButton from '@/components/elements/Button.vue';
 import { required } from 'vuelidate/lib/validators';
 import { FormFunctions } from '@/utils/form-functionality';
+import Repository from '@/api-repository/index';
+const AuthRepository = Repository.get('auth');
 
 export default Vue.extend({
   name: 'LoginForm',
@@ -47,7 +51,7 @@ export default Vue.extend({
       formData: {
         email: null,
         password: null,
-      } as { [property: string]: any },
+      } as { [property: string]: string | number | null },
     };
   },
   validations: {
@@ -62,8 +66,13 @@ export default Vue.extend({
   },
   methods: {
     ...FormFunctions,
-    submitSignup() {
-      console.log('submit');
+    async submitLogin() {
+      try {
+        let user = await AuthRepository.loginUser(this.formData);
+        console.log('user', user);
+      } catch (e: any) {
+        console.log('error', e);
+      }
     },
   },
 });

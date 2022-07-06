@@ -87,6 +87,8 @@ import CInput from '@/components/elements/Input.vue';
 import CButton from '@/components/elements/Button.vue';
 import { required, minLength, email, sameAs } from 'vuelidate/lib/validators';
 import { FormFunctions } from '@/utils/form-functionality';
+import Repository from '@/api-repository/index';
+const AuthRepository = Repository.get('auth');
 
 export default Vue.extend({
   name: 'SignupForm',
@@ -99,7 +101,7 @@ export default Vue.extend({
         email: null,
         password: null,
         confirmPassword: null,
-      } as { [property: string]: any },
+      } as { [property: string]: string | number | null },
     };
   },
   validations: {
@@ -126,8 +128,13 @@ export default Vue.extend({
   },
   methods: {
     ...FormFunctions,
-    submitSignup() {
-      console.log('submit');
+    async submitSignup() {
+      try {
+        let user = await AuthRepository.signupUser(this.formData);
+        console.log('user', user);
+      } catch (e: any) {
+        console.log('error', e);
+      }
     },
   },
 });

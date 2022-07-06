@@ -29,8 +29,13 @@
     <div class="login-form__submit">
       <CButton
         @click.native="submitLogin"
-        v-bind="{ buttonText: 'Login', variant: 'primary', disabled: $v.$invalid }"
-    /></div>
+        v-bind="{ variant: 'primary', disabled: $v.$invalid || saving }"
+      >
+        <span v-if="saving">
+          <font-awesome-icon icon="fa-duotone fa-circle-notch" spin />Logging You In</span
+        ><span v-else>Login</span></CButton
+      >
+    </div>
   </div>
 </template>
 
@@ -48,6 +53,7 @@ export default Vue.extend({
   components: { CInput, CButton },
   data() {
     return {
+      saving: false,
       formData: {
         email: null,
         password: null,
@@ -68,10 +74,14 @@ export default Vue.extend({
     ...FormFunctions,
     async submitLogin() {
       try {
-        let user = await AuthRepository.loginUser(this.formData);
-        console.log('user', user);
+        this.saving = true;
+        await AuthRepository.loginUser(this.formData);
+        this.$router.replace('/home');
       } catch (e: any) {
-        console.log('error', e);
+        console.log('Login error', e);
+        this.$alert.error('Login Error:', e);
+      } finally {
+        this.saving = false;
       }
     },
   },

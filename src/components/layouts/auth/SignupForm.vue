@@ -75,8 +75,11 @@
     <div class="signup-form__submit">
       <CButton
         @click.native="submitSignup"
-        v-bind="{ buttonText: 'Register', variant: 'primary', disabled: $v.$invalid }"
-      />
+        v-bind="{ variant: 'primary', disabled: $v.$invalid || saving }"
+        ><span v-if="saving">
+          <font-awesome-icon icon="fa-duotone fa-circle-notch" spin /> Saving</span
+        ><span>Register</span></CButton
+      >
     </div>
   </div>
 </template>
@@ -95,6 +98,7 @@ export default Vue.extend({
   components: { CInput, CButton },
   data() {
     return {
+      saving: false,
       formData: {
         firstName: null,
         lastName: null,
@@ -130,10 +134,15 @@ export default Vue.extend({
     ...FormFunctions,
     async submitSignup() {
       try {
-        let user = await AuthRepository.signupUser(this.formData);
-        console.log('user', user);
+        this.saving = true;
+        await AuthRepository.signupUser(this.formData);
+        this.$router.replace('/home');
+        this.$alert.success('Welcome!');
       } catch (e: any) {
         console.log('error', e);
+        this.$alert.error('Registration error:', e);
+      } finally {
+        this.saving = false;
       }
     },
   },

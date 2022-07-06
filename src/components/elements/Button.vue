@@ -8,10 +8,10 @@
     }"
     :disabled="disabled"
   >
-    <template>
+    <slot>
       <!-- <c-icon v-if="iconConfig" :style="iconPosition" v-bind="iconConfig" /> -->
       <span>{{ buttonText }}</span>
-    </template>
+    </slot>
   </button>
 </template>
 

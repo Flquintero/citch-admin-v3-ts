@@ -34,7 +34,7 @@ export default Vue.extend({
   &__form-wrapper {
     background-color: $white;
     padding: 100px 50px 0;
-    @include mobile {
+    @include tablet-and-down {
       padding: 100px 20px 30px;
     }
     h2 {

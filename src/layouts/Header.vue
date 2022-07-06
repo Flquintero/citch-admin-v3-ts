@@ -5,14 +5,30 @@
         <img src="https://cdn.filestackcontent.com/cRTlsFkT7Okny1Z7YtEA" alt="citch-logo" />
       </router-link>
     </div>
+    <div><CButton @click.native="signOut">Logout</CButton></div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
+import CButton from '@/components/elements/Button.vue';
+import Repository from '@/api-repository/index';
+const AuthRepository = Repository.get('auth');
 export default Vue.extend({
   name: 'Header',
-  components: {},
+  components: { CButton },
+  methods: {
+    async signOut() {
+      try {
+        await AuthRepository.initSignOut();
+        this.$router.replace('/login');
+        this.$alert.success('Logged Out!');
+      } catch (e: any) {
+        console.log('Signout error', e);
+        this.$alert.error('Logging Out Error:', e);
+      }
+    },
+  },
 });
 </script>
 <style lang="scss">
@@ -20,6 +36,8 @@ export default Vue.extend({
   position: absolute;
   top: 0;
   left: 0;
+  display: flex;
+  width: 100%;
   &__logo {
     width: 100%;
     height: 100px;

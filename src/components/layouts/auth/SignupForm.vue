@@ -1,10 +1,11 @@
 <template>
   <div class="signup-form">
     <CInput
-      @input="setFormValue($event)"
+      @input="setFormValue(formData, $v, $event)"
       v-bind="{
-        value: firstName,
-        error: getFormErrorValue('firstName'),
+        value: formData.firstName,
+        error: hasInputError($v, 'firstName'),
+        validationObject: $v,
         placeholder: 'First Name',
         label: 'First Name',
         name: 'firstName',
@@ -13,43 +14,55 @@
       }"
     />
     <CInput
-      @input="setFormValue($event)"
+      @input="setFormValue(formData, $v, $event)"
       v-bind="{
-        value: lastName,
+        value: formData.lastName,
+        error: hasInputError($v, 'lastName'),
+        validationObject: $v,
         placeholder: 'Last Name',
         label: 'Last Name',
         name: 'lastName',
         type: 'text',
+        required: true,
       }"
     />
     <CInput
-      @input="setFormValue($event)"
+      @input="setFormValue(formData, $v, $event)"
       v-bind="{
-        value: email,
+        value: formData.email,
+        error: hasInputError($v, 'email'),
+        validationObject: $v,
         placeholder: 'Email',
-        label: 'Email Name',
+        label: 'Email',
         name: 'email',
         type: 'text',
+        required: true,
       }"
     />
     <CInput
-      @input="setFormValue($event)"
+      @input="setFormValue(formData, $v, $event)"
       v-bind="{
-        value: password,
+        value: formData.password,
+        error: hasInputError($v, 'password'),
+        validationObject: $v,
         placeholder: 'Password',
         label: 'Password',
         name: 'password',
         type: 'password',
+        required: true,
       }"
     />
     <CInput
-      @input="setFormValue($event)"
+      @input="setFormValue(formData, $v, $event)"
       v-bind="{
-        value: confirmPassword,
+        value: formData.confirmPassword,
+        error: hasInputError($v, 'confirmPassword'),
+        validationObject: $v,
         placeholder: 'Confirm Password',
         label: 'Confirm Password',
         name: 'confirmPassword',
         type: 'password',
+        required: true,
       }"
     />
     <div class="signup-form__terms">
@@ -62,10 +75,12 @@
     <div class="signup-form__submit">
       <CButton
         @click.native="submitSignup"
-        v-bind="{ buttonText: 'Register', variant: 'primary', disabled: true }"
-      />
+        v-bind="{ variant: 'primary', disabled: $v.$invalid || saving }"
+        ><span v-if="saving">
+          <font-awesome-icon icon="fa-duotone fa-circle-notch" spin /> Saving</span
+        ><span>Register</span></CButton
+      >
     </div>
-    <!-- <div>{{ $v }}</div> -->
   </div>
 </template>
 
@@ -73,48 +88,62 @@
 import Vue from 'vue';
 import CInput from '@/components/elements/Input.vue';
 import CButton from '@/components/elements/Button.vue';
-import { required } from 'vuelidate/lib/validators';
+import { required, minLength, email, sameAs } from 'vuelidate/lib/validators';
+import { FormFunctions } from '@/utils/form-functionality';
+import Repository from '@/api-repository/index';
+const AuthRepository = Repository.get('auth');
 
 export default Vue.extend({
   name: 'SignupForm',
   components: { CInput, CButton },
   data() {
     return {
-      firstName: null,
-      lastName: null,
-      email: null,
-      password: null,
-      confirmPassword: null,
+      saving: false,
+      formData: {
+        firstName: null,
+        lastName: null,
+        email: null,
+        password: null,
+        confirmPassword: null,
+      } as { [property: string]: string | number | null },
     };
   },
   validations: {
-    firstName: {
-      required,
-    },
-    lastName: {
-      required,
-    },
-    email: {
-      required,
-    },
-    password: {
-      required,
-    },
-    confirmPassword: {
-      required,
+    formData: {
+      firstName: {
+        required,
+      },
+      lastName: {
+        required,
+      },
+      email: {
+        required,
+        email,
+      },
+      password: {
+        required,
+        minLength: minLength(6),
+      },
+      confirmPassword: {
+        required,
+        sameAsPassword: sameAs('password'),
+      },
     },
   },
   methods: {
-    setFormValue(valueObject: any) {
-      this.$data[valueObject.field] = valueObject.value;
-      (this.$v as any)[valueObject.field].$touch();
-    },
-    submitSignup() {
-      console.log('submit');
-    },
-    getFormErrorValue(field: any): () => any {
-      let error = (this.$v as any)[field].$error;
-      return error;
+    ...FormFunctions,
+    async submitSignup() {
+      try {
+        this.saving = true;
+        await AuthRepository.signupUser(this.formData);
+        this.$router.replace('/home');
+        this.$alert.success('Welcome!');
+      } catch (e: any) {
+        console.log('error', e);
+        this.$alert.error('Registration error:', e);
+      } finally {
+        this.saving = false;
+      }
     },
   },
 });

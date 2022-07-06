@@ -1,28 +1,41 @@
 <template>
   <div class="login-form">
     <CInput
-      @input="setFormValue($event)"
+      @input="setFormValue(formData, $v, $event)"
       v-bind="{
         value: formData.email,
-        label: 'Email',
+        error: hasInputError($v, 'email'),
+        validationObject: $v,
         placeholder: 'Email',
+        label: 'Email',
         name: 'email',
         type: 'text',
+        required: true,
       }"
     />
     <CInput
-      @input="setFormValue($event)"
+      @input="setFormValue(formData, $v, $event)"
       v-bind="{
         value: formData.password,
-        label: 'Password',
+        error: hasInputError($v, 'password'),
+        validationObject: $v,
         placeholder: 'Password',
+        label: 'Password',
         name: 'password',
         type: 'password',
+        required: true,
       }"
     />
     <div class="login-form__submit">
-      <CButton v-bind="{ buttonText: 'Login', variant: 'primary', disabled: !formData }"
-    /></div>
+      <CButton
+        @click.native="submitLogin"
+        v-bind="{ variant: 'primary', disabled: $v.$invalid || saving }"
+      >
+        <span v-if="saving">
+          <font-awesome-icon icon="fa-duotone fa-circle-notch" spin />Logging You In</span
+        ><span v-else>Login</span></CButton
+      >
+    </div>
   </div>
 </template>
 
@@ -30,28 +43,47 @@
 import Vue from 'vue';
 import CInput from '@/components/elements/Input.vue';
 import CButton from '@/components/elements/Button.vue';
+import { required } from 'vuelidate/lib/validators';
+import { FormFunctions } from '@/utils/form-functionality';
+import Repository from '@/api-repository/index';
+const AuthRepository = Repository.get('auth');
 
 export default Vue.extend({
   name: 'LoginForm',
   components: { CInput, CButton },
   data() {
     return {
+      saving: false,
       formData: {
         email: null,
         password: null,
-      },
+      } as { [property: string]: string | number | null },
     };
   },
+  validations: {
+    formData: {
+      email: {
+        required,
+      },
+      password: {
+        required,
+      },
+    },
+  },
   methods: {
-    setFormValue(valueObject: { [field: string]: string; value: string }) {
-      (this.formData as any)[valueObject.field] = valueObject.value;
+    ...FormFunctions,
+    async submitLogin() {
+      try {
+        this.saving = true;
+        await AuthRepository.loginUser(this.formData);
+        this.$router.replace('/home');
+      } catch (e: any) {
+        console.log('Login error', e);
+        this.$alert.error('Login Error:', e);
+      } finally {
+        this.saving = false;
+      }
     },
-    submitSignup() {
-      console.log('submit');
-    },
-    // getFormValue(field: string) {
-    //   return (this.formData as any)[field];
-    // },
   },
 });
 </script>

@@ -46,9 +46,10 @@ export default Vue.extend({
     flex-grow: 1;
     height: 100%;
     max-width: 50%;
-    @include mobile {
+    @include tablet-and-down() {
       max-width: 100%;
     }
+
     > div {
       height: 100%;
     }

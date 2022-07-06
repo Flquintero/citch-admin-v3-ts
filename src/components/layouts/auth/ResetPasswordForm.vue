@@ -16,12 +16,12 @@
 
     <div class="reset-password-form__submit">
       <CButton
-        @click.native="submitLogin"
+        @click.native="submitReset"
         v-bind="{ variant: 'primary', disabled: $v.$invalid || saving }"
       >
         <span v-if="saving">
-          <font-awesome-icon icon="fa-duotone fa-circle-notch" spin />Logging You In</span
-        ><span v-else>Login</span></CButton
+          <font-awesome-icon icon="fa-duotone fa-circle-notch" spin /> Sending</span
+        ><span v-else>Send Reset Password Email</span></CButton
       >
     </div>
   </div>
@@ -57,14 +57,14 @@ export default Vue.extend({
   },
   methods: {
     ...FormFunctions,
-    async submitLogin() {
+    async submitReset() {
       try {
         this.saving = true;
-        await AuthRepository.loginUser(this.formData);
-        this.$router.replace('/home');
+        await AuthRepository.initResetUserPassword(this.formData);
+        this.$alert.success('Email Sent! Please look in Inbox for reset link!');
       } catch (e: any) {
-        console.log('Login error', e);
-        this.$alert.error('Login Error:', e);
+        console.log('Send Reset Email error', e);
+        this.$alert.error('Send Reset Email Error:', e);
       } finally {
         this.saving = false;
       }

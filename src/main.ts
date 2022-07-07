@@ -31,8 +31,16 @@ import {
   faCircleNotch,
   faCircleInfo,
   faTriangleExclamation,
+  faXmark,
 } from '@fortawesome/pro-duotone-svg-icons';
-library.add(faCircleExclamation, faCircleNotch, faTriangleExclamation, faCircleInfo, faCircleCheck);
+library.add(
+  faCircleExclamation,
+  faCircleNotch,
+  faTriangleExclamation,
+  faCircleInfo,
+  faCircleCheck,
+  faXmark
+);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 new Vue({

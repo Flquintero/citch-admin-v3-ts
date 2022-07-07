@@ -61,7 +61,7 @@ export default Vue.extend({
       try {
         this.saving = true;
         await AuthRepository.initResetUserPassword(this.formData);
-        this.$alert.success('Email Sent! Please look in Inbox for reset link!');
+        this.$alert.success('Email Sent! Please look in Inbox for Reset Link!');
       } catch (e: any) {
         console.log('Send Reset Email error', e);
         this.$alert.error('Send Reset Email Error:', e);

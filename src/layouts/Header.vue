@@ -1,22 +1,28 @@
 <template>
   <div class="header-layout">
     <div class="header-layout__logo">
-      <router-link to="/home">
-        <img src="https://cdn.filestackcontent.com/cRTlsFkT7Okny1Z7YtEA" alt="citch-logo" />
-      </router-link>
+      <LinkLogo v-if="linkLogo" v-bind="{ to: '/login' }" />
+      <Logo v-else />
     </div>
-    <div><CButton @click.native="signOut">Logout</CButton></div>
+    <div v-if="actions"><CButton @click.native="signOut">Logout</CButton></div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import CButton from '@/components/elements/Button.vue';
+import Logo from '@/components/elements/Logo.vue';
+import LinkLogo from '@/components/elements/LinkLogo.vue';
 import Repository from '@/api-repository/index';
 const AuthRepository = Repository.get('auth');
 export default Vue.extend({
   name: 'Header',
-  components: { CButton },
+  components: { CButton, Logo, LinkLogo },
+  props: {
+    actions: { type: Boolean, default: true },
+    linkLogo: { type: Boolean, default: false },
+    to: { type: String },
+  },
   methods: {
     async signOut() {
       try {
@@ -39,10 +45,7 @@ export default Vue.extend({
   display: flex;
   width: 100%;
   &__logo {
-    width: 100%;
-    height: 100px;
     padding: 15px;
-    max-width: 100%;
     width: 150px;
     display: flex;
   }

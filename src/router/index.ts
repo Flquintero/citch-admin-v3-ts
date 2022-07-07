@@ -6,7 +6,7 @@ Vue.use(VueRouter);
 const routes: Array<RouteConfig> = [
   {
     path: '/',
-    redirect: '/home'
+    redirect: '/home',
   },
   {
     path: '/home',
@@ -35,7 +35,8 @@ const routes: Array<RouteConfig> = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "confirm-password" */ '../views/auth/PasswordConfirm.vue'),
+    component: () =>
+      import(/* webpackChunkName: "confirm-password" */ '../views/auth/PasswordConfirm.vue'),
   },
   {
     path: '/reset-password',
@@ -43,7 +44,17 @@ const routes: Array<RouteConfig> = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "reset-password" */ '../views/auth/PasswordReset.vue'),
+    component: () =>
+      import(/* webpackChunkName: "reset-password" */ '../views/auth/PasswordReset.vue'),
+  },
+  {
+    path: '/auth-redirect',
+    name: 'auth redirect',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "auth-redirect" */ '../views/auth/AuthRedirect.vue'),
   },
 ];
 

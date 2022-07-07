@@ -35,8 +35,8 @@
         v-bind="{ variant: 'primary', disabled: $v.$invalid || saving }"
       >
         <span v-if="saving">
-          <font-awesome-icon icon="fa-duotone fa-circle-notch" spin />Logging You In</span
-        ><span v-else> Login</span></CButton
+          <font-awesome-icon icon="fa-duotone fa-circle-notch" spin /> Logging You In</span
+        ><span v-else>Login</span></CButton
       >
     </div>
   </div>

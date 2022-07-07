@@ -14,6 +14,9 @@
       <span class="c-alert__title" v-if="title">{{ title }}</span>
       <span class="c-alert__message">{{ message }}</span>
     </div>
+    <div @click="close" class="c-alert__icon">
+      <font-awesome-icon :icon="`fa-duotone fa-xmark`"
+    /></div>
   </div>
 </template>
 

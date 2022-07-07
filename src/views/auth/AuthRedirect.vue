@@ -1,8 +1,6 @@
 <template>
   <div class="auth-redirect">
-    <div class="auth-redirect__header">
-      <div class="auth-redirect__header-logo"><Logo /></div>
-    </div>
+    <Header v-bind="{ actions: false }" />
     <div class="auth-redirect__loader"><Loader v-bind="{ size: '6x' }" /></div>
   </div>
 </template>
@@ -11,28 +9,19 @@
 import Vue from 'vue';
 import Logo from '@/components/elements/Logo.vue';
 import Loader from '@/components/functional/Loader.vue';
+import Header from '@/layouts/Header.vue';
 
 export default Vue.extend({
   name: 'AuthRedirect',
-  components: { Logo, Loader },
+  components: { Logo, Loader, Header },
 });
 </script>
 <style lang="scss">
 .auth-redirect {
   height: 100vh;
+  width: 100%;
   position: relative;
-  &__header {
-    width: 100%;
-    &-logo {
-      max-height: 100%;
-      max-width: 150px;
-      padding: 15px;
-      img {
-        height: auto;
-        width: auto;
-      }
-    }
-  }
+
   &__loader {
     position: absolute;
     top: 0;

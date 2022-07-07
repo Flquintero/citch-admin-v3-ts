@@ -36,7 +36,7 @@
       >
         <span v-if="saving">
           <font-awesome-icon icon="fa-duotone fa-circle-notch" spin />Logging You In</span
-        ><span v-else>Login</span></CButton
+        ><span v-else> Login</span></CButton
       >
     </div>
   </div>

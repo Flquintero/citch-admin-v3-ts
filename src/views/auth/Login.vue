@@ -43,7 +43,8 @@ export default Vue.extend({
     }
 
     &__redirect {
-      padding: 0 20px;
+      padding: 20px;
+      text-align: center;
     }
   }
   &__advert {

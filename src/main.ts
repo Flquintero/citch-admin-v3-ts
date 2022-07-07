@@ -25,8 +25,14 @@ Vue.use(Vuelidate);
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faCircleExclamation, faCircleNotch } from '@fortawesome/pro-duotone-svg-icons';
-library.add(faCircleExclamation,faCircleNotch);
+import {
+  faCircleExclamation,
+  faCircleCheck,
+  faCircleNotch,
+  faCircleInfo,
+  faTriangleExclamation,
+} from '@fortawesome/pro-duotone-svg-icons';
+library.add(faCircleExclamation, faCircleNotch, faTriangleExclamation, faCircleInfo, faCircleCheck);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 new Vue({
@@ -34,4 +40,3 @@ new Vue({
   store,
   render: (h) => h(App),
 }).$mount('#app');
-

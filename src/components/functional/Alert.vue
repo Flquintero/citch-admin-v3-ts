@@ -9,6 +9,7 @@
       'c-alert--error': type === AlertType.ERROR,
     }"
   >
+    <div class="c-alert__icon"> <font-awesome-icon :icon="`fa-duotone ${chosenIcon}`" /></div>
     <div class="c-alert__message-wrapper">
       <span class="c-alert__title" v-if="title">{{ title }}</span>
       <span class="c-alert__message">{{ message }}</span>
@@ -71,6 +72,22 @@ export default Vue.extend({
       }
     },
   },
+  computed: {
+    chosenIcon() {
+      switch (this.type) {
+        case AlertType.SUCCESS:
+          return 'fa-circle-check';
+        case AlertType.INFO:
+          return 'fa-circle-info';
+        case AlertType.WARNING:
+          return 'fa-triangle-exclamation';
+        case AlertType.ERROR:
+          return 'fa-circle-exclamation';
+        default:
+          return 'fa-circle-check';
+      }
+    },
+  },
 });
 </script>
 
@@ -96,6 +113,10 @@ export default Vue.extend({
   padding: 12px 16px;
   border-radius: 4px;
   box-shadow: 0 4px 8px 0 rgba(44, 39, 56, 0.08), 0 2px 4px 0 rgba(44, 39, 56, 0.08);
+
+  &__icon {
+    margin-top: 2px;
+  }
 
   &--visible {
     max-height: 15vh;

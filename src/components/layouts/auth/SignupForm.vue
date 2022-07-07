@@ -155,7 +155,7 @@ export default Vue.extend({
     margin-bottom: 40px;
   }
   &__terms {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
   }
   &__submit {
     height: 50px;

@@ -131,6 +131,7 @@ export default Vue.extend({
     justify-content: center;
     align-items: center;
     font-size: rem(10);
+    background-color: $white;
   }
 }
 </style>

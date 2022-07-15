@@ -44,13 +44,12 @@ export default Vue.extend({
       try {
         let verifyObject: IVerifyPassword = {
           oobCode: this.$route.query.oobCode as string,
-          apiKey: this.$route.query.oobCode as string,
+          apiKey: this.$route.query.apiKey as string,
         };
         const verifiedResponse = await AuthRepository.initVerifyResetPasswordCode(verifyObject);
         if (verifiedResponse.email === this.$route.query.email) {
           this.showPasswordConfirm = true;
         }
-        console.log(verifiedResponse);
       } catch (error: any) {
         console.log('Password Verification', error);
         this.$alert.error('Error Verifying Password. Please Contact support.');

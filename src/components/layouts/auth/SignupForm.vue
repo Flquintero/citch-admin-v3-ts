@@ -138,9 +138,9 @@ export default Vue.extend({
         await AuthRepository.signupUser(this.formData);
         this.$router.replace('/home');
         this.$alert.success('Welcome!');
-      } catch (e: any) {
-        console.log('error', e);
-        this.$alert.error('Registration error:', e);
+      } catch (error: any) {
+        console.log('Registration Error', error);
+        this.$alert.error('Registration error:', error);
       } finally {
         this.saving = false;
       }

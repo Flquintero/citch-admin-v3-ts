@@ -14,7 +14,7 @@ import {
   signOut,
   sendPasswordResetEmail,
 } from 'firebase/auth';
-import { IVerifyPassword } from '@/types/auth';
+import { IVerifyPassword, IPasswordConfirm } from '@/types/auth';
 const AUTH_INSTANCE: Auth = getAuth(Vue.prototype.$firebase_app);
 const DOMAIN_PATH = '/auth';
 
@@ -40,7 +40,6 @@ export default {
   },
   observerCurrentAuthedUser: async () => {
     return await onAuthStateChanged(AUTH_INSTANCE, (user: any): any => {
-      console.log('observed user', user);
       return user;
     });
   },
@@ -54,7 +53,11 @@ export default {
       data: { ...passwordVerificationObject },
     });
   },
-  setNewPassword: async (formData: IFormData) => {
-    return await signInWithEmailAndPassword(AUTH_INSTANCE, formData.email, formData.password);
+  setNewPassword: async (passwordConfirmObject: IPasswordConfirm) => {
+    return await $apiRequest({
+      method: 'post',
+      url: `${DOMAIN_PATH}/confirm-password-reset`,
+      data: { ...passwordConfirmObject },
+    });
   },
 };

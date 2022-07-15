@@ -80,9 +80,16 @@ export default Vue.extend({
         this.saving = true;
         await AuthRepository.loginUser(this.formData);
         this.$router.replace('/home');
-      } catch (e: any) {
-        console.log('Login error', e);
-        this.$alert.error('Login Error:', e);
+      } catch (error: any) {
+        console.log('Login error', error);
+        let message;
+        if (
+          error.message === '(auth/wrong-password)' ||
+          error.message === '(auth/user-not-found)'
+        ) {
+          message = 'Invalid Username Or Password';
+        }
+        this.$alert.error(`Login Error: ${message}`);
       } finally {
         this.saving = false;
       }

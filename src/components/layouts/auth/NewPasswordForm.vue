@@ -3,12 +3,12 @@
     <CInput
       @input="setFormValue(formData, $v, $event)"
       v-bind="{
-        value: formData.password,
-        error: hasInputError($v, 'password'),
+        value: formData.newPassword,
+        error: hasInputError($v, 'newPassword'),
         validationObject: $v,
-        placeholder: 'Password',
-        label: 'Password',
-        name: 'password',
+        placeholder: 'New Password',
+        label: 'New Password',
+        name: 'newPassword',
         type: 'password',
         required: true,
       }"
@@ -19,8 +19,8 @@
         value: formData.confirmPassword,
         error: hasInputError($v, 'confirmPassword'),
         validationObject: $v,
-        placeholder: 'Confirm Password',
-        label: 'Confirm Password',
+        placeholder: 'Confirm New Password',
+        label: 'Confirm New Password',
         name: 'confirmPassword',
         type: 'password',
         required: true,
@@ -32,7 +32,7 @@
         v-bind="{ variant: 'primary', disabled: $v.$invalid || saving }"
         ><span v-if="saving">
           <font-awesome-icon icon="fa-duotone fa-circle-notch" spin /> Saving</span
-        ><span>Set New Password</span></CButton
+        ><span v-else>Set New Password</span></CButton
       >
     </div>
   </div>
@@ -54,20 +54,20 @@ export default Vue.extend({
     return {
       saving: false,
       formData: {
-        password: null,
+        newPassword: null,
         confirmPassword: null,
       } as { [property: string]: string | number | null },
     };
   },
   validations: {
     formData: {
-      password: {
+      newPassword: {
         required,
         minLength: minLength(6),
       },
       confirmPassword: {
         required,
-        sameAsPassword: sameAs('password'),
+        sameAsPassword: sameAs('newPassword'),
       },
     },
   },
@@ -76,12 +76,18 @@ export default Vue.extend({
     async submitNewPassword() {
       try {
         this.saving = true;
+        this.formData.oobCode = this.$route.query.oobCode as string;
+        this.formData.apiKey = this.$route.query.apiKey as string;
+        if (!this.formData.oobCode || !this.formData.apiKey) {
+          this.$alert.error('Error ocurred please restart Reset Password again');
+          this.$router.replace('/login');
+        }
         await AuthRepository.setNewPassword(this.formData);
         this.$router.replace('/login');
         this.$alert.success('Password Reset. Please log in again.');
       } catch (error: any) {
         console.log('Reset Password Error', error);
-        this.$alert.error('Reset Password Error:', error);
+        this.$alert.error(`Reset Password Error: ${error.message}`);
       } finally {
         this.saving = false;
       }

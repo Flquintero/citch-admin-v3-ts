@@ -1,4 +1,5 @@
 import { IFormData } from '@/types/forms';
+import { $apiRequest } from '@/utils/api';
 import Vue from 'vue';
 import {
   getAuth,
@@ -13,15 +14,17 @@ import {
   signOut,
   sendPasswordResetEmail,
 } from 'firebase/auth';
-const auth: Auth = getAuth(Vue.prototype.$firebase_app);
+import { IVerifyPassword } from '@/types/auth';
+const AUTH_INSTANCE: Auth = getAuth(Vue.prototype.$firebase_app);
+const DOMAIN_PATH = '/auth';
 
 export default {
   initSetPersistence: () => {
-    setPersistence(auth, browserLocalPersistence);
+    setPersistence(AUTH_INSTANCE, browserLocalPersistence);
   },
   signupUser: async (formData: IFormData) => {
     let userCredential: UserCredential = await createUserWithEmailAndPassword(
-      auth,
+      AUTH_INSTANCE,
       formData.email,
       formData.password
     );
@@ -30,18 +33,28 @@ export default {
     });
   },
   loginUser: async (formData: IFormData) => {
-    return await signInWithEmailAndPassword(auth, formData.email, formData.password);
+    return await signInWithEmailAndPassword(AUTH_INSTANCE, formData.email, formData.password);
   },
   initSignOut: async () => {
-    return await signOut(auth);
+    return await signOut(AUTH_INSTANCE);
   },
   observerCurrentAuthedUser: async () => {
-    return await onAuthStateChanged(auth, (user: any): any => {
+    return await onAuthStateChanged(AUTH_INSTANCE, (user: any): any => {
       console.log('observed user', user);
       return user;
     });
   },
   initResetUserPassword: async (formData: IFormData) => {
-    return await sendPasswordResetEmail(auth, formData.email);
+    return await sendPasswordResetEmail(AUTH_INSTANCE, formData.email);
+  },
+  initVerifyResetPasswordCode: async (passwordVerificationObject: IVerifyPassword) => {
+    return await $apiRequest({
+      method: 'post',
+      url: `${DOMAIN_PATH}/verify-password-code`,
+      data: { ...passwordVerificationObject },
+    });
+  },
+  setNewPassword: async (formData: IFormData) => {
+    return await signInWithEmailAndPassword(AUTH_INSTANCE, formData.email, formData.password);
   },
 };

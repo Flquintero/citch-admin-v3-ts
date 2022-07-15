@@ -4,6 +4,9 @@ import router from '@/router';
 import store from '@/store';
 Vue.config.productionTip = false;
 
+import { $apiRequest } from './utils/api';
+Vue.prototype.$apiRequest = $apiRequest;
+
 // FIREBASE
 import { app, analytics, auth } from './config/firebase';
 import { firestorePlugin } from 'vuefire';

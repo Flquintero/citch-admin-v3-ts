@@ -82,17 +82,21 @@ export default Vue.extend({
         this.$router.replace('/home');
       } catch (error: any) {
         console.log('Login error', error);
-        let message;
-        if (
-          error.message === '(auth/wrong-password)' ||
-          error.message === '(auth/user-not-found)'
-        ) {
-          message = 'Invalid Username Or Password';
-        }
-        this.$alert.error(`Login Error: ${message}`);
+        // To Do: better way to handle this error string
+        this.$alert.error(`Login Error: ${this.formatLoginError(error)}`);
       } finally {
         this.saving = false;
       }
+    },
+    formatLoginError(error: any) {
+      let message = error.message;
+      if (
+        error.message === 'Firebase: Error (auth/wrong-password).' ||
+        error.message === 'Firebase: Error (auth/user-not-found).'
+      ) {
+        message = 'Invalid Username Or Password';
+      }
+      return message;
     },
   },
 });

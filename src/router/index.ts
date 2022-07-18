@@ -1,16 +1,14 @@
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
+import store from '@/store';
 
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
   {
-    path: '/',
-    redirect: '/home',
-  },
-  {
     path: '/home',
     name: 'home',
+    meta: { requiresAuth: true },
     component: () => import(/* webpackChunkName: "home" */ '../views/Home.vue'),
   },
   {
@@ -56,12 +54,25 @@ const routes: Array<RouteConfig> = [
     component: () =>
       import(/* webpackChunkName: "auth-redirect" */ '../views/auth/AuthRedirect.vue'),
   },
+  {
+    path: '*',
+    redirect: '/login',
+  },
 ];
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes,
+});
+
+router.beforeEach(async (to, from, next) => {
+  let isAuthed = store.getters['User/isLoggedIn'];
+  if (to.matched.some((route) => route.meta.requiresAuth)) {
+    if (isAuthed) return next();
+    return next('/login');
+  }
+  next();
 });
 
 export default router;

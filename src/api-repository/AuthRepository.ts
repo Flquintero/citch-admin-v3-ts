@@ -14,6 +14,7 @@ import {
   signOut,
   sendPasswordResetEmail,
 } from 'firebase/auth';
+import store from '@/store';
 import { IVerifyPassword, IPasswordConfirm } from '@/types/auth';
 const AUTH_INSTANCE: Auth = getAuth(Vue.prototype.$firebase_app);
 const DOMAIN_PATH = '/auth';
@@ -40,6 +41,7 @@ export default {
   },
   observerCurrentAuthedUser: async () => {
     return await onAuthStateChanged(AUTH_INSTANCE, (user: any): any => {
+      store.dispatch('User/setUser', user);
       return user;
     });
   },

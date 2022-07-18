@@ -136,6 +136,7 @@ export default Vue.extend({
       try {
         this.saving = true;
         await AuthRepository.signupUser(this.formData);
+        await AuthRepository.observerCurrentAuthedUser();
         this.$router.replace('/home');
         this.$alert.success('Welcome!');
       } catch (error: any) {

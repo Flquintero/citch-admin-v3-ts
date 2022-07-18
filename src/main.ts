@@ -1,11 +1,4 @@
 import Vue from 'vue';
-import App from '@/App.vue';
-import router from '@/router';
-import store from '@/store';
-Vue.config.productionTip = false;
-
-import { $apiRequest } from './utils/api';
-Vue.prototype.$apiRequest = $apiRequest;
 
 // FIREBASE
 import { app, analytics, auth } from './config/firebase';
@@ -19,6 +12,14 @@ const AuthRepository = Repository.get('auth');
 // need this to keep user persisted in local storage
 AuthRepository.initSetPersistence();
 // FIREBASE END
+
+import App from '@/App.vue';
+import store from '@/store';
+import router from '@/router';
+Vue.config.productionTip = false;
+
+import { $apiRequest } from './utils/api';
+Vue.prototype.$apiRequest = $apiRequest;
 
 import { $alert } from './utils/alert';
 Vue.prototype.$alert = $alert;
@@ -46,8 +47,14 @@ library.add(
 );
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
-new Vue({
-  router,
-  store,
-  render: (h) => h(App),
-}).$mount('#app');
+// Need to include the initilization of app to confirm  that we have user or not
+// Could not be the best way
+// tried to call the AuthRepository function that does this but didnt get the info on time
+Vue.prototype.$firebase_auth.onAuthStateChanged((user: any) => {
+  store.dispatch('User/setUser', user);
+  new Vue({
+    store,
+    router,
+    render: (h) => h(App),
+  }).$mount('#app');
+});

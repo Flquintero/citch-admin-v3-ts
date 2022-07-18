@@ -1,7 +1,9 @@
 <template>
   <div class="auth-redirect">
     <Header v-bind="{ actions: false }" />
-    <div class="auth-redirect__loader"><Loader v-bind="{ size: '6x' }" /></div>
+    <div v-if="loading" class="auth-redirect__loader"><Loader v-bind="{ size: '6x' }" /></div>
+    <PasswordConfirm v-else-if="showPasswordConfirm" />
+    <ErrorPage v-else />
   </div>
 </template>
 
@@ -10,10 +12,52 @@ import Vue from 'vue';
 import Logo from '@/components/elements/Logo.vue';
 import Loader from '@/components/functional/Loader.vue';
 import Header from '@/layouts/Header.vue';
+import Repository from '@/api-repository/index';
+import PasswordConfirm from './PasswordConfirm.vue';
+import ErrorPage from '@/components/functional/ErrorPage.vue';
+const AuthRepository = Repository.get('auth');
+
+import { IVerifyPassword } from '@/types/auth';
 
 export default Vue.extend({
   name: 'AuthRedirect',
-  components: { Logo, Loader, Header },
+  components: { Logo, Loader, Header, PasswordConfirm, ErrorPage },
+  data() {
+    return {
+      loading: true,
+      showPasswordConfirm: false,
+    };
+  },
+  mounted() {
+    this.checkForAuthAction();
+  },
+  methods: {
+    checkForAuthAction() {
+      const mode = this.$route.query.mode;
+      switch (mode) {
+        case 'resetPassword':
+          this.initResetPasswordCheck();
+        default:
+      }
+    },
+    async initResetPasswordCheck() {
+      try {
+        let verifyObject: IVerifyPassword = {
+          oobCode: this.$route.query.oobCode as string,
+          apiKey: this.$route.query.apiKey as string,
+        };
+        const verifiedResponse = await AuthRepository.initVerifyResetPasswordCode(verifyObject);
+        if (verifiedResponse.email === this.$route.query.email) {
+          this.showPasswordConfirm = true;
+        }
+      } catch (error: any) {
+        console.log('Password Verification', error);
+        this.$alert.error('Error Verifying Password. Please Contact support.');
+      } finally {
+        this.loading = false;
+      }
+    },
+  },
 });
 </script>
 <style lang="scss">

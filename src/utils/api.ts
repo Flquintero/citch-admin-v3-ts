@@ -1,35 +1,40 @@
-let soon: true;
-// import axios from 'axios';
+import axios, { AxiosRequestConfig, AxiosInstance } from 'axios';
 
-// let $apiRequest;
+var $axios: AxiosInstance;
 
-// const apiRequestAxiosInstance = axios.create();
+export function initializeAxios(axiosInstance: AxiosInstance) {
+  $axios = axiosInstance;
+}
 
-// export default () => {
-//   // TODO: Add global error handling once the toast design is ready
-//   $apiRequest = async function apiRequest(options:any) {
-//     try {
-//       const response = await getApiResponse(context, appUserId, options);
-//       return response?.data;
-//     } catch (e) {}
-//   };
+// NOTE: apiVersion can be 'v1', v2', 'v3', etc...
+export interface ApiRequestOptions extends AxiosRequestConfig {
+  apiVersion?: string;
+}
 
-//   Vue.prototype.$apiRequest = $apiRequest;
-// };
+let $apiRequest: (options: ApiRequestOptions) => Promise<any>;
 
-// function getApiResponse(options) {
-//   const requestObj = {
-//     ...options,
-//     baseURL: process.env.baseApiUrl,
-//     headers: {
-//       //   'X-Juniper-AppId': context.$config.appId,
-//       //   'X-Juniper-AppUserId': appUserId || 0,
-//       //   'X-Juniper-ManufacturerId': options?.manufacturerId || 0,
-//       //   Authorization: `bearer ${token || 'none'}`,
-//     },
-//   };
+const apiRequestAxiosInstance = axios.create();
 
-//   return apiRequestAxiosInstance.request(requestObj);
-// }
+$apiRequest = async function apiRequest(options: ApiRequestOptions) {
+  try {
+    const response = await getApiResponse(options);
+    return response?.data;
+  } catch (e: any) {
+    throw new Error(e);
+  }
+};
 
-// export { $apiRequest };
+function getApiResponse(options: ApiRequestOptions) {
+  const requestObj = {
+    ...options,
+    baseURL: process.env.VUE_APP_BASE_API_URL,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json',
+    },
+  };
+
+  return apiRequestAxiosInstance.request(requestObj);
+}
+
+export { $apiRequest };

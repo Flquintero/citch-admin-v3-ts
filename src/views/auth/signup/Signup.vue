@@ -1,17 +1,16 @@
 <template>
-  <div class="login">
+  <div class="signup">
     <AuthLayout>
       <template #auth-content
-        ><div class="login__form-wrapper">
-          <h2>Login</h2>
-          <LoginForm />
-          <div class="login__form-wrapper__redirect"
-            >Need an account? <router-link to="/signup">Register</router-link></div
-          ></div
-        ></template
+        ><div class="signup__form-wrapper"
+          ><h2>Get Started</h2> <SignupForm />
+          <div class="signup__form-wrapper__redirect"
+            >Already have an account? <router-link to="/login">Login</router-link></div
+          >
+        </div></template
       >
       <template #auth-advert
-        ><div class="login__advert"> <LoginAdvert></LoginAdvert> </div
+        ><div class="signup__advert"> <SignupAdvert></SignupAdvert> </div
       ></template>
     </AuthLayout>
   </div>
@@ -20,16 +19,16 @@
 <script lang="ts">
 import Vue from 'vue';
 import AuthLayout from '@/layouts/Auth.vue';
-import LoginAdvert from '@/components/layouts/auth/LoginAdvert.vue';
-import LoginForm from '@/components/layouts/auth/LoginForm.vue';
+import SignupAdvert from '@/components/layouts/auth/signup/SignupAdvert.vue';
+import SignupForm from '@/components/layouts/auth/signup/SignupForm.vue';
 
 export default Vue.extend({
-  name: 'Login',
-  components: { AuthLayout, LoginAdvert, LoginForm },
+  name: 'Signup',
+  components: { AuthLayout, SignupAdvert, SignupForm },
 });
 </script>
 <style lang="scss">
-.login {
+.signup {
   height: 100%;
   &__form-wrapper {
     background-color: $white;
@@ -39,9 +38,8 @@ export default Vue.extend({
     }
     h2 {
       margin: 0px auto 20px;
-      width: 100px;
+      width: 150px;
     }
-
     &__redirect {
       padding: 20px;
       text-align: center;

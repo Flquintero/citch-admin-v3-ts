@@ -92,6 +92,7 @@ import { required, minLength, email, sameAs } from 'vuelidate/lib/validators';
 import { FormFunctions } from '@/utils/form-functionality';
 import Repository from '@/api-repository/index';
 const AuthRepository = Repository.get('auth');
+const UsersRepository = Repository.get('users');
 
 export default Vue.extend({
   name: 'SignupForm',
@@ -137,6 +138,8 @@ export default Vue.extend({
         this.saving = true;
         await AuthRepository.signupUser(this.formData);
         await AuthRepository.observerCurrentAuthedUser();
+        await UsersRepository.createUser(this.formData);
+        // await OrganizationsRepository.createOrganization(this.formData)
         this.$router.replace('/home');
         this.$alert.success('Welcome!');
       } catch (error: any) {

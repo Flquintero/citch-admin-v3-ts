@@ -1,17 +1,17 @@
 <template>
-  <div class="set-new-password">
+  <div class="reset-password">
     <AuthLayout>
       <template #auth-content
-        ><div class="set-new-password__form-wrapper">
-          <h2>Set New Password</h2>
-          <NewPasswordForm />
-          <div class="set-new-password__form-wrapper__redirect"
+        ><div class="reset-password__form-wrapper">
+          <h2>Reset Password</h2>
+          <ResetPasswordForm />
+          <div class="reset-password__form-wrapper__redirect"
             ><router-link to="/login">Back to Login</router-link></div
           ></div
         ></template
       >
       <template #auth-advert
-        ><div class="set-new-password__advert"> <NewPasswordAdvert></NewPasswordAdvert> </div
+        ><div class="reset-password__advert"> <ResetPasswordAdvert></ResetPasswordAdvert> </div
       ></template>
     </AuthLayout>
   </div>
@@ -20,16 +20,16 @@
 <script lang="ts">
 import Vue from 'vue';
 import AuthLayout from '@/layouts/Auth.vue';
-import NewPasswordAdvert from '@/components/layouts/auth/NewPasswordAdvert.vue';
-import NewPasswordForm from '@/components/layouts/auth/NewPasswordForm.vue';
+import ResetPasswordAdvert from '@/components/layouts/auth/reset-password/ResetPasswordAdvert.vue';
+import ResetPasswordForm from '@/components/layouts/auth/reset-password/ResetPasswordForm.vue';
 
 export default Vue.extend({
   name: 'ResetPassword',
-  components: { AuthLayout, NewPasswordAdvert, NewPasswordForm },
+  components: { AuthLayout, ResetPasswordAdvert, ResetPasswordForm },
 });
 </script>
 <style lang="scss">
-.set-new-password {
+.reset-password {
   height: 100%;
   &__form-wrapper {
     background-color: $white;

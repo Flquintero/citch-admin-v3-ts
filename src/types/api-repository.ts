@@ -2,7 +2,9 @@ import { IVerifyPassword } from './auth';
 import { IFormData } from './forms';
 
 export interface IApi {
-  [auth: string]: IAuthRepository;
+  [property: string]: any;
+  'auth': IAuthRepository;
+  'users': IUsersRepository;
 }
 export interface IAuthRepository {
   initSetPersistence(): any;
@@ -13,4 +15,7 @@ export interface IAuthRepository {
   initResetUserPassword(formData: IFormData): Promise<any>;
   initVerifyResetPasswordCode(passwordVerificationObject: IVerifyPassword): Promise<any>;
   setNewPassword(passwordVerificationObject: IFormData): Promise<any>;
+}
+export interface IUsersRepository {
+  createUser(formData: IFormData): Promise<any>;
 }

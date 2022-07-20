@@ -78,7 +78,7 @@ export default Vue.extend({
     async submitLogin() {
       try {
         this.saving = true;
-        await AuthRepository.loginUser(this.formData);
+        await AuthRepository.loginUser(FormFunctions.formatFormData(this.formData));
         await AuthRepository.observerCurrentAuthedUser();
         this.$router.replace('/home');
       } catch (error: any) {

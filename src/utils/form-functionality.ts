@@ -11,21 +11,22 @@ export const FormFunctions = {
     return error;
   },
   formatFormData(formData: IFormData) {
+    let formattedForm = { ...formData };
     for (const property in formData) {
       switch (property) {
         case 'email':
-          formData.email = formData.email.trim().toLowerCase();
+          formattedForm.email = formData.email.trim().toLowerCase();
           break;
         case 'firstName':
-          formData.firstName = formData.firstName.trim().toLowerCase();
+          formattedForm.firstName = formData.firstName.trim().toLowerCase();
           break;
         case 'lastName':
-          formData.lastName = formData.lastName.trim().toLowerCase();
+          formattedForm.lastName = formData.lastName.trim().toLowerCase();
           break;
         default:
           break;
       }
     }
-    return formData;
+    return formattedForm;
   },
 };

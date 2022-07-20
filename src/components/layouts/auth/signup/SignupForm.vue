@@ -92,6 +92,7 @@ import { required, minLength, email, sameAs } from 'vuelidate/lib/validators';
 import { FormFunctions } from '@/utils/form-functionality';
 import Repository from '@/api-repository/index';
 import { IFormData } from '@/types/forms';
+import { User } from '@firebase/auth';
 const AuthRepository = Repository.get('auth');
 const UsersRepository = Repository.get('users');
 
@@ -140,13 +141,9 @@ export default Vue.extend({
         let formattedForm = FormFunctions.formatFormData(this.formData);
         await AuthRepository.signupUser(formattedForm);
         let authedUser = await AuthRepository.observerCurrentAuthedUser();
-        // REMOVE PASSWROD AND CONFIRM PASSWORD from formatted form
-        formattedForm.uid = authedUser.uid;
-        formattedForm.fullName = authedUser.displayName;
-        formattedForm.providerId = authedUser.providerId;
-        formattedForm.type = 'OWNER';
-        console.log('authedUser', authedUser);
-        let createdUser = await UsersRepository.createUser(formattedForm);
+        let createdUser = await UsersRepository.createUser(
+          this.getSignupPayload(formattedForm, authedUser)
+        );
         // await OrganizationsRepository.createOrganization(createdUser)
         this.$router.replace('/home');
         this.$alert.success('Welcome!');
@@ -157,6 +154,19 @@ export default Vue.extend({
       } finally {
         this.saving = false;
       }
+    },
+    getSignupPayload(formattedForm: IFormData, authedUser: User) {
+      return {
+        email: authedUser.email,
+        firstName: formattedForm.firstName,
+        lastName: formattedForm.lastName,
+        emailVerified: authedUser.emailVerified,
+        fullName: authedUser.displayName,
+        uid: authedUser.uid,
+        providerId: authedUser.providerId,
+        type: 'OWNER',
+        enabled: 'false',
+      };
     },
     formatRegistrationError(error: any) {
       let message = error.message;

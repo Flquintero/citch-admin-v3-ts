@@ -49,6 +49,7 @@ import CButton from '@/components/elements/Button.vue';
 import { required } from 'vuelidate/lib/validators';
 import { FormFunctions } from '@/utils/form-functionality';
 import Repository from '@/api-repository/index';
+import { IFormData } from '@/types/forms';
 const AuthRepository = Repository.get('auth');
 
 export default Vue.extend({
@@ -60,7 +61,7 @@ export default Vue.extend({
       formData: {
         email: null,
         password: null,
-      } as { [property: string]: string | number | null },
+      } as IFormData,
     };
   },
   validations: {

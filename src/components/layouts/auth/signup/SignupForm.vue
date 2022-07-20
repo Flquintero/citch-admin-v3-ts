@@ -91,6 +91,7 @@ import CButton from '@/components/elements/Button.vue';
 import { required, minLength, email, sameAs } from 'vuelidate/lib/validators';
 import { FormFunctions } from '@/utils/form-functionality';
 import Repository from '@/api-repository/index';
+import { IFormData } from '@/types/forms';
 const AuthRepository = Repository.get('auth');
 const UsersRepository = Repository.get('users');
 
@@ -106,7 +107,7 @@ export default Vue.extend({
         email: null,
         password: null,
         confirmPassword: null,
-      } as { [property: string]: string | number | null },
+      } as IFormData,
     };
   },
   validations: {
@@ -139,7 +140,7 @@ export default Vue.extend({
         await AuthRepository.signupUser(FormFunctions.formatFormData(this.formData));
         let authedUser = await AuthRepository.observerCurrentAuthedUser();
         console.log('authedUser', authedUser);
-        // let createdUser = await UsersRepository.createUser(authedUser);
+        let createdUser = await UsersRepository.createUser(authedUser);
         // await OrganizationsRepository.createOrganization(createdUser)
         this.$router.replace('/home');
         this.$alert.success('Welcome!');

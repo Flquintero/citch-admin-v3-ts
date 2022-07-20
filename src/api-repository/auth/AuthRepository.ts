@@ -12,7 +12,9 @@ import {
   UserCredential,
   Auth,
   signOut,
+  User,
   sendPasswordResetEmail,
+  NextOrObserver,
 } from 'firebase/auth';
 import store from '@/store';
 import { IVerifyPassword, IPasswordConfirm } from '@/types/auth';
@@ -41,7 +43,7 @@ export default {
   },
   observerCurrentAuthedUser: async () => {
     let loggedUser;
-    await onAuthStateChanged(AUTH_INSTANCE, (user: any): any => {
+    await onAuthStateChanged(AUTH_INSTANCE, (user: User | null): void => {
       console.log('user', user);
       store.dispatch('Users/setUser', user);
       loggedUser = user;

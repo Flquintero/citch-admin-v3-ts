@@ -137,10 +137,16 @@ export default Vue.extend({
     async submitSignup() {
       try {
         this.saving = true;
-        await AuthRepository.signupUser(FormFunctions.formatFormData(this.formData));
+        let formattedForm = FormFunctions.formatFormData(this.formData);
+        await AuthRepository.signupUser(formattedForm);
         let authedUser = await AuthRepository.observerCurrentAuthedUser();
+        // REMOVE PASSWROD AND CONFIRM PASSWORD from formatted form
+        formattedForm.uid = authedUser.uid;
+        formattedForm.fullName = authedUser.displayName;
+        formattedForm.providerId = authedUser.providerId;
+        formattedForm.type = 'OWNER';
         console.log('authedUser', authedUser);
-        let createdUser = await UsersRepository.createUser(authedUser);
+        let createdUser = await UsersRepository.createUser(formattedForm);
         // await OrganizationsRepository.createOrganization(createdUser)
         this.$router.replace('/home');
         this.$alert.success('Welcome!');

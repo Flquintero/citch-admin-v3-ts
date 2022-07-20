@@ -78,7 +78,7 @@
         v-bind="{ variant: 'primary', disabled: $v.$invalid || saving }"
         ><span v-if="saving">
           <font-awesome-icon icon="fa-duotone fa-circle-notch" spin /> Saving</span
-        ><span>Register</span></CButton
+        ><span v-else>Register</span></CButton
       >
     </div>
   </div>
@@ -136,18 +136,27 @@ export default Vue.extend({
     async submitSignup() {
       try {
         this.saving = true;
-        await AuthRepository.signupUser(this.formData);
-        await AuthRepository.observerCurrentAuthedUser();
-        await UsersRepository.createUser(this.formData);
-        // await OrganizationsRepository.createOrganization(this.formData)
+        await AuthRepository.signupUser(FormFunctions.formatFormData(this.formData));
+        let authedUser = await AuthRepository.observerCurrentAuthedUser();
+        console.log('authedUser', authedUser);
+        // let createdUser = await UsersRepository.createUser(authedUser);
+        // await OrganizationsRepository.createOrganization(createdUser)
         this.$router.replace('/home');
         this.$alert.success('Welcome!');
       } catch (error: any) {
         console.log('Registration Error', error);
-        this.$alert.error('Registration error:', error);
+        // To Do: better way to handle this error string
+        this.$alert.error(`Registration error: ${this.formatRegistrationError(error)}`);
       } finally {
         this.saving = false;
       }
+    },
+    formatRegistrationError(error: any) {
+      let message = error.message;
+      if (error.message === 'Firebase: Error (auth/email-already-in-use).') {
+        message = 'Account already exists';
+      }
+      return message;
     },
   },
 });

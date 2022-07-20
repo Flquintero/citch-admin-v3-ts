@@ -51,7 +51,7 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 // Could not be the best way
 // tried to call the AuthRepository function that does this but didnt get the info on time
 Vue.prototype.$firebase_auth.onAuthStateChanged((user: any) => {
-  store.dispatch('User/setUser', user);
+  store.dispatch('Users/setUser', user);
   new Vue({
     store,
     router,

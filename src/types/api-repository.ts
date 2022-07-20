@@ -5,6 +5,7 @@ export interface IApi {
   [property: string]: any;
   'auth': IAuthRepository;
   'users': IUsersRepository;
+  'organizations': IOrganizationsRepository;
 }
 export interface IAuthRepository {
   initSetPersistence(): any;
@@ -18,4 +19,7 @@ export interface IAuthRepository {
 }
 export interface IUsersRepository {
   createUser(formData: IFormData): Promise<any>;
+}
+export interface IOrganizationsRepository {
+  createOrganization(formData: IFormData): Promise<any>;
 }

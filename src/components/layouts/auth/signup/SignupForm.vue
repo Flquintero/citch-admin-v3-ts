@@ -95,6 +95,7 @@ import { IFormData } from '@/types/forms';
 import { User } from '@firebase/auth';
 const AuthRepository = Repository.get('auth');
 const UsersRepository = Repository.get('users');
+const OrganizationsRepository = Repository.get('organizations');
 
 export default Vue.extend({
   name: 'SignupForm',
@@ -102,6 +103,7 @@ export default Vue.extend({
   data() {
     return {
       saving: false,
+      formattedForm: null as IFormData | null,
       formData: {
         firstName: null,
         lastName: null,
@@ -138,13 +140,20 @@ export default Vue.extend({
     async submitSignup() {
       try {
         this.saving = true;
-        let formattedForm = FormFunctions.formatFormData(this.formData);
-        await AuthRepository.signupUser(formattedForm);
+        // Make sure email and names are lower cased and trimmed. If any changes to form we do it through the function
+        this.formattedForm = FormFunctions.formatFormData(this.formData);
+        await AuthRepository.signupUser(this.formattedForm);
+        // gets the user back, because firebase doesnt have another way
         let authedUser = await AuthRepository.observerCurrentAuthedUser();
-        let createdUser = await UsersRepository.createUser(
-          this.getSignupPayload(formattedForm, authedUser)
+        // add user to db
+        let createdUser = await UsersRepository.createUser(this.getSignupPayload(authedUser));
+        //create org with user
+        let createdOrganization = await OrganizationsRepository.createOrganization(
+          this.getOrganizationPayload(authedUser, createdUser._path.segments)
         );
-        // await OrganizationsRepository.createOrganization(createdUser)
+        console.log('createdOrg', createdOrganization);
+        // update user with saved org
+        // await UsersRepository.updateUser(createdOrganization);
         this.$router.replace('/home');
         this.$alert.success('Welcome!');
       } catch (error: any) {
@@ -155,17 +164,25 @@ export default Vue.extend({
         this.saving = false;
       }
     },
-    getSignupPayload(formattedForm: IFormData, authedUser: User) {
+    getSignupPayload(authedUser: User) {
       return {
         email: authedUser.email,
-        firstName: formattedForm.firstName,
-        lastName: formattedForm.lastName,
+        firstName: this.formattedForm?.firstName,
+        lastName: this.formattedForm?.lastName,
         emailVerified: authedUser.emailVerified,
         fullName: authedUser.displayName,
         uid: authedUser.uid,
         providerId: authedUser.providerId,
         type: 'OWNER',
         enabled: 'false',
+      };
+    },
+    getOrganizationPayload(authedUser: User, userPathArray: string[]) {
+      return {
+        email: authedUser.email,
+        fullName: authedUser.displayName,
+        enabled: 'false',
+        owner: `${userPathArray.join('/')}`,
       };
     },
     formatRegistrationError(error: any) {

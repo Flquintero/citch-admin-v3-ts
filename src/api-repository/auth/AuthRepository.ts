@@ -14,10 +14,10 @@ import {
   signOut,
   User,
   sendPasswordResetEmail,
-  NextOrObserver,
 } from 'firebase/auth';
 import store from '@/store';
 import { IVerifyPassword, IPasswordConfirm } from '@/types/auth';
+
 const AUTH_INSTANCE: Auth = getAuth(Vue.prototype.$firebase_app);
 const DOMAIN_PATH = '/auth';
 
@@ -44,7 +44,6 @@ export default {
   observerCurrentAuthedUser: async () => {
     let loggedUser;
     await onAuthStateChanged(AUTH_INSTANCE, (user: User | null): void => {
-      console.log('user', user);
       store.dispatch('Users/setUser', user);
       loggedUser = user;
     });

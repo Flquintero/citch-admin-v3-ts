@@ -145,15 +145,8 @@ export default Vue.extend({
         await AuthRepository.signupUser(this.formattedForm);
         // gets the user back, because firebase doesnt have another way
         let authedUser = await AuthRepository.observerCurrentAuthedUser();
-        // add user to db
-        let createdUser = await UsersRepository.createUser(this.getSignupPayload(authedUser));
-        //create org with user
-        let createdOrganization = await OrganizationsRepository.createOrganization(
-          this.getOrganizationPayload(authedUser, createdUser._path.segments)
-        );
-        console.log('createdOrg', createdOrganization);
-        // update user with saved org
-        // await UsersRepository.updateUser(createdOrganization);
+        // add user to db and does necessary steps to create all thats needed to register
+        await UsersRepository.signupUser(this.getSignupPayload(authedUser));
         this.$router.replace('/home');
         this.$alert.success('Welcome!');
       } catch (error: any) {
@@ -173,16 +166,6 @@ export default Vue.extend({
         fullName: authedUser.displayName,
         uid: authedUser.uid,
         providerId: authedUser.providerId,
-        type: 'OWNER',
-        enabled: 'false',
-      };
-    },
-    getOrganizationPayload(authedUser: User, userPathArray: string[]) {
-      return {
-        email: authedUser.email,
-        fullName: authedUser.displayName,
-        enabled: 'false',
-        owner: `${userPathArray.join('/')}`,
       };
     },
     formatRegistrationError(error: any) {

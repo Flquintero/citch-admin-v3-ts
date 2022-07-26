@@ -95,7 +95,6 @@ import { IFormData } from '@/types/forms';
 import { User } from '@firebase/auth';
 const AuthRepository = Repository.get('auth');
 const UsersRepository = Repository.get('users');
-const OrganizationsRepository = Repository.get('organizations');
 
 export default Vue.extend({
   name: 'SignupForm',

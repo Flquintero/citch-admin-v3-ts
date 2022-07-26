@@ -12,10 +12,12 @@ import {
   UserCredential,
   Auth,
   signOut,
+  User,
   sendPasswordResetEmail,
 } from 'firebase/auth';
 import store from '@/store';
 import { IVerifyPassword, IPasswordConfirm } from '@/types/auth';
+
 const AUTH_INSTANCE: Auth = getAuth(Vue.prototype.$firebase_app);
 const DOMAIN_PATH = '/auth';
 
@@ -40,10 +42,12 @@ export default {
     return await signOut(AUTH_INSTANCE);
   },
   observerCurrentAuthedUser: async () => {
-    return await onAuthStateChanged(AUTH_INSTANCE, (user: any): any => {
-      store.dispatch('User/setUser', user);
-      return user;
+    let loggedUser;
+    await onAuthStateChanged(AUTH_INSTANCE, (user: User | null): void => {
+      store.dispatch('Users/setUser', user);
+      loggedUser = user;
     });
+    return loggedUser;
   },
   initResetUserPassword: async (formData: IFormData) => {
     return await sendPasswordResetEmail(AUTH_INSTANCE, formData.email);

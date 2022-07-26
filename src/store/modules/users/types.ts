@@ -1,5 +1,5 @@
 export interface IUserState {
-  user: IUser;
+  currentUser: IUser;
 }
 export interface IUser {
   loggedIn: Boolean;

@@ -17,7 +17,7 @@ const routes: Array<RouteConfig> = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "login" */ '../views/auth/Login.vue'),
+    component: () => import(/* webpackChunkName: "login" */ '../views/auth/login/Login.vue'),
   },
   {
     path: '/signup',
@@ -25,7 +25,7 @@ const routes: Array<RouteConfig> = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "register" */ '../views/auth/Signup.vue'),
+    component: () => import(/* webpackChunkName: "register" */ '../views/auth/signup/Signup.vue'),
   },
   {
     path: '/confirm-password',
@@ -34,7 +34,9 @@ const routes: Array<RouteConfig> = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "confirm-password" */ '../views/auth/PasswordConfirm.vue'),
+      import(
+        /* webpackChunkName: "confirm-password" */ '../views/auth/reset-password/PasswordConfirm.vue'
+      ),
   },
   {
     path: '/reset-password',
@@ -43,7 +45,9 @@ const routes: Array<RouteConfig> = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "reset-password" */ '../views/auth/PasswordReset.vue'),
+      import(
+        /* webpackChunkName: "reset-password" */ '../views/auth/reset-password/PasswordReset.vue'
+      ),
   },
   {
     path: '/auth-redirect',
@@ -52,7 +56,7 @@ const routes: Array<RouteConfig> = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "auth-redirect" */ '../views/auth/AuthRedirect.vue'),
+      import(/* webpackChunkName: "auth-redirect" */ '../views/auth/redirect/AuthRedirect.vue'),
   },
   {
     path: '*',
@@ -67,7 +71,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  let isAuthed = store.getters['User/isLoggedIn'];
+  let isAuthed = store.getters['Users/isCurrentUserLoggedIn'];
   if (to.matched.some((route) => route.meta.requiresAuth)) {
     if (isAuthed) return next();
     return next('/login');

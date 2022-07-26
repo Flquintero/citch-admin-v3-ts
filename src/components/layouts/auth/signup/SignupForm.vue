@@ -78,7 +78,7 @@
         v-bind="{ variant: 'primary', disabled: $v.$invalid || saving }"
         ><span v-if="saving">
           <font-awesome-icon icon="fa-duotone fa-circle-notch" spin /> Saving</span
-        ><span>Register</span></CButton
+        ><span v-else>Register</span></CButton
       >
     </div>
   </div>
@@ -91,7 +91,10 @@ import CButton from '@/components/elements/Button.vue';
 import { required, minLength, email, sameAs } from 'vuelidate/lib/validators';
 import { FormFunctions } from '@/utils/form-functionality';
 import Repository from '@/api-repository/index';
+import { IFormData } from '@/types/forms';
+import { User } from '@firebase/auth';
 const AuthRepository = Repository.get('auth');
+const UsersRepository = Repository.get('users');
 
 export default Vue.extend({
   name: 'SignupForm',
@@ -99,13 +102,14 @@ export default Vue.extend({
   data() {
     return {
       saving: false,
+      formattedForm: null as IFormData | null,
       formData: {
         firstName: null,
         lastName: null,
         email: null,
         password: null,
         confirmPassword: null,
-      } as { [property: string]: string | number | null },
+      } as IFormData,
     };
   },
   validations: {
@@ -135,16 +139,40 @@ export default Vue.extend({
     async submitSignup() {
       try {
         this.saving = true;
-        await AuthRepository.signupUser(this.formData);
-        await AuthRepository.observerCurrentAuthedUser();
+        // Make sure email and names are lower cased and trimmed. If any changes to form we do it through the function
+        this.formattedForm = FormFunctions.formatFormData(this.formData);
+        await AuthRepository.signupUser(this.formattedForm);
+        // gets the user back, because firebase doesnt have another way
+        let authedUser = await AuthRepository.observerCurrentAuthedUser();
+        // add user to db and does necessary steps to create all thats needed to register
+        await UsersRepository.signupUser(this.getSignupPayload(authedUser));
         this.$router.replace('/home');
         this.$alert.success('Welcome!');
       } catch (error: any) {
         console.log('Registration Error', error);
-        this.$alert.error('Registration error:', error);
+        // To Do: better way to handle this error string
+        this.$alert.error(`Registration error: ${this.formatRegistrationError(error)}`);
       } finally {
         this.saving = false;
       }
+    },
+    getSignupPayload(authedUser: User) {
+      return {
+        email: authedUser.email,
+        firstName: this.formattedForm?.firstName,
+        lastName: this.formattedForm?.lastName,
+        emailVerified: authedUser.emailVerified,
+        fullName: authedUser.displayName,
+        uid: authedUser.uid,
+        providerId: authedUser.providerId,
+      };
+    },
+    formatRegistrationError(error: any) {
+      let message = error.message;
+      if (error.message === 'Firebase: Error (auth/email-already-in-use).') {
+        message = 'Account already exists';
+      }
+      return message;
     },
   },
 });

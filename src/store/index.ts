@@ -1,14 +1,14 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import Responsive from './modules/responsive/index';
-import User from './modules/user/index';
+import Users from './modules/users/index';
 
 Vue.use(Vuex);
 
 const debug = process.env.NODE_ENV !== 'production';
 
 export default new Vuex.Store({
-  modules: { Responsive, User },
+  modules: { Responsive, Users },
   state: {},
   mutations: {},
   actions: {},

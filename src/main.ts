@@ -48,7 +48,7 @@ library.add(
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 // Need to include the initilization of app to confirm  that we have user or not
-// Could not be the best way
+// Could not be the best way.
 // tried to call the AuthRepository function that does this but didnt get the info on time
 Vue.prototype.$firebase_auth.onAuthStateChanged((user: any) => {
   store.dispatch('Users/setUser', user);

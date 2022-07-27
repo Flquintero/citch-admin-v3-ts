@@ -30,7 +30,6 @@ export default Vue.extend({
   &__content,
   &__advert {
     flex-grow: 1;
-    height: 100%;
     max-width: 50%;
     @include tablet-and-down() {
       max-width: 100%;

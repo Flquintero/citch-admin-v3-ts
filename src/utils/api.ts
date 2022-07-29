@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import axios, { AxiosRequestConfig, AxiosInstance } from 'axios';
 import { getAppCheckToken } from '@/utils/app-check';
 
@@ -32,7 +33,7 @@ async function getApiResponse(options: ApiRequestOptions) {
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json',
-      'X-Firebase-AppCheck': await getAppCheckToken(), //process.env.VUE_APP_RECAPTCHA_DEBUG_TOKEN,
+      'X-Firebase-AppCheck': await getAppCheckToken(),
     },
   };
 

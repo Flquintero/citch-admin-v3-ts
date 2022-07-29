@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosInstance } from 'axios';
+import { getAppCheckToken } from '@/utils/app-check';
 
 var $axios: AxiosInstance;
 
@@ -24,13 +25,17 @@ $apiRequest = async function apiRequest(options: ApiRequestOptions) {
   }
 };
 
-function getApiResponse(options: ApiRequestOptions) {
+async function getApiResponse(options: ApiRequestOptions) {
   const requestObj = {
     ...options,
     baseURL: process.env.VUE_APP_BASE_API_URL,
     headers: {
-      'Access-Control-Allow-Origin': '*',
+      // 'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json',
+      'X-Firebase-AppCheck':
+        process.env.NODE_ENV === 'production'
+          ? await getAppCheckToken()
+          : process.env.VUE_APP_RECAPTCHA_DEBUG_TOKEN,
     },
   };
 

@@ -2,6 +2,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
 import { getAuth } from 'firebase/auth';
+import { $local_env } from '@/utils/local-env-check';
 const { initializeAppCheck, ReCaptchaV3Provider } = require('firebase/app-check');
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -23,9 +24,10 @@ export const app = initializeApp(firebaseConfig);
 export const analytics = getAnalytics(app);
 export const auth = getAuth(app);
 
-// if (process.env.NODE_ENV !== 'production') {
-//   (window as any).FIREBASE_APPCHECK_DEBUG_TOKEN = true;
-// }
+if ($local_env) {
+  (window as any).FIREBASE_APPCHECK_DEBUG_TOKEN = true;
+}
+
 export const appCheck = initializeAppCheck(app, {
   provider: new ReCaptchaV3Provider(process.env.VUE_APP_RECAPTCHA_SITE_KEY),
   isTokenAutoRefreshEnabled: true,

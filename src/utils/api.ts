@@ -32,10 +32,7 @@ async function getApiResponse(options: ApiRequestOptions) {
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json',
-      'X-Firebase-AppCheck':
-        process.env.NODE_ENV === 'production'
-          ? await getAppCheckToken()
-          : process.env.VUE_APP_RECAPTCHA_DEBUG_TOKEN,
+      'X-Firebase-AppCheck': await getAppCheckToken(), //process.env.VUE_APP_RECAPTCHA_DEBUG_TOKEN,
     },
   };
 

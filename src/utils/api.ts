@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import axios, { AxiosRequestConfig, AxiosInstance } from 'axios';
-import { getAppCheckToken } from '@/utils/app-check';
+import { getAppCheckToken } from '@/utils/firebase-app-check';
+import Repository from '@/api-repository/index';
+const AuthRepository = Repository.get('auth');
 
 var $axios: AxiosInstance;
 
@@ -13,20 +15,29 @@ export interface ApiRequestOptions extends AxiosRequestConfig {
   apiVersion?: string;
 }
 
-let $apiRequest: (options: ApiRequestOptions) => Promise<any>;
+let $authedApiRequest: (options: ApiRequestOptions) => Promise<any>;
+let $publicApiRequest: (options: ApiRequestOptions) => Promise<any>;
 
 const apiRequestAxiosInstance = axios.create();
 
-$apiRequest = async function apiRequest(options: ApiRequestOptions) {
+$authedApiRequest = async function apiRequest(options: ApiRequestOptions) {
   try {
-    const response = await getApiResponse(options);
+    const response = await getApiResponse(options, { authed: true });
+    return response?.data;
+  } catch (e: any) {
+    throw new Error(e);
+  }
+};
+$publicApiRequest = async function apiRequest(options: ApiRequestOptions) {
+  try {
+    const response = await getApiResponse(options, { authed: false });
     return response?.data;
   } catch (e: any) {
     throw new Error(e);
   }
 };
 
-async function getApiResponse(options: ApiRequestOptions) {
+async function getApiResponse(options: ApiRequestOptions, type: { authed: boolean }) {
   const requestObj = {
     ...options,
     baseURL: process.env.VUE_APP_BASE_API_URL,
@@ -34,10 +45,11 @@ async function getApiResponse(options: ApiRequestOptions) {
       'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json',
       'X-Firebase-AppCheck': await getAppCheckToken(),
+      ...(type.authed ? { authorization: `Bearer ${await AuthRepository.getUserToken()}` } : null),
     },
   };
 
   return apiRequestAxiosInstance.request(requestObj);
 }
 
-export { $apiRequest };
+export { $authedApiRequest, $publicApiRequest };

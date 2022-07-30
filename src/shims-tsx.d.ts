@@ -9,7 +9,8 @@ declare module 'vue/types/vue' {
     $api: Api;
     $alert: any;
     $store: Store;
-    $apiRequest: (config: ApiRequestOptions) => Promise<any>;
+    $authedApiRequest: (config: ApiRequestOptions) => Promise<any>;
+    $publicApiRequest: (config: ApiRequestOptions) => Promise<any>;
   }
 }
 declare global {

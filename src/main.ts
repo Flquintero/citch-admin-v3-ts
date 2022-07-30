@@ -18,8 +18,9 @@ import store from '@/store';
 import router from '@/router';
 Vue.config.productionTip = false;
 
-import { $apiRequest } from './utils/api';
-Vue.prototype.$apiRequest = $apiRequest;
+import { $authedApiRequest, $publicApiRequest } from './utils/api';
+Vue.prototype.$authedApiRequest = $authedApiRequest;
+Vue.prototype.$publicApiRequest = $publicApiRequest;
 
 import { $alert } from './utils/alert';
 Vue.prototype.$alert = $alert;

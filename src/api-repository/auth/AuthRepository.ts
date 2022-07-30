@@ -1,5 +1,5 @@
 import { IFormData } from '@/types/forms';
-import { $apiRequest } from '@/utils/api';
+import { $publicApiRequest } from '@/utils/api';
 import Vue from 'vue';
 import {
   getAuth,
@@ -14,6 +14,7 @@ import {
   signOut,
   User,
   sendPasswordResetEmail,
+  getIdToken,
 } from 'firebase/auth';
 import store from '@/store';
 import { IVerifyPassword, IPasswordConfirm } from '@/types/auth';
@@ -41,6 +42,11 @@ export default {
   initSignOut: async () => {
     return await signOut(AUTH_INSTANCE);
   },
+  getUserToken: async () => {
+    let currentUser = store.getters.currentUserData;
+    let forceRefresh = true;
+    return await getIdToken(currentUser, forceRefresh);
+  },
   observerCurrentAuthedUser: async () => {
     let loggedUser;
     await onAuthStateChanged(AUTH_INSTANCE, (user: User | null): void => {
@@ -54,14 +60,14 @@ export default {
     return await sendPasswordResetEmail(AUTH_INSTANCE, formData.email);
   },
   initVerifyResetPasswordCode: async (passwordVerificationObject: IVerifyPassword) => {
-    return await $apiRequest({
+    return await $publicApiRequest({
       method: 'post',
       url: `${DOMAIN_PATH}/verify-password-code`,
       data: { ...passwordVerificationObject },
     });
   },
   setNewPassword: async (passwordConfirmObject: IPasswordConfirm) => {
-    return await $apiRequest({
+    return await $publicApiRequest({
       method: 'post',
       url: `${DOMAIN_PATH}/confirm-password-reset`,
       data: { ...passwordConfirmObject },

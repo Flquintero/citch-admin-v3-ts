@@ -38,6 +38,7 @@ import {
   faTriangleExclamation,
   faXmark,
 } from '@fortawesome/pro-duotone-svg-icons';
+import { User } from 'firebase/auth';
 library.add(
   faCircleExclamation,
   faCircleNotch,
@@ -51,11 +52,11 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 // Need to include the initilization of app to confirm  that we have user or not
 // Could not be the best way.
 // tried to call the AuthRepository function that does this but didnt get the info on time
-Vue.prototype.$firebase_auth.onAuthStateChanged((user: any) => {
-  store.dispatch('Users/setUser', user);
-  new Vue({
-    store,
-    router,
-    render: (h) => h(App),
-  }).$mount('#app');
-});
+// Vue.prototype.$firebase_auth.onAuthStateChanged((user: User) => {
+//   if (user) store.dispatch('Users/setUser', user);
+new Vue({
+  store,
+  router,
+  render: (h) => h(App),
+}).$mount('#app');
+// });

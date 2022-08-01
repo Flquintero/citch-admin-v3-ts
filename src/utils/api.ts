@@ -1,8 +1,7 @@
-import Vue from 'vue';
 import axios, { AxiosRequestConfig, AxiosInstance } from 'axios';
 import { getAppCheckToken } from '@/utils/firebase-app-check';
-import Repository from '@/api-repository/index';
-const AuthRepository = Repository.get('auth');
+import { getIdToken } from 'firebase/auth';
+import store from '@/store';
 
 var $axios: AxiosInstance;
 
@@ -45,11 +44,17 @@ async function getApiResponse(options: ApiRequestOptions, type: { authed: boolea
       'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json',
       'X-Firebase-AppCheck': await getAppCheckToken(),
-      ...(type.authed ? { authorization: `Bearer ${await AuthRepository.getUserToken()}` } : null),
+      ...(type.authed ? { 'Authorization': await getUserToken() } : null),
     },
   };
 
   return apiRequestAxiosInstance.request(requestObj);
+}
+
+async function getUserToken() {
+  let currentUser = store.getters['Users/currentUserData'];
+  let forceRefresh = true;
+  return await getIdToken(currentUser, forceRefresh);
 }
 
 export { $authedApiRequest, $publicApiRequest };

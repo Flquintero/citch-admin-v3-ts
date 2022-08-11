@@ -17,6 +17,7 @@ const firebaseConfig = {
   messagingSenderId: process.env.VUE_APP_MESSAGING_SENDER_ID,
   appId: process.env.VUE_APP_APP_ID,
   measurementId: process.env.VUE_APP_MEASURMENT_ID,
+  siteId: 'ui-admin-v3-dev',
 };
 
 // Initialize Firebase

@@ -16,14 +16,13 @@ function ensureSecure(req, res, next) {
 }
 app.use(compression());
 app.use(ensureSecure);
-app.use(serveStatic(path.join(__dirname, 'dist')));
 
 app.use(
-  '/',
   history({
     verbose: true,
     disableDotRule: true,
   })
 );
+app.use(serveStatic(path.join(__dirname, 'dist')));
 const port = process.env.PORT || 3000;
 app.listen(port);

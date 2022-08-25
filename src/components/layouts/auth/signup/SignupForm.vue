@@ -163,8 +163,6 @@ export default Vue.extend({
         lastName: this.formattedForm?.lastName,
         emailVerified: authedUser.emailVerified,
         fullName: authedUser.displayName,
-        uid: authedUser.uid,
-        providerId: authedUser.providerId,
       };
     },
     formatRegistrationError(error: any) {

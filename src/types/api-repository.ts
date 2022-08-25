@@ -1,3 +1,4 @@
+import { User } from 'firebase/auth';
 import { IVerifyPassword } from './auth';
 import { IFormData } from './forms';
 
@@ -12,6 +13,7 @@ export interface IAuthRepository {
   signupUser(formData: IFormData): Promise<any>;
   loginUser(formData: IFormData): Promise<any>;
   initSignOut(): Promise<any>;
+  getUserToken(user: User, forceRefresh?: boolean): Promise<any>;
   observerCurrentAuthedUser(): Promise<any>;
   initResetUserPassword(formData: IFormData): Promise<any>;
   initVerifyResetPasswordCode(passwordVerificationObject: IVerifyPassword): Promise<any>;

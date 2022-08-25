@@ -1,6 +1,10 @@
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
+import { getAuth, onAuthStateChanged, Auth, User } from 'firebase/auth';
+import { app } from '@/config/firebase';
 import store from '@/store';
+
+const AUTH_INSTANCE: Auth = getAuth(app);
 
 Vue.use(VueRouter);
 
@@ -71,8 +75,11 @@ const router = new VueRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  let isAuthed = store.getters['Users/isCurrentUserLoggedIn'];
   if (to.matched.some((route) => route.meta.requiresAuth)) {
+    await onAuthStateChanged(AUTH_INSTANCE, (user: User | null): void => {
+      store.dispatch('Users/setUser', user);
+    });
+    let isAuthed = store.getters['Users/isCurrentUserLoggedIn'];
     if (isAuthed) return next();
     return next('/login');
   }

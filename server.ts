@@ -1,6 +1,7 @@
 const express = require('express');
 const serveStatic = require('serve-static');
 const path = require('path');
+import { Request, Response } from 'express';
 
 const app = express();
 
@@ -8,7 +9,7 @@ const app = express();
 app.use('/', serveStatic(path.join(__dirname, '/dist')));
 
 // this * route is to serve project on different page routes except root `/`
-app.get(/.*/, function (req, res) {
+app.get(/.*/, function (req: Request, res: Response) {
   res.sendFile(path.join(__dirname, '/dist/index.html'));
 });
 

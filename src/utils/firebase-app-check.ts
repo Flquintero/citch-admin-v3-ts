@@ -6,6 +6,7 @@ const getAppCheckToken = async () => {
   let appCheckTokenResponse;
   try {
     appCheckTokenResponse = await getToken(appCheck, /* forceRefresh= */ false);
+    console.log('appCheckTokenResponse', appCheckTokenResponse);
     return appCheckTokenResponse.token;
   } catch (error: any) {
     console.log('App check Token Error', error);

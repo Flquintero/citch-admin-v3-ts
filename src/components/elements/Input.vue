@@ -67,6 +67,7 @@ export default Vue.extend({
     cursor: pointer;
     border: none;
     border-bottom: 2px solid $dark-blue;
+    border-radius: 0;
     color: $dark-blue;
     caret-color: $dark-blue;
     opacity: 0.6;

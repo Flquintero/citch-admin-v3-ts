@@ -2,10 +2,14 @@ const express = require('express');
 const serveStatic = require('serve-static');
 const path = require('path');
 const crypto = require('crypto');
-let nonce = crypto.randomBytes(16).toString('base64');
 const helmet = require('helmet');
 
 const app = express();
+
+app.use((req, res, next) => {
+  res.locals.cspNonce = crypto.randomBytes(16).toString('hex');
+  next();
+});
 
 app.use(
   helmet.contentSecurityPolicy({
@@ -20,8 +24,14 @@ app.use(
         '*.google.com',
         '*.gstatic.com',
         'cdn.segment.com',
+        (req, res) => `'nonce-${res.locals.cspNonce}'`,
       ],
-      'style-src': ["'self'", '*.citch.io', 'fonts.googleapis.com'],
+      'style-src': [
+        "'self'",
+        '*.citch.io',
+        'fonts.googleapis.com',
+        (req, res) => `'nonce-${res.locals.cspNonce}'`,
+      ],
       'font-src': ["'self'", 'fonts.gstatic.com'],
       'img-src': ["'self'", 'files.citch.io'],
       'frame-src': ["'self'", '*.google.com'],

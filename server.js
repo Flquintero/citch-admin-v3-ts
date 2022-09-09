@@ -3,18 +3,42 @@ const serveStatic = require('serve-static');
 const path = require('path');
 const crypto = require('crypto');
 let nonce = crypto.randomBytes(16).toString('base64');
+const helmet = require('helmet');
 
 const app = express();
 
-app.use(function (req, res, next) {
-  // TO DO: Make it more readable and remove unsafe eval and inline
-  res.setHeader(
-    'Content-Security-Policy-Report-Only',
-    `base-uri 'self';default-src 'self'; script-src 'unsafe-eval' https://*.citch.io 'nonce-${nonce}' ;script-src-elem 'unsafe-inline' 'report-sample' 'self' https://*.citch.io https://www.googletagmanager.com/ https://www.google.com/recaptcha/api.js https://www.gstatic.com/recaptcha/ https://cdn.segment.com/ https://*/cloudflare-static/rocket-loader.min.js 'nonce-${nonce}'; style-src 'report-sample' 'self' https://*.citch.io 'nonce-${nonce}'; style-src-elem 'unsafe-inline' 'self' https://*.citch.io 'nonce-${nonce}' https://fonts.googleapis.com/ webpack://citch-admin-v3-ts/./node_modules/vue-style-loader/lib/addStylesClient.js 'nonce-${nonce}'; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://files.citch.io; frame-src 'self' https://www.google.com; connect-src 'self' https://firebase.googleapis.com https://identitytoolkit.googleapis.com https://www.google-analytics.com;form-action 'self';object-src 'none';`
-  );
-
-  next();
-});
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      'base-uri': 'self',
+      'default-src': 'self',
+      'script-src': [
+        "'self'",
+        'citch.io',
+        'googletagmanager.com',
+        'google.com',
+        'gstatic.com',
+        'cdn.segment.com',
+      ],
+      'style-src': ["'self'", 'citch.io', 'fonts.googleapis.com'],
+      'font-src': ["'self'", 'fonts.gstatic.com'],
+      'img-src': ["'self'", 'files.citch.io'],
+      'frame-src': ["'self'", 'www.google.com'],
+      'connect-src': [
+        "'self'",
+        'firebase.googleapis.com',
+        'identitytoolkit.googleapis.com',
+        'google-analytics.com',
+      ],
+      'form-action': 'self',
+      'object-src': 'none',
+      'frame-ancestors': 'self',
+      'script-src-attr': 'none',
+      'upgrade-insecure-requests': [],
+    },
+    reportOnly: true,
+  })
+);
 
 //here we are configuring dist to serve app files
 app.use('/', serveStatic(path.join(__dirname, '/dist')));

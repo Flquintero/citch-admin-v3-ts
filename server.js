@@ -18,7 +18,7 @@ app.use(
       'default-src': 'self',
       'script-src': [
         "'self'",
-        (req, res) => `'nonce-${res.locals.cspNonce}'`,
+        "'unsafe-inline'",
         "'unsafe-eval'",
         '*.citch.io',
         '*.citch.io/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js',
@@ -27,12 +27,7 @@ app.use(
         '*.gstatic.com',
         'cdn.segment.com/analytics.js/v1//analytics.min.js',
       ],
-      'style-src': [
-        "'self'",
-        (req, res) => `'nonce-${res.locals.cspNonce}'`,
-        '*.citch.io',
-        'fonts.googleapis.com',
-      ],
+      'style-src': ["'self'", "'unsafe-inline'", '*.citch.io', 'fonts.googleapis.com'],
       'font-src': ["'self'", 'fonts.gstatic.com'],
       'img-src': ["'self'", 'files.citch.io'],
       'frame-src': ["'self'", '*.google.com'],

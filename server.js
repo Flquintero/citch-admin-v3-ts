@@ -14,6 +14,7 @@ app.use(
       'default-src': 'self',
       'script-src': [
         "'self'",
+        "''unsafe-eval''",
         'citch.io',
         'googletagmanager.com',
         'google.com',

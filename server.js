@@ -9,7 +9,7 @@ const app = express();
 app.use(function (req, res, next) {
   res.setHeader(
     'Content-Security-Policy-Report-Only',
-    `default-src 'self'; script-src 'self';script-src-elem 'self' https://www.googletagmanager.com/gtag/js https://www.google.com/recaptcha/api.js https://www.gstatic.com/recaptcha/releases/g8G8cw32bNQPGUVoDvt680GA/recaptcha__en.js https://cdn.segment.com/analytics.js/v1//analytics.min.js rocket-loader.min.js 'nonce-${nonce}'; style-src 'self'; style-src-elem 'self' 'addStylesClient.js' 'nonce-${nonce}'; font-src 'self'; img-src 'self' https://files.citch.io; frame-src 'self' https://www.google.com; connect-src 'self'`
+    `default-src 'self'; script-src 'self';script-src-elem 'self' https://www.googletagmanager.com/gtag/js https://www.google.com/recaptcha/api.js https://www.gstatic.com/recaptcha/releases/g8G8cw32bNQPGUVoDvt680GA/recaptcha__en.js https://cdn.segment.com/analytics.js/v1//analytics.min.js rocket-loader.min.js 'nonce-${nonce}'; style-src 'self'; style-src-elem 'self' addStylesClient.js 'nonce-${nonce}'; font-src 'self'; img-src 'self' https://files.citch.io; frame-src 'self' https://www.google.com; connect-src 'self'`
   );
 
   next();

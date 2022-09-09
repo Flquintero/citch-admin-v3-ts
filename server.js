@@ -9,7 +9,7 @@ const app = express();
 app.use(function (req, res, next) {
   res.setHeader(
     'Content-Security-Policy-Report-Only',
-    `default-src 'self'; script-src 'self' rocket-loader.min.js https://cdn.segment.com/analytics.js/v1//analytics.min.js https://www.google.com/recaptcha/api.js 'nonce-${nonce}';script-src-elem 'self' https://www.googletagmanager.com/gtag/js?l=dataLayer&id=G-87MFVD2QQ0; style-src 'self'; style-src-elem 'self' addStylesClient.js 'nonce-${nonce}'; font-src 'self'; img-src 'self'; frame-src 'self' https://www.google.com; connect-src 'self'`
+    `default-src 'self'; script-src 'self' rocket-loader.min.js https://cdn.segment.com/analytics.js/v1//analytics.min.js https://www.google.com/recaptcha/api.js 'nonce-${nonce}';script-src-elem 'self' https://www.googletagmanager.com/gtag/js; style-src 'self'; style-src-elem 'self' addStylesClient.js 'nonce-${nonce}'; font-src 'self'; img-src 'self'; frame-src 'self' https://www.google.com; connect-src 'self'`
   );
 
   next();

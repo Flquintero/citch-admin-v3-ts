@@ -7,9 +7,10 @@ let nonce = crypto.randomBytes(16).toString('base64');
 const app = express();
 
 app.use(function (req, res, next) {
+  // TO DO: Make it more readable and remove unsafe eval and inline
   res.setHeader(
     'Content-Security-Policy-Report-Only',
-    `base-uri 'self';default-src 'self'; script-src 'unsafe-eval' https://*.citch.io 'nonce-${nonce}' ;script-src-elem 'nonce-${nonce}' 'report-sample' 'self' https://*.citch.io https://www.googletagmanager.com/ https://www.google.com/recaptcha/api.js https://www.gstatic.com/recaptcha/ https://cdn.segment.com/ https://*/cloudflare-static/rocket-loader.min.js 'nonce-${nonce}'; style-src 'report-sample' 'self' https://*.citch.io 'nonce-${nonce}'; style-src-elem 'self' https://*.citch.io 'nonce-${nonce}' https://fonts.googleapis.com/ webpack://citch-admin-v3-ts/./node_modules/vue-style-loader/lib/addStylesClient.js 'nonce-${nonce}'; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://files.citch.io; frame-src 'self' https://www.google.com; connect-src 'self' https://firebase.googleapis.com https://identitytoolkit.googleapis.com https://www.google-analytics.com;form-action 'self';object-src 'none';`
+    `base-uri 'self';default-src 'self'; script-src 'unsafe-eval' https://*.citch.io 'nonce-${nonce}' ;script-src-elem 'unsafe-inline' 'report-sample' 'self' https://*.citch.io https://www.googletagmanager.com/ https://www.google.com/recaptcha/api.js https://www.gstatic.com/recaptcha/ https://cdn.segment.com/ https://*/cloudflare-static/rocket-loader.min.js 'nonce-${nonce}'; style-src 'report-sample' 'self' https://*.citch.io 'nonce-${nonce}'; style-src-elem 'unsafe-inline' 'self' https://*.citch.io 'nonce-${nonce}' https://fonts.googleapis.com/ webpack://citch-admin-v3-ts/./node_modules/vue-style-loader/lib/addStylesClient.js 'nonce-${nonce}'; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://files.citch.io; frame-src 'self' https://www.google.com; connect-src 'self' https://firebase.googleapis.com https://identitytoolkit.googleapis.com https://www.google-analytics.com;form-action 'self';object-src 'none';`
   );
 
   next();

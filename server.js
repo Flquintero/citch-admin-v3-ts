@@ -1,16 +1,14 @@
 const express = require('express');
 const serveStatic = require('serve-static');
 const path = require('path');
-const crypto = require('crypto');
 const helmet = require('helmet');
 
 const app = express();
 
-app.use((req, res, next) => {
-  res.locals.cspNonce = crypto.randomBytes(16).toString('hex');
-  next();
-});
-
+// Meta Header setter via middleware
+// For a full list of all header it will set go to: https://helmetjs.github.io/
+// In case we need to use nonce re install npm i crypto and look for nonce code in https://helmetjs.github.io/
+// To Do: Remove unsafe eval and inline and solve csp problems
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
@@ -44,7 +42,7 @@ app.use(
       'script-src-attr': 'none',
       'upgrade-insecure-requests': [],
     },
-    reportOnly: true,
+    ...(process.env.NODE_ENV === 'development' ? { reportOnly: true } : null), // use CSP report only in dev
   })
 );
 

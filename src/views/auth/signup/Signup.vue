@@ -18,9 +18,13 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import AuthLayout from '@/layouts/Auth.vue';
-import SignupAdvert from '@/components/layouts/auth/signup/SignupAdvert.vue';
-import SignupForm from '@/components/layouts/auth/signup/SignupForm.vue';
+const AuthLayout = () => import(/* webpackChunkName: "AuthLayout" */ '@/layouts/Auth.vue');
+const SignupAdvert = () =>
+  import(
+    /* webpackChunkName: "SignupAdvert" */ '@/components/layouts/auth/signup/SignupAdvert.vue'
+  );
+const SignupForm = () =>
+  import(/* webpackChunkName: "SignupForm" */ '@/components/layouts/auth/signup/SignupForm.vue');
 
 export default Vue.extend({
   name: 'Signup',

@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import Header from './Header.vue';
+const Header = () => import(/* webpackChunkName: "Header" */ './Header.vue');
 export default Vue.extend({
   name: 'Auth',
   components: { Header },

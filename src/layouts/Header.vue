@@ -10,9 +10,10 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import CButton from '@/components/elements/Button.vue';
-import Logo from '@/components/elements/Logo.vue';
-import LinkLogo from '@/components/elements/LinkLogo.vue';
+const CButton = () => import(/* webpackChunkName: "CButton" */ '@/components/elements/Button.vue');
+const Logo = () => import(/* webpackChunkName: "Logo" */ '@/components/elements/Logo.vue');
+const LinkLogo = () =>
+  import(/* webpackChunkName: "LinkLogo" */ '@/components/elements/LinkLogo.vue');
 import Repository from '@/api-repository/index';
 const AuthRepository = Repository.get('auth');
 export default Vue.extend({

@@ -19,9 +19,15 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import AuthLayout from '@/layouts/Auth.vue';
-import NewPasswordAdvert from '@/components/layouts/auth/reset-password/NewPasswordAdvert.vue';
-import NewPasswordForm from '@/components/layouts/auth/reset-password/NewPasswordForm.vue';
+const AuthLayout = () => import(/* webpackChunkName: "AuthLayout" */ '@/layouts/Auth.vue');
+const NewPasswordAdvert = () =>
+  import(
+    /* webpackChunkName: "NewPasswordAdvert" */ '@/components/layouts/auth/reset-password/NewPasswordAdvert.vue'
+  );
+const NewPasswordForm = () =>
+  import(
+    /* webpackChunkName: "NewPasswordForm" */ '@/components/layouts/auth/reset-password/NewPasswordForm.vue'
+  );
 
 export default Vue.extend({
   name: 'ResetPassword',

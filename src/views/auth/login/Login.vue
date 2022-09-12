@@ -19,9 +19,11 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import AuthLayout from '@/layouts/Auth.vue';
-import LoginAdvert from '@/components/layouts/auth/login/LoginAdvert.vue';
-import LoginForm from '@/components/layouts/auth/login/LoginForm.vue';
+const AuthLayout = () => import(/* webpackChunkName: "AuthLayout" */ '@/layouts/Auth.vue');
+const LoginAdvert = () =>
+  import(/* webpackChunkName: "LoginAdvert" */ '@/components/layouts/auth/login/LoginAdvert.vue');
+const LoginForm = () =>
+  import(/* webpackChunkName: "LoginForm" */ '@/components/layouts/auth/login/LoginForm.vue');
 
 export default Vue.extend({
   name: 'Login',

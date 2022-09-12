@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import Logo from '@/components/elements/Logo.vue';
+const Logo = () => import(/* webpackChunkName: "Logo" */ '@/components/elements/Logo.vue');
 
 export default Vue.extend({
   name: 'LinkLogo',

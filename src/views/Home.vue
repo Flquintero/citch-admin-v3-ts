@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import Header from '@/layouts/Header.vue';
+const Header = () => import(/* webpackChunkName: "Header" */ '@/layouts/Header.vue');
 
 export default Vue.extend({
   name: 'Home',

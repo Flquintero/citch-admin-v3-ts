@@ -9,11 +9,16 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import Header from '@/layouts/Header.vue';
-import Logo from '@/components/elements/Logo.vue';
-import Loader from '@/components/functional/Loader.vue';
-import ErrorPage from '@/components/functional/ErrorPage.vue';
-import PasswordConfirm from '@/views/auth/reset-password/PasswordConfirm.vue';
+const Header = () => import(/* webpackChunkName: "Header" */ '@/layouts/Header.vue');
+const Logo = () => import(/* webpackChunkName: "Logo" */ '@/components/elements/Logo.vue');
+const Loader = () => import(/* webpackChunkName: "Loader" */ '@/components/functional/Loader.vue');
+const ErrorPage = () =>
+  import(/* webpackChunkName: "ErrorPage" */ '@/components/functional/ErrorPage.vue');
+const PasswordConfirm = () =>
+  import(
+    /* webpackChunkName: "PasswordConfirm" */ '@/views/auth/reset-password/PasswordConfirm.vue'
+  );
+
 import Repository from '@/api-repository/index';
 const AuthRepository = Repository.get('auth');
 

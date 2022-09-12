@@ -1,5 +1,5 @@
 import { AnalyticsBrowser } from '@segment/analytics-next';
-import { IIdentifyData, ITrackData, IAnalyticsFunctions } from '@/types/analytics';
+import { IIdentifyData, ITrackData, IPageData, IAnalyticsFunctions } from '@/types/analytics';
 
 const segment = AnalyticsBrowser.load({
   writeKey: process.env.VUE_APP_SEGMENT_KEY,
@@ -11,6 +11,9 @@ export const analyticsFunctions: IAnalyticsFunctions = {
       name: identifyData.name,
       email: identifyData.email,
     });
+  },
+  page(pageData: IPageData) {
+    segment.page({ ...pageData });
   },
   track(trackData: ITrackData) {
     segment.track(trackData.event, {

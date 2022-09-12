@@ -16,6 +16,14 @@ const Header = () => import(/* webpackChunkName: "Header" */ './Header.vue');
 export default Vue.extend({
   name: 'Auth',
   components: { Header },
+  mounted() {
+    this.setPageView();
+  },
+  methods: {
+    setPageView() {
+      this.$analyticsFunctions.page({ category: 'Auth', name: this.$route.name });
+    },
+  },
 });
 </script>
 <style lang="scss">

@@ -6,6 +6,15 @@ export interface IIdentifyData {
   email: string;
 }
 
+//segment.com/docs/connections/spec/page/
+export interface IPageData {
+  category: string;
+  name: string;
+  properties?: {
+    [property: string]: any;
+  };
+}
+
 export interface ITrackData {
   event: string;
   data?: {
@@ -15,5 +24,6 @@ export interface ITrackData {
 
 export interface IAnalyticsFunctions {
   identify: (identifyData: IIdentifyData) => void;
+  page: (pageData: IPageData) => void;
   track: (trackData: ITrackData) => void;
 }

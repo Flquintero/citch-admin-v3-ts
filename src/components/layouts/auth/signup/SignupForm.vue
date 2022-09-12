@@ -148,6 +148,7 @@ export default Vue.extend({
         await UsersRepository.signupUser(this.getSignupPayload(authedUser));
         this.$router.replace('/home');
         this.$alert.success('Welcome!');
+        this.setAnalyticsUser(authedUser);
       } catch (error: any) {
         console.log('Registration Error', error);
         // To Do: better way to handle this error string
@@ -164,6 +165,14 @@ export default Vue.extend({
         emailVerified: authedUser.emailVerified,
         fullName: authedUser.displayName,
       };
+    },
+    setAnalyticsUser(authedUser: User) {
+      const trackingData = this.getSignupPayload(authedUser);
+      this.$analyticsFunctions.identify({
+        id: authedUser.uid,
+        data: trackingData,
+      });
+      this.$analyticsFunctions.track({ event: 'Signup', data: trackingData });
     },
     formatRegistrationError(error: any) {
       let message = error.message;

@@ -2,8 +2,9 @@ import { ID } from '@segment/analytics-next';
 
 export interface IIdentifyData {
   id: ID;
-  name: string;
-  email: string;
+  data: {
+    [properties: string]: any;
+  };
 }
 
 //segment.com/docs/connections/spec/page/

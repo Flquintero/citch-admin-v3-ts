@@ -50,6 +50,7 @@ import { required } from 'vuelidate/lib/validators';
 import { FormFunctions } from '@/utils/form-functionality';
 import Repository from '@/api-repository/index';
 import { IFormData } from '@/types/forms';
+import { User } from '@firebase/auth';
 const AuthRepository = Repository.get('auth');
 
 export default Vue.extend({
@@ -80,8 +81,9 @@ export default Vue.extend({
       try {
         this.saving = true;
         await AuthRepository.loginUser(FormFunctions.formatFormData(this.formData));
-        await AuthRepository.observerCurrentAuthedUser();
+        const autherUser = await AuthRepository.observerCurrentAuthedUser();
         this.$router.replace('/home');
+        this.setAnalyticsUser(autherUser);
       } catch (error: any) {
         console.log('Login error', error);
         // To Do: better way to handle this error string
@@ -89,6 +91,12 @@ export default Vue.extend({
       } finally {
         this.saving = false;
       }
+    },
+    setAnalyticsUser(authedUser: User) {
+      this.$analyticsFunctions.identify({
+        id: authedUser.uid,
+      });
+      this.$analyticsFunctions.track({ event: 'Login', data: { email: this.formData.email } });
     },
     formatLoginError(error: any) {
       let message = error.message;

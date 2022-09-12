@@ -8,8 +8,7 @@ const segment = AnalyticsBrowser.load({
 export const analyticsFunctions: IAnalyticsFunctions = {
   identify(identifyData: IIdentifyData) {
     segment.identify(identifyData.id, {
-      name: identifyData.name,
-      email: identifyData.email,
+      ...identifyData.data,
     });
   },
   page(pageData: IPageData) {

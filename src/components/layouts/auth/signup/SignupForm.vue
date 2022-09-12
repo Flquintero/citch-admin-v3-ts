@@ -86,8 +86,8 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import CInput from '@/components/elements/Input.vue';
-import CButton from '@/components/elements/Button.vue';
+const CInput = () => import(/* webpackChunkName: "CInput" */ '@/components/elements/Input.vue');
+const CButton = () => import(/* webpackChunkName: "CButton" */ '@/components/elements/Button.vue');
 import { required, minLength, email, sameAs } from 'vuelidate/lib/validators';
 import { FormFunctions } from '@/utils/form-functionality';
 import Repository from '@/api-repository/index';

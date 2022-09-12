@@ -76,12 +76,15 @@ const router = new VueRouter({
 
 router.beforeEach(async (to, from, next) => {
   if (to.matched.some((route) => route.meta.requiresAuth)) {
-    await onAuthStateChanged(AUTH_INSTANCE, (user: User | null): void => {
-      store.dispatch('Users/setUser', user);
-    });
-    let isAuthed = store.getters['Users/isCurrentUserLoggedIn'];
-    if (isAuthed) return next();
-    return next('/login');
+    // TO DO: Not 100% convinced with this, feel like it needs to be tied to one source of truth with setting the user, but lets see how it goes
+    if (!store.getters['modules/user/isCurrentUserLoggedIn']) {
+      await onAuthStateChanged(AUTH_INSTANCE, (user: User | null): void => {
+        if (user) return next();
+        return next('/login');
+      });
+    } else {
+      next();
+    }
   }
   next();
 });

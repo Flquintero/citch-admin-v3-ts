@@ -29,9 +29,6 @@ const SignupForm = () =>
 export default Vue.extend({
   name: 'Signup',
   components: { AuthLayout, SignupAdvert, SignupForm },
-  mounted() {
-    this.$analyticsFunctions.track({ event: 'Signup Page Viewed' });
-  },
 });
 </script>
 <style lang="scss">

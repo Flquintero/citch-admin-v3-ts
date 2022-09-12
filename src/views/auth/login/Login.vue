@@ -28,6 +28,9 @@ const LoginForm = () =>
 export default Vue.extend({
   name: 'Login',
   components: { AuthLayout, LoginAdvert, LoginForm },
+  mounted() {
+    this.$analyticsFunctions.track({ event: 'Login Page Viewed' });
+  },
 });
 </script>
 <style lang="scss">

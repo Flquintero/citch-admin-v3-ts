@@ -38,7 +38,7 @@ import {
   faTriangleExclamation,
   faXmark,
 } from '@fortawesome/pro-duotone-svg-icons';
-import { User } from 'firebase/auth';
+// import { User } from 'firebase/auth';
 library.add(
   faCircleExclamation,
   faCircleNotch,
@@ -48,6 +48,9 @@ library.add(
   faXmark
 );
 Vue.component('font-awesome-icon', FontAwesomeIcon);
+
+import { analyticsFunctions } from '@/utils/analytics-tracking';
+Vue.prototype.$analyticsFunctions = analyticsFunctions;
 
 // Need to include the initilization of app to confirm  that we have user or not
 // Could not be the best way.

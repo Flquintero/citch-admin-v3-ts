@@ -32,6 +32,9 @@ const NewPasswordForm = () =>
 export default Vue.extend({
   name: 'ResetPassword',
   components: { AuthLayout, NewPasswordAdvert, NewPasswordForm },
+  mounted() {
+    this.$analyticsFunctions.track({ event: 'Reset Password Page Viewed' });
+  },
 });
 </script>
 <style lang="scss">

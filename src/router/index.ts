@@ -11,13 +11,13 @@ Vue.use(VueRouter);
 const routes: Array<RouteConfig> = [
   {
     path: '/home',
-    name: 'Home',
+    name: 'home',
     meta: { requiresAuth: true },
     component: () => import(/* webpackChunkName: "home" */ '../views/Home.vue'),
   },
   {
     path: '/login',
-    name: 'Login',
+    name: 'login',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -25,7 +25,7 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/signup',
-    name: 'Signup',
+    name: 'signup',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -33,7 +33,7 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/confirm-password',
-    name: 'Confirm password',
+    name: 'confirm password',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -44,7 +44,7 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/reset-password',
-    name: 'Reset password',
+    name: 'reset password',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -55,7 +55,7 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/auth-redirect',
-    name: 'Auth redirect',
+    name: 'auth redirect',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.

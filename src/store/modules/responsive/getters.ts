@@ -1,40 +1,42 @@
-import { IResponsiveState } from './types'
+import { IResponsiveState } from './types';
 
 export const getters = {
-  isMobileSm(state:IResponsiveState) {
+  isMobileSm(state: IResponsiveState) {
     return state.userAgent === 'mobile-small' || false;
   },
-  isMobile(state:IResponsiveState) {
+  isMobile(state: IResponsiveState) {
     return state.userAgent === 'mobile' || false;
   },
-  mobileAndDown(state:IResponsiveState) {
+  mobileAndDown(state: IResponsiveState) {
     return state.userAgent?.includes('mobile');
   },
-  mobileAndUp(state:IResponsiveState) {
-    return ['mobile', 'tablet'].includes(state.userAgent || '') || state.userAgent?.includes('desktop');
+  mobileAndUp(state: IResponsiveState) {
+    return (
+      ['mobile', 'tablet'].includes(state.userAgent || '') || state.userAgent?.includes('desktop')
+    );
   },
 
-  isDesktop(state:IResponsiveState) {
+  isDesktop(state: IResponsiveState) {
     return state.userAgent === 'desktop' || false;
   },
 
-  isDesktopLg(state:IResponsiveState) {
+  isDesktopLg(state: IResponsiveState) {
     return state.userAgent === 'desktop-lg' || false;
   },
 
-  isDesktopXl(state:IResponsiveState) {
+  isDesktopXl(state: IResponsiveState) {
     return state.userAgent === 'desktop-xl' || false;
   },
 
-  tabletAndDown(state:IResponsiveState) {
+  tabletAndDown(state: IResponsiveState) {
     return state.userAgent === 'tablet' || state.userAgent?.includes('mobile') || false;
   },
 
-  tabletAndUp(state:IResponsiveState) {
+  tabletAndUp(state: IResponsiveState) {
     return state.userAgent === 'tablet' || state.userAgent?.includes('desktop') || false;
   },
 
-  desktopAndUp(state:IResponsiveState) {
+  desktopAndUp(state: IResponsiveState) {
     return state.userAgent?.includes('desktop') || false;
   },
 };

@@ -50,10 +50,9 @@ export default {
   observerCurrentAuthedUser: async () => {
     let loggedUser;
     await onAuthStateChanged(AUTH_INSTANCE, (user: User | null): void => {
-      console.log('user', user);
-      store.dispatch('Users/setUser', user);
       loggedUser = user;
     });
+    store.dispatch('Users/setUser', loggedUser);
     return loggedUser;
   },
   initResetUserPassword: async (formData: IFormData) => {

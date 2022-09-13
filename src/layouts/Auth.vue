@@ -4,7 +4,7 @@
     <div class="auth-layout__content">
       <slot name="auth-content"></slot>
     </div>
-    <div class="auth-layout__advert">
+    <div v-if="desktopAndUp" class="auth-layout__advert">
       <slot name="auth-advert"></slot>
     </div>
   </div>
@@ -12,6 +12,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { mapGetters } from 'vuex';
 const Header = () => import(/* webpackChunkName: "Header" */ './Header.vue');
 export default Vue.extend({
   name: 'Auth',
@@ -23,6 +24,9 @@ export default Vue.extend({
     setPageView() {
       this.$analyticsFunctions.page({ category: 'Auth', name: this.$route.name });
     },
+  },
+  computed: {
+    ...mapGetters('Responsive', ['desktopAndUp']),
   },
 });
 </script>

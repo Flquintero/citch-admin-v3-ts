@@ -44,6 +44,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { mapActions } from 'vuex';
 const CInput = () => import(/* webpackChunkName: "CInput" */ '@/components/elements/Input.vue');
 const CButton = () => import(/* webpackChunkName: "CButton" */ '@/components/elements/Button.vue');
 import { required } from 'vuelidate/lib/validators';
@@ -76,14 +77,16 @@ export default Vue.extend({
     },
   },
   methods: {
+    ...mapActions('Users', ['setCurrentUser']),
     ...FormFunctions,
     async submitLogin() {
       try {
         this.saving = true;
         await AuthRepository.loginUser(FormFunctions.formatFormData(this.formData));
-        const autherUser = await AuthRepository.observerCurrentAuthedUser();
+        const authedUser = await AuthRepository.observerCurrentAuthedUser();
+        this.setCurrentUser(authedUser);
         this.$router.replace('/home');
-        this.setAnalyticsUser(autherUser);
+        this.setAnalyticsUser(authedUser);
       } catch (error: any) {
         console.log('Login error', error);
         // To Do: better way to handle this error string

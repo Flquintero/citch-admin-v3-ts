@@ -86,6 +86,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { mapActions } from 'vuex';
 const CInput = () => import(/* webpackChunkName: "CInput" */ '@/components/elements/Input.vue');
 const CButton = () => import(/* webpackChunkName: "CButton" */ '@/components/elements/Button.vue');
 import { required, minLength, email, sameAs } from 'vuelidate/lib/validators';
@@ -135,6 +136,7 @@ export default Vue.extend({
     },
   },
   methods: {
+    ...mapActions('Users', ['setCurrentUser']),
     ...FormFunctions,
     async submitSignup() {
       try {
@@ -146,6 +148,7 @@ export default Vue.extend({
         let authedUser = await AuthRepository.observerCurrentAuthedUser();
         // add user to db and does necessary steps to create all thats needed to register
         await UsersRepository.signupUser(this.getSignupPayload(authedUser));
+        this.setCurrentUser(authedUser);
         this.$router.replace('/home');
         this.$alert.success('Welcome!');
         this.setAnalyticsUser(authedUser);

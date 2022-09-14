@@ -52,7 +52,7 @@ async function getApiResponse(options: ApiRequestOptions, type: { authed: boolea
 }
 
 async function getUserToken() {
-  let currentUser = store.getters['Users/currentUserData'];
+  let currentUser = store.getters['Users/currentUser'];
   let forceRefresh = true;
   return await getIdToken(currentUser, forceRefresh);
 }

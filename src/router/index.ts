@@ -3,6 +3,8 @@ import VueRouter, { RouteConfig } from 'vue-router';
 import { getAuth, onAuthStateChanged, Auth, User } from 'firebase/auth';
 import { app } from '@/config/firebase';
 import store from '@/store';
+import Repository from '@/api-repository/index';
+const AuthRepository = Repository.get('auth');
 
 const AUTH_INSTANCE: Auth = getAuth(app);
 
@@ -75,18 +77,13 @@ const router = new VueRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  if (to.matched.some((route) => route.meta.requiresAuth)) {
-    // TO DO: Not 100% convinced with this, feel like it needs to be tied to one source of truth with setting the user, but lets see how it goes
-    if (!store.getters['modules/user/isCurrentUserLoggedIn']) {
-      await onAuthStateChanged(AUTH_INSTANCE, (user: User | null): void => {
-        if (user) return next();
-        return next('/login');
-      });
-    } else {
-      next();
-    }
+  const currentUser = await AuthRepository.observerCurrentAuthedUser();
+  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
+  if (requiresAuth && !currentUser) {
+    return next('/login');
+  } else {
+    next();
   }
-  next();
 });
 
 export default router;

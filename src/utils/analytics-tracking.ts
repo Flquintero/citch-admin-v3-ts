@@ -7,15 +7,15 @@ const segment = AnalyticsBrowser.load({
 
 export const analyticsFunctions: IAnalyticsFunctions = {
   identify(identifyData: IIdentifyData) {
-    segment.identify(identifyData.id, {
+    segment?.identify(identifyData.id, {
       ...identifyData.data,
     });
   },
   page(pageData: IPageData) {
-    segment.page({ ...pageData });
+    segment?.page({ ...pageData });
   },
   track(trackData: ITrackData) {
-    segment.track(trackData.event, {
+    segment?.track(trackData.event, {
       ...trackData.data,
     });
   },

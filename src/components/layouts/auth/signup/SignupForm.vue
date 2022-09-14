@@ -85,19 +85,19 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { mapActions } from 'vuex';
 const CInput = () => import(/* webpackChunkName: "CInput" */ '@/components/elements/Input.vue');
 const CButton = () => import(/* webpackChunkName: "CButton" */ '@/components/elements/Button.vue');
 import { required, minLength, email, sameAs } from 'vuelidate/lib/validators';
 import { FormFunctions } from '@/utils/form-functionality';
-import Repository from '@/api-repository/index';
 import { IFormData } from '@/types/forms';
 import { User } from '@firebase/auth';
+import { ITrackData } from '@/types/analytics';
+import CurrentUserMixin from '@/mixins/current-user';
+import Repository from '@/api-repository/index';
 const AuthRepository = Repository.get('auth');
 const UsersRepository = Repository.get('users');
 
-export default Vue.extend({
+export default CurrentUserMixin.extend({
   name: 'SignupForm',
   components: { CInput, CButton },
   data() {
@@ -136,7 +136,6 @@ export default Vue.extend({
     },
   },
   methods: {
-    ...mapActions('Users', ['setCurrentUser']),
     ...FormFunctions,
     async submitSignup() {
       try {
@@ -144,14 +143,12 @@ export default Vue.extend({
         // Make sure email and names are lower cased and trimmed. If any changes to form we do it through the function
         this.formattedForm = FormFunctions.formatFormData(this.formData);
         await AuthRepository.signupUser(this.formattedForm);
-        // gets the user back, because firebase doesnt have another way
-        let authedUser = await AuthRepository.observerCurrentAuthedUser();
+        // Will set this.authedUser in mixin we are using
+        this.setCurrentUser(this.getCurrentUserTrackingInfo());
         // add user to db and does necessary steps to create all thats needed to register
-        await UsersRepository.signupUser(this.getSignupPayload(authedUser));
-        this.setCurrentUser(authedUser);
+        await UsersRepository.signupUser(this.getSignupPayload(this.authedUser as User));
         this.$router.replace('/home');
         this.$alert.success('Welcome!');
-        this.setAnalyticsUser(authedUser);
       } catch (error: any) {
         console.log('Registration Error', error);
         // To Do: better way to handle this error string
@@ -159,6 +156,13 @@ export default Vue.extend({
       } finally {
         this.saving = false;
       }
+    },
+    getCurrentUserTrackingInfo() {
+      //this.authedUser is in the mixin that we use in this component
+      return {
+        event: 'Signup',
+        data: this.getSignupPayload(this.authedUser as User),
+      } as ITrackData;
     },
     getSignupPayload(authedUser: User) {
       return {
@@ -169,14 +173,7 @@ export default Vue.extend({
         fullName: authedUser.displayName,
       };
     },
-    setAnalyticsUser(authedUser: User) {
-      const trackingData = this.getSignupPayload(authedUser);
-      this.$analyticsFunctions.identify({
-        id: authedUser.uid,
-        data: trackingData,
-      });
-      this.$analyticsFunctions.track({ event: 'Signup', data: trackingData });
-    },
+    // TO DO: This needs to be addressed the right way
     formatRegistrationError(error: any) {
       let message = error.message;
       if (error.message === 'Firebase: Error (auth/email-already-in-use).') {

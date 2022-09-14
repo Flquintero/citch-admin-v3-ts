@@ -43,18 +43,17 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { mapActions } from 'vuex';
 const CInput = () => import(/* webpackChunkName: "CInput" */ '@/components/elements/Input.vue');
 const CButton = () => import(/* webpackChunkName: "CButton" */ '@/components/elements/Button.vue');
 import { required } from 'vuelidate/lib/validators';
 import { FormFunctions } from '@/utils/form-functionality';
-import Repository from '@/api-repository/index';
 import { IFormData } from '@/types/forms';
-import { User } from '@firebase/auth';
+import { ITrackData } from '@/types/analytics';
+import CurrentUserMixin from '@/mixins/current-user';
+import Repository from '@/api-repository/index';
 const AuthRepository = Repository.get('auth');
 
-export default Vue.extend({
+export default CurrentUserMixin.extend({
   name: 'LoginForm',
   components: { CInput, CButton },
   data() {
@@ -77,16 +76,14 @@ export default Vue.extend({
     },
   },
   methods: {
-    ...mapActions('Users', ['setCurrentUser']),
     ...FormFunctions,
     async submitLogin() {
       try {
         this.saving = true;
         await AuthRepository.loginUser(FormFunctions.formatFormData(this.formData));
-        const authedUser = await AuthRepository.observerCurrentAuthedUser();
-        this.setCurrentUser(authedUser);
+        // From Mixin
+        this.initSetCurrentUser(this.getCurrentUserTrackingInfo());
         this.$router.replace('/home');
-        this.setAnalyticsUser(authedUser);
       } catch (error: any) {
         console.log('Login error', error);
         // To Do: better way to handle this error string
@@ -95,12 +92,14 @@ export default Vue.extend({
         this.saving = false;
       }
     },
-    setAnalyticsUser(authedUser: User) {
-      this.$analyticsFunctions.identify({
-        id: authedUser.uid,
-      });
-      this.$analyticsFunctions.track({ event: 'Login', data: { email: this.formData.email } });
+    getCurrentUserTrackingInfo() {
+      //this.authedUser is in the mixin that we use in this component
+      return {
+        event: 'Login',
+        data: { email: this.authedUser?.email },
+      } as ITrackData;
     },
+    // TO DO: This needs to be addressed the right way
     formatLoginError(error: any) {
       let message = error.message;
       if (

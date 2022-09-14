@@ -4,11 +4,14 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from 'vue';
 import ResponsiveMixin from '@/mixins/responsive';
+import CurrentUserMixin from '@/mixins/current-user';
 
-export default Vue.extend({
+export default CurrentUserMixin.extend({
   name: 'App',
   mixins: [ResponsiveMixin],
+  mounted() {
+    this.initSetCurrentUser();
+  },
 });
 </script>

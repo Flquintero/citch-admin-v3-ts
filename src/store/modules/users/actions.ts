@@ -3,6 +3,7 @@ import { Commit } from 'vuex';
 
 export const actions = {
   setCurrentUser({ commit }: { commit: Commit }, user: User) {
+    console.log('user', user);
     commit('SET_LOGGED_IN', user !== null);
     if (user) {
       commit('SET_CURRENT_USER', user);

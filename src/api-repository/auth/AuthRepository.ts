@@ -48,11 +48,16 @@ export default {
     return await getIdToken(currentUser, forceRefresh);
   },
   observerCurrentAuthedUser: async () => {
-    let loggedUser;
-    await onAuthStateChanged(AUTH_INSTANCE, (user: User | null): void => {
-      loggedUser = user;
+    return new Promise((resolve, reject) => {
+      const unsubscribe = onAuthStateChanged(
+        AUTH_INSTANCE,
+        (user: User | null): any => {
+          unsubscribe();
+          resolve(user);
+        },
+        reject
+      );
     });
-    return loggedUser;
   },
   initResetUserPassword: async (formData: IFormData) => {
     return await sendPasswordResetEmail(AUTH_INSTANCE, formData.email);

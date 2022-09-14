@@ -51,6 +51,7 @@ export default Vue.extend({
   }
   &__advert {
     background-color: $primary;
+    height: 100%;
   }
 }
 </style>

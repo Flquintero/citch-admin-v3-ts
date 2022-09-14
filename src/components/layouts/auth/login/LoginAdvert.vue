@@ -25,7 +25,14 @@ export default Vue.extend({
   display: flex;
   justify-content: center;
   height: 100vh;
-  padding: 50px;
+  padding: 20px;
+  align-items: center;
+  img {
+    height: auto;
+    width: auto;
+    max-width: 100%;
+    min-width: 100%;
+  }
   // &__title {
   //   background: $white;
   //   color: $primary;

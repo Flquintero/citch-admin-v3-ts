@@ -33,7 +33,7 @@ export default Vue.extend({
 <style lang="scss">
 .auth-layout {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   position: relative;
   @include tablet-and-down() {
@@ -42,14 +42,15 @@ export default Vue.extend({
   &__content,
   &__advert {
     flex-grow: 1;
+    width: 100%;
     max-width: 50%;
     @include tablet-and-down() {
       max-width: 100%;
     }
 
-    > div {
-      height: 100%;
-    }
+    // > div {
+    //   height: 100%;
+    // }
   }
 }
 </style>

@@ -43,7 +43,7 @@ export default {
     return await signOut(AUTH_INSTANCE);
   },
   getUserToken: async () => {
-    let currentUser = store.getters.currentUserData;
+    let currentUser = store.getters.currentUser;
     let forceRefresh = true;
     return await getIdToken(currentUser, forceRefresh);
   },

@@ -83,7 +83,7 @@ export default CurrentUserMixin.extend({
         await AuthRepository.loginUser(FormFunctions.formatFormData(this.formData));
         // From Mixin
         this.initSetCurrentUser(this.getCurrentUserTrackingInfo());
-        this.$router.replace('/home');
+        this.$router.replace('/');
       } catch (error: any) {
         console.log('Login error', error);
         // To Do: better way to handle this error string

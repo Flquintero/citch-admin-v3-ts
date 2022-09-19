@@ -1,6 +1,8 @@
 <template>
-  <div class="home">
-    <Header></Header>
+  <!-- routes that require you be logged in  -->
+  <div class="admin">
+    <Header v-bind="{ to: '/', linkLogo: true }"></Header>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -13,3 +15,8 @@ export default Vue.extend({
   components: { Header },
 });
 </script>
+<style lang="scss">
+.admin {
+  padding-top: 100px;
+}
+</style>

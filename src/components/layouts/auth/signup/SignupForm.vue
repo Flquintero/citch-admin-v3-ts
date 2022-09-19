@@ -147,7 +147,7 @@ export default CurrentUserMixin.extend({
         this.setCurrentUser(this.getCurrentUserTrackingInfo());
         // add user to db and does necessary steps to create all thats needed to register
         await UsersRepository.signupUser(this.getSignupPayload(this.authedUser as User));
-        this.$router.replace('/home');
+        this.$router.replace('/');
         this.$alert.success('Welcome!');
       } catch (error: any) {
         console.log('Registration Error', error);

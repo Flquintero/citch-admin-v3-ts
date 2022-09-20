@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <!-- pretty much two choices - those where you need to be authed and does that do not login, signup,etc -->
     <router-view></router-view>
   </div>
 </template>

@@ -1,7 +1,9 @@
+import Vue from 'vue';
 import axios, { AxiosRequestConfig, AxiosInstance } from 'axios';
 import { getAppCheckToken } from '@/utils/firebase-app-check';
-import { getIdToken } from 'firebase/auth';
-import store from '@/store';
+import { Auth, getAuth } from 'firebase/auth';
+
+const AUTH_INSTANCE: Auth = getAuth(Vue.prototype.$firebase_app);
 
 var $axios: AxiosInstance;
 
@@ -52,9 +54,8 @@ async function getApiResponse(options: ApiRequestOptions, type: { authed: boolea
 }
 
 async function getUserToken() {
-  let currentUser = store.getters['Users/currentUser'];
   let forceRefresh = true;
-  return await getIdToken(currentUser, forceRefresh);
+  return await AUTH_INSTANCE.currentUser?.getIdToken(forceRefresh);
 }
 
 export { $authedApiRequest, $publicApiRequest };

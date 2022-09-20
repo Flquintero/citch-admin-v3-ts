@@ -1,11 +1,7 @@
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
-import { getAuth, Auth } from 'firebase/auth';
-import { app } from '@/config/firebase';
 import Repository from '@/api-repository/index';
 const AuthRepository = Repository.get('auth');
-
-const AUTH_INSTANCE: Auth = getAuth(app);
 
 Vue.use(VueRouter);
 

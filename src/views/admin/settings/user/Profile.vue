@@ -48,9 +48,9 @@ export default Vue.extend({
     ...FormFunctions,
     async saveChanges() {
       try {
-        let updatedUser = await OrganizationsRepository.updateOrganization(
-          FormFunctions.formatFormData(this.formData)
-        );
+        let updatedUser = await OrganizationsRepository.updateOrganization({
+          updateData: FormFunctions.formatFormData(this.formData),
+        });
         console.log('udated user', updatedUser);
       } catch (error: any) {
         console.log('Login error', error);

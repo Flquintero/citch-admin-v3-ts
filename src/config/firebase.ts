@@ -33,3 +33,10 @@ export const appCheck = initializeAppCheck(app, {
   provider: new ReCaptchaV3Provider(process.env.VUE_APP_RECAPTCHA_SITE_KEY),
   isTokenAutoRefreshEnabled: true,
 });
+
+// Firebase helper functions
+
+export async function getUserToken() {
+  let forceRefresh = true;
+  return await auth.currentUser?.getIdToken(forceRefresh);
+}

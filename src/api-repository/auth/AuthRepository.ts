@@ -1,56 +1,42 @@
 import { IFormData } from '@/types/forms';
-import { $publicApiRequest } from '@/utils/api';
-import Vue from 'vue';
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  setPersistence,
-  browserLocalPersistence,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  updateProfile,
-  UserCredential,
-  Auth,
-  signOut,
-  User,
-  sendPasswordResetEmail,
-  getIdToken,
-} from 'firebase/auth';
-import store from '@/store';
 import { IVerifyPassword, IPasswordConfirm } from '@/types/auth';
+import { UserCredential, User } from 'firebase/auth';
+import {
+  auth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+  sendPasswordResetEmail,
+} from '@/config/firebase';
+import { $publicApiRequest } from '@/utils/api';
 
-const AUTH_INSTANCE: Auth = getAuth(Vue.prototype.$firebase_app);
 const DOMAIN_PATH = '/auth';
 
 export default {
-  initSetPersistence: () => {
-    setPersistence(AUTH_INSTANCE, browserLocalPersistence);
-  },
   signupUser: async (formData: IFormData) => {
     let userCredential: UserCredential = await createUserWithEmailAndPassword(
-      AUTH_INSTANCE,
+      auth,
       formData.email,
       formData.password
     );
     await updateProfile(userCredential.user, {
       displayName: `${formData.firstName} ${formData.lastName}`,
     });
+    return auth.currentUser;
   },
   loginUser: async (formData: IFormData) => {
-    return await signInWithEmailAndPassword(AUTH_INSTANCE, formData.email, formData.password);
+    await signInWithEmailAndPassword(auth, formData.email, formData.password);
+    return auth.currentUser;
   },
   initSignOut: async () => {
-    return await signOut(AUTH_INSTANCE);
-  },
-  getUserToken: async () => {
-    let currentUser = store.getters.currentUser;
-    let forceRefresh = true;
-    return await getIdToken(currentUser, forceRefresh);
+    return await signOut(auth);
   },
   observerCurrentAuthedUser: async () => {
     return new Promise((resolve, reject) => {
       const unsubscribe = onAuthStateChanged(
-        AUTH_INSTANCE,
+        auth,
         (user: User | null): any => {
           unsubscribe();
           resolve(user);
@@ -60,7 +46,7 @@ export default {
     });
   },
   initResetUserPassword: async (formData: IFormData) => {
-    return await sendPasswordResetEmail(AUTH_INSTANCE, formData.email);
+    return await sendPasswordResetEmail(auth, formData.email);
   },
   initVerifyResetPasswordCode: async (passwordVerificationObject: IVerifyPassword) => {
     return await $publicApiRequest({

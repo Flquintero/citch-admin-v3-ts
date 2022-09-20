@@ -1,22 +1,35 @@
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
-import { getAuth, onAuthStateChanged, Auth, User } from 'firebase/auth';
-import { app } from '@/config/firebase';
-import store from '@/store';
 import Repository from '@/api-repository/index';
 const AuthRepository = Repository.get('auth');
-
-const AUTH_INSTANCE: Auth = getAuth(app);
 
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
+  // AUTH REQUIRED
   {
-    path: '/home',
-    name: 'home',
+    path: '/',
+    name: 'admin',
     meta: { requiresAuth: true },
-    component: () => import(/* webpackChunkName: "home" */ '../views/Home.vue'),
+    component: () => import(/* webpackChunkName: "admin" */ '../views/admin/Admin.vue'),
+    children: [
+      {
+        path: '/settings',
+        name: 'settings',
+        meta: { requiresAuth: true },
+        component: () =>
+          import(/* webpackChunkName: "settings" */ '../views/admin/settings/Settings.vue'),
+        children: [
+          {
+            path: 'user',
+            component: () =>
+              import(/* webpackChunkName: "user" */ '../views/admin/settings/user/Profile.vue'),
+          },
+        ],
+      },
+    ],
   },
+  // NO AUTH REQUIRED
   {
     path: '/login',
     name: 'login',

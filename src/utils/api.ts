@@ -1,9 +1,9 @@
 import axios, { AxiosRequestConfig, AxiosInstance } from 'axios';
 import { getAppCheckToken } from '@/utils/firebase-app-check';
-import { getIdToken } from 'firebase/auth';
-import store from '@/store';
+// used getUserToken from here and not from auth repo to not have circular imports
+import { getUserToken } from '@/config/firebase';
 
-var $axios: AxiosInstance;
+let $axios: AxiosInstance;
 
 export function initializeAxios(axiosInstance: AxiosInstance) {
   $axios = axiosInstance;
@@ -49,12 +49,6 @@ async function getApiResponse(options: ApiRequestOptions, type: { authed: boolea
   };
 
   return apiRequestAxiosInstance.request(requestObj);
-}
-
-async function getUserToken() {
-  let currentUser = store.getters['Users/currentUser'];
-  let forceRefresh = true;
-  return await getIdToken(currentUser, forceRefresh);
 }
 
 export { $authedApiRequest, $publicApiRequest };

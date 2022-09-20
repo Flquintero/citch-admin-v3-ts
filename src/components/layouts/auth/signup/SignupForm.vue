@@ -142,11 +142,13 @@ export default CurrentUserMixin.extend({
         this.saving = true;
         // Make sure email and names are lower cased and trimmed. If any changes to form we do it through the function
         this.formattedForm = FormFunctions.formatFormData(this.formData);
-        await AuthRepository.signupUser(this.formattedForm);
+        // this.authedUSer in mixin
+        // adds user to Authentification Storage not Firestorm DB
+        this.authedUser = await AuthRepository.signupUser(this.formattedForm);
         // Will set this.authedUser in mixin we are using
-        this.setCurrentUser(this.getCurrentUserTrackingInfo());
+        this.initSetCurrentUser(this.getCurrentUserTrackingInfo());
         // add user to db and does necessary steps to create all thats needed to register
-        await UsersRepository.signupUser(this.getSignupPayload(this.authedUser as User));
+        await UsersRepository.signupUser(this.getSignupPayload());
         this.$router.replace('/');
         this.$alert.success('Welcome!');
       } catch (error: any) {
@@ -161,10 +163,12 @@ export default CurrentUserMixin.extend({
       //this.authedUser is in the mixin that we use in this component
       return {
         event: 'Signup',
-        data: this.getSignupPayload(this.authedUser as User),
+        data: this.getSignupPayload(),
       } as ITrackData;
     },
-    getSignupPayload(authedUser: User) {
+    getSignupPayload() {
+      //this.authedUser comes from mixin
+      const authedUser = this.authedUser as User;
       return {
         email: authedUser.email,
         firstName: this.formattedForm?.firstName,

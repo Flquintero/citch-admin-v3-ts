@@ -14,15 +14,15 @@ export default Vue.extend({
   },
   methods: {
     ...mapActions('Users', ['setCurrentUser']),
-    async initSetCurrentUser(trackingInfo?: ITrackData) {
+    async initGetCurrentUser() {
       this.authedUser = await AuthRepository.observerCurrentAuthedUser();
-      if (this.authedUser) {
-        // need deep copy to not get screamed at by vuex mutation when setting state
-        let user = JSON.parse(JSON.stringify(this.authedUser));
-        await this.setCurrentUser(user);
-        if (trackingInfo) {
-          this.setAnalyticsUser(trackingInfo);
-        }
+    },
+    async initSetCurrentUser(trackingInfo?: ITrackData) {
+      // need deep copy to not get screamed at by vuex mutation when setting state
+      let user = JSON.parse(JSON.stringify(this.authedUser));
+      await this.setCurrentUser(user);
+      if (trackingInfo) {
+        this.setAnalyticsUser(trackingInfo);
       }
     },
     setAnalyticsUser(trackingInfo?: any) {

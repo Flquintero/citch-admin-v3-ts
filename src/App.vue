@@ -11,8 +11,10 @@ import CurrentUserMixin from '@/mixins/current-user';
 export default CurrentUserMixin.extend({
   name: 'App',
   mixins: [ResponsiveMixin],
-  mounted() {
-    this.initSetCurrentUser();
+  async mounted() {
+    // from Mixin
+    await this.initGetCurrentUser();
+    await this.initSetCurrentUser();
   },
 });
 </script>

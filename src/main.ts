@@ -1,32 +1,42 @@
 import Vue from 'vue';
 
 // FIREBASE
-import { app, analytics, auth } from './config/firebase';
+
+import { app, analytics, auth, initSetPersistence } from './config/firebase';
 import { firestorePlugin } from 'vuefire';
 Vue.use(firestorePlugin);
 Vue.prototype.$firebase_app = app;
 Vue.prototype.$firebase_analytics = analytics;
 Vue.prototype.$firebase_auth = auth;
-import Repository from '@/api-repository/index';
-const AuthRepository = Repository.get('auth');
 // need this to keep user persisted in local storage
-AuthRepository.initSetPersistence();
+initSetPersistence();
+
 // FIREBASE END
+
+// NEED firebase first to use it in the store/router
 
 import App from '@/App.vue';
 import store from '@/store';
 import router from '@/router';
 Vue.config.productionTip = false;
 
+// API call helper
+
 import { $authedApiRequest, $publicApiRequest } from './utils/api';
 Vue.prototype.$authedApiRequest = $authedApiRequest;
 Vue.prototype.$publicApiRequest = $publicApiRequest;
 
+// Alert component
+
 import { $alert } from './utils/alert';
 Vue.prototype.$alert = $alert;
 
+// Form Validation
+
 import Vuelidate from 'vuelidate';
 Vue.use(Vuelidate);
+
+// Icons
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -48,9 +58,13 @@ library.add(
 );
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
+// Analytics
+
 import { analyticsFunctions } from '@/utils/analytics-tracking';
 
 Vue.prototype.$analyticsFunctions = analyticsFunctions;
+
+// Init
 
 new Vue({
   store,

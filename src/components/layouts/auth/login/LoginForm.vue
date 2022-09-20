@@ -80,13 +80,16 @@ export default CurrentUserMixin.extend({
     async submitLogin() {
       try {
         this.saving = true;
-        await AuthRepository.loginUser(FormFunctions.formatFormData(this.formData));
+        // this.authedUser from Mixin
+        this.authedUser = await AuthRepository.loginUser(
+          FormFunctions.formatFormData(this.formData)
+        );
         // From Mixin
-        this.initSetCurrentUser(this.getCurrentUserTrackingInfo());
+        await this.initSetCurrentUser(this.getCurrentUserTrackingInfo());
         this.$router.replace('/');
       } catch (error: any) {
         console.log('Login error', error);
-        // To Do: better way to handle this error string
+        // To Do: better way to handle this error string instead of formatLoginError
         this.$alert.error(`Login Error: ${this.formatLoginError(error)}`);
       } finally {
         this.saving = false;

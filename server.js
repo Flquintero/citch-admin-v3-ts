@@ -37,6 +37,8 @@ app.use(
       'frame-src': ["'self'", '*.google.com'],
       'connect-src': [
         "'self'",
+        'us-central1-citch-admin-v3-dev.cloudfunctions.net',
+        'us-central1-citch-admin-v3.cloudfunctions.net',
         'content-firebaseappcheck.googleapis.com',
         'firebaseinstallations.googleapis.com',
         'firebase.googleapis.com',

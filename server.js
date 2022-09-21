@@ -37,6 +37,8 @@ app.use(
       'frame-src': ["'self'", '*.google.com'],
       'connect-src': [
         "'self'",
+        'content-firebaseappcheck.googleapis.com',
+        'firebaseinstallations.googleapis.com',
         'firebase.googleapis.com',
         'identitytoolkit.googleapis.com',
         'www.google-analytics.com',

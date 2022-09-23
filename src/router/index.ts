@@ -9,10 +9,18 @@ const routes: Array<RouteConfig> = [
   // AUTH REQUIRED
   {
     path: '/',
+    redirect: '/post-link',
     name: 'admin',
     meta: { requiresAuth: true },
     component: () => import(/* webpackChunkName: "admin" */ '../views/admin/Admin.vue'),
     children: [
+      {
+        path: '/post-link',
+        name: 'post-link',
+        meta: { requiresAuth: true },
+        component: () =>
+          import(/* webpackChunkName: "postLink" */ '../views/admin/promote-post/PostLink.vue'),
+      },
       {
         path: '/settings',
         name: 'settings',

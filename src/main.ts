@@ -47,6 +47,9 @@ import {
   faCircleInfo,
   faTriangleExclamation,
   faXmark,
+  faBars,
+  faArrowRightFromBracket,
+  faUser,
 } from '@fortawesome/pro-duotone-svg-icons';
 library.add(
   faCircleExclamation,
@@ -54,7 +57,10 @@ library.add(
   faTriangleExclamation,
   faCircleInfo,
   faCircleCheck,
-  faXmark
+  faXmark,
+  faBars,
+  faArrowRightFromBracket,
+  faUser
 );
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 

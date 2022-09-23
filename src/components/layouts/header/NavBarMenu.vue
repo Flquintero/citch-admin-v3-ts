@@ -16,7 +16,9 @@
             icon="fa-duotone fa-user"
             style="--fa-secondary-opacity: 1"
         /></div>
-        <div><span>Francisco Quintero</span> <span>Flquintero1@gmail.com</span></div>
+        <div
+          ><span>{{ currentUser.displayName }}</span> <span>{{ currentUser.email }}</span></div
+        >
       </div>
       <div class="nav-bar-menu__content-pages">
         <CButton>Promote Post</CButton>
@@ -37,6 +39,7 @@
 </template>
 <script lang="ts">
 import Vue from 'vue';
+import { mapGetters } from 'vuex';
 const CButton = () => import(/* webpackChunkName: "CButton" */ '@/components/elements/Button.vue');
 import Repository from '@/api-repository/index';
 const AuthRepository = Repository.get('auth');
@@ -67,6 +70,9 @@ export default Vue.extend({
       this.isMenuOpen = !this.isMenuOpen;
     },
   },
+  computed: {
+    ...mapGetters('Users', ['currentUser']),
+  },
 });
 </script>
 <style lang="scss">
@@ -77,7 +83,9 @@ export default Vue.extend({
     border: 1px solid $border;
     position: absolute;
     min-height: 100px;
-    width: 200px;
+    min-width: 200px;
+    width: auto;
+    max-width: 250px;
     right: 40px;
     border-radius: 1px;
     display: flex;
@@ -96,6 +104,7 @@ export default Vue.extend({
       span {
         font-size: rem(11);
         display: block;
+        word-break: break-all;
       }
     }
     &-pages {

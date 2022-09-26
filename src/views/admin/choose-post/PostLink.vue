@@ -19,13 +19,13 @@
     /></div>
     <div class="choose-post-link__confirm">
       <CButton
-        @click.native="saveChanges"
+        @click.native="confirmPostLink"
         v-bind="{ variant: 'primary', disabled: $v.$invalid || saving }"
       >
         <span v-if="saving">
           <font-awesome-icon icon="fa-duotone fa-circle-notch" spin /> Saving to Continue</span
-        ><span v-else>Confirm</span></CButton
-      >
+        ><span v-else>Confirm <font-awesome-icon icon="fa-duotone fa-arrow-right" /></span
+      ></CButton>
     </div>
   </div>
 </template>
@@ -56,13 +56,27 @@ export default Vue.extend({
   },
   methods: {
     ...FormFunctions,
-    async saveChanges() {
+    async confirmPostLink() {
       try {
+        this.saving = true;
+        //get platform
+        const postPlatform = this.determinePlatform()[0];
+        const url = `/builder/${postPlatform}/connect`;
+        console.log('url', url);
+        this.$router.push(url);
       } catch (error: any) {
         console.log('Login error', error);
         this.$alert.error(`Login Error: ${error}`);
       } finally {
+        this.saving = false;
       }
+    },
+    // TO DO: Move to an abstraction, maybe general utils
+    determinePlatform() {
+      const availablePlatforms = ['facebook', 'instagram'];
+      return availablePlatforms.filter((platform: string) => {
+        return this.formData.postUrl.includes(platform);
+      });
     },
   },
 });

@@ -21,9 +21,9 @@
         >
       </div>
       <div class="nav-bar-menu__content-pages">
-        <CButton>Promote Post</CButton>
+        <CButton @click.native="goTo('/post-link')">Promote Post</CButton>
         <CButton>Campaigns</CButton>
-        <CButton @click.native="goToUserSettings">User Settings</CButton>
+        <CButton @click.native="goTo('/settings/user')">User Settings</CButton>
       </div>
       <div class="nav-bar-menu__content-logout"
         ><CButton @click.native="signOut"
@@ -63,8 +63,8 @@ export default Vue.extend({
         this.$alert.error('Logging Out Error:', e);
       }
     },
-    goToUserSettings() {
-      this.$router.replace('/settings/user');
+    goTo(path: string) {
+      this.$router.replace(path);
     },
     toggleMenu() {
       this.isMenuOpen = !this.isMenuOpen;

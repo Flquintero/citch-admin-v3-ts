@@ -49,6 +49,7 @@ import {
   faXmark,
   faBars,
   faArrowRightFromBracket,
+  faArrowRight,
   faUser,
 } from '@fortawesome/pro-duotone-svg-icons';
 library.add(
@@ -60,7 +61,8 @@ library.add(
   faXmark,
   faBars,
   faArrowRightFromBracket,
-  faUser
+  faUser,
+  faArrowRight
 );
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 

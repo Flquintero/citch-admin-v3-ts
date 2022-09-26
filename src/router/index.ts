@@ -19,7 +19,23 @@ const routes: Array<RouteConfig> = [
         name: 'post-link',
         meta: { requiresAuth: true },
         component: () =>
-          import(/* webpackChunkName: "postLink" */ '../views/admin/promote-post/PostLink.vue'),
+          import(/* webpackChunkName: "postLink" */ '../views/admin/choose-post/PostLink.vue'),
+      },
+      {
+        path: '/builder/:platform',
+        name: 'builder',
+        meta: { requiresAuth: true },
+        component: () =>
+          import(/* webpackChunkName: "builderIndex" */ '../views/admin/builder/BuilderIndex.vue'),
+        children: [
+          {
+            path: 'connect',
+            component: () =>
+              import(
+                /* webpackChunkName: "platformConnect" */ '../views/admin/connect-to-platform/ConnectIndex.vue'
+              ),
+          },
+        ],
       },
       {
         path: '/settings',
@@ -85,10 +101,10 @@ const routes: Array<RouteConfig> = [
     component: () =>
       import(/* webpackChunkName: "auth-redirect" */ '../views/auth/redirect/AuthRedirect.vue'),
   },
-  {
-    path: '*',
-    redirect: '/login',
-  },
+  // {
+  //   path: '*',
+  //   redirect: '/login',
+  // },
 ];
 
 const router = new VueRouter({

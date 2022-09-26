@@ -13,6 +13,7 @@
           placeholder: 'Enter Post Url',
           label: 'Post Url',
           name: 'postUrl',
+          description: 'Example: https://www.instagram.com/p/dk30rk', // find a post from citch and add here
           type: 'text',
           required: true,
         }"
@@ -34,7 +35,7 @@ import Vue from 'vue';
 const CInput = () => import(/* webpackChunkName: "CInput" */ '@/components/elements/Input.vue');
 const CButton = () => import(/* webpackChunkName: "CButton" */ '@/components/elements/Button.vue');
 import { FormFunctions } from '@/utils/form-functionality';
-import { required } from 'vuelidate/lib/validators';
+import { required, url } from 'vuelidate/lib/validators';
 
 export default Vue.extend({
   name: 'PostLink',
@@ -51,6 +52,7 @@ export default Vue.extend({
     formData: {
       postUrl: {
         required,
+        url,
       },
     },
   },

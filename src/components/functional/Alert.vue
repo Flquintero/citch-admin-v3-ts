@@ -94,12 +94,12 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 #c-alerts-wrapper {
   position: fixed;
   top: 10px;
   right: 10px;
-  left: 0;
+  // left: 0;
   z-index: $z-index-alert;
   @include flex-config($flex-direction: column, $align-items: flex-end);
 }

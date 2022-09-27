@@ -26,6 +26,11 @@ import { $authedApiRequest, $publicApiRequest } from './utils/api';
 Vue.prototype.$authedApiRequest = $authedApiRequest;
 Vue.prototype.$publicApiRequest = $publicApiRequest;
 
+// Repository Import
+
+import Repository from '@/api-repository/index';
+Vue.prototype.$apiRepository = Repository;
+
 // Alert component
 
 import { $alert } from './utils/alert';

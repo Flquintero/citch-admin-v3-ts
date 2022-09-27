@@ -7,6 +7,7 @@ export interface IApi {
   'auth': IAuthRepository;
   'users': IUsersRepository;
   'organizations': IOrganizationsRepository;
+  'facebook': IFacebookRepository;
 }
 export interface IAuthRepository {
   signupUser(formData: IFormData): Promise<any>;
@@ -22,4 +23,7 @@ export interface IUsersRepository {
 }
 export interface IOrganizationsRepository {
   updateOrganization(formData: IFormData): Promise<any>;
+}
+export interface IFacebookRepository {
+  initFacebookConsent(): Promise<{ url: string }>;
 }

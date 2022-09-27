@@ -30,7 +30,7 @@ export default Vue.extend({
   components: { AuthLayout, LoginAdvert, LoginForm },
 });
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .login {
   height: 100%;
   &__form-wrapper {

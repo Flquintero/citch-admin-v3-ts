@@ -9,4 +9,4 @@ export default Vue.extend({
   name: 'FacebookConnect',
 });
 </script>
-<style lang="scss"></style>
+<style lang="scss" scoped></style>

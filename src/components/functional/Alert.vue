@@ -94,7 +94,7 @@ export default Vue.extend({
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 #c-alerts-wrapper {
   position: fixed;
   top: 10px;

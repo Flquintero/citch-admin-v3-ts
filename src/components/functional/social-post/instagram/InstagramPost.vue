@@ -12,7 +12,7 @@ export default Vue.extend({
   name: 'FacebookPost',
 });
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .instagram-post {
   height: 350px;
   width: 350px;

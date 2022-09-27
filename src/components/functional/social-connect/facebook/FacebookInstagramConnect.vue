@@ -7,4 +7,4 @@ export default Vue.extend({
   name: 'FacebookInstagramConnect',
 });
 </script>
-<style lang="scss"></style>
+<style lang="scss" scoped></style>

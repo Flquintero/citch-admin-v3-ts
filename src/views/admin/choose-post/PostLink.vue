@@ -83,7 +83,7 @@ export default Vue.extend({
   },
 });
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .choose-post-link {
   text-align: center;
   padding: 50px;

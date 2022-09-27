@@ -15,7 +15,7 @@ export default Vue.extend({
   components: { Header },
 });
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .admin {
   padding-top: 100px;
 }

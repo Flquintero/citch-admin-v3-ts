@@ -49,7 +49,7 @@ export default Vue.extend({
   },
 });
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .c-btn {
   position: relative;
   width: 100%;

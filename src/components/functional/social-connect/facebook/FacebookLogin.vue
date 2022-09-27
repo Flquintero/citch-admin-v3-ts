@@ -19,7 +19,7 @@ export default Vue.extend({
   components: { CButton },
 });
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .facebook-login {
   background: $facebook-blue;
   border-color: $facebook-blue;

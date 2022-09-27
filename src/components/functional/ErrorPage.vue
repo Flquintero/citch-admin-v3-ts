@@ -20,7 +20,7 @@ export default Vue.extend({
   },
 });
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .error-page {
   position: absolute;
   top: 0;

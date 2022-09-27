@@ -5,7 +5,10 @@
 *::before,
 *::after {
     box-sizing: border-box;
+    font-family: $font-family-site  !important;
 }
+
+
 
 /* Remove default padding */
 ul[class],

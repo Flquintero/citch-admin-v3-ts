@@ -75,7 +75,7 @@ export default Vue.extend({
   },
 });
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .nav-bar-menu {
   height: 100%;
   width: 100%;

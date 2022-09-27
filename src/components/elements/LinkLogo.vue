@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="to"><Logo /></router-link>
+  <router-link class="link-logo" :to="to"><Logo /></router-link>
 </template>
 
 <script lang="ts">
@@ -16,3 +16,10 @@ export default Vue.extend({
   },
 });
 </script>
+<style lang="scss" scoped>
+.link-logo {
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+</style>

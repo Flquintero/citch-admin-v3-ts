@@ -31,7 +31,7 @@ export default Vue.extend({
   components: { AuthLayout, SignupAdvert, SignupForm },
 });
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .signup {
   height: 100%;
   &__form-wrapper {

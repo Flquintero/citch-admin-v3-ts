@@ -9,7 +9,7 @@ export default Vue.extend({
   name: 'ResetPasswordValues',
 });
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .reset-password-values {
   display: flex;
   justify-content: center;

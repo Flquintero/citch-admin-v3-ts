@@ -9,7 +9,7 @@ export default Vue.extend({
   name: 'SignupValues',
 });
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .signup-values {
   display: flex;
   justify-content: center;

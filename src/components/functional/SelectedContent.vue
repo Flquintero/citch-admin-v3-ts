@@ -4,7 +4,7 @@
       <span :class="{ 'capitalized': capitalize }">{{ content }}</span>
       <div class="selected-content__action">
         <CButton v-bind="{ variant: 'link' }">
-          <span><font-awesome-icon icon="fa-duotone fa-arrow-left" /> change</span>
+          <span><font-awesome-icon icon="fa-duotone fa-arrow-left" /> edit</span>
         </CButton>
       </div>
     </div>
@@ -30,28 +30,28 @@ export default Vue.extend({
   },
 });
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .selected-content {
   cursor: pointer;
   display: inline;
   &__text {
     text-decoration: underline;
-    text-decoration-color: $secondary;
+    text-decoration-color: $primary;
     position: relative;
     display: inherit;
     .capitalized {
       text-transform: capitalize;
     }
     &:hover {
-      color: $secondary;
+      color: $primary;
     }
   }
   &__action {
     position: absolute;
     left: 0;
-    bottom: -10px;
+    bottom: -11px;
     .c-btn-link {
-      color: $secondary;
+      color: $primary;
       font-size: rem(9);
       padding: 0;
     }

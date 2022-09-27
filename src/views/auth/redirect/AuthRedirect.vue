@@ -65,7 +65,7 @@ export default Vue.extend({
   },
 });
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .auth-redirect {
   height: 100vh;
   width: 100%;

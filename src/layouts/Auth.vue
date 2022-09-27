@@ -30,7 +30,7 @@ export default Vue.extend({
   },
 });
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .auth-layout {
   width: 100%;
   height: 100vh;

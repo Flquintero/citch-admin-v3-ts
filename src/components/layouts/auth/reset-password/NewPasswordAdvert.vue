@@ -9,7 +9,7 @@ export default Vue.extend({
   name: 'EewPasswordValues',
 });
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .new-password-values {
   display: flex;
   justify-content: center;

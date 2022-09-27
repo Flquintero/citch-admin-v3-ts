@@ -34,7 +34,7 @@ export default Vue.extend({
   components: { AuthLayout, ResetPasswordAdvert, ResetPasswordForm },
 });
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .reset-password {
   height: 100%;
   &__form-wrapper {

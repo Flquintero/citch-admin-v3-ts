@@ -34,7 +34,7 @@ export default Vue.extend({
   components: { AuthLayout, NewPasswordAdvert, NewPasswordForm },
 });
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .set-new-password {
   height: 100%;
   &__form-wrapper {

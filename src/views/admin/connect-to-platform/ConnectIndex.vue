@@ -31,7 +31,7 @@ export default Vue.extend({
   },
 });
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .connect-index {
   @include view-web-gutter();
   @include mobile() {
@@ -49,6 +49,7 @@ export default Vue.extend({
       //add margin top to any of the posts on mobile
       div[class*='-post'] {
         margin-top: 50px;
+        max-width: 100%;
       }
     }
   }

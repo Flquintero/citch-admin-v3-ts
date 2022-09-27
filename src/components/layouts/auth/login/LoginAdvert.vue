@@ -9,7 +9,7 @@ export default Vue.extend({
   name: 'LoginValues',
 });
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .login-values {
   display: flex;
   justify-content: center;

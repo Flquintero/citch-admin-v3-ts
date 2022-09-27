@@ -13,7 +13,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import CButton from '@/components/elements/Button.vue';
+const CButton = () => import(/* webpackChunkName: "CButton" */ '@/components/elements/Button.vue');
 
 export default Vue.extend({
   name: 'SelectedContent',
@@ -33,15 +33,23 @@ export default Vue.extend({
 <style lang="scss">
 .selected-content {
   cursor: pointer;
+  display: inline;
   &__text {
     text-decoration: underline;
+    text-decoration-color: $secondary;
     position: relative;
+    display: inherit;
     .capitalized {
       text-transform: capitalize;
+    }
+    &:hover {
+      color: $secondary;
     }
   }
   &__action {
     position: absolute;
+    left: 0;
+    bottom: -10px;
     .c-btn-link {
       color: $secondary;
       font-size: rem(9);

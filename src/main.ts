@@ -38,7 +38,7 @@ Vue.use(Vuelidate);
 
 // Icons
 
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { IconDefinition, IconPack, library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import {
   faCircleExclamation,
@@ -53,6 +53,7 @@ import {
   faArrowLeft,
   faUser,
 } from '@fortawesome/pro-duotone-svg-icons';
+import { faFacebook } from '@fortawesome/free-brands-svg-icons';
 library.add(
   faCircleExclamation,
   faCircleNotch,
@@ -64,7 +65,8 @@ library.add(
   faArrowRightFromBracket,
   faUser,
   faArrowRight,
-  faArrowLeft
+  faArrowLeft,
+  faFacebook as IconDefinition
 );
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 

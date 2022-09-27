@@ -53,6 +53,37 @@ $colors: (
     }
 }
 
+//Keep section spaces consistent
+
+@mixin view-web-gutter(){
+    margin: 0 100px;
+}
+@mixin view-mobile-gutter() {
+    margin: 0 20px;
+}
+
+// img auto resize to fit parent
+
+@mixin image-fit(){
+    height: auto;
+    width: auto;
+    max-height: 100%;
+    max-width: 100%;
+}
+
+// uses margin to center
+
+@mixin center-with-margin($max-width, $no-vertical-margin: false, $no-horizontal-margin: false) {
+    max-width: $max-width;
+    margin: auto;
+    @if $no-vertical-margin {
+        margin: 0 auto;
+    }
+    @if $no-horizontal-margin {
+        margin: auto 0;
+    }
+}
+
 // Margin and Padding helpers
 // TODO: we should have spacing variables to make sure our spacing is consistent
 @mixin margin($amount, $direction: 'all') {
@@ -128,23 +159,6 @@ $colors: (
     @if $char-length  !=false {
         width: #{$char-length}ch;
     }
-}
-
-@mixin sr-only() {
-    border: 0 !important;
-    clip: rect(1px, 1px, 1px, 1px) !important;
-    /* 1 */
-    -webkit-clip-path: inset(50%) !important;
-    clip-path: inset(50%) !important;
-    /* 2 */
-    height: 1px !important;
-    margin: -1px !important;
-    overflow: hidden !important;
-    padding: 0 !important;
-    position: absolute !important;
-    width: 1px !important;
-    white-space: nowrap !important;
-    /* 3 */
 }
 
 // adds ellipsis at the end of a block of text if content goes beyond the lines-limit count

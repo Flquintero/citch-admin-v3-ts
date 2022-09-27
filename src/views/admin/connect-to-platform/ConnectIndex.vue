@@ -52,6 +52,9 @@ export default Vue.extend({
         max-width: 100%;
       }
     }
+    div[class*='-connect'] {
+      margin: 0 auto;
+    }
   }
 }
 </style>

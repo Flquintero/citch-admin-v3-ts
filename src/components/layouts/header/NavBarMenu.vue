@@ -41,8 +41,8 @@
 import Vue from 'vue';
 import { mapGetters } from 'vuex';
 const CButton = () => import(/* webpackChunkName: "CButton" */ '@/components/elements/Button.vue');
-import Repository from '@/api-repository/index';
-const AuthRepository = Repository.get('auth');
+const AuthRepository = Vue.prototype.$apiRepository.get('auth');
+
 export default Vue.extend({
   name: 'NavBarMenu',
   components: { CButton },

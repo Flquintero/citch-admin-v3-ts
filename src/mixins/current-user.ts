@@ -2,8 +2,7 @@ import Vue from 'vue';
 import { mapActions } from 'vuex';
 import { User } from '@firebase/auth';
 import { ITrackData } from '@/types/analytics';
-import Repository from '@/api-repository/index';
-const AuthRepository = Repository.get('auth');
+const AuthRepository = Vue.prototype.$apiRepository.get('auth');
 
 export default Vue.extend({
   name: 'CurrentUserMixin',

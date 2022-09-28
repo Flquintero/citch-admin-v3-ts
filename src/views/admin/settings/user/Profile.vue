@@ -24,8 +24,7 @@ const CInput = () => import(/* webpackChunkName: "CInput" */ '@/components/eleme
 const CButton = () => import(/* webpackChunkName: "CButton" */ '@/components/elements/Button.vue');
 import { FormFunctions } from '@/utils/form-functionality';
 import { required } from 'vuelidate/lib/validators';
-import Repository from '@/api-repository/index';
-const OrganizationsRepository = Repository.get('organizations');
+const OrganizationsRepository = Vue.prototype.$apiRepository.get('organizations');
 
 export default Vue.extend({
   name: 'UserProfile',

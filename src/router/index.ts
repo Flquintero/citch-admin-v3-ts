@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
-import Repository from '@/api-repository/index';
-const AuthRepository = Repository.get('auth');
+const AuthRepository = Vue.prototype.$apiRepository.get('auth');
 
 Vue.use(VueRouter);
 

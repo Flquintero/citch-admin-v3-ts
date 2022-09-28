@@ -85,6 +85,7 @@
 </template>
 
 <script lang="ts">
+import Vue from 'vue';
 const CInput = () => import(/* webpackChunkName: "CInput" */ '@/components/elements/Input.vue');
 const CButton = () => import(/* webpackChunkName: "CButton" */ '@/components/elements/Button.vue');
 import { required, minLength, email, sameAs } from 'vuelidate/lib/validators';
@@ -93,9 +94,8 @@ import { IFormData } from '@/types/forms';
 import { User } from '@firebase/auth';
 import { ITrackData } from '@/types/analytics';
 import CurrentUserMixin from '@/mixins/current-user';
-import Repository from '@/api-repository/index';
-const AuthRepository = Repository.get('auth');
-const UsersRepository = Repository.get('users');
+const AuthRepository = Vue.prototype.$apiRepository.get('auth');
+const UsersRepository = Vue.prototype.$apiRepository.get('users');
 
 export default CurrentUserMixin.extend({
   name: 'SignupForm',

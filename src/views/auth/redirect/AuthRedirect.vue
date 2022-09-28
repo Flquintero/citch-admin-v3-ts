@@ -18,9 +18,7 @@ const PasswordConfirm = () =>
   import(
     /* webpackChunkName: "PasswordConfirm" */ '@/views/auth/reset-password/PasswordConfirm.vue'
   );
-
-import Repository from '@/api-repository/index';
-const AuthRepository = Repository.get('auth');
+const AuthRepository = Vue.prototype.$apiRepository.get('auth');
 
 import { IVerifyPassword } from '@/types/auth';
 

@@ -10,7 +10,6 @@
 <script lang="ts">
 import Vue from 'vue';
 const Header = () => import(/* webpackChunkName: "Header" */ '@/layouts/Header.vue');
-const Logo = () => import(/* webpackChunkName: "Logo" */ '@/components/elements/Logo.vue');
 const Loader = () => import(/* webpackChunkName: "Loader" */ '@/components/functional/Loader.vue');
 const ErrorPage = () =>
   import(/* webpackChunkName: "ErrorPage" */ '@/components/functional/ErrorPage.vue');
@@ -24,7 +23,7 @@ import { IVerifyPassword } from '@/types/auth';
 
 export default Vue.extend({
   name: 'AuthRedirect',
-  components: { Logo, Loader, Header, PasswordConfirm, ErrorPage },
+  components: { Loader, Header, PasswordConfirm, ErrorPage },
   data() {
     return {
       loading: true,

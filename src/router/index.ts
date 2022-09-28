@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
-const AuthRepository = Vue.prototype.$apiRepository.get('auth');
+import Repository from '@/api-repository/index';
+const AuthRepository = Repository.get('auth');
 
 Vue.use(VueRouter);
 
@@ -88,7 +89,7 @@ const routes: Array<RouteConfig> = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(
-        /* webpackChunkName: "reset-password" */ '../views/auth/reset-password/PasswordReset.vue'
+        /* webpackChunkName: "resetPassword" */ '../views/auth/reset-password/PasswordReset.vue'
       ),
   },
   {
@@ -98,7 +99,19 @@ const routes: Array<RouteConfig> = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "auth-redirect" */ '../views/auth/redirect/AuthRedirect.vue'),
+      import(/* webpackChunkName: "authRedirect" */ '../views/auth/redirect/AuthRedirect.vue'),
+  },
+  {
+    path: '/platform-redirect/:platform',
+    name: 'platform redirect',
+    meta: { requiresAuth: true },
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(
+        /* webpackChunkName: "platformRedirect" */ '../views/platform-redirect/PlatformRedirect.vue'
+      ),
   },
   // {
   //   path: '*',

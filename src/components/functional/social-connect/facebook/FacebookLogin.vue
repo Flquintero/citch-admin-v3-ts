@@ -22,7 +22,8 @@ export default Vue.extend({
     async initFacebookConnect() {
       try {
         localStorage.setItem('redirect-facebook-path', this.$route.fullPath);
-        const facebook_url = await await FacebookRepository.initFacebookConsent();
+        const facebook_url = await FacebookRepository.initFacebookConsent();
+        localStorage.setItem('facebook-state', facebook_url.state);
         location.href = facebook_url;
       } catch (error) {
         console.log(error);

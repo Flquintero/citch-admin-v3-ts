@@ -35,15 +35,16 @@ export default Vue.extend({
     },
     checkForPlatform() {
       const { state } = this.$route.query;
-      const platform = this.platform;
+
       //  CONFIRM STATES MATCH, IF NOT IF NOT RETURN USER HOME AND MAYBE LOGOUT
-      if (localStorage.getItem(`${platform}-state`) === state) {
-        switch (platform) {
-          case 'facebook':
+      if (localStorage.getItem(`${this.platform}-state`) === state) {
+        switch (this.platform) {
+          case 'facebook' || 'instagram':
             this.initSaveFacebookData();
           default:
         }
       } else {
+        console.log('no state');
         this.errorRedirect();
       }
     },
@@ -60,23 +61,6 @@ export default Vue.extend({
         this.redirectToPath();
       }
     },
-    // async initResetPasswordCheck() {
-    //   try {
-    //     let verifyObject: IVerifyPassword = {
-    //       oobCode: this.$route.query.oobCode as string,
-    //       apiKey: this.$route.query.apiKey as string,
-    //     };
-    //     const verifiedResponse = await AuthRepository.initVerifyResetPasswordCode(verifyObject);
-    //     if (verifiedResponse.email === this.$route.query.email) {
-    //       this.showPasswordConfirm = true;
-    //     }
-    //   } catch (error: any) {
-    //     console.log('Password Verification', error);
-    //     this.$alert.error('Error Verifying Password. Please Contact support.');
-    //   } finally {
-    //     this.loading = false;
-    //   }
-    // },
     redirectToPath() {
       //CHECK LOCAL STORAGE FOR REDIRECT PATH
       if (this.redirectPath) {
@@ -101,5 +85,17 @@ export default Vue.extend({
 .platform-redirect {
   height: 100vh;
   width: 100%;
+  position: relative;
+  &__loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $secondary;
+  }
 }
 </style>

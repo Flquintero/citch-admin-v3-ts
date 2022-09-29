@@ -9,7 +9,7 @@
 import Vue from 'vue';
 
 export default Vue.extend({
-  name: 'FacebookPost',
+  name: 'InstagramPost',
 });
 </script>
 <style lang="scss" scoped>

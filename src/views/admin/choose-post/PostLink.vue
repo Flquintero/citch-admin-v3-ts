@@ -64,7 +64,6 @@ export default Vue.extend({
         //get platform
         const postPlatform = this.determinePlatform()[0];
         const url = `/builder/${postPlatform}/connect`;
-        console.log('url', url);
         this.$router.push(url);
       } catch (error: any) {
         console.log('Login error', error);

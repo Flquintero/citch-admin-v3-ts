@@ -3,7 +3,7 @@
     <slot name="title"></slot>
     <CButton @click.native="initFacebookConnect" class="facebook-login" variant="primary">
       <span v-if="connecting">
-        <font-awesome-icon icon="fa-duotone fa-circle-notch" spin /> Connecting</span
+        <font-awesome-icon icon="fa-duotone fa-circle-notch" spin /> Loading</span
       ><span v-else
         ><font-awesome-icon icon="fa-brands fa-facebook" />
         <span class="facebook-login__content-text">Connect</span></span
@@ -29,12 +29,14 @@ export default Vue.extend({
     async initFacebookConnect() {
       try {
         this.connecting = true;
-        localStorage.setItem('redirect-facebook-path', this.$route.fullPath);
-        const facebook_url = await FacebookRepository.initFacebookConsent();
-        localStorage.setItem('facebook-state', facebook_url.state);
-        location.href = facebook_url;
+        const { platform } = this.$route.params;
+        const facebookConsentData = await FacebookRepository.initFacebookConsent();
+        const { url, state } = facebookConsentData;
+        localStorage.setItem(`redirect-${platform}-path`, this.$route.fullPath);
+        localStorage.setItem(`${platform}-state`, state);
+        location.href = url;
       } catch (error) {
-        console.log(error);
+        console.error(`Error Linking Facebook:`, error);
         this.$alert.error(`Error Linking Facebook: ${error}`);
         this.connecting = false;
       }
@@ -44,8 +46,8 @@ export default Vue.extend({
 </script>
 <style lang="scss" scoped>
 .facebook-login {
-  background: $facebook-blue;
-  border-color: $facebook-blue;
+  background: $facebook-blue !important;
+  border-color: $facebook-blue !important;
   padding: 10px 0;
   margin-top: 10px;
   &__content {

@@ -2,7 +2,7 @@ const { defineConfig } = require('@vue/cli-service');
 const path = require('path');
 module.exports = defineConfig({
   devServer: {
-    // https: true,
+    https: true,
     // disableHostCheck: true //to use with ngrok enabled
   },
   transpileDependencies: true,

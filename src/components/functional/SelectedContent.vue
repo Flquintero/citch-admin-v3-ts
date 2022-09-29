@@ -4,7 +4,7 @@
       <span :class="{ 'capitalized': capitalize }">{{ content }}</span>
       <div class="selected-content__action">
         <CButton v-bind="{ variant: 'link' }">
-          <span><font-awesome-icon icon="fa-duotone fa-arrow-left" /> edit</span>
+          <span><font-awesome-icon icon="fa-duotone fa-arrow-left" /> change</span>
         </CButton>
       </div>
     </div>

@@ -14,20 +14,28 @@ const FacebookRepository = Vue.prototype.$apiRepository.get('facebook');
 export default Vue.extend({
   name: 'PlatformRedirect',
   components: { Loader, Header },
+  data() {
+    return {
+      platform: null as string | null,
+      redirectPath: null as string | null,
+    };
+  },
   mounted() {
     this.checkForCode();
   },
   methods: {
     checkForCode() {
+      this.platform = this.$route.params.platform;
+      this.redirectPath = localStorage.getItem(`redirect-${this.platform}-path`);
       if (this.$route.query.code) {
         this.checkForPlatform();
       } else {
-        this.redirectHome();
+        this.errorRedirect();
       }
     },
     checkForPlatform() {
       const { state } = this.$route.query;
-      const { platform } = this.$route.params;
+      const platform = this.platform;
       //  CONFIRM STATES MATCH, IF NOT IF NOT RETURN USER HOME AND MAYBE LOGOUT
       if (localStorage.getItem(`${platform}-state`) === state) {
         switch (platform) {
@@ -36,15 +44,20 @@ export default Vue.extend({
           default:
         }
       } else {
-        this.redirectHome();
+        this.errorRedirect();
       }
     },
     async initSaveFacebookData() {
       try {
-        // this.send to FB api and save to org
-        // call a function down here that redirects to the page the user was in - break it apart from what is in old citch admin
+        const facebookConnectData = {
+          code: this.$route.query.code,
+        };
+        await FacebookRepository.saveUser(facebookConnectData);
       } catch (error: any) {
+        console.error('Error Saving Facebook Data Info', error);
+        this.$alert.error('Error Saving Platform Info');
       } finally {
+        this.redirectToPath();
       }
     },
     // async initResetPasswordCheck() {
@@ -64,9 +77,22 @@ export default Vue.extend({
     //     this.loading = false;
     //   }
     // },
-    redirectHome() {
+    redirectToPath() {
+      //CHECK LOCAL STORAGE FOR REDIRECT PATH
+      if (this.redirectPath) {
+        this.$router.push({
+          path: this.redirectPath,
+        });
+        localStorage.removeItem(`redirect-${this.platform}-path`);
+        this.redirectPath = null;
+      } else {
+        this.$router.push('/');
+      }
+      localStorage.removeItem(`${this.platform}-hash`);
+    },
+    errorRedirect() {
       this.$alert.error('Error Connecting to Platform');
-      this.$router.push('/');
+      this.redirectToPath();
     },
   },
 });

@@ -1,5 +1,6 @@
 // import { User } from 'firebase/auth';
 import { IVerifyPassword } from './auth';
+import { IFacebookConnectData, IFacebookConsentPayload } from './facebook';
 import { IFormData } from './forms';
 
 export interface IApi {
@@ -25,5 +26,6 @@ export interface IOrganizationsRepository {
   updateOrganization(formData: IFormData): Promise<any>;
 }
 export interface IFacebookRepository {
-  initFacebookConsent(): Promise<{ url: string }>;
+  saveUser(facebookConnectData: IFacebookConnectData): Promise<any>;
+  initFacebookConsent(): Promise<IFacebookConsentPayload>;
 }

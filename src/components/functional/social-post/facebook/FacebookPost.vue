@@ -1,8 +1,14 @@
 <template>
   <div class="facebook-post">
-    <img
-      src="https://citch-dev.s3.us-east-2.amazonaws.com/citch-admin-v3/Screen+Shot+2022-09-27+at+11.09.18+AM.png"
-  /></div>
+    <iframe
+      :src="`https://www.facebook.com/plugins/post.php?href=${post}&show_text=true`"
+      class="facebook-post__iframe"
+      style="border: none"
+      scrolling="no"
+      frameborder="0"
+      allowfullscreen="true"
+    ></iframe>
+  </div>
 </template>
 
 <script lang="ts">
@@ -10,15 +16,33 @@ import Vue from 'vue';
 
 export default Vue.extend({
   name: 'FacebookPost',
+  data() {
+    return {
+      post: null as string | null,
+    };
+  },
+  mounted() {
+    this.setPost();
+  },
+  methods: {
+    setPost() {
+      const { post } = this.$route.query as any;
+      if (post) {
+        this.post = post;
+      }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>
 .facebook-post {
-  height: 350px;
+  height: 600px;
+  overflow-y: auto;
   width: 350px;
   @include flex-config($align-items: center, $justify-content: center);
-  img {
-    @include image-fit();
+  &__iframe {
+    height: 100%;
+    width: 100%;
   }
 }
 </style>

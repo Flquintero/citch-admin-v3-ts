@@ -62,8 +62,8 @@ export default Vue.extend({
       try {
         this.saving = true;
         //get platform
-        const postPlatform = this.determinePlatform()[0];
-        const url = `/builder/${postPlatform}/connect`;
+        const postPlatform = this.determinePlatform();
+        const url = `/builder/${postPlatform}/connect?post=${this.formData.postUrl}`;
         this.$router.push(url);
       } catch (error: any) {
         console.log('Login error', error);
@@ -74,10 +74,14 @@ export default Vue.extend({
     },
     // TO DO: Move to an abstraction, maybe general utils
     determinePlatform() {
-      const availablePlatforms = ['facebook', 'instagram'];
-      return availablePlatforms.filter((platform: string) => {
-        return this.formData.postUrl.includes(platform);
-      });
+      const availablePlatforms = [
+        { variation: 'facebook', platform: 'facebook' },
+        { variation: 'fb', platform: 'facebook' }, //some urls have fb instead of facebook
+        { variation: 'instagram', platform: 'instagram' },
+      ];
+      return availablePlatforms.filter((platformOptions: { [property: string]: string }) => {
+        return this.formData.postUrl.includes(platformOptions.variation);
+      })[0].platform;
     },
   },
 });

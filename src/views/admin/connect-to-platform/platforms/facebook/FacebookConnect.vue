@@ -1,8 +1,10 @@
 <template>
   <div class="facebook-connect">
     <FacebookLogin @facebook-connected="setIsFacebookAccountConnected($event)">
-      <template v-if="true" #title><h3>First, we need to connect your Facebook</h3></template>
-      <template v-else #title><h3>Great, you are connected to Facebook!</h3></template>
+      <template v-if="isFacebookAccountConnected" #title
+        ><h3>Great, you are connected to Facebook!</h3></template
+      >
+      <template v-else #title><h3>First, we need to connect your Facebook</h3></template>
     </FacebookLogin>
     <FacebookPageConnect v-if="isFacebookAccountConnected">
       <template #title><h3>Now please choose... etc</h3></template>

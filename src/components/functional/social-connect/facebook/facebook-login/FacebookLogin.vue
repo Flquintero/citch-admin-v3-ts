@@ -9,7 +9,7 @@
       <!-- Connect -->
       <FacebookConnectButton v-if="!isConnected" />
       <!-- Disconnect -->
-      <FacebookDisconnectButton v-else />
+      <FacebookDisconnectButton v-else @facebook-disconnected="checkFacebookConnection" />
     </template>
   </div>
 </template>

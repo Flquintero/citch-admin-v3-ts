@@ -30,6 +30,8 @@ export default Vue.extend({
     };
   },
   mounted() {
+    // this handles on load the first time and when coming back from redirect which would be for connection
+    // TO DO: Add persistence in case of alot of refreshes or if we feel that its been called to much
     this.checkFacebookConnection();
   },
   methods: {

@@ -18,7 +18,7 @@
 import Vue from 'vue';
 const FacebookLogin = () =>
   import(
-    /* webpackChunkName: "FacebookLogin" */ '@/components/functional/social-connect/facebook/FacebookLogin.vue'
+    /* webpackChunkName: "FacebookLogin" */ '@/components/functional/social-connect/facebook/facebook-login/FacebookLogin.vue'
   );
 const FacebookPageConnect = () =>
   import(

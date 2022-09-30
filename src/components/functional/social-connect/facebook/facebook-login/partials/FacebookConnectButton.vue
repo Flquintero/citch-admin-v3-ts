@@ -1,15 +1,12 @@
 <template>
-  <div>
-    <slot name="title"></slot>
-    <CButton @click.native="initFacebookConnect" class="facebook-login" variant="primary">
-      <span v-if="connecting">
-        <font-awesome-icon icon="fa-duotone fa-circle-notch" spin /> Loading</span
-      ><span v-else
-        ><font-awesome-icon icon="fa-brands fa-facebook" />
-        <span class="facebook-login__content-text">Connect</span></span
-      >
-    </CButton>
-  </div>
+  <CButton @click.native="initFacebookConnect" class="facebook-connect-button" variant="primary">
+    <span v-if="connecting">
+      <font-awesome-icon icon="fa-duotone fa-circle-notch" spin /> Loading</span
+    ><span v-else
+      ><font-awesome-icon icon="fa-brands fa-facebook" />
+      <span class="facebook-connect-button__content-text">Connect</span></span
+    >
+  </CButton>
 </template>
 
 <script lang="ts">
@@ -18,7 +15,7 @@ const CButton = () => import(/* webpackChunkName: "CButton" */ '@/components/ele
 const FacebookRepository = Vue.prototype.$apiRepository.get('facebook');
 
 export default Vue.extend({
-  name: 'FacebookLogin',
+  name: 'FacebookConnectButton',
   components: { CButton },
   data() {
     return {
@@ -36,8 +33,8 @@ export default Vue.extend({
         localStorage.setItem(`${platform}-state`, state);
         location.href = url;
       } catch (error) {
-        console.error(`Error Linking Facebook:`, error);
-        this.$alert.error(`Error Linking Facebook: ${error}`);
+        console.error(`Error Connecting Facebook:`, error);
+        this.$alert.error(`Error Connecting Facebook: ${error}`);
         this.connecting = false;
       }
     },
@@ -45,7 +42,7 @@ export default Vue.extend({
 });
 </script>
 <style lang="scss" scoped>
-.facebook-login {
+.facebook-connect-button {
   background: $facebook-blue !important;
   border-color: $facebook-blue !important;
   padding: 10px 0;

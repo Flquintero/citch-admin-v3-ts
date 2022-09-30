@@ -5,3 +5,6 @@ export interface IFacebookConsentPayload {
 export interface IFacebookConnectData {
   code: string;
 }
+export interface IFacebookConnectStatus {
+  valid: boolean;
+}

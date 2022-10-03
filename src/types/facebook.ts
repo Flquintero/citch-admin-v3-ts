@@ -8,3 +8,9 @@ export interface IFacebookConnectData {
 export interface IFacebookConnectStatus {
   valid: boolean;
 }
+
+export enum FacebookConnectionStatus {
+  disconnected,
+  connected,
+  expired,
+}

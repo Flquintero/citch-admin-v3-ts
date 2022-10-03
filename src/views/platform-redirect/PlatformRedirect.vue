@@ -39,7 +39,8 @@ export default Vue.extend({
       //  CONFIRM STATES MATCH, IF NOT IF NOT RETURN USER HOME AND MAYBE LOGOUT
       if (localStorage.getItem(`${this.platform}-state`) === state) {
         switch (this.platform) {
-          case 'facebook' || 'instagram':
+          case 'instagram':
+          case 'facebook':
             this.initSaveFacebookData();
           default:
         }

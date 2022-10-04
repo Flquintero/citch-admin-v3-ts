@@ -22,7 +22,7 @@ const FacebookLogin = () =>
   );
 const FacebookPageConnect = () =>
   import(
-    /* webpackChunkName: "FacebookPageConnect" */ '@/components/functional/social-connect/facebook/FacebookPageConnect.vue'
+    /* webpackChunkName: "FacebookPageConnect" */ '@/components/functional/social-connect/facebook/facebook-page/FacebookPageConnect.vue'
   );
 const FacebookInstagramConnect = () =>
   import(

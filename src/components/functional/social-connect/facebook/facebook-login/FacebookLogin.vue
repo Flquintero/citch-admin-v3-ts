@@ -1,9 +1,8 @@
 <template>
-  <div>
-    <h3 v-if="checkingConnection">
-      <font-awesome-icon icon="fa-duotone fa-circle-notch" spin /> Checking if you are connected to
-      Facebook</h3
-    >
+  <div class="facebook-login">
+    <h3 class="facebook-login__loading" v-if="checkingConnection">
+      <font-awesome-icon icon="fa-duotone fa-circle-notch" spin /> <slot name="loading-title"></slot
+    ></h3>
     <template v-else>
       <slot name="title"></slot>
       <!-- Connect -->
@@ -65,14 +64,11 @@ export default Vue.extend({
 </script>
 <style lang="scss" scoped>
 .facebook-login {
-  background: $facebook-blue !important;
-  border-color: $facebook-blue !important;
-  padding: 10px 0;
-  margin-top: 10px;
-  &__content {
-    &-text {
-      margin: 5px;
-    }
+  &__loading {
+    line-height: 1.5;
+  }
+  &__title {
+    margin: 0 0 20px;
   }
 }
 </style>

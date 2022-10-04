@@ -27,4 +27,9 @@ export default {
       url: `${DOMAIN_PATH}/consent-url`,
     });
   },
+  getPostPage: async (postId: string) => {
+    return await $authedApiRequest({
+      url: `${DOMAIN_PATH}/post-page/${postId}`,
+    });
+  },
 };

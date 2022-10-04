@@ -44,7 +44,7 @@ export default Vue.extend({
     display: flex;
     padding: 50px 20px;
     @include center-with-margin($max-width: 800px);
-    @include mobile() {
+    @include tablet-and-down() {
       @include flex-config($flex-direction: column-reverse, $justify-content: space-between);
       //add margin top to any of the posts on mobile
       div[class*='-post'] {
@@ -52,8 +52,12 @@ export default Vue.extend({
         max-width: 100%;
       }
     }
-    div[class*='-connect'] {
+    div[class*='-connect'],
+    div[class*='-post'] {
       margin: 0 auto;
+    }
+    div[class*='-connect'] {
+      max-width: 285px;
     }
   }
 }

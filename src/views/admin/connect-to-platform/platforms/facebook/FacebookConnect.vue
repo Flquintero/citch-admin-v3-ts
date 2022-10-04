@@ -1,17 +1,21 @@
 <template>
   <div class="facebook-connect">
     <FacebookLogin @facebook-connected="setIsFacebookAccountConnected($event)">
+      <template #loading-title>Checking if you are connected to Facebook</template>
       <template v-if="isFacebookAccountConnected" #title
-        ><h3>Great, you are connected to Facebook!</h3></template
+        ><h3 class="facebook-login__title">Great, you are connected to Facebook!</h3></template
       >
-      <template v-else #title><h3>First, we need to connect your Facebook</h3></template>
+      <template v-else #title
+        ><h3 class="facebook-login__title">First, we need to connect your Facebook</h3></template
+      >
     </FacebookLogin>
     <FacebookPageConnect v-if="isFacebookAccountConnected">
-      <template #title><h3>Now please choose... etc</h3></template>
+      <template #loading-title>Checking for post page</template>
+      <template #title
+        ><h3 class="facebook-page-connect__title">Does the post belong to this page?</h3></template
+      >
     </FacebookPageConnect>
   </div>
-  <!-- Have the below self-contained but at the same time controlled by a variable here -->
-  <!-- Check for connected to facebook and token good -->
   <!-- Connect Page -->
   <!-- Connect Instagram -->
 </template>
@@ -24,7 +28,7 @@ const FacebookLogin = () =>
   );
 const FacebookPageConnect = () =>
   import(
-    /* webpackChunkName: "FacebookPageConnect" */ '@/components/functional/social-connect/facebook/FacebookPageConnect.vue'
+    /* webpackChunkName: "FacebookPageConnect" */ '@/components/functional/social-connect/facebook/facebook-page/FacebookPageConnect.vue'
   );
 const FacebookInstagramConnect = () =>
   import(
@@ -35,11 +39,11 @@ export default Vue.extend({
   components: { FacebookLogin, FacebookPageConnect, FacebookInstagramConnect },
   data() {
     return {
-      // TO DO: Build a util function that checks if user is connected and token is valid if not get a new one
       isFacebookAccountConnected: false,
     };
   },
   methods: {
+    // FACEBOOK Login component has a function to check connection, maybe in the future we move that function out to use globally for now no use case
     setIsFacebookAccountConnected(connectionStatus: boolean) {
       this.isFacebookAccountConnected = connectionStatus;
     },

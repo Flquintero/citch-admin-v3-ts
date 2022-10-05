@@ -19,7 +19,8 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { IPostPage } from '@/types/facebook';
+import { IFacebookPage } from '@/types/facebook';
+import { mapActions } from 'vuex';
 const FacebookRepository = Vue.prototype.$apiRepository.get('facebook');
 
 export default Vue.extend({
@@ -27,18 +28,23 @@ export default Vue.extend({
   data() {
     return {
       checkingPages: true,
-      postPage: null as IPostPage | null,
+      postPage: null as IFacebookPage | null,
     };
   },
   mounted() {
     this.getPostPage();
   },
   methods: {
+    ...mapActions('Facebook', ['setCurrentFacebookPage', 'setCurrentFacebookPost']),
     async getPostPage() {
       try {
         // TO Do: A more efficient/predictable way to handle this
+        // Maybe add a mixin that runs the below in each page
         const postId = (this.$route.query.post as string).split('/')[6];
         this.postPage = await FacebookRepository.getPostPage(postId);
+        await this.setCurrentFacebookPage(this.postPage);
+        await this.setCurrentFacebookPost({ post: this.$route.query.post, postId });
+        // END
       } catch (error: any) {
         console.log('Error Getting Post Page', error);
         this.$alert.error(`There was an error getting Page(s): ${error}`);

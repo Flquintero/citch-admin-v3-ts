@@ -19,27 +19,31 @@
         }"
     /></div>
     <div class="choose-post-link__confirm">
-      <CButton
+      <Continue
         @click.native="confirmPostLink"
-        v-bind="{ variant: 'primary', disabled: $v.$invalid || saving }"
-      >
-        <span v-if="saving">
-          <font-awesome-icon icon="fa-duotone fa-circle-notch" spin /> Saving to Continue</span
-        ><span v-else>Confirm <font-awesome-icon icon="fa-duotone fa-arrow-right" /></span
-      ></CButton>
+        v-bind="{
+          variant: 'primary',
+          disabled: $v.$invalid || saving,
+          loading: saving,
+          textContent: 'Confirm',
+          textIcon: 'fa-arrow-right',
+          loadingContent: 'Saving to Continue',
+        }"
+      ></Continue>
     </div>
   </div>
 </template>
 <script lang="ts">
 import Vue from 'vue';
 const CInput = () => import(/* webpackChunkName: "CInput" */ '@/components/elements/Input.vue');
-const CButton = () => import(/* webpackChunkName: "CButton" */ '@/components/elements/Button.vue');
+const Continue = () =>
+  import(/* webpackChunkName: "Continue" */ '@/components/functional/Continue.vue');
 import { FormFunctions } from '@/utils/form-functionality';
 import { required, url } from 'vuelidate/lib/validators';
 
 export default Vue.extend({
   name: 'PostLink',
-  components: { CInput, CButton },
+  components: { CInput, Continue },
   data() {
     return {
       saving: false,
@@ -96,7 +100,6 @@ export default Vue.extend({
   }
   &__confirm {
     max-width: 200px;
-    height: 50px;
     margin: auto;
   }
 }

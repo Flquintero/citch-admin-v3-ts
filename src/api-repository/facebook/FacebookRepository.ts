@@ -1,5 +1,5 @@
 import { $authedApiRequest } from '@/utils/api';
-import { IFacebookConnectData } from '@/types/facebook';
+import { IFacebookConnectData, IFacebookConfirmAccountsData } from '@/types/facebook';
 
 const DOMAIN_PATH = '/facebook';
 
@@ -30,6 +30,13 @@ export default {
   getPostPage: async (postId: string) => {
     return await $authedApiRequest({
       url: `${DOMAIN_PATH}/post-page/${postId}`,
+    });
+  },
+  confirmAccounts: async (accountsObject: IFacebookConfirmAccountsData) => {
+    return await $authedApiRequest({
+      method: 'post',
+      url: `${DOMAIN_PATH}/confirm-accounts`,
+      data: accountsObject,
     });
   },
 };

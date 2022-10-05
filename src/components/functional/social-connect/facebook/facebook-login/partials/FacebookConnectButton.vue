@@ -45,8 +45,7 @@ export default Vue.extend({
 .facebook-connect-button {
   background: $facebook-blue !important;
   border-color: $facebook-blue !important;
-  padding: 10px 0;
-  margin-top: 10px;
+  height: 50px;
   &__content {
     &-text {
       margin: 5px;

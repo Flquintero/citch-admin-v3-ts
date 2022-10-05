@@ -45,8 +45,7 @@ export default Vue.extend({
 </script>
 <style lang="scss" scoped>
 .facebook-disconnect-button {
-  padding: 10px 0;
-  margin-top: 10px;
+  height: 50px;
   &__content {
     &-text {
       margin: 5px;

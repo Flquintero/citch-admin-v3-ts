@@ -9,19 +9,33 @@
         ><h3 class="facebook-login__title">First, we need to connect your Facebook</h3></template
       >
     </FacebookLogin>
-    <FacebookPageConnect v-if="isFacebookAccountConnected">
-      <template #loading-title>Checking for post page</template>
-      <template #title
-        ><h3 class="facebook-page-connect__title">Does the post belong to this page?</h3></template
-      >
-    </FacebookPageConnect>
+    <template v-if="isFacebookAccountConnected">
+      <FacebookPageConnect>
+        <template #loading-title>Checking for post page</template>
+        <template #title
+          ><h3 class="facebook-page-connect__title">Page Associated to post:</h3></template
+        >
+      </FacebookPageConnect>
+      <Continue
+        v-if="currentFacebookPage"
+        @click.native="confirmAccounts"
+        v-bind="{
+          variant: 'primary',
+          disabled: confirming,
+          loading: confirming,
+          textContent: 'Confirm',
+          textIcon: 'fa-arrow-right',
+          loadingContent: 'Saving to Continue',
+        }"
+      ></Continue>
+    </template>
   </div>
-  <!-- Connect Page -->
-  <!-- Connect Instagram -->
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
+import { mapGetters } from 'vuex';
+const FacebookRepository = Vue.prototype.$apiRepository.get('facebook');
 const FacebookLogin = () =>
   import(
     /* webpackChunkName: "FacebookLogin" */ '@/components/functional/social-connect/facebook/facebook-login/FacebookLogin.vue'
@@ -34,12 +48,15 @@ const FacebookInstagramConnect = () =>
   import(
     /* webpackChunkName: "FacebookInstagramConnect" */ '@/components/functional/social-connect/facebook/FacebookInstagramConnect.vue'
   );
+const Continue = () =>
+  import(/* webpackChunkName: "Continue" */ '@/components/functional/Continue.vue');
 export default Vue.extend({
   name: 'FacebookConnect',
-  components: { FacebookLogin, FacebookPageConnect, FacebookInstagramConnect },
+  components: { FacebookLogin, FacebookPageConnect, FacebookInstagramConnect, Continue },
   data() {
     return {
       isFacebookAccountConnected: false,
+      confirming: false,
     };
   },
   methods: {
@@ -47,7 +64,29 @@ export default Vue.extend({
     setIsFacebookAccountConnected(connectionStatus: boolean) {
       this.isFacebookAccountConnected = connectionStatus;
     },
+    confirmAccounts() {
+      try {
+        this.confirming = true;
+        // Add us as admin of page
+        // CREATE A CAMPAIGN IN DRAFT WITH THE POST ID
+        // SAVE TO DB AS FACEBOOK CAMPAIGN with CAMPAIGN ID, Page ID, POST ID, POST URL ( MAYBE SEE IF IF CALLING THE CAMPAIGN GIVES BACK POST ID AND URL) being the first data
+        const accountsPayload = {
+          facebookPageId: this.currentFacebookPage.id,
+          //postId: this.currentFacebookPost, // maybe we need to create the campaign when we have an objective and give name POST_ID-OBJECTIVE-CAMPAIGN NUMBER
+        };
+        FacebookRepository.confirmAccounts(accountsPayload);
+        // GO TO OBJECTIVES with CAMPAIGN ID in url maybe ? SO WE CAN CALL EACH TIME IN FUTURE PAGES ?
+        console.log('Confirm');
+      } catch (error: any) {
+        console.log('Error Confirming Accounts', error);
+        this.$alert.error(`Error Confirming Accounts: ${error}`);
+      } finally {
+        this.confirming = false;
+      }
+    },
+  },
+  computed: {
+    ...mapGetters('Facebook', ['currentFacebookPage', 'currentFacebookPost']),
   },
 });
 </script>
-<style lang="scss" scoped></style>

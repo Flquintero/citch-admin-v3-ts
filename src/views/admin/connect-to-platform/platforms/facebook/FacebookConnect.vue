@@ -14,7 +14,7 @@
         <template #loading-title>Checking for Facebook Pages</template>
         <template #title
           ><h3 class="facebook-page-connect__title"
-            >Please select Page associted to Post:</h3
+            >Please select <strong>page </strong>associated to <strong>post</strong>:</h3
           ></template
         >
       </FacebookPageConnect>

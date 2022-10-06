@@ -10,6 +10,9 @@
           @click="setChosenPage(page)"
           v-for="page in userPages"
           :key="page.id"
+          :class="{
+            'facebook-page-connect__content--chosen': chosenPage && chosenPage.id === page.id, // for some reason doesnt allow the optional ? operator
+          }"
           class="facebook-page-connect__content"
         >
           <div class="facebook-page-connect__content-img"><img :src="page.picture.data.url" /></div>
@@ -72,11 +75,15 @@ export default Vue.extend({
     margin: 20px 0;
   }
   &__title {
-    margin: 20px 0;
+    margin: 20px 0 15px;
   }
   &__content {
     display: flex;
-    margin-top: 10px;
+    border: 1px solid transparent;
+    padding: 5px;
+    align-items: center;
+    border-radius: 2px;
+    cursor: pointer;
     &-img {
       height: 25px;
       width: 25px;
@@ -91,6 +98,9 @@ export default Vue.extend({
       margin: 5px 10px;
       font-weight: 600;
       font-size: rem(16);
+    }
+    &--chosen {
+      border-color: $primary;
     }
   }
 }

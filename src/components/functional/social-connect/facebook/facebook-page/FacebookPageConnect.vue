@@ -67,8 +67,8 @@ export default Vue.extend({
     display: flex;
     margin-top: 10px;
     &-img {
-      height: 50px;
-      width: 50px;
+      height: 25px;
+      width: 25px;
       img {
         border-radius: 2px;
         @include image-fit();

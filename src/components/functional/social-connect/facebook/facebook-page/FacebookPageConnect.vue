@@ -4,8 +4,8 @@
       <font-awesome-icon icon="fa-duotone fa-circle-notch" spin /> <slot name="loading-title"></slot
     ></h3>
     <template v-else>
+      <slot name="title"></slot>
       <div v-if="userPages" class="facebook-page-connect__results">
-        <slot name="title"></slot>
         <div
           @click="setChosenPage(page)"
           v-for="page in userPages"
@@ -21,9 +21,9 @@
           >
         </div>
       </div>
-      <div v-else>
-        <h3>No Pages Associated to User</h3>
-        <h6>Please create one in Facebook</h6>
+      <div v-else class="facebook-page-connect__empty">
+        <h3>No Pages associated to User</h3>
+        <h4>Please create one in Facebook</h4>
       </div>
     </template>
   </div>
@@ -102,6 +102,10 @@ export default Vue.extend({
     &--chosen {
       border-color: $primary;
     }
+  }
+  &__empty {
+    margin-top: 20px;
+    line-height: 1.5;
   }
 }
 </style>

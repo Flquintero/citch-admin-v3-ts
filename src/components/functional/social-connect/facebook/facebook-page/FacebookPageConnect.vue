@@ -5,7 +5,7 @@
     ></h3>
     <template v-else>
       <slot name="title"></slot>
-      <div v-if="userPages" class="facebook-page-connect__results">
+      <div v-if="userPages.length" class="facebook-page-connect__results">
         <div
           @click="setChosenPage(page)"
           v-for="page in userPages"
@@ -40,7 +40,7 @@ export default Vue.extend({
   data() {
     return {
       checkingPages: true,
-      userPages: null as IFacebookPage[] | null,
+      userPages: [] as IFacebookPage[],
       chosenPage: null as IFacebookPage | null,
     };
   },

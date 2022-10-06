@@ -4,23 +4,14 @@
       <font-awesome-icon icon="fa-duotone fa-circle-notch" spin /> <slot name="loading-title"></slot
     ></h3>
     <template v-else>
-      <div v-if="userPages" class="facebook-page-connect__results">
-        <slot name="title"></slot>
-        <div
-          @click="setChosenPage(page)"
-          v-for="page in userPages"
-          :key="page.id"
-          class="facebook-page-connect__content"
+      <slot name="title"></slot>
+      <div class="facebook-page-connect__content" v-if="postPage">
+        <div class="facebook-page-connect__content-img"
+          ><img :src="postPage.picture.data.url"
+        /></div>
+        <div class="facebook-page-connect__content-name"
+          ><span>{{ postPage.name }}</span></div
         >
-          <div class="facebook-page-connect__content-img"><img :src="page.picture.data.url" /></div>
-          <div class="facebook-page-connect__content-name"
-            ><span>{{ page.name }}</span></div
-          >
-        </div>
-      </div>
-      <div v-else>
-        <h3>No Pages Associated to User</h3>
-        <h6>Please create one in Facebook</h6>
       </div>
     </template>
   </div>
@@ -37,19 +28,22 @@ export default Vue.extend({
   data() {
     return {
       checkingPages: true,
-      userPages: null as IFacebookPage[] | null,
-      chosenPage: null as IFacebookPage | null,
+      postPage: null as IFacebookPage | null,
     };
   },
   mounted() {
-    this.getUserPages();
+    this.getPostPage();
   },
   methods: {
     ...mapActions('Facebook', ['setCurrentFacebookPage', 'setCurrentFacebookPost']),
-    async getUserPages() {
+    async getPostPage() {
       try {
-        this.userPages = await FacebookRepository.getUserPages();
-
+        // TO Do: A more efficient/predictable way to handle this
+        // Maybe add a mixin that runs the below in each page
+        const postId = (this.$route.query.post as string).split('/')[6];
+        this.postPage = await FacebookRepository.getPostPage(postId);
+        await this.setCurrentFacebookPage(this.postPage);
+        await this.setCurrentFacebookPost({ post: this.$route.query.post, postId });
         // END
       } catch (error: any) {
         console.log('Error Getting Post Page', error);
@@ -57,11 +51,6 @@ export default Vue.extend({
       } finally {
         this.checkingPages = false;
       }
-    },
-    async setChosenPage(page: IFacebookPage) {
-      this.chosenPage = page;
-      // Makes Continue appear
-      await this.setCurrentFacebookPage(this.chosenPage);
     },
   },
 });

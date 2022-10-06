@@ -1,4 +1,5 @@
-import { IFacebookPage, IFacebookState, IFacebookPost } from './types';
+import { IFacebookState } from './types';
+import { IFacebookPage, IFacebookPost } from '@/types/facebook';
 
 export const mutations = {
   SET_CURRENT_FACEBOOK_PAGE(state: IFacebookState, facebookPage: IFacebookPage) {

@@ -1,5 +1,5 @@
 import { Commit } from 'vuex';
-import { IFacebookPage, IFacebookPost } from './types';
+import { IFacebookPage, IFacebookPost } from '@/types/facebook';
 
 export const actions = {
   setCurrentFacebookPage({ commit }: { commit: Commit }, facebookPage: IFacebookPage) {

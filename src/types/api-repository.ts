@@ -1,6 +1,11 @@
 // import { User } from 'firebase/auth';
 import { IVerifyPassword } from './auth';
-import { IFacebookConnectData, IFacebookConsentPayload, IFacebookConnectStatus } from './facebook';
+import {
+  IFacebookConnectData,
+  IFacebookConsentPayload,
+  IFacebookConnectStatus,
+  IFacebookPage,
+} from './facebook';
 import { IFormData } from './forms';
 
 export interface IApi {
@@ -28,6 +33,8 @@ export interface IOrganizationsRepository {
 export interface IFacebookRepository {
   checkUserConnection(): Promise<IFacebookConnectStatus>;
   saveUser(facebookConnectData: IFacebookConnectData): Promise<string>;
+  getPostPage(postId: string): Promise<IFacebookPage>;
+  getUserPages(): Promise<IFacebookPage[]>;
   disconnectUser(): Promise<string>;
   initFacebookConsent(): Promise<IFacebookConsentPayload>;
 }

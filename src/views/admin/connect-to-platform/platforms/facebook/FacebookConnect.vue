@@ -11,9 +11,11 @@
     </FacebookLogin>
     <template v-if="isFacebookAccountConnected">
       <FacebookPageConnect>
-        <template #loading-title>Checking for post page</template>
+        <template #loading-title>Checking for Facebook Pages</template>
         <template #title
-          ><h3 class="facebook-page-connect__title">Page Associated to post:</h3></template
+          ><h3 class="facebook-page-connect__title"
+            >Please select Page associted to Post:</h3
+          ></template
         >
       </FacebookPageConnect>
       <Continue
@@ -64,19 +66,19 @@ export default Vue.extend({
     setIsFacebookAccountConnected(connectionStatus: boolean) {
       this.isFacebookAccountConnected = connectionStatus;
     },
-    confirmAccounts() {
+    async confirmAccounts() {
       try {
         this.confirming = true;
         // Add us as admin of page
         // CREATE A CAMPAIGN IN DRAFT WITH THE POST ID
         // SAVE TO DB AS FACEBOOK CAMPAIGN with CAMPAIGN ID, Page ID, POST ID, POST URL ( MAYBE SEE IF IF CALLING THE CAMPAIGN GIVES BACK POST ID AND URL) being the first data
         const accountsPayload = {
-          facebookPageId: this.currentFacebookPage.id,
+          pageId: this.currentFacebookPage.id,
           //postId: this.currentFacebookPost, // maybe we need to create the campaign when we have an objective and give name POST_ID-OBJECTIVE-CAMPAIGN NUMBER
         };
-        FacebookRepository.confirmAccounts(accountsPayload);
+        let t = await FacebookRepository.confirmAccounts(accountsPayload);
+        console.log('TTTT', t);
         // GO TO OBJECTIVES with CAMPAIGN ID in url maybe ? SO WE CAN CALL EACH TIME IN FUTURE PAGES ?
-        console.log('Confirm');
       } catch (error: any) {
         console.log('Error Confirming Accounts', error);
         this.$alert.error(`Error Confirming Accounts: ${error}`);

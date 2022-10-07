@@ -3,9 +3,9 @@
 */
 
 // Main Color Palette
-$dark-red: #b00020;
-$medium-red: #900f26;
-
+$dark-red: #B40000;
+$medium-red: #DA0000;
+$red: #FF4040;
 // Neutral Color Palette
 $white: #ffffff;
 $darker-white: #e6e6e6;
@@ -45,13 +45,13 @@ $secondary: $burgundy  !default;
 $tertiary: $pink !default;
 $error: $negative  !default;
 
-$success: #4f7228;
+$success: #16A34F;
 $success-light: #e2f6de;
 $info: #045b87;
 $info-light: #e1f5ff;
 $warning: #b97202;
 $warning-light: #f8ecd9;
-// $error: #900f26;
+$error: $medium-red;
 $error-light: #f6e2e2;
 
 // Form elements

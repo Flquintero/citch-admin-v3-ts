@@ -37,6 +37,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { mapGetters } from 'vuex';
+import { parseFacebookPostId } from '@/utils/facebook/facebook-post-id-finder';
 const FacebookRepository = Vue.prototype.$apiRepository.get('facebook');
 const FacebookLogin = () =>
   import(
@@ -66,9 +67,19 @@ export default Vue.extend({
     setIsFacebookAccountConnected(connectionStatus: boolean) {
       this.isFacebookAccountConnected = connectionStatus;
     },
+    async runFacebookValidations() {
+      // TO DO: Find a bettwe way to scale this
+      if (this.$route.query.post) {
+        // GET Post ID from url
+        parseFacebookPostId(this.$route.query.post as string);
+        // Call to get Post with Page Id - If it returns a valid post then set it as current post, if not then throw error
+      }
+    },
     async confirmAccounts() {
       try {
         this.confirming = true;
+        await this.runFacebookValidations();
+        return;
         // Add us as admin of page
         // CREATE A CAMPAIGN IN DRAFT WITH THE POST ID
         // SAVE TO DB AS FACEBOOK CAMPAIGN with CAMPAIGN ID, Page ID, POST ID, POST URL ( MAYBE SEE IF IF CALLING THE CAMPAIGN GIVES BACK POST ID AND URL) being the first data

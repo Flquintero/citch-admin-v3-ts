@@ -6,12 +6,13 @@
     <template v-else>
       <slot name="title"></slot>
       <div v-if="userPages.length" class="facebook-page-connect__results">
+        <!-- make this a component to use other places -->
         <div
           @click="setChosenPage(page)"
           v-for="page in userPages"
           :key="page.id"
           :class="{
-            'facebook-page-connect__content--chosen': chosenPage && chosenPage.id === page.id, // for some reason doesnt allow the optional ? operator
+            'facebook-page-connect__content--chosen': isPageChosen(page),
           }"
           class="facebook-page-connect__content"
         >
@@ -19,6 +20,9 @@
           <div class="facebook-page-connect__content-name"
             ><span>{{ page.name }}</span></div
           >
+          <div v-if="isPageChosen(page)" class="facebook-page-connect__content-icon">
+            <font-awesome-icon icon="fa-duotone fa-circle-check" />
+          </div>
         </div>
       </div>
       <div v-else class="facebook-page-connect__empty">
@@ -45,6 +49,7 @@ export default Vue.extend({
     };
   },
   mounted() {
+    this.setChosenPage(null);
     this.getUserPages();
   },
   methods: {
@@ -61,10 +66,13 @@ export default Vue.extend({
         this.checkingPages = false;
       }
     },
-    async setChosenPage(page: IFacebookPage) {
+    async setChosenPage(page: IFacebookPage | null) {
       this.chosenPage = page;
       // Makes Continue appear
       await this.setCurrentFacebookPage(this.chosenPage);
+    },
+    isPageChosen(page: IFacebookPage) {
+      return this.chosenPage?.id === page.id;
     },
   },
 });
@@ -84,6 +92,7 @@ export default Vue.extend({
     align-items: center;
     border-radius: 2px;
     cursor: pointer;
+    position: relative;
     &-img {
       height: 25px;
       width: 25px;
@@ -99,8 +108,17 @@ export default Vue.extend({
       font-weight: 600;
       font-size: rem(16);
     }
+    &-icon {
+      position: absolute;
+      right: 0;
+      height: 100%;
+      width: 50px;
+      background: transparent;
+      @include flex-config($justify-content: center, $align-items: center);
+      color: $success;
+    }
     &--chosen {
-      border-color: $primary;
+      border-color: $success;
     }
   }
   &__empty {

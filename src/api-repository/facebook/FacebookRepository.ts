@@ -37,6 +37,11 @@ export default {
       url: `${DOMAIN_PATH}/user-pages`,
     });
   },
+  getPostId: async (postString: string) => {
+    return await $authedApiRequest({
+      url: `${DOMAIN_PATH}/post-id/${postString}`,
+    });
+  },
   confirmAccounts: async (accountsObject: IFacebookConfirmAccountsData) => {
     return await $authedApiRequest({
       method: 'post',

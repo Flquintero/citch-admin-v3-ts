@@ -67,25 +67,23 @@ export default Vue.extend({
     setIsFacebookAccountConnected(connectionStatus: boolean) {
       this.isFacebookAccountConnected = connectionStatus;
     },
-    async runFacebookValidations() {
-      // TO DO: Find a bettwe way to scale this
-      if (this.$route.query.post) {
-        // GET Post ID from url
-        parseFacebookPostId(this.$route.query.post as string);
-        // Call to get Post with Page Id - If it returns a valid post then set it as current post, if not then throw error
-      }
+    async buildPostId() {
+      // the actual structure to use a facebook post in api is {{pageId}}_{{postIdentifierParsedFromUrl}}
+      return `${this.currentFacebookPage.id}_${await parseFacebookPostId(
+        this.$route.query.post as string
+      )}`;
     },
     async confirmAccounts() {
       try {
         this.confirming = true;
-        await this.runFacebookValidations();
-        return;
         // Add us as admin of page
+        // The below two comments is for the objectives
         // CREATE A CAMPAIGN IN DRAFT WITH THE POST ID
         // SAVE TO DB AS FACEBOOK CAMPAIGN with CAMPAIGN ID, Page ID, POST ID, POST URL ( MAYBE SEE IF IF CALLING THE CAMPAIGN GIVES BACK POST ID AND URL) being the first data
         const accountsPayload = {
           pageId: this.currentFacebookPage.id,
-          //postId: this.currentFacebookPost, // maybe we need to create the campaign when we have an objective and give name POST_ID-OBJECTIVE-CAMPAIGN NUMBER
+          // we have it here for effciency as we will have the page token in this call and leverage the one call to get the page to validate the post page relationship
+          ...(this.$route.query.post ? { postId: await this.buildPostId() } : null),
         };
         let t = await FacebookRepository.confirmAccounts(accountsPayload);
         console.log('TTTT', t);

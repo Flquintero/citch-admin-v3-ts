@@ -85,8 +85,13 @@ export default Vue.extend({
           // we have it here for effciency as we will have the page token in this call and leverage the one call to get the page to validate the post page relationship
           ...(this.$route.query.post ? { postId: await this.buildPostId() } : null),
         };
-        let t = await FacebookRepository.confirmAccounts(accountsPayload);
-        console.log('TTTT', t);
+        const confirmObject = await FacebookRepository.confirmAccounts(accountsPayload);
+        this.$router.push({
+          name: 'platform objective',
+          params: this.$route.params,
+          query: { ...this.$route.query, postId: confirmObject.postId },
+        });
+
         // GO TO OBJECTIVES with CAMPAIGN ID in url maybe ? SO WE CAN CALL EACH TIME IN FUTURE PAGES ?
       } catch (error: any) {
         console.log('Error Confirming Accounts', error);

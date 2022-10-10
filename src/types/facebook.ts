@@ -35,3 +35,9 @@ export enum FacebookConnectionStatus {
   connected,
   expired,
 }
+
+export interface IFacebookObjective {
+  name: string;
+  displayName: string;
+  description: string;
+}

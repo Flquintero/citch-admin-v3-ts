@@ -30,9 +30,18 @@ const routes: Array<RouteConfig> = [
         children: [
           {
             path: 'connect',
+            name: 'platform connect',
             component: () =>
               import(
-                /* webpackChunkName: "platformConnect" */ '../views/admin/connect-to-platform/ConnectIndex.vue'
+                /* webpackChunkName: "platformConnect" */ '../views/admin/platform-connect/ConnectIndex.vue'
+              ),
+          },
+          {
+            path: 'objective',
+            name: 'platform objective',
+            component: () =>
+              import(
+                /* webpackChunkName: "platformObjective" */ '../views/admin/platform-objective/ObjectiveIndex.vue'
               ),
           },
         ],

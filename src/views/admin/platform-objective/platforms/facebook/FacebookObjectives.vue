@@ -53,21 +53,25 @@ export default Vue.extend({
       objectives: [
         {
           name: 'reach',
+          value: ['REACH'],
           displayName: 'Impressions',
           description: 'Get more views from a specific demographicof people',
         },
         {
           name: 'engagement',
+          value: ['POST_ENGAGEMENT'],
           displayName: 'Engagements',
           description: 'Get more likes and comments from a spefic demographic',
         },
         {
           name: 'video views',
+          value: ['VIDEO_VIEWS'],
           displayName: 'Video Views',
           description: 'Get more video views from a specific group of people',
         },
         {
           name: 'citch reach',
+          value: ['REACH', 'POST_ENGAGEMENT'],
           displayName: 'Citch Reach',
           description: 'Get more views, likes and comments from a specific group of people',
         },

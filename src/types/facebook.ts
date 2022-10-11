@@ -38,6 +38,7 @@ export enum FacebookConnectionStatus {
 
 export interface IFacebookObjective {
   name: string;
+  value: string[];
   displayName: string;
   description: string;
 }

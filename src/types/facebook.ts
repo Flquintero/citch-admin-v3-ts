@@ -42,3 +42,15 @@ export interface IFacebookObjective {
   displayName: string;
   description: string;
 }
+
+export interface IFacebookCreateCampaignData {
+  campaignCreateData: {
+    name?: string;
+    objective?: string;
+    [property: string]: any;
+  };
+}
+
+export interface IFacebookCampaign {
+  [property: string]: any;
+}

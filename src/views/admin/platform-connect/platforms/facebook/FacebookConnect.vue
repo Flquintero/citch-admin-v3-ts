@@ -36,7 +36,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import { parseFacebookPostId } from '@/utils/facebook/facebook-post-id-finder';
 const FacebookRepository = Vue.prototype.$apiRepository.get('facebook');
 const FacebookLogin = () =>
@@ -63,6 +63,7 @@ export default Vue.extend({
     };
   },
   methods: {
+    ...mapActions('Facebook', ['setCurrentFacebookPost']),
     // FACEBOOK Login component has a function to check connection, maybe in the future we move that function out to use globally for now no use case
     setIsFacebookAccountConnected(connectionStatus: boolean) {
       this.isFacebookAccountConnected = connectionStatus;
@@ -86,7 +87,12 @@ export default Vue.extend({
           ...(this.$route.query.post ? { postId: await this.buildPostId() } : null),
         };
         const confirmObject = await FacebookRepository.confirmAccounts(accountsPayload);
-        this.$router.push({
+        // this probably should be a mixin
+        await this.setCurrentFacebookPost({
+          post: this.$route.query.post,
+          postId: confirmObject.postId,
+        });
+        await this.$router.push({
           name: 'platform objective',
           params: this.$route.params,
           query: { ...this.$route.query, postId: confirmObject.postId },

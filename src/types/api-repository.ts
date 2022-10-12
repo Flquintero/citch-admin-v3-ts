@@ -5,6 +5,8 @@ import {
   IFacebookConsentPayload,
   IFacebookConnectStatus,
   IFacebookPage,
+  IFacebookCreateCampaignData,
+  IFacebookCampaign,
 } from './facebook';
 import { IFormData } from './forms';
 
@@ -37,4 +39,5 @@ export interface IFacebookRepository {
   getUserPages(): Promise<IFacebookPage[]>;
   disconnectUser(): Promise<string>;
   initFacebookConsent(): Promise<IFacebookConsentPayload>;
+  createCampaign(createCampaignDataObject: IFacebookCreateCampaignData): Promise<IFacebookCampaign>;
 }

@@ -39,7 +39,9 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { IFacebookObjective } from '@/types/facebook';
+import { IFacebookCreateCampaignData, IFacebookObjective } from '@/types/facebook';
+import dayjs from 'dayjs';
+const FacebookRepository = Vue.prototype.$apiRepository.get('facebook');
 const Continue = () =>
   import(/* webpackChunkName: "Continue" */ '@/components/functional/Continue.vue');
 
@@ -69,18 +71,34 @@ export default Vue.extend({
           displayName: 'Video Views',
           description: 'Get more video views from a specific group of people',
         },
-        {
-          name: 'citch reach',
-          value: ['REACH', 'POST_ENGAGEMENT'],
-          displayName: 'Citch Reach',
-          description: 'Get more views, likes and comments from a specific group of people',
-        },
+        // {
+        //   name: 'citch reach',
+        //   value: ['REACH', 'POST_ENGAGEMENT'],
+        //   displayName: 'Citch Reach',
+        //   description: 'Get more views, likes and comments from a specific group of people',
+        // },
       ] as IFacebookObjective[],
     };
   },
   methods: {
-    confirmObjective() {
-      console.log('confirm objective');
+    async confirmObjective() {
+      try {
+        this.saving = true;
+        const pageId = (this.$route.query.postId as string).split('_')[0];
+        const now = dayjs().format('MM-DD-YY-DD-MM-Thhmmss');
+        const campaignObject: IFacebookCreateCampaignData = {
+          campaignCreateData: {
+            name: `${pageId}-${this.chosenObjective?.value[0]}-${now}`,
+            objective: this.chosenObjective?.value[0],
+          },
+        };
+        const savedCampaign = await FacebookRepository.createCampaign(campaignObject);
+        console.log('saved campaign', savedCampaign);
+      } catch (error: any) {
+        this.$alert.error(`Error Saving Objective: ${error}`);
+      } finally {
+        this.saving = false;
+      }
     },
     async setChosenObjective(objective: IFacebookObjective | null) {
       this.chosenObjective = objective;
@@ -98,9 +116,10 @@ export default Vue.extend({
   }
 
   &__list {
-    @include flex-config($flex-wrap: wrap);
+    @include flex-config($flex-wrap: wrap, $justify-content: center);
     &-item {
       flex-basis: 200px;
+      max-width: 280px;
       flex-grow: 1;
       margin: 10px;
       border: 1px solid $border;

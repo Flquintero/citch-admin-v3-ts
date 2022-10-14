@@ -6,7 +6,7 @@
         v-bind="{
           content: $route.query.objective,
           capitalize: true,
-          url: '/objective',
+          url: `objective`,
           addQueryParams: true,
         }"
       />

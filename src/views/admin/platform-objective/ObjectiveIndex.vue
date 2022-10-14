@@ -1,7 +1,7 @@
 <template>
   <div class="objective-index">
     <h1 class="objective-index__title"
-      >What type of goal are you looking for your
+      >What objective do you want to accomplish with your
       <SelectedContent
         v-bind="{ content: $route.params.platform, capitalize: true, url: '/post-link' }"
       />

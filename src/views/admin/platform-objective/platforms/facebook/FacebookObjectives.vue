@@ -29,7 +29,7 @@
         variant: 'primary',
         disabled: saving,
         loading: saving,
-        textContent: 'Confirm Objective',
+        textContent: formatContinueButton,
         textIcon: 'fa-arrow-right',
         loadingContent: 'Saving to Continue',
       }"
@@ -61,7 +61,7 @@ export default Vue.extend({
           description: 'Get more views from a specific demographicof people',
         },
         {
-          name: 'engagement',
+          name: 'engagements',
           value: ['POST_ENGAGEMENT'],
           displayName: 'Engagements',
           description: 'Get more likes and comments from a spefic demographic',
@@ -81,9 +81,26 @@ export default Vue.extend({
       ] as IFacebookObjective[],
     };
   },
+  mounted() {
+    this.checkExistingCampaign();
+  },
   methods: {
     ...mapActions('Facebook', ['setCurrentFacebookCampaign']),
+    async checkExistingCampaign() {
+      if (this.isExistingCampaign) {
+        this.chosenObjective = await this.getObjective();
+      }
+    },
+    getObjective() {
+      return this.objectives.filter((objective: IFacebookObjective) => {
+        return this.$route.query.objective === objective.displayName;
+      })[0];
+    },
     async confirmObjective() {
+      if (this.isSameObjective()) {
+        await this.continueNextStep(this.$route.query.campaignId as string);
+        return;
+      }
       try {
         this.saving = true;
         const pageId = (this.$route.query.postId as string).split('_')[0];
@@ -92,32 +109,58 @@ export default Vue.extend({
           campaignCreateData: {
             name: `${pageId}-${this.chosenObjective?.value[0]}-${now}`,
             objective: this.chosenObjective?.value[0],
+            ...(this.isExistingCampaign ? { campaignId: this.$route.query.campaignId } : null),
           },
         };
-        const savedCampaign = await FacebookRepository.createCampaign(campaignObject);
+        const savedCampaign = this.isExistingCampaign
+          ? await FacebookRepository.editCampaign(campaignObject)
+          : await FacebookRepository.createCampaign(campaignObject);
+        const campaignId = savedCampaign.id;
         await this.setCurrentFacebookCampaign({
-          campaignId: savedCampaign.id,
+          campaignId,
         });
-        await this.$router.push({
-          name: 'platform objective numbers',
-          params: this.$route.params,
-          query: {
-            ...this.$route.query,
-            campaignId: savedCampaign.id,
-            objective: this.chosenObjective?.displayName,
-          },
-        });
+        await this.continueNextStep(campaignId);
       } catch (error: any) {
         this.$alert.error(`Error Saving Objective: ${error}`);
       } finally {
         this.saving = false;
       }
     },
+    async continueNextStep(campaignId: string) {
+      await this.$router.push({
+        name: 'platform objective goal',
+        params: this.$route.params,
+        query: {
+          ...this.$route.query,
+          campaignId,
+          objective: this.chosenObjective?.displayName,
+        },
+      });
+    },
     async setChosenObjective(objective: IFacebookObjective | null) {
       this.chosenObjective = objective;
     },
     isObjectiveChosen(objective: IFacebookObjective) {
       return this.chosenObjective?.name === objective.name;
+    },
+    isSameObjective() {
+      return this.$route.query.objective === this.chosenObjective?.displayName;
+    },
+  },
+  computed: {
+    isExistingCampaign() {
+      return !!this.$route.query.campaignId;
+    },
+    formatContinueButton() {
+      let renderButtonContent = 'Confirm Objective';
+      if (this.isExistingCampaign) {
+        if (this.isSameObjective()) {
+          renderButtonContent = 'Continue';
+        } else {
+          renderButtonContent = 'Save Change';
+        }
+      }
+      return renderButtonContent;
     },
   },
 });

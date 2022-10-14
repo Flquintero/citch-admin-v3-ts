@@ -43,8 +43,9 @@ export interface IFacebookObjective {
   description: string;
 }
 
-export interface IFacebookCreateCampaignData {
-  campaignCreateData: {
+export interface IFacebookCampaignData {
+  campaignData: {
+    id?: string;
     name?: string;
     objective?: string;
     [property: string]: any;

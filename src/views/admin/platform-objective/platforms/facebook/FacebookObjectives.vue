@@ -29,7 +29,7 @@
         variant: 'primary',
         disabled: saving,
         loading: saving,
-        textContent: 'Confirm Goal',
+        textContent: 'Confirm Objective',
         textIcon: 'fa-arrow-right',
         loadingContent: 'Saving to Continue',
       }"
@@ -39,6 +39,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { mapActions } from 'vuex';
 import { IFacebookCreateCampaignData, IFacebookObjective } from '@/types/facebook';
 import dayjs from 'dayjs';
 const FacebookRepository = Vue.prototype.$apiRepository.get('facebook');
@@ -81,6 +82,7 @@ export default Vue.extend({
     };
   },
   methods: {
+    ...mapActions('Facebook', ['setCurrentFacebookCampaign']),
     async confirmObjective() {
       try {
         this.saving = true;
@@ -93,7 +95,18 @@ export default Vue.extend({
           },
         };
         const savedCampaign = await FacebookRepository.createCampaign(campaignObject);
-        console.log('saved campaign', savedCampaign);
+        await this.setCurrentFacebookCampaign({
+          campaignId: savedCampaign.id,
+        });
+        await this.$router.push({
+          name: 'platform objective numbers',
+          params: this.$route.params,
+          query: {
+            ...this.$route.query,
+            campaignId: savedCampaign.id,
+            objective: this.chosenObjective?.displayName,
+          },
+        });
       } catch (error: any) {
         this.$alert.error(`Error Saving Objective: ${error}`);
       } finally {

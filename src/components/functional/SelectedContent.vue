@@ -1,7 +1,7 @@
 <template>
   <div @click="goTo" class="selected-content">
     <div class="selected-content__text">
-      <span :class="{ 'capitalized': capitalize }">{{ content }}</span>
+      <span :class="{ 'capitalized': capitalize }">{{ formattedContent() }}</span>
       <div class="selected-content__action">
         <CButton v-bind="{ variant: 'link' }">
           <span><font-awesome-icon icon="fa-duotone fa-arrow-left" /> change</span>
@@ -21,11 +21,24 @@ export default Vue.extend({
   props: {
     content: String,
     capitalize: Boolean,
+    addQueryParams: Boolean,
     url: String,
+    isPlural: Boolean,
   },
   methods: {
     goTo() {
-      this.$router.push(this.url);
+      this.$router.push({
+        path: this.url,
+        ...(this.addQueryParams ? { query: this.$route.query } : null),
+      });
+    },
+    formattedContent() {
+      let renderContent = this.content;
+      // TO Do: If options get bigger include a validation function or something to abstract it out
+      if (this.isPlural) {
+        renderContent = `${renderContent}s`;
+      }
+      return renderContent;
     },
   },
 });

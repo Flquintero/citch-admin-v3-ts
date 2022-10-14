@@ -40,8 +40,6 @@ const Continue = () =>
   import(/* webpackChunkName: "Continue" */ '@/components/functional/Continue.vue');
 import { FormFunctions } from '@/utils/form-functionality';
 import { required, url } from 'vuelidate/lib/validators';
-// delete below
-import { parseFacebookPostId } from '@/utils/facebook/facebook-post-id-finder';
 
 export default Vue.extend({
   name: 'PostLink',

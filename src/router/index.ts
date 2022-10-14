@@ -44,6 +44,14 @@ const routes: Array<RouteConfig> = [
                 /* webpackChunkName: "platformObjective" */ '../views/admin/platform-objective/ObjectiveIndex.vue'
               ),
           },
+          {
+            path: 'objective-goal',
+            name: 'platform objective goal',
+            component: () =>
+              import(
+                /* webpackChunkName: "platformObjectiveGoal" */ '../views/admin/platform-objective/shared/ObjectiveGoal.vue'
+              ),
+          },
         ],
       },
       {

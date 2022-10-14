@@ -73,15 +73,9 @@ $colors: (
 
 // uses margin to center
 
-@mixin center-with-margin($max-width, $no-vertical-margin: false, $no-horizontal-margin: false) {
+@mixin center-with-margin($max-width, $top: 0, $bottom: 0) {
     max-width: $max-width;
-    margin: auto;
-    @if $no-vertical-margin {
-        margin: 0 auto;
-    }
-    @if $no-horizontal-margin {
-        margin: auto 0;
-    }
+    margin: $top auto $bottom;
 }
 
 // Margin and Padding helpers

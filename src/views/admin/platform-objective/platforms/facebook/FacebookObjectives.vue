@@ -104,7 +104,7 @@ export default Vue.extend({
       try {
         this.saving = true;
         const pageId = (this.$route.query.postId as string).split('_')[0];
-        const now = dayjs().format('MM-DD-YY-DD-MM-Thhmmss');
+        const now = dayjs().format('MM-DD-YY-Thhmmss');
         const campaignObject: IFacebookCampaignData = {
           campaignData: {
             name: `${pageId}-${this.chosenObjective?.value[0]}-${now}`,
@@ -115,7 +115,9 @@ export default Vue.extend({
         const savedCampaign = this.isExistingCampaign
           ? await FacebookRepository.updateCampaign(campaignObject)
           : await FacebookRepository.createCampaign(campaignObject);
-        const campaignId = savedCampaign.id;
+        const campaignId = this.isExistingCampaign
+          ? this.$route.query.campaignId
+          : savedCampaign.id;
         await this.setCurrentFacebookCampaign({
           campaignId,
         });

@@ -1,7 +1,10 @@
 import { IFacebookState } from './types';
-import { IFacebookPage, IFacebookPost } from '@/types/facebook';
+import { IFacebookCampaign, IFacebookPage, IFacebookPost } from '@/types/facebook';
 
 export const mutations = {
+  SET_CURRENT_FACEBOOK_CAMPAIGN(state: IFacebookState, facebookCampaign: IFacebookCampaign) {
+    state.currentFacebookCampaign = facebookCampaign;
+  },
   SET_CURRENT_FACEBOOK_PAGE(state: IFacebookState, facebookPage: IFacebookPage) {
     state.currentFacebookPage = facebookPage;
   },

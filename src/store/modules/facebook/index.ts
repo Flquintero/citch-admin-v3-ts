@@ -7,6 +7,7 @@ import { IFacebookState } from './types';
 
 //DEFINE THE STATES(DIFFERENT PROPS THAT WILL HANDLE DATA) THAT WILL BE DEFINED IN THIS STORE ALSO DEFINE ITS TYPE FROM THE OPTIONS IMPORTED
 export const state: IFacebookState = {
+  currentFacebookCampaign: undefined,
   currentFacebookPage: undefined,
   currentFacebookPost: undefined,
 };

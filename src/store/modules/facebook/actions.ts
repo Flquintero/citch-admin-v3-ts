@@ -1,7 +1,10 @@
 import { Commit } from 'vuex';
-import { IFacebookPage, IFacebookPost } from '@/types/facebook';
+import { IFacebookCampaign, IFacebookPage, IFacebookPost } from '@/types/facebook';
 
 export const actions = {
+  setCurrentFacebookCampaign({ commit }: { commit: Commit }, facebookCampaign: IFacebookCampaign) {
+    commit('SET_CURRENT_FACEBOOK_CAMPAIGN', facebookCampaign);
+  },
   setCurrentFacebookPage({ commit }: { commit: Commit }, facebookPage: IFacebookPage) {
     commit('SET_CURRENT_FACEBOOK_PAGE', facebookPage);
   },

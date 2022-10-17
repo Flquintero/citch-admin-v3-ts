@@ -87,7 +87,7 @@ export default Vue.extend({
   methods: {
     ...mapActions('Facebook', ['setCurrentFacebookCampaign']),
     async checkExistingCampaign() {
-      if (this.isExistingCampaign) {
+      if (this.isSavedCampaign) {
         this.chosenObjective = await this.getObjective();
       }
     },
@@ -97,7 +97,7 @@ export default Vue.extend({
       })[0];
     },
     async confirmObjective() {
-      if (this.isSameObjective()) {
+      if (this.isSameObjective) {
         await this.continueNextStep(this.$route.query.campaignId as string);
         return;
       }
@@ -109,15 +109,13 @@ export default Vue.extend({
           campaignData: {
             name: `${pageId}-${this.chosenObjective?.value[0]}-${now}`,
             objective: this.chosenObjective?.value[0],
-            ...(this.isExistingCampaign ? { campaignId: this.$route.query.campaignId } : null),
+            ...(this.isSavedCampaign ? { campaignId: this.$route.query.campaignId } : null),
           },
         };
-        const savedCampaign = this.isExistingCampaign
+        const savedCampaign = this.isSavedCampaign
           ? await FacebookRepository.updateCampaign(campaignObject)
           : await FacebookRepository.createCampaign(campaignObject);
-        const campaignId = this.isExistingCampaign
-          ? this.$route.query.campaignId
-          : savedCampaign.id;
+        const campaignId = this.isSavedCampaign ? this.savedCampaign : savedCampaign.id;
         await this.setCurrentFacebookCampaign({
           campaignId,
         });
@@ -145,18 +143,21 @@ export default Vue.extend({
     isObjectiveChosen(objective: IFacebookObjective) {
       return this.chosenObjective?.name === objective.name;
     },
-    isSameObjective() {
-      return this.$route.query.objective === this.chosenObjective?.displayName;
-    },
   },
   computed: {
-    isExistingCampaign() {
+    isSavedCampaign() {
       return !!this.$route.query.campaignId;
+    },
+    savedCampaign() {
+      return this.$route.query.campaignId;
+    },
+    isSameObjective() {
+      return this.$route.query.objective === this.$data.chosenObjective?.displayName;
     },
     formatContinueButton() {
       let renderButtonContent = 'Confirm Objective';
-      if (this.isExistingCampaign) {
-        if (this.isSameObjective()) {
+      if (this.isSavedCampaign) {
+        if (this.isSameObjective) {
           renderButtonContent = 'Continue';
         } else {
           renderButtonContent = 'Save Change';

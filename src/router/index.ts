@@ -52,6 +52,14 @@ const routes: Array<RouteConfig> = [
                 /* webpackChunkName: "platformObjectiveGoal" */ '../views/admin/platform-objective/shared/ObjectiveGoal.vue'
               ),
           },
+          {
+            path: 'audience',
+            name: 'platform audience',
+            component: () =>
+              import(
+                /* webpackChunkName: "platformAudience" */ '../views/admin/platform-audience/AudienceIndex.vue'
+              ),
+          },
         ],
       },
       {

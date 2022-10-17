@@ -24,8 +24,8 @@
             value: formData.objectiveGoal,
             error: hasInputError($v, 'objectiveGoal'),
             validationObject: $v,
-            placeholder: `Enter Number of ${$route.query.objective}`,
-            label: 'Objective Goal',
+            placeholder: `Enter Number of ${savedObjective}`,
+            label: `${savedObjective} Goal`,
             name: 'objectiveGoal',
             description: 'Enter Numbers Only',
             type: 'number',
@@ -39,7 +39,7 @@
             variant: 'primary',
             disabled: $v.$invalid || saving,
             loading: saving,
-            textContent: 'Confirm Goal',
+            textContent: formatContinueButton,
             textIcon: 'fa-arrow-right',
             loadingContent: 'Saving to Continue',
           }"
@@ -81,11 +81,59 @@ export default Vue.extend({
       },
     },
   },
+  mounted() {
+    this.checkExistingObjectiveGoal();
+  },
   methods: {
     ...FormFunctions,
     getPlatformPost,
-    confirmObjectiveGoal() {
-      console.log('hit goal');
+    checkExistingObjectiveGoal() {
+      if (this.isSavedObjectiveGoal) this.formData.objectiveGoal = this.savedObjectiveGoal;
+    },
+    async confirmObjectiveGoal() {
+      try {
+        this.saving = true;
+        await this.continueNextStep();
+      } catch (error: any) {
+        this.$alert.error(`Error Saving Objective: ${error}`);
+      } finally {
+        this.saving = false;
+      }
+    },
+    async continueNextStep() {
+      await this.$router.push({
+        name: 'platform audience',
+        params: this.$route.params,
+        query: {
+          ...this.$route.query,
+          objectiveGoal: this.formData.objectiveGoal?.toString(),
+        },
+      });
+    },
+  },
+  computed: {
+    isSavedObjectiveGoal() {
+      return !!this.$route.query.objectiveGoal;
+    },
+    savedObjectiveGoal() {
+      return parseInt(this.$route.query.objectiveGoal as string);
+    },
+    savedObjective() {
+      return this.$route.query.objective;
+    },
+    isSameObjectiveGoal() {
+      return this.$route.query.objectiveGoal === this.$data.formData.objectiveGoal?.toString();
+    },
+    formatContinueButton() {
+      let renderButtonContent = 'Confirm Goal';
+      if (this.isSavedObjectiveGoal) {
+        if (this.isSameObjectiveGoal) {
+          renderButtonContent = 'Continue';
+        } else {
+          renderButtonContent = 'Save Change';
+        }
+      }
+      return renderButtonContent;
     },
   },
 });

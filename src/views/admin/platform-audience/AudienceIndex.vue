@@ -25,6 +25,8 @@
       post?
     </h1>
     <div class="audience-selection__content">
+      <div class="audience-selection__content-tabs"> <Tabs></Tabs></div>
+
       <!-- This renders the post chosen with the link -->
       <!-- <component :is="getPlatformAudience($route.params.platform)"></component> -->
       <!-- This renders the post chosen with the link -->
@@ -38,12 +40,13 @@
 <script lang="ts">
 import Vue from 'vue';
 // import { getPlatformAudience } from './utils/platform-audience-helper';
+import Tabs from '@/components/elements/tabs/Tabs.vue';
 import { getPlatformPost } from '@/components/functional/social-post/post-component-loader';
 import SelectedContent from '@/components/functional/SelectedContent.vue';
 
 export default Vue.extend({
   name: 'AudienceIndex',
-  components: { SelectedContent },
+  components: { SelectedContent, Tabs },
   methods: {
     // getPlatformAudience,
     getPlatformPost,
@@ -60,8 +63,13 @@ export default Vue.extend({
     text-align: center;
   }
   &__content {
-    @include center-with-margin($max-width: 600px);
+    &-tabs {
+      @include center-with-margin($max-width: 800px);
+      margin-top: 40px;
+      @include flex-config($justify-content: center);
+    }
     &-post {
+      @include center-with-margin($max-width: 600px);
       margin-top: 40px;
       @include flex-config($justify-content: center);
     }

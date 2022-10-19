@@ -25,7 +25,14 @@
       post?
     </h1>
     <div class="audience-selection__content">
-      <div class="audience-selection__content-tabs"> <Tabs></Tabs></div>
+      <div class="audience-selection__content-tabs">
+        <Tabs :tabs-list="tabsList">
+          <template #Age>Age</template>
+          <template #Gender>Gender</template>
+          <template #Location>Location</template>
+          <template #Interests>Interests</template>
+        </Tabs>
+      </div>
 
       <!-- This renders the post chosen with the link -->
       <!-- <component :is="getPlatformAudience($route.params.platform)"></component> -->
@@ -47,6 +54,16 @@ import SelectedContent from '@/components/functional/SelectedContent.vue';
 export default Vue.extend({
   name: 'AudienceIndex',
   components: { SelectedContent, Tabs },
+  data() {
+    return {
+      tabsList: [
+        { text: 'Age', required: true, completed: true },
+        { text: 'Gender', required: true, completed: true },
+        { text: 'Location', required: true, completed: false },
+        { text: 'Interests', required: false, completed: false },
+      ],
+    };
+  },
   methods: {
     // getPlatformAudience,
     getPlatformPost,

@@ -1,34 +1,38 @@
 <template>
   <div class="tabs">
-    <Tab
-      v-for="(tab, index) in tabsList"
-      :key="`${tab}-${index}`"
-      v-bind="{ content: tab, isCurrentTab: checkCurrentTab(index) }"
-      @click.native="setCurrentTab(index)"
-    />
-    <slot v-for="tab in tabsList" :name="tab"></slot>
+    <div class="tabs__list">
+      <Tab
+        v-for="(tab, index) in tabsList"
+        :key="`${tab.text}-${index}`"
+        v-bind="{ content: tab, isCurrentTab: checkCurrentTab(index) }"
+        @click.native="setCurrentTab(index)"
+      />
+    </div>
+    <div class="tabs__slots">
+      <div
+        v-for="(tab, index) in tabsList"
+        :key="`slot-${tab.text}-${index}`"
+        class="tabs__slots-item"
+      >
+        <slot v-if="checkCurrentTab(index)" :name="tab.text"></slot>
+      </div>
+    </div>
   </div>
 </template>
 <script lang="ts">
 import Vue from 'vue';
 import Tab from '@/components/elements/tabs/partials/Tab.vue';
+import { ITabContent } from '@/types/components';
 
 export default Vue.extend({
   name: 'Tabs',
   components: { Tab },
   props: {
-    // tabsList: Array,
-    // currentTab: Number,
+    tabsList: Array as () => Array<ITabContent>,
   },
   data() {
     return {
       currentTabIndex: 0,
-      tabsList: [
-        { text: 'Age', required: true, completed: true, currentTab: true },
-        { text: 'Gender', required: true, completed: true, currentTab: false },
-        { text: 'Location', required: true, completed: false, currentTab: false },
-        { text: 'Interests', required: false, completed: false, currentTab: false },
-      ],
     };
   },
   methods: {
@@ -44,6 +48,9 @@ export default Vue.extend({
 </script>
 <style lang="scss" scoped>
 .tabs {
-  @include flex-config();
+  @include flex-config($flex-direction: column);
+  &__list {
+    @include flex-config();
+  }
 }
 </style>

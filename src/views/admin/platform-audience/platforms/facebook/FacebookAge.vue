@@ -1,22 +1,25 @@
 <template>
   <div class="facebook-audience-age">
-    <div class="facebook-audience-age-min">
-      <CDropdown
-        @option-selected="setMinAge($event)"
-        v-bind="{
-          placeholder: 'Choose Min Age',
-          chosenOption: formData.ageMin,
-          options: formatAgeOptions(ageMinRange),
-        }" />
-    </div>
-    <div class="facebook-audience-age-max">
-      <CDropdown
-        @option-selected="setMaxAge($event)"
-        v-bind="{
-          placeholder: 'Choose Max Age',
-          chosenOption: formData.ageMax,
-          options: formatAgeOptions(ageMaxRange),
-        }" />
+    <h3 class="facebook-audience-age__title">Please select:</h3>
+    <div class="facebook-audience-age__options">
+      <div class="facebook-audience-age__options-item">
+        <CDropdown
+          @option-selected="setMinAge($event)"
+          v-bind="{
+            placeholder: 'Min Age',
+            chosenOption: formData.ageMin,
+            options: formatAgeOptions(ageMinRange),
+          }" />
+      </div>
+      <div class="facebook-audience-age__options-item">
+        <CDropdown
+          @option-selected="setMaxAge($event)"
+          v-bind="{
+            placeholder: 'Max Age',
+            chosenOption: formData.ageMax,
+            options: formatAgeOptions(ageMaxRange),
+          }" />
+      </div>
     </div>
   </div>
 </template>
@@ -49,5 +52,17 @@ export default Vue.extend({
 </script>
 <style lang="scss" scoped>
 .facebook-audience-age {
+  margin: 25px 25px 0;
+  &__title {
+    text-align: center;
+  }
+  &__options {
+    @include flex-config($flex-wrap: wrap, $justify-content: center, $align-items: center);
+    @include center-with-margin($max-width: 400px, $top: 25px);
+    &-item {
+      flex-grow: 1;
+      margin: 10px;
+    }
+  }
 }
 </style>

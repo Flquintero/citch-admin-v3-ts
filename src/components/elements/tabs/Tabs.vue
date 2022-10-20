@@ -9,13 +9,9 @@
       />
     </div>
     <div class="tabs__slots">
-      <div
-        v-for="(tab, index) in tabsList"
-        :key="`slot-${tab.text}-${index}`"
-        class="tabs__slots-item"
-      >
+      <template v-for="(tab, index) in tabsList" class="tabs__slots-item">
         <slot v-if="checkCurrentTab(index)" :name="tab.text"></slot>
-      </div>
+      </template>
     </div>
   </div>
 </template>

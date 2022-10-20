@@ -14,7 +14,7 @@ const Logo = () => import(/* webpackChunkName: "Logo" */ '@/components/elements/
 const LinkLogo = () =>
   import(/* webpackChunkName: "LinkLogo" */ '@/components/elements/LinkLogo.vue');
 const NavBarMenu = () =>
-  import(/* webpackChunkName: "NavBarMenu */ '@/components/layouts/header/NavBarMenu.vue');
+  import(/* webpackChunkName: "NavBarMenu" */ '@/components/layouts/header/NavBarMenu.vue');
 export default Vue.extend({
   name: 'Header',
   components: { Logo, LinkLogo, NavBarMenu },

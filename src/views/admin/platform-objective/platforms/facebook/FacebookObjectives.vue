@@ -53,11 +53,18 @@ export default Vue.extend({
     return {
       saving: false,
       chosenObjective: null as IFacebookObjective | null,
+      // TO DO: Create enum mapping for displayName
       objectives: [
+        {
+          name: 'impressions',
+          value: ['REACH'],
+          displayName: 'Impressions', // 0 ?
+          description: 'Get more views from a specific demographicof people',
+        },
         {
           name: 'reach',
           value: ['REACH'],
-          displayName: 'Impressions',
+          displayName: 'Reach', // 1 ?
           description: 'Get more views from a specific demographicof people',
         },
         {

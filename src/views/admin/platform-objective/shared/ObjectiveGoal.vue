@@ -16,6 +16,22 @@
       />
       post?</h1
     >
+    <h1 class="objective-goal__title"
+      >How many people are you looking to
+      <SelectedContent
+        v-bind="{
+          content: $route.query.objective,
+          capitalize: true,
+          url: `objective`,
+          addQueryParams: true,
+        }"
+      />
+      with your
+      <SelectedContent
+        v-bind="{ content: $route.params.platform, capitalize: true, url: '/post-link' }"
+      />
+      post?</h1
+    >
     <div class="objective-goal__content">
       <div class="objective-goal__content-input">
         <CInput

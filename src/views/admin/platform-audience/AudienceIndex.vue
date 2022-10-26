@@ -52,6 +52,7 @@ import { getPlatformLocation } from './utils/platform-audience-location-helper';
 import { getPlatformInterests } from './utils/platform-audience-interests-helper';
 import { getPlatformTabsList } from './utils/platform-audience-tab-helper';
 import { setCompletedAudienceFields } from './utils/platform-audience-validation-helper';
+import { $deepCopy } from '@/utils/formatting';
 import Tabs from '@/components/elements/tabs/Tabs.vue';
 import { getPlatformPost } from '@/components/functional/social-post/post-component-loader';
 import SelectedContent from '@/components/functional/SelectedContent.vue';
@@ -66,9 +67,10 @@ export default Vue.extend({
     };
   },
   created() {
-    this.$data.tabsList = this.getPlatformTabsList(this.currentPlatform as string);
+    this.$data.tabsList = $deepCopy(this.getPlatformTabsList(this.currentPlatform as string));
   },
   methods: {
+    $deepCopy,
     getPlatformAge,
     getPlatformGender,
     getPlatformLocation,

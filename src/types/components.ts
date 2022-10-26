@@ -4,3 +4,8 @@ export interface ITabContent {
   currentTab?: boolean;
   completed?: boolean;
 }
+
+export interface IDropdownOption {
+  text: string;
+  value: string | number;
+}

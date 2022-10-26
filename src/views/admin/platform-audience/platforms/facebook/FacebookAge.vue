@@ -7,7 +7,8 @@
           @option-selected="setMinAge($event)"
           v-bind="{
             placeholder: 'Min Age',
-            chosenOption: formData.ageMin,
+            chosenLabel: 'Min Age',
+            chosenOption: formatChosenOption(formData.ageMin),
             options: formatAgeOptions(ageMinRange),
           }" />
       </div>
@@ -16,7 +17,8 @@
           @option-selected="setMaxAge($event)"
           v-bind="{
             placeholder: 'Max Age',
-            chosenOption: formData.ageMax,
+            chosenLabel: 'Max Age',
+            chosenOption: formatChosenOption(formData.ageMax),
             options: formatAgeOptions(ageMaxRange),
           }" />
       </div>
@@ -28,6 +30,7 @@
 import Vue from 'vue';
 import { ageMinRange, ageMaxRange } from './utils/facebook-age-data';
 import CDropdown from '@/components/elements/Dropdown.vue';
+import { IDropdownOption } from '@/types/components';
 
 export default Vue.extend({
   name: 'FacebookAudienceAge',
@@ -40,8 +43,15 @@ export default Vue.extend({
     };
   },
   methods: {
-    setMinAge(age: string) {},
-    setMaxAge(age: string) {},
+    setMinAge(ageOption: IDropdownOption) {
+      this.formData.ageMin = ageOption.value as string;
+    },
+    setMaxAge(ageOption: IDropdownOption) {
+      this.formData.ageMax = ageOption.value as string;
+    },
+    formatChosenOption(ageValue: string | null) {
+      if (ageValue) return { value: ageValue, text: ageValue };
+    },
     formatAgeOptions(ageRange: string[]) {
       return ageRange.map((age: string) => {
         return { value: age, text: age };

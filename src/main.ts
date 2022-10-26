@@ -36,6 +36,10 @@ Vue.prototype.$apiRepository = Repository;
 import { $alert } from './utils/alert';
 Vue.prototype.$alert = $alert;
 
+// Click outside
+
+import './utils/click-outside';
+
 // Form Validation
 
 import Vuelidate from 'vuelidate';

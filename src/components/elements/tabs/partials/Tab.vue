@@ -75,8 +75,6 @@ export default Vue.extend({
       &-text {
         margin: 0 5px;
       }
-      &-icon {
-      }
     }
   }
 }

@@ -45,9 +45,23 @@ export default Vue.extend({
   methods: {
     setMinAge(ageOption: IDropdownOption) {
       this.formData.ageMin = ageOption.value as string;
+      if (this.formData.ageMax) this.validateMinAge();
+    },
+    validateMinAge() {
+      if (parseInt(this.formData.ageMin as string) > parseInt(this.formData.ageMax as string)) {
+        this.$alert.error("Min Age can't be more than Max Age");
+        this.formData.ageMin = null;
+      }
     },
     setMaxAge(ageOption: IDropdownOption) {
       this.formData.ageMax = ageOption.value as string;
+      if (this.formData.ageMin) this.validateMaxAge();
+    },
+    validateMaxAge() {
+      if (parseInt(this.formData.ageMax as string) < parseInt(this.formData.ageMin as string)) {
+        this.$alert.error("Max Age can't be less than Min Age");
+        this.formData.ageMax = null;
+      }
     },
     formatChosenOption(ageValue: string | null) {
       if (ageValue) return { value: ageValue, text: ageValue };

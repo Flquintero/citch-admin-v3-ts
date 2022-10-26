@@ -31,6 +31,7 @@ import Vue from 'vue';
 import { ageMinRange, ageMaxRange } from './utils/facebook-age-data';
 import CDropdown from '@/components/elements/Dropdown.vue';
 import { IDropdownOption } from '@/types/components';
+import { mapActions } from 'vuex';
 
 export default Vue.extend({
   name: 'FacebookAudienceAge',
@@ -43,6 +44,7 @@ export default Vue.extend({
     };
   },
   methods: {
+    ...mapActions('Facebook', ['setCurrentFacebookAudience']),
     setMinAge(ageOption: IDropdownOption) {
       this.formData.ageMin = ageOption.value as string;
       if (this.formData.ageMax) this.validateMinAge();
@@ -51,7 +53,9 @@ export default Vue.extend({
       if (parseInt(this.formData.ageMin as string) > parseInt(this.formData.ageMax as string)) {
         this.$alert.error("Min Age can't be more than Max Age");
         this.formData.ageMin = null;
+        return;
       }
+      this.setCurrentFacebookAudience(this.formData);
     },
     setMaxAge(ageOption: IDropdownOption) {
       this.formData.ageMax = ageOption.value as string;
@@ -61,7 +65,9 @@ export default Vue.extend({
       if (parseInt(this.formData.ageMax as string) < parseInt(this.formData.ageMin as string)) {
         this.$alert.error("Max Age can't be less than Min Age");
         this.formData.ageMax = null;
+        return;
       }
+      this.setCurrentFacebookAudience(this.formData);
     },
     formatChosenOption(ageValue: string | null) {
       if (ageValue) return { value: ageValue, text: ageValue };

@@ -52,6 +52,11 @@ export interface IFacebookCampaignData {
   };
 }
 
+export interface IFacebookAudience {
+  ageMin: string;
+  ageMax: string;
+}
+
 export interface IFacebookCampaign {
   [property: string]: any;
 }

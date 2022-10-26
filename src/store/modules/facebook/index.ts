@@ -10,6 +10,7 @@ export const state: IFacebookState = {
   currentFacebookCampaign: undefined,
   currentFacebookPage: undefined,
   currentFacebookPost: undefined,
+  currentFacebookAudience: undefined,
 };
 
 //SETUP WHAT WILL BE EXPORTED TO MAIN STORE TO BE ACCESSED. NOTICE IT IS USING TYPES FROM PROFILESTATE AND ROOTSTATE WHICH ARE IMPORTED

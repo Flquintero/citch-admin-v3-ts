@@ -10,4 +10,7 @@ export const getters = {
   currentFacebookPost(state: IFacebookState) {
     return state.currentFacebookPost;
   },
+  currentFacebookAudience(state: IFacebookState) {
+    return state.currentFacebookAudience;
+  },
 };

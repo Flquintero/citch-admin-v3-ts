@@ -4,47 +4,41 @@
       >What audience are you looking for to generate
       <SelectedContent
         v-bind="{
-          content: $route.query.objectiveGoal,
+          content: currentObjectiveGoal,
           url: 'objective-goal',
           addQueryParams: true,
-        }"
-      />
+        }" />
       of
       <SelectedContent
         v-bind="{
-          content: $route.query.objective,
+          content: currentObjective,
           capitalize: true,
           url: `objective`,
           addQueryParams: true,
-        }"
-      />
+        }" />
       for your
-      <SelectedContent
-        v-bind="{ content: $route.params.platform, capitalize: true, url: '/post-link' }"
-      />
+      <SelectedContent v-bind="{ content: currentPlatform, capitalize: true, url: '/post-link' }" />
       post?
     </h1>
     <div class="audience-selection__content">
       <div class="audience-selection__content-tabs">
         <Tabs :tabs-list="tabsList">
           <template #Age>
-            <component :is="getPlatformAge($route.params.platform)"></component>
+            <component :is="getPlatformAge(currentPlatform)"></component>
           </template>
           <template #Gender>
-            <component :is="getPlatformGender($route.params.platform)"></component>
+            <component :is="getPlatformGender(currentPlatform)"></component>
           </template>
           <template #Location>
-            <component :is="getPlatformLocation($route.params.platform)"></component>
+            <component :is="getPlatformLocation(currentPlatform)"></component>
           </template>
-          <template #Interests
-            ><component :is="getPlatformInterests($route.params.platform)"></component>
-          </template>
+          <template #Interests><component :is="getPlatformInterests(currentPlatform)"></component> </template>
         </Tabs>
       </div>
 
       <!-- This renders the post chosen with the link -->
       <div class="audience-selection__content-post">
-        <component :is="getPlatformPost($route.params.platform)"></component>
+        <component :is="getPlatformPost(currentPlatform)"></component>
       </div>
     </div>
   </div>
@@ -56,23 +50,23 @@ import { getPlatformAge } from './utils/platform-audience-age-helper';
 import { getPlatformGender } from './utils/platform-audience-gender-helper';
 import { getPlatformLocation } from './utils/platform-audience-location-helper';
 import { getPlatformInterests } from './utils/platform-audience-interests-helper';
+import { getPlatformTabsList } from './utils/platform-audience-tab-helper';
+import { setCompletedAudienceFields } from './utils/platform-audience-validation-helper';
 import Tabs from '@/components/elements/tabs/Tabs.vue';
 import { getPlatformPost } from '@/components/functional/social-post/post-component-loader';
 import SelectedContent from '@/components/functional/SelectedContent.vue';
+import { mapGetters } from 'vuex';
 
 export default Vue.extend({
   name: 'AudienceIndex',
   components: { SelectedContent, Tabs },
   data() {
     return {
-      // TO DO (MAYBE): If not all platforms offer the below audience options or have more then we need to build audience options by platform
-      tabsList: [
-        { text: 'Age', required: true, completed: true },
-        { text: 'Gender', required: true, completed: true },
-        { text: 'Location', required: true, completed: false },
-        { text: 'Interests', required: false, completed: false },
-      ],
+      tabsList: [],
     };
+  },
+  created() {
+    this.$data.tabsList = this.getPlatformTabsList(this.currentPlatform as string);
   },
   methods: {
     getPlatformAge,
@@ -80,6 +74,30 @@ export default Vue.extend({
     getPlatformLocation,
     getPlatformInterests,
     getPlatformPost,
+    getPlatformTabsList,
+    setCompletedAudienceFields,
+  },
+  computed: {
+    ...mapGetters('Facebook', ['currentFacebookAudience']),
+    currentPlatform() {
+      return this.$route.params.platform;
+    },
+    currentObjective() {
+      return this.$route.query.objective;
+    },
+    currentObjectiveGoal() {
+      return this.$route.query.objectiveGoal;
+    },
+  },
+  watch: {
+    // Not a fan of this because it can get big with all the platforms but maybe in the future create a file and just impot them, althought i still wouldnt be 100% with that
+    currentFacebookAudience(updatedAudience) {
+      this.$data.tabsList = this.setCompletedAudienceFields(
+        this.currentPlatform as string,
+        updatedAudience,
+        this.$data.tabsList
+      );
+    },
   },
 });
 </script>

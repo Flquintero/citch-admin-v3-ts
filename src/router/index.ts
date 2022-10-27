@@ -18,23 +18,19 @@ const routes: Array<RouteConfig> = [
         path: '/post-link',
         name: 'post-link',
         meta: { requiresAuth: true },
-        component: () =>
-          import(/* webpackChunkName: "postLink" */ '../views/admin/choose-post/PostLink.vue'),
+        component: () => import(/* webpackChunkName: "postLink" */ '../views/admin/choose-post/PostLink.vue'),
       },
       {
         path: '/builder/:platform',
         name: 'builder',
         meta: { requiresAuth: true },
-        component: () =>
-          import(/* webpackChunkName: "builderIndex" */ '../views/admin/builder/BuilderIndex.vue'),
+        component: () => import(/* webpackChunkName: "builderIndex" */ '../views/admin/builder/BuilderIndex.vue'),
         children: [
           {
             path: 'connect',
             name: 'platform connect',
             component: () =>
-              import(
-                /* webpackChunkName: "platformConnect" */ '../views/admin/platform-connect/ConnectIndex.vue'
-              ),
+              import(/* webpackChunkName: "platformConnect" */ '../views/admin/platform-connect/ConnectIndex.vue'),
           },
           {
             path: 'objective',
@@ -49,16 +45,14 @@ const routes: Array<RouteConfig> = [
             name: 'platform objective goal',
             component: () =>
               import(
-                /* webpackChunkName: "platformObjectiveGoal" */ '../views/admin/platform-objective/shared/ObjectiveGoal.vue'
+                /* webpackChunkName: "platformObjectiveGoal" */ '../views/admin/platform-objective-goal/ObjectiveGoalIndex.vue'
               ),
           },
           {
             path: 'audience',
             name: 'platform audience',
             component: () =>
-              import(
-                /* webpackChunkName: "platformAudience" */ '../views/admin/platform-audience/AudienceIndex.vue'
-              ),
+              import(/* webpackChunkName: "platformAudience" */ '../views/admin/platform-audience/AudienceIndex.vue'),
           },
         ],
       },
@@ -66,13 +60,11 @@ const routes: Array<RouteConfig> = [
         path: '/settings',
         name: 'settings',
         meta: { requiresAuth: true },
-        component: () =>
-          import(/* webpackChunkName: "settings" */ '../views/admin/settings/Settings.vue'),
+        component: () => import(/* webpackChunkName: "settings" */ '../views/admin/settings/Settings.vue'),
         children: [
           {
             path: 'user',
-            component: () =>
-              import(/* webpackChunkName: "user" */ '../views/admin/settings/user/Profile.vue'),
+            component: () => import(/* webpackChunkName: "user" */ '../views/admin/settings/user/Profile.vue'),
           },
         ],
       },
@@ -102,9 +94,7 @@ const routes: Array<RouteConfig> = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(
-        /* webpackChunkName: "confirm-password" */ '../views/auth/reset-password/PasswordConfirm.vue'
-      ),
+      import(/* webpackChunkName: "confirm-password" */ '../views/auth/reset-password/PasswordConfirm.vue'),
   },
   {
     path: '/reset-password',
@@ -112,10 +102,7 @@ const routes: Array<RouteConfig> = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(
-        /* webpackChunkName: "resetPassword" */ '../views/auth/reset-password/PasswordReset.vue'
-      ),
+    component: () => import(/* webpackChunkName: "resetPassword" */ '../views/auth/reset-password/PasswordReset.vue'),
   },
   {
     path: '/auth-redirect',
@@ -123,8 +110,7 @@ const routes: Array<RouteConfig> = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "authRedirect" */ '../views/auth/redirect/AuthRedirect.vue'),
+    component: () => import(/* webpackChunkName: "authRedirect" */ '../views/auth/redirect/AuthRedirect.vue'),
   },
   {
     path: '/platform-redirect/:platform',
@@ -134,9 +120,7 @@ const routes: Array<RouteConfig> = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(
-        /* webpackChunkName: "platformRedirect" */ '../views/platform-redirect/PlatformRedirect.vue'
-      ),
+      import(/* webpackChunkName: "platformRedirect" */ '../views/platform-redirect/PlatformRedirect.vue'),
   },
   // {
   //   path: '*',

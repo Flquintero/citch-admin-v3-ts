@@ -1,37 +1,5 @@
 <template>
   <div class="objective-goal">
-    <h1 class="objective-goal__title"
-      >How many
-      <SelectedContent
-        v-bind="{
-          content: $route.query.objective,
-          capitalize: true,
-          url: `objective`,
-          addQueryParams: true,
-        }"
-      />
-      are you looking to generate for your
-      <SelectedContent
-        v-bind="{ content: $route.params.platform, capitalize: true, url: '/post-link' }"
-      />
-      post?</h1
-    >
-    <h1 class="objective-goal__title"
-      >How many people are you looking to
-      <SelectedContent
-        v-bind="{
-          content: $route.query.objective,
-          capitalize: true,
-          url: `objective`,
-          addQueryParams: true,
-        }"
-      />
-      with your
-      <SelectedContent
-        v-bind="{ content: $route.params.platform, capitalize: true, url: '/post-link' }"
-      />
-      post?</h1
-    >
     <div class="objective-goal__content">
       <div class="objective-goal__content-input">
         <CInput
@@ -58,11 +26,7 @@
             textContent: formatContinueButton,
             textIcon: 'fa-arrow-right',
             loadingContent: 'Saving to Continue',
-          }"
-        ></Continue>
-      </div>
-      <div class="objective-goal__content-post">
-        <component :is="getPlatformPost($route.params.platform)"></component>
+          }"></Continue>
       </div>
     </div>
   </div>
@@ -71,16 +35,13 @@
 <script lang="ts">
 import Vue from 'vue';
 const CInput = () => import(/* webpackChunkName: "CInput" */ '@/components/elements/Input.vue');
-const Continue = () =>
-  import(/* webpackChunkName: "Continue" */ '@/components/functional/Continue.vue');
+const Continue = () => import(/* webpackChunkName: "Continue" */ '@/components/functional/Continue.vue');
 import { FormFunctions } from '@/utils/form-functionality';
 import { required, numeric } from 'vuelidate/lib/validators';
-import { getPlatformPost } from '@/components/functional/social-post/post-component-loader';
-import SelectedContent from '@/components/functional/SelectedContent.vue';
 
 export default Vue.extend({
-  name: 'ObjectiveNumbers',
-  components: { SelectedContent, CInput, Continue },
+  name: 'FacebookObjectiveGoal',
+  components: { CInput, Continue },
   data() {
     return {
       saving: false,
@@ -102,7 +63,6 @@ export default Vue.extend({
   },
   methods: {
     ...FormFunctions,
-    getPlatformPost,
     checkExistingObjectiveGoal() {
       if (this.isSavedObjectiveGoal) this.formData.objectiveGoal = this.savedObjectiveGoal;
     },
@@ -159,9 +119,6 @@ export default Vue.extend({
   @include view-web-gutter();
   @include mobile() {
     @include view-mobile-gutter();
-  }
-  &__title {
-    text-align: center;
   }
   &__content {
     &-input {

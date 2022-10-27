@@ -1,15 +1,19 @@
-export function setCompletedAudienceFields(platform: string, audienceObject: any, audienceList: any) {
-  return audienceList.map((audienceVariableProperty: any) => {
+export function setCompletedAudienceFields(
+  targetAudienceItemIdentifier: number, // enum
+  audienceTabList: any,
+  newAudienceObject: any
+) {
+  return audienceTabList.map((existingAudienceItem: any) => {
     let hasFields = true;
-    audienceVariableProperty.requiredFields.forEach((field: string) => {
-      console.log('field', field);
-      console.log('audienceObject', audienceObject);
-      if (!audienceObject[field]) {
-        hasFields = false;
+    if (existingAudienceItem.identifier === targetAudienceItemIdentifier) {
+      existingAudienceItem.requiredFields.forEach((field: string) => {
+        if (!newAudienceObject[field]) {
+          hasFields = false;
+        }
+      });
+      if (hasFields) {
+        existingAudienceItem.completed = true;
       }
-    });
-    if (hasFields) {
-      audienceVariableProperty.completed = true;
     }
   });
 }

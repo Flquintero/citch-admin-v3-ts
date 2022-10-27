@@ -60,3 +60,10 @@ export interface IFacebookAudience {
 export interface IFacebookCampaign {
   [property: string]: any;
 }
+
+export enum FacebookAudienceItems {
+  age,
+  gender,
+  location,
+  interests,
+}

@@ -22,21 +22,15 @@
     </h1>
     <div class="audience-selection__content">
       <div class="audience-selection__content-tabs">
-        <Tabs :tabs-list="tabsList">
-          <template #Age>
-            <component :is="getPlatformAge(currentPlatform)"></component>
+        <Tabs @tab-selected="setCurrentTabIndex($event)" :tabs-list="tabsList">
+          <template #tab-content>
+            <component
+              @tab-updated="setTabsList($event)"
+              :tabs-list="tabsList"
+              :is="getTabContentComponent"></component>
           </template>
-          <template #Gender>
-            <component :is="getPlatformGender(currentPlatform)"></component>
-          </template>
-          <template #Location>
-            <component :is="getPlatformLocation(currentPlatform)"></component>
-          </template>
-          <template #Interests><component :is="getPlatformInterests(currentPlatform)"></component> </template>
         </Tabs>
       </div>
-
-      <!-- This renders the post chosen with the link -->
       <div class="audience-selection__content-post">
         <component :is="getPlatformPost(currentPlatform)"></component>
       </div>
@@ -46,59 +40,55 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { getPlatformAge } from './utils/platform-audience-age-helper';
-import { getPlatformGender } from './utils/platform-audience-gender-helper';
-import { getPlatformLocation } from './utils/platform-audience-location-helper';
-import { getPlatformInterests } from './utils/platform-audience-interests-helper';
 import { getPlatformTabsList } from './utils/platform-audience-tab-helper';
-import { setCompletedAudienceFields } from './utils/platform-audience-validation-helper';
-import { $deepCopy } from '@/utils/formatting';
+import { _deepCopyObjectsArray } from '@/utils/formatting';
 import Tabs from '@/components/elements/tabs/Tabs.vue';
 import { getPlatformPost } from '@/components/functional/social-post/post-component-loader';
 import SelectedContent from '@/components/functional/SelectedContent.vue';
-import { mapGetters } from 'vuex';
+import { ITabContent } from '@/types/components';
 
 export default Vue.extend({
   name: 'AudienceIndex',
   components: { SelectedContent, Tabs },
   data() {
     return {
-      tabsList: [],
+      tabsList: [] as any[],
+      currentTabIndex: 0 as number,
     };
   },
   created() {
-    this.$data.tabsList = $deepCopy(this.getPlatformTabsList(this.currentPlatform as string));
+    this.setInitialTabsList();
   },
   methods: {
-    $deepCopy,
-    getPlatformAge,
-    getPlatformGender,
-    getPlatformLocation,
-    getPlatformInterests,
+    _deepCopyObjectsArray,
     getPlatformPost,
     getPlatformTabsList,
-    setCompletedAudienceFields,
+    setInitialTabsList() {
+      const initialTabsList = this.getPlatformTabsList(this.currentPlatform as string);
+      this.setTabsList(initialTabsList);
+    },
+    setTabsList(newTabsList: ITabContent) {
+      this.tabsList = _deepCopyObjectsArray(newTabsList);
+    },
+    setCurrentTabIndex: function (tabIndex: number): void {
+      this.currentTabIndex = tabIndex;
+    },
   },
   computed: {
-    ...mapGetters('Facebook', ['currentFacebookAudience']),
-    currentPlatform() {
+    currentPlatform(): string {
       return this.$route.params.platform;
     },
-    currentObjective() {
-      return this.$route.query.objective;
+    currentObjective(): string {
+      return this.$route.query.objective as string;
     },
-    currentObjectiveGoal() {
-      return this.$route.query.objectiveGoal;
+    currentObjectiveGoal(): string {
+      return this.$route.query.objectiveGoal as string;
     },
-  },
-  watch: {
-    // Not a fan of this because it can get big with all the platforms but maybe in the future create a file and just impot them, althought i still wouldnt be 100% with that
-    currentFacebookAudience(updatedAudience) {
-      this.$data.tabsList = this.setCompletedAudienceFields(
-        this.currentPlatform as string,
-        updatedAudience,
-        this.$data.tabsList
-      );
+    getTabContent(): any {
+      return this.tabsList[this.currentTabIndex];
+    },
+    getTabContentComponent(): any {
+      return this.getTabContent.component;
     },
   },
 });

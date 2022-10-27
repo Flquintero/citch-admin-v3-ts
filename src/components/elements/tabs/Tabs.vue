@@ -5,14 +5,9 @@
         v-for="(tab, index) in tabsList"
         :key="`${tab.text}-${index}`"
         v-bind="{ content: tab, isCurrentTab: checkCurrentTab(index) }"
-        @click.native="setCurrentTab(index)"
-      />
+        @click.native="setCurrentTab(index)" />
     </div>
-    <div class="tabs__slots">
-      <template v-for="(tab, index) in tabsList" class="tabs__slots-item">
-        <slot v-if="checkCurrentTab(index)" :name="tab.text"></slot>
-      </template>
-    </div>
+    <slot name="tab-content"></slot>
   </div>
 </template>
 <script lang="ts">

@@ -28,13 +28,19 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { mapActions, mapGetters } from 'vuex';
 import { ageMinRange, ageMaxRange } from './utils/facebook-age-data';
 import CDropdown from '@/components/elements/Dropdown.vue';
 import { IDropdownOption } from '@/types/components';
-import { mapActions } from 'vuex';
+import { setCompletedAudienceFields } from '../../utils/platform-audience-validation-helper';
+import { ITabContent } from '@/types/components';
+import { FacebookAudienceItems } from '@/types/facebook';
 
 export default Vue.extend({
   name: 'FacebookAudienceAge',
+  props: {
+    tabsList: Array as () => Array<ITabContent>,
+  },
   components: { CDropdown },
   data() {
     return {
@@ -45,6 +51,7 @@ export default Vue.extend({
   },
   methods: {
     ...mapActions('Facebook', ['setCurrentFacebookAudience']),
+    setCompletedAudienceFields,
     setMinAge(ageOption: IDropdownOption) {
       this.formData.ageMin = ageOption.value as string;
       if (this.formData.ageMax) this.validateMinAge();
@@ -76,6 +83,19 @@ export default Vue.extend({
       return ageRange.map((age: string) => {
         return { value: age, text: age };
       });
+    },
+  },
+  computed: {
+    ...mapGetters('Facebook', ['currentFacebookAudience']),
+  },
+  watch: {
+    currentFacebookAudience() {
+      const updatedTabs = this.setCompletedAudienceFields(
+        FacebookAudienceItems.age,
+        this.tabsList,
+        this.currentFacebookAudience
+      );
+      this.$emit('tabs-updated', updatedTabs);
     },
   },
 });

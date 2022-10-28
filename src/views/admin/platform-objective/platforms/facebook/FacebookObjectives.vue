@@ -38,7 +38,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { mapActions } from 'vuex';
-import { IFacebookCampaignData, IFacebookObjective } from '@/types/facebook';
+import { EFacebookObjectiveIdentifier, IFacebookCampaignData, IFacebookObjective } from '@/types/facebook';
 import { FacebookObjectivesList } from './utils/facebook-platform-objectives';
 import dayjs from 'dayjs';
 const FacebookRepository = Vue.prototype.$apiRepository.get('facebook');
@@ -66,7 +66,7 @@ export default Vue.extend({
     },
     getObjective() {
       return this.objectives.filter((objective: IFacebookObjective) => {
-        return this.$route.query.objective === objective.displayName;
+        return this.savedObjective === (objective.identifier as IFacebookObjective['identifier']);
       })[0];
     },
     async confirmObjective() {
@@ -135,11 +135,11 @@ export default Vue.extend({
     savedCampaignsArray(): string[] {
       return this.savedCampaigns?.split(',');
     },
-    savedObjective(): string {
-      return this.$route.query.objective as string;
+    savedObjective(): EFacebookObjectiveIdentifier {
+      return parseInt(this.$route.query.objective as string);
     },
     isSameObjective(): boolean {
-      return this.savedObjective === this.chosenObjective?.displayName;
+      return this.savedObjective === this.chosenObjective?.identifier;
     },
     formatContinueButton(): string {
       let renderButtonContent = 'Confirm Objective';

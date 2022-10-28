@@ -3,7 +3,7 @@
     >How many people are you looking to
     <SelectedContent
       v-bind="{
-        content: currentObjective,
+        content: savedObjectiveDisplayName,
         capitalize: true,
         url: `objective`,
         addQueryParams: true,
@@ -16,7 +16,7 @@
     >How many
     <SelectedContent
       v-bind="{
-        content: currentObjective,
+        content: savedObjectiveDisplayName,
         capitalize: true,
         url: `objective`,
         addQueryParams: true,
@@ -30,6 +30,8 @@
 <script lang="ts">
 import Vue from 'vue';
 import SelectedContent from '@/components/functional/SelectedContent.vue';
+import { EFacebookObjectiveIdentifier, IFacebookObjective } from '@/types/facebook';
+import { getFacebookObjectiveByIdentifier } from '../../../platform-objective/platforms/facebook/utils/facebook-objective-identifier-parser';
 
 export default Vue.extend({
   name: 'ObjectiveGoalTitle',
@@ -38,11 +40,17 @@ export default Vue.extend({
     currentPlatform(): string {
       return this.$route.params.platform;
     },
-    currentObjective(): string {
-      return this.$route.query.objective as string;
+    savedObjective(): IFacebookObjective {
+      return getFacebookObjectiveByIdentifier(this.savedObjectiveIdentifier);
+    },
+    savedObjectiveDisplayName(): IFacebookObjective['displayName'] {
+      return this.savedObjective.displayName;
+    },
+    savedObjectiveIdentifier(): EFacebookObjectiveIdentifier {
+      return parseInt(this.$route.query.objective as string);
     },
     isReachObjective(): boolean {
-      return this.currentObjective.toLowerCase() === 'reach'; // change this to enum;
+      return this.savedObjectiveIdentifier === EFacebookObjectiveIdentifier.reach;
     },
   },
 });

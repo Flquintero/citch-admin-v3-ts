@@ -8,8 +8,8 @@
             value: formData.objectiveGoal,
             error: hasInputError($v, 'objectiveGoal'),
             validationObject: $v,
-            placeholder: `Enter Number of ${savedObjective}`,
-            label: `${savedObjective} Goal`,
+            placeholder: `Enter Number of ${savedObjectiveDisplayName}`,
+            label: `${savedObjectiveDisplayName} Goal`,
             name: 'objectiveGoal',
             description: 'Enter Numbers Only',
             type: 'number',
@@ -38,6 +38,8 @@ const CInput = () => import(/* webpackChunkName: "CInput" */ '@/components/eleme
 const Continue = () => import(/* webpackChunkName: "Continue" */ '@/components/functional/Continue.vue');
 import { FormFunctions } from '@/utils/form-functionality';
 import { required, numeric } from 'vuelidate/lib/validators';
+import { EFacebookObjectiveIdentifier, IFacebookObjective } from '@/types/facebook';
+import { getFacebookObjectiveByIdentifier } from '../../../platform-objective/platforms/facebook/utils/facebook-objective-identifier-parser';
 
 export default Vue.extend({
   name: 'FacebookObjectiveGoal',
@@ -63,6 +65,7 @@ export default Vue.extend({
   },
   methods: {
     ...FormFunctions,
+    getFacebookObjectiveByIdentifier,
     checkExistingObjectiveGoal() {
       if (this.isSavedObjectiveGoal) this.formData.objectiveGoal = this.savedObjectiveGoal;
     },
@@ -88,14 +91,20 @@ export default Vue.extend({
     },
   },
   computed: {
-    isSavedObjectiveGoal() {
+    isSavedObjectiveGoal(): boolean {
       return !!this.$route.query.objectiveGoal;
     },
-    savedObjectiveGoal() {
+    savedObjectiveGoal(): number {
       return parseInt(this.$route.query.objectiveGoal as string);
     },
-    savedObjective() {
-      return this.$route.query.objective;
+    savedObjectiveIdentifier(): EFacebookObjectiveIdentifier {
+      return parseInt(this.$route.query.objective as string);
+    },
+    savedObjective(): IFacebookObjective {
+      return this.getFacebookObjectiveByIdentifier(this.savedObjectiveIdentifier);
+    },
+    savedObjectiveDisplayName(): IFacebookObjective['displayName'] {
+      return this.savedObjective.displayName;
     },
     isSameObjectiveGoal() {
       return this.$route.query.objectiveGoal === this.$data.formData.objectiveGoal?.toString();

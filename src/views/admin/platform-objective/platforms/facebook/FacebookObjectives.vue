@@ -9,8 +9,7 @@
           'facebook-objectives__list-item--chosen': isObjectiveChosen(objective),
         }"
         v-for="objective in objectives"
-        :key="objective.name"
-      >
+        :key="objective.name">
         <div class="facebook-objectives__list-item-name">
           <span>{{ objective.displayName }}</span>
         </div>
@@ -32,8 +31,7 @@
         textContent: formatContinueButton,
         textIcon: 'fa-arrow-right',
         loadingContent: 'Saving to Continue',
-      }"
-    ></Continue>
+      }"></Continue>
   </div>
 </template>
 
@@ -41,10 +39,10 @@
 import Vue from 'vue';
 import { mapActions } from 'vuex';
 import { IFacebookCampaignData, IFacebookObjective } from '@/types/facebook';
+import { FacebookObjectivesList } from './utils/facebook-platform-objectives';
 import dayjs from 'dayjs';
 const FacebookRepository = Vue.prototype.$apiRepository.get('facebook');
-const Continue = () =>
-  import(/* webpackChunkName: "Continue" */ '@/components/functional/Continue.vue');
+const Continue = () => import(/* webpackChunkName: "Continue" */ '@/components/functional/Continue.vue');
 
 export default Vue.extend({
   name: 'FacebookObjectives',
@@ -53,39 +51,7 @@ export default Vue.extend({
     return {
       saving: false,
       chosenObjective: null as IFacebookObjective | null,
-      // TO DO: Create enum mapping for displayName
-      objectives: [
-        {
-          name: 'impressions',
-          value: ['REACH'],
-          displayName: 'Impressions', // 0 ?
-          description: 'Get more views from a specific demographicof people',
-        },
-        {
-          name: 'reach',
-          value: ['REACH'],
-          displayName: 'Reach', // 1 ?
-          description: 'Get more views from a specific demographicof people',
-        },
-        {
-          name: 'engagements',
-          value: ['POST_ENGAGEMENT'],
-          displayName: 'Engagements',
-          description: 'Get more likes and comments from a spefic demographic',
-        },
-        {
-          name: 'video views',
-          value: ['VIDEO_VIEWS'],
-          displayName: 'Video Views',
-          description: 'Get more video views from a specific group of people',
-        },
-        // {
-        //   name: 'citch reach',
-        //   value: ['REACH', 'POST_ENGAGEMENT'],
-        //   displayName: 'Citch Reach',
-        //   description: 'Get more views, likes and comments from a specific group of people',
-        // },
-      ] as IFacebookObjective[],
+      objectives: FacebookObjectivesList,
     };
   },
   mounted() {
@@ -94,7 +60,7 @@ export default Vue.extend({
   methods: {
     ...mapActions('Facebook', ['setCurrentFacebookCampaign']),
     async checkExistingCampaign() {
-      if (this.isSavedCampaign) {
+      if (this.isSavedCampaigns) {
         this.chosenObjective = await this.getObjective();
       }
     },
@@ -105,42 +71,44 @@ export default Vue.extend({
     },
     async confirmObjective() {
       if (this.isSameObjective) {
-        await this.continueNextStep(this.$route.query.campaignId as string);
+        await this.continueNextStep(this.$route.query.campaignIds as string);
         return;
       }
       try {
         this.saving = true;
-        const pageId = (this.$route.query.postId as string).split('_')[0];
+        const pageId = this.currentPost.split('_')[0];
         const now = dayjs().format('MM-DD-YY-Thhmmss');
         const campaignObject: IFacebookCampaignData = {
           campaignData: {
-            name: `${pageId}-${this.chosenObjective?.value[0]}-${now}`,
-            objective: this.chosenObjective?.value[0],
-            ...(this.isSavedCampaign ? { campaignId: this.$route.query.campaignId } : null),
+            name: `${now}-${pageId}-${this.currentPlatform}-${this.chosenObjective?.displayName}`,
+            facebookObjectiveValues: this.chosenObjective?.facebookValues as IFacebookObjective['facebookValues'],
+            facebookObjectiveIdentifier: this.chosenObjective?.identifier as IFacebookObjective['identifier'],
+            ...(this.isSavedCampaigns ? { campaignIds: this.savedCampaignsArray as string[] } : null),
           },
         };
-        const savedCampaign = this.isSavedCampaign
+        const savedCampaigns: string[] = this.isSavedCampaigns
           ? await FacebookRepository.updateCampaign(campaignObject)
           : await FacebookRepository.createCampaign(campaignObject);
-        const campaignId = this.isSavedCampaign ? this.savedCampaign : savedCampaign.id;
+        let campaignIds: string[] = this.isSavedCampaigns ? (this.savedCampaignsArray as string[]) : savedCampaigns;
         await this.setCurrentFacebookCampaign({
-          campaignId,
+          campaignIds,
         });
-        await this.continueNextStep(campaignId);
+        console.log('campaignIds', campaignIds);
+        await this.continueNextStep(campaignIds.join() as string);
       } catch (error: any) {
         this.$alert.error(`Error Saving Objective: ${error}`);
       } finally {
         this.saving = false;
       }
     },
-    async continueNextStep(campaignId: string) {
+    async continueNextStep(campaignIds: string) {
       await this.$router.push({
         name: 'platform objective goal',
         params: this.$route.params,
         query: {
           ...this.$route.query,
-          campaignId,
-          objective: this.chosenObjective?.displayName,
+          campaignIds,
+          objective: this.chosenObjective?.identifier.toString(),
         },
       });
     },
@@ -152,18 +120,30 @@ export default Vue.extend({
     },
   },
   computed: {
-    isSavedCampaign() {
-      return !!this.$route.query.campaignId;
+    currentPost(): string {
+      return this.$route.query.postId as string;
     },
-    savedCampaign() {
-      return this.$route.query.campaignId;
+    currentPlatform(): string {
+      return this.$route.params.platform;
     },
-    isSameObjective() {
-      return this.$route.query.objective === this.$data.chosenObjective?.displayName;
+    isSavedCampaigns(): boolean {
+      return !!this.$route.query.campaignIds;
     },
-    formatContinueButton() {
+    savedCampaigns(): string {
+      return this.$route.query.campaignIds as string;
+    },
+    savedCampaignsArray(): string[] {
+      return this.savedCampaigns?.split(',');
+    },
+    savedObjective(): string {
+      return this.$route.query.objective as string;
+    },
+    isSameObjective(): boolean {
+      return this.savedObjective === this.chosenObjective?.displayName;
+    },
+    formatContinueButton(): string {
       let renderButtonContent = 'Confirm Objective';
-      if (this.isSavedCampaign) {
+      if (this.isSavedCampaigns) {
         if (this.isSameObjective) {
           renderButtonContent = 'Continue';
         } else {

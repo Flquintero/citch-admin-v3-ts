@@ -1,11 +1,6 @@
 <template>
-  <CButton
-    @click.native="initFacebookDisconnect"
-    class="facebook-disconnect-button"
-    variant="danger"
-  >
-    <span v-if="disconnecting">
-      <font-awesome-icon icon="fa-duotone fa-circle-notch" spin /> Disconnecting</span
+  <CButton @click.native="initFacebookDisconnect" class="facebook-disconnect-button" variant="danger">
+    <span v-if="disconnecting"> <font-awesome-icon icon="fa-duotone fa-circle-notch" spin /> Disconnecting</span
     ><span v-else
       ><font-awesome-icon icon="fa-brands fa-facebook" />
       <span class="facebook-disconnect-button__content-text">Disconnect</span></span

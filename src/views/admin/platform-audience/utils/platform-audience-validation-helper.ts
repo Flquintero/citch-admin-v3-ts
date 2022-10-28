@@ -1,5 +1,7 @@
+import { FacebookAudienceItems } from '@/types/facebook';
+
 export function setCompletedAudienceFields(
-  targetAudienceItemIdentifier: number, // enum
+  targetAudienceItemIdentifier: FacebookAudienceItems, // enum
   audienceTabList: any,
   newAudienceObject: any
 ) {

@@ -45,7 +45,7 @@ export default Vue.extend({
   methods: {
     ...mapActions('Facebook', ['setCurrentFacebookCampaign']),
     async checkExistingCampaign() {
-      if (this.isSavedCampaigns) {
+      if (this.isSavedCampaign) {
         this.chosenObjective = await this.getObjective();
       }
     },
@@ -68,31 +68,30 @@ export default Vue.extend({
             name: `${now}-${pageId}-${this.currentPlatform}-${this.chosenObjective?.displayName}`,
             facebookObjectiveValues: this.chosenObjective?.facebookValues as IFacebookObjective['facebookValues'],
             facebookObjectiveIdentifier: this.chosenObjective?.identifier as IFacebookObjective['identifier'],
-            ...(this.isSavedCampaigns ? { campaignIds: this.savedCampaignsArray as string[] } : null),
+            ...(this.isSavedCampaign ? { campaignId: this.savedCampaign as string } : null),
           },
         };
-        const savedCampaigns: string[] = this.isSavedCampaigns
+        const savedCampaign: string = this.isSavedCampaign
           ? await FacebookRepository.updateCampaign(campaignObject)
           : await FacebookRepository.createCampaign(campaignObject);
-        let campaignIds: string[] = this.isSavedCampaigns ? (this.savedCampaignsArray as string[]) : savedCampaigns;
+        let campaignId: string = this.isSavedCampaign ? (this.savedCampaign as string) : savedCampaign;
         await this.setCurrentFacebookCampaign({
-          campaignIds,
+          campaignId,
         });
-        console.log('campaignIds', campaignIds);
-        await this.continueNextStep(campaignIds.join() as string);
+        await this.continueNextStep(campaignId);
       } catch (error: any) {
         this.$alert.error(`Error Saving Objective: ${error}`);
       } finally {
         this.saving = false;
       }
     },
-    async continueNextStep(campaignIds: string) {
+    async continueNextStep(campaignId: string) {
       await this.$router.push({
         name: 'platform objective goal',
         params: this.$route.params,
         query: {
           ...this.$route.query,
-          campaignIds,
+          campaignId,
           objective: this.chosenObjective?.identifier.toString(),
         },
       });
@@ -108,14 +107,11 @@ export default Vue.extend({
     currentPlatform(): string {
       return this.$route.params.platform;
     },
-    isSavedCampaigns(): boolean {
-      return !!this.$route.query.campaignIds;
+    isSavedCampaign(): boolean {
+      return !!this.$route.query.campaignId;
     },
-    savedCampaigns(): string {
-      return this.$route.query.campaignIds as string;
-    },
-    savedCampaignsArray(): string[] {
-      return this.savedCampaigns?.split(',');
+    savedCampaign(): string {
+      return this.$route.query.campaignId as string;
     },
     savedObjective(): EFacebookObjectiveIdentifier {
       return parseInt(this.$route.query.objective as string);
@@ -125,7 +121,7 @@ export default Vue.extend({
     },
     formatContinueButton(): string {
       let renderButtonContent = 'Confirm Objective';
-      if (this.isSavedCampaigns) {
+      if (this.isSavedCampaign) {
         if (this.isSameObjective) {
           renderButtonContent = 'Continue';
         } else {

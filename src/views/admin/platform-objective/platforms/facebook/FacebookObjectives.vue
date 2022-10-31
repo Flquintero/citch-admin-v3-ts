@@ -1,26 +1,9 @@
 <template>
   <div class="facebook-objectives">
-    <div class="facebook-objectives__title"> <h3>Select one:</h3></div>
-    <div class="facebook-objectives__list">
-      <div
-        @click="setChosenObjective(objective)"
-        class="facebook-objectives__list-item"
-        :class="{
-          'facebook-objectives__list-item--chosen': isObjectiveChosen(objective),
-        }"
-        v-for="objective in objectives"
-        :key="objective.name">
-        <div class="facebook-objectives__list-item-name">
-          <span>{{ objective.displayName }}</span>
-        </div>
-        <div class="facebook-objectives__list-item-description">
-          <span>{{ objective.description }}</span>
-        </div>
-        <div v-if="isObjectiveChosen(objective)" class="facebook-objectives__list-item-icon">
-          <font-awesome-icon icon="fa-duotone fa-circle-check" />
-        </div>
-      </div>
-    </div>
+    <ChooseSingleList
+      @option-selected="setChosenObjective"
+      :chosen-option="chosenObjective"
+      :options-list="objectives" />
     <Continue
       v-if="chosenObjective"
       @click.native="confirmObjective"
@@ -43,10 +26,12 @@ import { FacebookObjectivesList } from './utils/facebook-platform-objectives';
 import dayjs from 'dayjs';
 const FacebookRepository = Vue.prototype.$apiRepository.get('facebook');
 const Continue = () => import(/* webpackChunkName: "Continue" */ '@/components/functional/Continue.vue');
+const ChooseSingleList = () =>
+  import(/* webpackChunkName: "ChooseSingleList" */ '@/components/elements/ChooseSingleList.vue');
 
 export default Vue.extend({
   name: 'FacebookObjectives',
-  components: { Continue },
+  components: { Continue, ChooseSingleList },
   data() {
     return {
       saving: false,
@@ -115,9 +100,6 @@ export default Vue.extend({
     async setChosenObjective(objective: IFacebookObjective | null) {
       this.chosenObjective = objective;
     },
-    isObjectiveChosen(objective: IFacebookObjective) {
-      return this.chosenObjective?.name === objective.name;
-    },
   },
   computed: {
     currentPost(): string {
@@ -155,56 +137,4 @@ export default Vue.extend({
   },
 });
 </script>
-<style lang="scss" scoped>
-.facebook-objectives {
-  &__title {
-    margin: 40px 0 10px;
-  }
-
-  &__list {
-    @include flex-config($flex-wrap: wrap, $justify-content: center);
-    &-item {
-      flex-basis: 200px;
-      max-width: 280px;
-      flex-grow: 1;
-      margin: 10px;
-      border: 1px solid $border;
-      border-radius: 2px;
-      position: relative;
-      cursor: pointer;
-      &--chosen {
-        border-color: $success;
-      }
-      &-name {
-        padding-top: 10px;
-        text-align: center;
-        font-weight: 600;
-        font-size: 12px;
-
-        span {
-          border-bottom: 2px solid $tertiary;
-        }
-      }
-      &-description {
-        padding: 10px;
-        text-align: center;
-        @include center-with-margin($max-width: 250px);
-        font-size: 16px;
-        line-height: 1.1;
-      }
-      &-icon {
-        position: absolute;
-        right: 0;
-        top: 0;
-        height: 25px;
-        width: 30px;
-        background: transparent;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: #16a34f;
-      }
-    }
-  }
-}
-</style>
+<style lang="scss" scoped></style>

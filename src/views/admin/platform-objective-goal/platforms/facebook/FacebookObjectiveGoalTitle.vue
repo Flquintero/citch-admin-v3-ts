@@ -1,5 +1,5 @@
 <template>
-  <h1 v-if="isReachObjective" class="objective-goal-title"
+  <h1 v-if="isReachObjective || isCitchReachObjective" class="objective-goal-title"
     >How many people are you looking to
     <SelectedContent
       v-bind="{
@@ -51,6 +51,9 @@ export default Vue.extend({
     },
     isReachObjective(): boolean {
       return this.savedObjectiveIdentifier === EFacebookObjectiveIdentifier.reach;
+    },
+    isCitchReachObjective(): boolean {
+      return this.savedObjectiveIdentifier === EFacebookObjectiveIdentifier.citch_reach;
     },
   },
 });

@@ -1,25 +1,6 @@
 <template>
   <div class="audience-selection">
-    <h1 class="audience-selection__title"
-      >What audience are you looking for to generate
-      <SelectedContent
-        v-bind="{
-          content: currentObjectiveGoal,
-          url: 'objective-goal',
-          addQueryParams: true,
-        }" />
-      of
-      <SelectedContent
-        v-bind="{
-          content: currentObjective,
-          capitalize: true,
-          url: `objective`,
-          addQueryParams: true,
-        }" />
-      for your
-      <SelectedContent v-bind="{ content: currentPlatform, capitalize: true, url: '/post-link' }" />
-      post?
-    </h1>
+    <component :is="getPlatformAudienceTitle(currentPlatform)"></component>
     <div class="audience-selection__content">
       <div class="audience-selection__content-tabs">
         <Tabs @tab-selected="setCurrentTabIndex($event)" :tabs-list="tabsList">
@@ -41,6 +22,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { getPlatformTabsList } from './utils/platform-audience-tab-helper';
+import { getPlatformAudienceTitle } from './utils/platform-audience-title-helper';
 import { _deepCopyObjectsArray } from '@/utils/formatting';
 import Tabs from '@/components/elements/tabs/Tabs.vue';
 import { getPlatformPost } from '@/components/functional/social-post/post-component-loader';
@@ -63,6 +45,7 @@ export default Vue.extend({
     _deepCopyObjectsArray,
     getPlatformPost,
     getPlatformTabsList,
+    getPlatformAudienceTitle,
     setInitialTabsList() {
       const initialTabsList = this.getPlatformTabsList(this.currentPlatform as string);
       this.setTabsList(initialTabsList);

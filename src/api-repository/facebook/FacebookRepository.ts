@@ -1,9 +1,5 @@
 import { $authedApiRequest } from '@/utils/api';
-import {
-  IFacebookConnectData,
-  IFacebookConfirmAccountsData,
-  IFacebookCampaignData,
-} from '@/types/facebook';
+import { IFacebookConnectData, IFacebookConfirmAccountsData, IFacebookCampaignData } from '@/types/facebook';
 
 const DOMAIN_PATH = '/facebook';
 
@@ -64,6 +60,20 @@ export default {
     return await $authedApiRequest({
       method: 'put',
       url: `${DOMAIN_PATH}/update-campaign`,
+      data: campaignObject,
+    });
+  },
+  saveCampaignObjective: async (campaignObject: IFacebookCampaignData) => {
+    return await $authedApiRequest({
+      method: 'post',
+      url: `${DOMAIN_PATH}/save-campaign-objective`,
+      data: campaignObject,
+    });
+  },
+  updateCampaignObjective: async (campaignObject: IFacebookCampaignData) => {
+    return await $authedApiRequest({
+      method: 'put',
+      url: `${DOMAIN_PATH}/update-campaign-objective`,
       data: campaignObject,
     });
   },

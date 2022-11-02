@@ -41,4 +41,6 @@ export interface IFacebookRepository {
   initFacebookConsent(): Promise<IFacebookConsentPayload>;
   createCampaign(campaignDataObject: IFacebookCampaignData): Promise<IFacebookCampaign>;
   updateCampaign(campaignDataObject: IFacebookCampaignData): Promise<IFacebookCampaign>;
+  saveCampaignObjective(campaignDataObject: IFacebookCampaignData): Promise<IFacebookCampaign>;
+  updateCampaignObjective(campaignDataObject: IFacebookCampaignData): Promise<IFacebookCampaign>;
 }

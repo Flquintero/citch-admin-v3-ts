@@ -40,12 +40,13 @@ export default Vue.extend({
     };
   },
   mounted() {
-    this.checkExistingCampaign();
+    this.checkExistingObjective();
   },
   methods: {
     ...mapActions('Facebook', ['setCurrentFacebookCampaign']),
-    async checkExistingCampaign() {
-      if (this.isSavedCampaign) {
+    async checkExistingObjective() {
+      // If user went passed objectives that they need to have saved objective and created campaign
+      if (this.isSavedCampaign && this.isSavedObjective) {
         this.chosenObjective = await this.getObjective();
       }
     },
@@ -72,8 +73,8 @@ export default Vue.extend({
           },
         };
         const savedCampaign: string = this.isSavedCampaign
-          ? await FacebookRepository.updateCampaign(campaignObject)
-          : await FacebookRepository.createCampaign(campaignObject);
+          ? await FacebookRepository.updateCampaignObjective(campaignObject)
+          : await FacebookRepository.saveCampaignObjective(campaignObject);
         let campaignId: string = this.isSavedCampaign ? (this.savedCampaign as string) : savedCampaign;
         await this.setCurrentFacebookCampaign({
           campaignId,
@@ -113,6 +114,9 @@ export default Vue.extend({
     savedCampaign(): string {
       return this.$route.query.campaignId as string;
     },
+    isSavedObjective(): boolean {
+      return !!this.$route.query.objective;
+    },
     savedObjective(): EFacebookObjectiveIdentifier {
       return parseInt(this.$route.query.objective as string);
     },
@@ -122,7 +126,7 @@ export default Vue.extend({
     formatContinueButton(): string {
       let renderButtonContent = 'Confirm Objective';
       if (this.isSavedCampaign) {
-        if (this.isSameObjective) {
+        if (this.isSameObjective && this.isSavedCampaign) {
           renderButtonContent = 'Continue';
         } else {
           renderButtonContent = 'Save Change';

@@ -1,5 +1,5 @@
-import { IFormData } from '@/types/forms';
-import { IVerifyPassword, IPasswordConfirm } from '@/types/auth';
+import { IFormData } from '@/types/forms/interfaces';
+import { IVerifyPassword, IPasswordConfirm } from '@/types/auth/interfaces';
 import { UserCredential, User } from 'firebase/auth';
 import {
   auth,
@@ -16,11 +16,7 @@ const DOMAIN_PATH = '/auth';
 
 export default {
   signupUser: async (formData: IFormData) => {
-    let userCredential: UserCredential = await createUserWithEmailAndPassword(
-      auth,
-      formData.email,
-      formData.password
-    );
+    let userCredential: UserCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
     await updateProfile(userCredential.user, {
       displayName: `${formData.firstName} ${formData.lastName}`,
     });

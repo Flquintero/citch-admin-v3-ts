@@ -1,11 +1,11 @@
 import {
-  IFacebookObjective,
   EFacebookObjectiveValue,
   EFacebookObjectiveIdentifier,
   EFacebookObjectiveName,
   EFacebookObjectiveDisplayName,
   EFacebookObjectiveDescription,
-} from '@/types/facebook';
+} from '@/types/facebook/campaigns/enums';
+import { IFacebookObjective } from '@/types/facebook/campaigns/interfaces';
 
 export const FacebookObjectivesList: IFacebookObjective[] = [
   {

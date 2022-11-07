@@ -17,7 +17,7 @@
 import Vue from 'vue';
 import FacebookConnectButton from './partials/FacebookConnectButton.vue';
 import FacebookDisconnectButton from './partials/FacebookDisconnectButton.vue';
-import { FacebookConnectionStatus } from '@/types/facebook';
+import { EFacebookConnectionStatus } from '@/types/facebook/auth/enums';
 const FacebookRepository = Vue.prototype.$apiRepository.get('facebook');
 
 export default Vue.extend({
@@ -40,13 +40,13 @@ export default Vue.extend({
         this.checkingConnection = true;
         const { status, message } = await FacebookRepository.checkUserConnection();
         switch (status) {
-          case FacebookConnectionStatus.connected:
-          case FacebookConnectionStatus.disconnected:
+          case EFacebookConnectionStatus.connected:
+          case EFacebookConnectionStatus.disconnected:
             this.isConnected = !!status;
             this.$emit('facebook-connected', this.isConnected);
             break;
-          case FacebookConnectionStatus.expired:
-            this.isConnected = !!FacebookConnectionStatus.disconnected;
+          case EFacebookConnectionStatus.expired:
+            this.isConnected = !!EFacebookConnectionStatus.disconnected;
             this.$alert.error(message);
             this.$emit('facebook-connected', this.isConnected);
             break;

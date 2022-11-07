@@ -6,9 +6,7 @@
     <template v-else>
       <slot name="title"></slot>
       <div class="facebook-page-connect__content" v-if="postPage">
-        <div class="facebook-page-connect__content-img"
-          ><img :src="postPage.picture.data.url"
-        /></div>
+        <div class="facebook-page-connect__content-img"><img :src="postPage.picture.data.url" /></div>
         <div class="facebook-page-connect__content-name"
           ><span>{{ postPage.name }}</span></div
         >
@@ -19,7 +17,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { IFacebookPage } from '@/types/facebook';
+import { IFacebookPage } from '@/types/facebook/pages/interfaces';
 import { mapActions } from 'vuex';
 const FacebookRepository = Vue.prototype.$apiRepository.get('facebook');
 

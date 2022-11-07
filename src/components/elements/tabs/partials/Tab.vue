@@ -21,7 +21,7 @@
 </template>
 <script lang="ts">
 import Vue from 'vue';
-import { ITabContent } from '@/types/components';
+import { ITabContent } from '@/types/components/interfaces';
 
 export default Vue.extend({
   name: 'Tab',

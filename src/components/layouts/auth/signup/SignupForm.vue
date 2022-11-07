@@ -11,8 +11,7 @@
         name: 'firstName',
         type: 'text',
         required: true,
-      }"
-    />
+      }" />
     <CInput
       @input="setFormValue(formData, $v, $event)"
       v-bind="{
@@ -24,8 +23,7 @@
         name: 'lastName',
         type: 'text',
         required: true,
-      }"
-    />
+      }" />
     <CInput
       @input="setFormValue(formData, $v, $event)"
       v-bind="{
@@ -37,8 +35,7 @@
         name: 'email',
         type: 'text',
         required: true,
-      }"
-    />
+      }" />
     <CInput
       @input="setFormValue(formData, $v, $event)"
       v-bind="{
@@ -50,8 +47,7 @@
         name: 'password',
         type: 'password',
         required: true,
-      }"
-    />
+      }" />
     <CInput
       @input="setFormValue(formData, $v, $event)"
       v-bind="{
@@ -63,8 +59,7 @@
         name: 'confirmPassword',
         type: 'password',
         required: true,
-      }"
-    />
+      }" />
     <div class="signup-form__terms">
       <span
         >By signing up you agree to our
@@ -73,11 +68,8 @@
       >
     </div>
     <div class="signup-form__submit">
-      <CButton
-        @click.native="submitSignup"
-        v-bind="{ variant: 'primary', disabled: $v.$invalid || saving }"
-        ><span v-if="saving">
-          <font-awesome-icon icon="fa-duotone fa-circle-notch" spin /> Saving</span
+      <CButton @click.native="submitSignup" v-bind="{ variant: 'primary', disabled: $v.$invalid || saving }"
+        ><span v-if="saving"> <font-awesome-icon icon="fa-duotone fa-circle-notch" spin /> Saving</span
         ><span v-else>Register</span></CButton
       >
     </div>
@@ -90,9 +82,9 @@ const CInput = () => import(/* webpackChunkName: "CInput" */ '@/components/eleme
 const CButton = () => import(/* webpackChunkName: "CButton" */ '@/components/elements/Button.vue');
 import { required, minLength, email, sameAs } from 'vuelidate/lib/validators';
 import { FormFunctions } from '@/utils/form-functionality';
-import { IFormData } from '@/types/forms';
+import { IFormData } from '@/types/forms/interfaces';
 import { User } from '@firebase/auth';
-import { ITrackData } from '@/types/analytics';
+import { ITrackData } from '@/types/analytics/interfaces';
 import CurrentUserMixin from '@/mixins/current-user';
 const AuthRepository = Vue.prototype.$apiRepository.get('auth');
 const UsersRepository = Vue.prototype.$apiRepository.get('users');

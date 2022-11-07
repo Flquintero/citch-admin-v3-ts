@@ -14,8 +14,7 @@
           :class="{
             'facebook-page-connect__content--chosen': isPageChosen(page),
           }"
-          class="facebook-page-connect__content"
-        >
+          class="facebook-page-connect__content">
           <div class="facebook-page-connect__content-img"><img :src="page.picture.data.url" /></div>
           <div class="facebook-page-connect__content-name"
             ><span>{{ page.name }}</span></div
@@ -35,7 +34,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { IFacebookPage } from '@/types/facebook';
+import { IFacebookPage } from '@/types/facebook/pages/interfaces';
 import { mapActions } from 'vuex';
 const FacebookRepository = Vue.prototype.$apiRepository.get('facebook');
 

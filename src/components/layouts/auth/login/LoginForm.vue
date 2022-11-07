@@ -11,8 +11,7 @@
         name: 'email',
         type: 'text',
         required: true,
-      }"
-    />
+      }" />
     <CInput
       @input="setFormValue(formData, $v, $event)"
       v-bind="{
@@ -24,18 +23,13 @@
         name: 'password',
         type: 'password',
         required: true,
-      }"
-    />
+      }" />
     <div class="login-form__reset-password">
       <router-link to="/reset-password">Forgot Password?</router-link>
     </div>
     <div class="login-form__submit">
-      <CButton
-        @click.native="submitLogin"
-        v-bind="{ variant: 'primary', disabled: $v.$invalid || saving }"
-      >
-        <span v-if="saving">
-          <font-awesome-icon icon="fa-duotone fa-circle-notch" spin /> Logging You In</span
+      <CButton @click.native="submitLogin" v-bind="{ variant: 'primary', disabled: $v.$invalid || saving }">
+        <span v-if="saving"> <font-awesome-icon icon="fa-duotone fa-circle-notch" spin /> Logging You In</span
         ><span v-else>Login</span></CButton
       >
     </div>
@@ -48,8 +42,8 @@ const CInput = () => import(/* webpackChunkName: "CInput" */ '@/components/eleme
 const CButton = () => import(/* webpackChunkName: "CButton" */ '@/components/elements/Button.vue');
 import { required } from 'vuelidate/lib/validators';
 import { FormFunctions } from '@/utils/form-functionality';
-import { IFormData } from '@/types/forms';
-import { ITrackData } from '@/types/analytics';
+import { IFormData } from '@/types/forms/interfaces';
+import { ITrackData } from '@/types/analytics/interfaces';
 import CurrentUserMixin from '@/mixins/current-user';
 const AuthRepository = Vue.prototype.$apiRepository.get('auth');
 
@@ -81,9 +75,7 @@ export default CurrentUserMixin.extend({
       try {
         this.saving = true;
         // this.authedUser from Mixin
-        this.authedUser = await AuthRepository.loginUser(
-          FormFunctions.formatFormData(this.formData)
-        );
+        this.authedUser = await AuthRepository.loginUser(FormFunctions.formatFormData(this.formData));
         // From Mixin
         await this.initSetCurrentUser(this.getCurrentUserTrackingInfo());
         this.$router.replace('/');

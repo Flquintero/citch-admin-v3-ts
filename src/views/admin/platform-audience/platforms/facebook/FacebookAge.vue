@@ -31,10 +31,10 @@ import Vue from 'vue';
 import { mapActions, mapGetters } from 'vuex';
 import { ageMinRange, ageMaxRange } from './utils/facebook-age-data';
 import CDropdown from '@/components/elements/Dropdown.vue';
-import { IDropdownOption } from '@/types/components';
+import { IDropdownOption } from '@/types/components/interfaces';
 import { setCompletedAudienceFields } from '../../utils/platform-audience-validation-helper';
-import { ITabContent } from '@/types/components';
-import { FacebookAudienceItems } from '@/types/facebook';
+import { ITabContent } from '@/types/components/interfaces';
+import { EFacebookAudienceItems } from '@/types/facebook/campaigns/enums';
 
 export default Vue.extend({
   name: 'FacebookAudienceAge',
@@ -91,7 +91,7 @@ export default Vue.extend({
   watch: {
     currentFacebookAudience() {
       const updatedTabs = this.setCompletedAudienceFields(
-        FacebookAudienceItems.age,
+        EFacebookAudienceItems.age,
         this.tabsList,
         this.currentFacebookAudience
       );

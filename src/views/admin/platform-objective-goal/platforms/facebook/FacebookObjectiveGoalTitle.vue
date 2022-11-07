@@ -30,7 +30,8 @@
 <script lang="ts">
 import Vue from 'vue';
 import SelectedContent from '@/components/functional/SelectedContent.vue';
-import { EFacebookObjectiveIdentifier, IFacebookObjective } from '@/types/facebook';
+import { EFacebookObjectiveIdentifier } from '@/types/facebook/campaigns/enums';
+import { IFacebookObjective } from '@/types/facebook/campaigns/interfaces';
 import { getFacebookObjectiveByIdentifier } from '../../../platform-objective/platforms/facebook/utils/facebook-objective-identifier-parser';
 
 export default Vue.extend({

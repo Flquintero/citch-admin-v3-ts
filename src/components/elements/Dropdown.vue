@@ -41,7 +41,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { IDropdownOption } from '@/types/components';
+import { IDropdownOption } from '@/types/components/interfaces';
 
 export default Vue.extend({
   name: 'Dropdown',

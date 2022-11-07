@@ -11,15 +11,12 @@
 import Vue from 'vue';
 const Header = () => import(/* webpackChunkName: "Header" */ '@/layouts/Header.vue');
 const Loader = () => import(/* webpackChunkName: "Loader" */ '@/components/functional/Loader.vue');
-const ErrorPage = () =>
-  import(/* webpackChunkName: "ErrorPage" */ '@/components/functional/ErrorPage.vue');
+const ErrorPage = () => import(/* webpackChunkName: "ErrorPage" */ '@/components/functional/ErrorPage.vue');
 const PasswordConfirm = () =>
-  import(
-    /* webpackChunkName: "PasswordConfirm" */ '@/views/auth/reset-password/PasswordConfirm.vue'
-  );
+  import(/* webpackChunkName: "PasswordConfirm" */ '@/views/auth/reset-password/PasswordConfirm.vue');
 const AuthRepository = Vue.prototype.$apiRepository.get('auth');
 
-import { IVerifyPassword } from '@/types/auth';
+import { IVerifyPassword } from '@/types/auth/interfaces';
 
 export default Vue.extend({
   name: 'AuthRedirect',

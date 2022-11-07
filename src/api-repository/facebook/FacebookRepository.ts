@@ -1,5 +1,7 @@
 import { $authedApiRequest } from '@/utils/api';
-import { IFacebookConnectData, IFacebookConfirmAccountsData, IFacebookCampaignData } from '@/types/facebook';
+import { IFacebookCampaignData } from '@/types/facebook/campaigns/interfaces';
+import { IFacebookConnectData } from '@/types/facebook/auth/interfaces';
+import { IFacebookConfirmAccountsData } from '@/types/facebook/pages/interfaces';
 
 const DOMAIN_PATH = '/facebook';
 

@@ -21,7 +21,8 @@
 <script lang="ts">
 import Vue from 'vue';
 import { mapActions } from 'vuex';
-import { EFacebookObjectiveIdentifier, IFacebookCampaignData, IFacebookObjective } from '@/types/facebook';
+import { IFacebookCampaignData, IFacebookObjective } from '@/types/facebook/campaigns/interfaces';
+import { EFacebookObjectiveIdentifier } from '@/types/facebook/campaigns/enums';
 import { FacebookObjectivesList } from './utils/facebook-platform-objectives';
 import dayjs from 'dayjs';
 const FacebookRepository = Vue.prototype.$apiRepository.get('facebook');

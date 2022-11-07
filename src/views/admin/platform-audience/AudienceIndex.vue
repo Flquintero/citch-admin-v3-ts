@@ -27,7 +27,7 @@ import { _deepCopyObjectsArray } from '@/utils/formatting';
 import Tabs from '@/components/elements/tabs/Tabs.vue';
 import { getPlatformPost } from '@/components/functional/social-post/post-component-loader';
 import SelectedContent from '@/components/functional/SelectedContent.vue';
-import { ITabContent } from '@/types/components';
+import { ITabContent } from '@/types/components/interfaces';
 
 export default Vue.extend({
   name: 'AudienceIndex',

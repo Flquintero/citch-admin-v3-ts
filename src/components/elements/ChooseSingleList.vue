@@ -29,7 +29,7 @@
 </template>
 <script lang="ts">
 import Vue from 'vue';
-import { IChooseListOption } from '@/types/components';
+import { IChooseListOption } from '@/types/components/interfaces';
 
 export default Vue.extend({
   name: 'ChooseSingleList',

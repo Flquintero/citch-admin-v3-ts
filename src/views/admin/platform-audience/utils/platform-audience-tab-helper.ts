@@ -2,12 +2,12 @@ import { getPlatformAge } from '../utils/platform-audience-age-helper';
 import { getPlatformGender } from '../utils/platform-audience-gender-helper';
 import { getPlatformLocation } from '../utils/platform-audience-location-helper';
 import { getPlatformInterests } from '../utils/platform-audience-interests-helper';
-import { FacebookAudienceItems } from '@/types/facebook';
+import { EFacebookAudienceItems } from '@/types/facebook/campaigns/enums';
 
 const facebook = [
   {
     text: 'Age',
-    identifier: FacebookAudienceItems.age,
+    identifier: EFacebookAudienceItems.age,
     required: true,
     completed: false,
     requiredFields: ['ageMin', 'ageMax'],
@@ -15,7 +15,7 @@ const facebook = [
   },
   {
     text: 'Gender',
-    identifier: FacebookAudienceItems.gender,
+    identifier: EFacebookAudienceItems.gender,
     required: true,
     completed: false,
     requiredFields: [],
@@ -23,7 +23,7 @@ const facebook = [
   },
   {
     text: 'Location',
-    identifier: FacebookAudienceItems.location,
+    identifier: EFacebookAudienceItems.location,
     required: true,
     completed: false,
     requiredFields: [],
@@ -31,7 +31,7 @@ const facebook = [
   },
   {
     text: 'Interests',
-    identifier: FacebookAudienceItems.interests,
+    identifier: EFacebookAudienceItems.interests,
     required: false,
     completed: false,
     requiredFields: [],

@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import { mapActions } from 'vuex';
 import { User } from '@firebase/auth';
-import { ITrackData } from '@/types/analytics';
+import { ITrackData } from '@/types/analytics/interfaces';
 import Repository from '@/api-repository/index';
 const AuthRepository = Repository.get('auth');
 

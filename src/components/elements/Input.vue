@@ -8,24 +8,18 @@
       :id="name"
       :placeholder="placeholder"
       class="input__field"
-      :class="{ 'input__field--error': error }"
-    />
+      :class="{ 'input__field--error': error }" />
     <label class="input__label" v-if="value && !error" :for="name"
       >{{ label }} <span v-if="description">-</span> {{ description }}</label
     >
-    <label class="input__label" v-if="!value && !error && description" :for="name">{{
-      description
-    }}</label>
+    <label class="input__label" v-if="!value && !error && description" :for="name">{{ description }}</label>
     <div v-if="error" class="input__status-message">
       <span v-if="validationObject.formData[name].required == false">Field is required.</span>
       <span v-if="validationObject.formData[name].minLength === false"
-        >Must have at least
-        {{ validationObject.formData[name].$params.minLength.min }} characters.</span
+        >Must have at least {{ validationObject.formData[name].$params.minLength.min }} characters.</span
       >
       <span v-if="validationObject.formData[name].email === false">Must be a valid email.</span>
-      <span v-if="validationObject.formData[name].sameAsPassword === false"
-        >Must match Password.</span
-      >
+      <span v-if="validationObject.formData[name].sameAsPassword === false">Must match Password.</span>
       <span v-if="validationObject.formData[name].url === false"
         >Must be a valid url. Example: https://www.instagram.com/p/dk30rk</span
       >
@@ -41,7 +35,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { IValidationObject } from '@/types/forms';
+import { IValidationObject } from '@/types/forms/interfaces';
 export default Vue.extend({
   name: 'Input',
   props: {

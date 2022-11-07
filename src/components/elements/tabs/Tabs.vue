@@ -13,7 +13,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import Tab from '@/components/elements/tabs/partials/Tab.vue';
-import { ITabContent } from '@/types/components';
+import { ITabContent } from '@/types/components/interfaces';
 
 export default Vue.extend({
   name: 'Tabs',

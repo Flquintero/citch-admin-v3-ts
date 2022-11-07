@@ -38,7 +38,8 @@ const CInput = () => import(/* webpackChunkName: "CInput" */ '@/components/eleme
 const Continue = () => import(/* webpackChunkName: "Continue" */ '@/components/functional/Continue.vue');
 import { FormFunctions } from '@/utils/form-functionality';
 import { required, numeric } from 'vuelidate/lib/validators';
-import { EFacebookObjectiveIdentifier, IFacebookObjective } from '@/types/facebook';
+import { EFacebookObjectiveIdentifier } from '@/types/facebook/campaigns/enums';
+import { IFacebookObjective } from '@/types/facebook/campaigns/interfaces';
 import { getFacebookObjectiveByIdentifier } from '../../../platform-objective/platforms/facebook/utils/facebook-objective-identifier-parser';
 
 export default Vue.extend({

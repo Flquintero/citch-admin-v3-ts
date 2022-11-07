@@ -14,14 +14,14 @@ export interface IFacebookObjective {
   description: EFacebookObjectiveDescription;
 }
 
-export interface IFacebookCampaignData {
-  campaignData: {
-    id?: string;
-    name?: string;
-    objective?: string; // returned from FB
-    facebookObjectiveValues?: IFacebookObjective['facebookValues']; // from our set objectives
-    facebookObjectiveIdentifier?: EFacebookObjectiveIdentifier; // from our set objectives
-    [property: string]: any;
+export interface ISaveFacebookCampaignObject {
+  saveCampaignObject: {
+    campaignId?: string;
+    campaignData: {
+      name?: string;
+      facebookObjectiveValues?: IFacebookObjective['facebookValues']; // from our set objectives
+      facebookObjectiveIdentifier?: EFacebookObjectiveIdentifier; // from our set objectives
+    };
   };
 }
 

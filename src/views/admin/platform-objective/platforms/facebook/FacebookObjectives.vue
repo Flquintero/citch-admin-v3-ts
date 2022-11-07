@@ -21,7 +21,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { mapActions } from 'vuex';
-import { IFacebookCampaignData, IFacebookObjective } from '@/types/facebook/campaigns/interfaces';
+import { ISaveFacebookCampaignObject, IFacebookObjective } from '@/types/facebook/campaigns/interfaces';
 import { EFacebookObjectiveIdentifier } from '@/types/facebook/campaigns/enums';
 import { FacebookObjectivesList } from './utils/facebook-platform-objectives';
 import dayjs from 'dayjs';
@@ -65,12 +65,14 @@ export default Vue.extend({
         this.saving = true;
         const pageId = this.currentPost.split('_')[0];
         const now = dayjs().format('MM-DD-YY-Thhmmss');
-        const campaignObject: IFacebookCampaignData = {
-          campaignData: {
-            name: `${now}-${pageId}-${this.currentPlatform}-${this.chosenObjective?.displayName}`,
-            facebookObjectiveValues: this.chosenObjective?.facebookValues as IFacebookObjective['facebookValues'],
-            facebookObjectiveIdentifier: this.chosenObjective?.identifier as IFacebookObjective['identifier'],
+        const campaignObject: ISaveFacebookCampaignObject = {
+          saveCampaignObject: {
             ...(this.isSavedCampaign ? { campaignId: this.savedCampaign as string } : null),
+            campaignData: {
+              name: `${now}-${pageId}-${this.currentPlatform}-${this.chosenObjective?.displayName}`,
+              facebookObjectiveValues: this.chosenObjective?.facebookValues as IFacebookObjective['facebookValues'],
+              facebookObjectiveIdentifier: this.chosenObjective?.identifier as IFacebookObjective['identifier'],
+            },
           },
         };
         const savedCampaign: string = this.isSavedCampaign

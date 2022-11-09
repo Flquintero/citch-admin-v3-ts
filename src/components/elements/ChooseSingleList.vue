@@ -8,15 +8,21 @@
         <div
           @click="setChosenOption(option)"
           class="choose-single-list__list-item"
+          :style="{ 'flex-basis': itemMWidth, 'max-width': itemMaxWidth }"
           :class="{
             'choose-single-list__list-item--chosen': isOptionChosen(option),
           }"
           v-for="option in optionsList"
           :key="option.name">
           <div class="choose-single-list__list-item-name">
-            <span>{{ option.displayName }}</span>
+            <span
+              :class="{
+                'choose-single-list__list-item-name--underline': displayNameUnderline,
+              }"
+              >{{ option.displayName }}</span
+            >
           </div>
-          <div class="choose-single-list__list-item-description">
+          <div v-if="option.description" class="choose-single-list__list-item-description">
             <span>{{ option.description }}</span>
           </div>
           <div v-if="isOptionChosen(option)" class="choose-single-list__list-item-icon">
@@ -37,6 +43,9 @@ export default Vue.extend({
   props: {
     optionsList: Array as () => Array<IChooseListOption>,
     chosenOption: Object as () => IChooseListOption,
+    displayNameUnderline: { type: Boolean, default: true },
+    itemMWidth: { type: String, default: '200px' },
+    itemMaxWidth: { type: String, default: '280px' },
   },
   methods: {
     setChosenOption(option: IChooseListOption): void {
@@ -50,17 +59,20 @@ export default Vue.extend({
 </script>
 <style lang="scss" scoped>
 .choose-single-list {
+  width: 100%;
   &__title {
-    margin: 40px 0 10px;
+    text-align: center;
+    margin: 0 0 20px;
   }
 
   &__list {
     @include flex-config($flex-wrap: wrap, $justify-content: center);
     &-item {
-      flex-basis: 200px;
-      max-width: 280px;
+      @include flex-config($flex-direction: column, $justify-content: center, $align-items: center);
+      min-height: 60px;
       flex-grow: 1;
       margin: 10px;
+      padding: 10px;
       border: 1px solid $border;
       border-radius: 2px;
       position: relative;
@@ -69,12 +81,11 @@ export default Vue.extend({
         border-color: $success;
       }
       &-name {
-        padding-top: 10px;
         text-align: center;
         font-weight: 600;
         font-size: 12px;
 
-        span {
+        &--underline {
           border-bottom: 2px solid $tertiary;
         }
       }

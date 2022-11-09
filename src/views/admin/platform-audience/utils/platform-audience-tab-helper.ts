@@ -18,7 +18,7 @@ const facebook = [
     identifier: EFacebookAudienceItems.gender,
     required: true,
     completed: false,
-    requiredFields: [],
+    requiredFields: ['gender'],
     component: getPlatformGender('facebook'),
   },
   {

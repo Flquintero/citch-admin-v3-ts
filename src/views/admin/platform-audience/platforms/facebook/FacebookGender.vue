@@ -1,17 +1,84 @@
 <template>
   <div class="facebook-audience-gender">
-    <span>Gender</span>
+    <div class="facebook-audience-gender__options">
+      <ChooseSingleList
+        @option-selected="setChosenGender"
+        item-width="100px"
+        item-max-width="100px"
+        :display-name-underline="false"
+        :chosen-option="formatChosenGender()"
+        :options-list="formatGenderOptions()" />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
+import { mapActions, mapGetters, Computed } from 'vuex';
+import { genderOptions } from './utils/facebook-gender-data';
+import { setCompletedAudienceFields } from '../../utils/platform-audience-validation-helper';
+import { _capitalizeString } from '@/utils/formatting';
+import { ITabContent } from '@/types/components/interfaces';
+import { EFacebookAudienceItems } from '@/types/facebook/campaigns/enums';
+import { IChooseListOption } from '@/types/components/interfaces';
+const ChooseSingleList = () =>
+  import(/* webpackChunkName: "ChooseSingleList" */ '@/components/elements/ChooseSingleList.vue');
 
 export default Vue.extend({
   name: 'FacebookAudienceGender',
+  props: {
+    tabsList: Array as () => Array<ITabContent>,
+  },
+  components: { ChooseSingleList },
+  data() {
+    return {
+      genderOptions,
+      formData: { gender: null as string | null },
+    };
+  },
+  methods: {
+    ...mapActions('Facebook', ['setCurrentFacebookAudience']),
+    setCompletedAudienceFields,
+    formatGenderOptions() {
+      return genderOptions.map((gender: string) => {
+        return { name: gender, displayName: _capitalizeString(gender) };
+      });
+    },
+    setChosenGender(genderOption: IChooseListOption) {
+      this.formData.gender = genderOption.name;
+      this.setCurrentFacebookAudience(this.formData);
+    },
+    formatChosenGender(): IChooseListOption {
+      return {
+        name: this.formData.gender as string,
+        displayName: _capitalizeString(this.formData.gender as string),
+      } as IChooseListOption;
+    },
+  },
+  computed: {
+    ...mapGetters('Facebook', ['currentFacebookAudience']),
+  },
+  watch: {
+    currentFacebookAudience() {
+      const updatedTabs = this.setCompletedAudienceFields(
+        EFacebookAudienceItems.gender,
+        this.tabsList,
+        this.currentFacebookAudience
+      );
+      this.$emit('tabs-updated', updatedTabs);
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>
 .facebook-audience-gender {
+  &__options {
+    @include flex-config($flex-wrap: wrap, $justify-content: center, $align-items: center);
+    @include center-with-margin($max-width: 600px, $top: 20px);
+    &-item {
+      flex-grow: 1;
+      margin: 10px;
+    }
+  }
 }
 </style>

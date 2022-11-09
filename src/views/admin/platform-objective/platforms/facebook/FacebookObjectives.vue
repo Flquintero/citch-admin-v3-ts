@@ -140,4 +140,8 @@ export default Vue.extend({
   },
 });
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.facebook-objectives {
+  margin-top: 20px;
+}
+</style>

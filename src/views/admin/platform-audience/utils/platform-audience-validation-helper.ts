@@ -17,5 +17,6 @@ export function setCompletedAudienceFields(
         existingAudienceItem.completed = true;
       }
     }
+    return existingAudienceItem;
   });
 }

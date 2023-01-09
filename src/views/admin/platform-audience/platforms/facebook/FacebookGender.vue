@@ -47,6 +47,7 @@ export default Vue.extend({
     setChosenGender(genderOption: IChooseListOption) {
       this.formData.gender = genderOption.name;
       this.setCurrentFacebookAudience(this.formData);
+      this.updateAudienceTabs();
     },
     formatChosenGender(): IChooseListOption {
       return {
@@ -54,19 +55,17 @@ export default Vue.extend({
         displayName: _capitalizeString(this.formData.gender as string),
       } as IChooseListOption;
     },
-  },
-  computed: {
-    ...mapGetters('Facebook', ['currentFacebookAudience']),
-  },
-  watch: {
-    currentFacebookAudience() {
+    updateAudienceTabs() {
       const updatedTabs = this.setCompletedAudienceFields(
         EFacebookAudienceItems.gender,
         this.tabsList,
         this.currentFacebookAudience
       );
-      this.$emit('tabs-updated', updatedTabs);
+      this.$emit('tab-updated', updatedTabs);
     },
+  },
+  computed: {
+    ...mapGetters('Facebook', ['currentFacebookAudience']),
   },
 });
 </script>

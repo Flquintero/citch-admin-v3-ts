@@ -62,7 +62,7 @@ export default Vue.extend({
         this.formData.ageMin = null;
         return;
       }
-      this.setCurrentFacebookAudience(this.formData);
+      this.updateAudienceState();
     },
     setMaxAge(ageOption: IDropdownOption) {
       this.formData.ageMax = ageOption.value as string;
@@ -74,7 +74,7 @@ export default Vue.extend({
         this.formData.ageMax = null;
         return;
       }
-      this.setCurrentFacebookAudience(this.formData);
+      this.updateAudienceState();
     },
     formatChosenOption(ageValue: string | null) {
       if (ageValue) return { value: ageValue, text: ageValue };
@@ -84,19 +84,21 @@ export default Vue.extend({
         return { value: age, text: age };
       });
     },
-  },
-  computed: {
-    ...mapGetters('Facebook', ['currentFacebookAudience']),
-  },
-  watch: {
-    currentFacebookAudience() {
+    updateAudienceState() {
+      this.setCurrentFacebookAudience(this.formData);
+      this.updateAudienceTabs();
+    },
+    updateAudienceTabs() {
       const updatedTabs = this.setCompletedAudienceFields(
         EFacebookAudienceItems.age,
         this.tabsList,
         this.currentFacebookAudience
       );
-      this.$emit('tabs-updated', updatedTabs);
+      this.$emit('tab-updated', updatedTabs);
     },
+  },
+  computed: {
+    ...mapGetters('Facebook', ['currentFacebookAudience']),
   },
 });
 </script>

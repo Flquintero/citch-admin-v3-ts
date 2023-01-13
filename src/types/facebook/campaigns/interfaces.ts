@@ -33,3 +33,8 @@ export interface IFacebookAudience {
   ageMin: string;
   ageMax: string;
 }
+
+export interface IFacebookCampaignData {
+  // FIX!!!
+  [k: string]: any;
+}

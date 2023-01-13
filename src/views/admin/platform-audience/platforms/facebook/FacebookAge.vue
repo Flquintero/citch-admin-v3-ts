@@ -49,6 +49,9 @@ export default Vue.extend({
       formData: { ageMin: null as string | null, ageMax: null as string | null },
     };
   },
+  mounted() {
+    this.checkForSavedAudience();
+  },
   methods: {
     ...mapActions('Facebook', ['setCurrentFacebookAudience']),
     setCompletedAudienceFields,
@@ -95,6 +98,17 @@ export default Vue.extend({
         this.currentFacebookAudience
       );
       this.$emit('tab-updated', updatedTabs);
+    },
+    checkForSavedAudience() {
+      if (this.currentFacebookAudience) {
+        const { ageMax, ageMin } = this.currentFacebookAudience;
+        if (ageMax || ageMin) {
+          this.formData = {
+            ageMax,
+            ageMin,
+          };
+        }
+      }
     },
   },
   computed: {

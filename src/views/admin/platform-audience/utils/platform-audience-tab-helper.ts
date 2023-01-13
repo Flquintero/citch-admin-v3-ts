@@ -3,8 +3,9 @@ import { getPlatformGender } from '../utils/platform-audience-gender-helper';
 import { getPlatformLocation } from '../utils/platform-audience-location-helper';
 import { getPlatformInterests } from '../utils/platform-audience-interests-helper';
 import { EFacebookAudienceItems } from '@/types/facebook/campaigns/enums';
+import { ITabContent } from '@/types/components/interfaces';
 
-const facebook = [
+const facebook: ITabContent = [
   {
     text: 'Age',
     identifier: EFacebookAudienceItems.age,

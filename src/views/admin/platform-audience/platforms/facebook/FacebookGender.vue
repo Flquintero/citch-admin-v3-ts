@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { mapActions, mapGetters, Computed } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import { genderOptions } from './utils/facebook-gender-data';
 import { setCompletedAudienceFields } from '../../utils/platform-audience-validation-helper';
 import { _capitalizeString } from '@/utils/formatting';
@@ -35,6 +35,9 @@ export default Vue.extend({
       genderOptions,
       formData: { gender: null as string | null },
     };
+  },
+  mounted() {
+    this.checkForSavedAudience();
   },
   methods: {
     ...mapActions('Facebook', ['setCurrentFacebookAudience']),
@@ -62,6 +65,16 @@ export default Vue.extend({
         this.currentFacebookAudience
       );
       this.$emit('tab-updated', updatedTabs);
+    },
+    checkForSavedAudience() {
+      if (this.currentFacebookAudience) {
+        const { gender } = this.currentFacebookAudience;
+        if (gender) {
+          this.formData = {
+            gender,
+          };
+        }
+      }
     },
   },
   computed: {

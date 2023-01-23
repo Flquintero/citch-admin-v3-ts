@@ -1,8 +1,14 @@
+import { Component } from "vue/types/umd";
+
 export interface ITabContent {
+  [property: string]: string | boolean | number | Component | undefined | string []
   text: string;
   required: boolean;
   currentTab?: boolean;
   completed?: boolean;
+  identifier?: number | string;
+  requiredFields?: string[];
+  component?: Component;
 }
 
 export interface IDropdownOption {

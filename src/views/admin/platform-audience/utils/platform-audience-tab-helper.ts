@@ -5,7 +5,7 @@ import { getPlatformInterests } from '../utils/platform-audience-interests-helpe
 import { EFacebookAudienceItems } from '@/types/facebook/campaigns/enums';
 import { ITabContent } from '@/types/components/interfaces';
 
-const facebook: ITabContent = [
+const facebook: ITabContent[] = [
   {
     text: 'Age',
     identifier: EFacebookAudienceItems.age,

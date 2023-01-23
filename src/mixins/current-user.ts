@@ -1,25 +1,25 @@
-import Vue from 'vue';
-import { mapActions } from 'vuex';
-import { User } from '@firebase/auth';
-import { ITrackData } from '@/types/analytics/interfaces';
-import Repository from '@/api-repository/index';
-const AuthRepository = Repository.get('auth');
+import Vue from "vue";
+import { mapActions } from "vuex";
+import { User } from "@firebase/auth";
+import { ITrackData } from "@/types/analytics/interfaces";
+import Repository from "@/api-repository/index";
+const AuthRepository = Repository.get("auth");
 
 export default Vue.extend({
-  name: 'CurrentUserMixin',
+  name: "CurrentUserMixin",
   data() {
     return {
       authedUser: null as User | null,
     };
   },
   methods: {
-    ...mapActions('Users', ['setCurrentUser']),
+    ...mapActions("Users", ["setCurrentUser"]),
     async initGetCurrentUser() {
       this.authedUser = await AuthRepository.observerCurrentAuthedUser();
     },
     async initSetCurrentUser(trackingInfo?: ITrackData) {
       // need deep copy to not get screamed at by vuex mutation when setting state
-      let user = JSON.parse(JSON.stringify(this.authedUser));
+      const user = JSON.parse(JSON.stringify(this.authedUser));
       await this.setCurrentUser(user);
       if (trackingInfo) {
         this.setAnalyticsUser(trackingInfo);

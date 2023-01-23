@@ -1,9 +1,9 @@
-import { $authedApiRequest } from '@/utils/api';
-import { IFacebookCampaignData } from '@/types/facebook/campaigns/interfaces';
-import { IFacebookConnectData } from '@/types/facebook/auth/interfaces';
-import { IFacebookConfirmAccountsData } from '@/types/facebook/pages/interfaces';
+import { $authedApiRequest } from "@/utils/api";
+import { IFacebookCampaignData } from "@/types/facebook/campaigns/interfaces";
+import { IFacebookConnectData } from "@/types/facebook/auth/interfaces";
+import { IFacebookConfirmAccountsData } from "@/types/facebook/pages/interfaces";
 
-const DOMAIN_PATH = '/facebook';
+const DOMAIN_PATH = "/facebook";
 
 export default {
   checkUserConnection: async () => {
@@ -13,14 +13,14 @@ export default {
   },
   saveUser: async (facebookConnectData: IFacebookConnectData) => {
     return await $authedApiRequest({
-      method: 'post',
+      method: "post",
       url: `${DOMAIN_PATH}/save-user`,
       data: facebookConnectData,
     });
   },
   disconnectUser: async () => {
     return await $authedApiRequest({
-      method: 'put',
+      method: "put",
       url: `${DOMAIN_PATH}/disconnect-user`,
     });
   },
@@ -46,35 +46,35 @@ export default {
   },
   confirmAccounts: async (accountsObject: IFacebookConfirmAccountsData) => {
     return await $authedApiRequest({
-      method: 'post',
+      method: "post",
       url: `${DOMAIN_PATH}/confirm-accounts`,
       data: accountsObject,
     });
   },
   createCampaign: async (campaignObject: IFacebookCampaignData) => {
     return await $authedApiRequest({
-      method: 'post',
+      method: "post",
       url: `${DOMAIN_PATH}/create-campaign`,
       data: campaignObject,
     });
   },
   updateCampaign: async (campaignObject: IFacebookCampaignData) => {
     return await $authedApiRequest({
-      method: 'put',
+      method: "put",
       url: `${DOMAIN_PATH}/update-campaign`,
       data: campaignObject,
     });
   },
   saveCampaignObjective: async (campaignObject: IFacebookCampaignData) => {
     return await $authedApiRequest({
-      method: 'post',
+      method: "post",
       url: `${DOMAIN_PATH}/save-campaign-objective`,
       data: campaignObject,
     });
   },
   updateCampaignObjective: async (campaignObject: IFacebookCampaignData) => {
     return await $authedApiRequest({
-      method: 'put',
+      method: "put",
       url: `${DOMAIN_PATH}/update-campaign-objective`,
       data: campaignObject,
     });

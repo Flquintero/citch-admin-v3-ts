@@ -2,18 +2,22 @@
   <CButton class="continue-button" v-bind="{ variant: 'primary', disabled }">
     <slot>
       <span v-if="loading">
-        <font-awesome-icon icon="fa-duotone fa-circle-notch" spin /> {{ loadingContent }}</span
-      ><span v-else>{{ textContent }} <font-awesome-icon :icon="`fa-duotone ${textIcon}`" /></span>
+        <font-awesome-icon icon="fa-duotone fa-circle-notch" spin />
+        {{ loadingContent }}</span
+      ><span v-else
+        >{{ textContent }} <font-awesome-icon :icon="`fa-duotone ${textIcon}`"
+      /></span>
     </slot>
   </CButton>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-const CButton = () => import(/* webpackChunkName: "CButton" */ '@/components/elements/Button.vue');
+import Vue from "vue";
+const CButton = () =>
+  import(/* webpackChunkName: "CButton" */ "@/components/elements/Button.vue");
 
 export default Vue.extend({
-  name: 'Continue',
+  name: "Continue",
   components: { CButton },
   props: {
     variant: String,

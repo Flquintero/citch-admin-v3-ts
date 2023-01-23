@@ -11,7 +11,8 @@
         name: 'email',
         type: 'text',
         required: true,
-      }" />
+      }"
+    />
     <CInput
       @input="setFormValue(formData, $v, $event)"
       v-bind="{
@@ -23,13 +24,19 @@
         name: 'password',
         type: 'password',
         required: true,
-      }" />
+      }"
+    />
     <div class="login-form__reset-password">
       <router-link to="/reset-password">Forgot Password?</router-link>
     </div>
     <div class="login-form__submit">
-      <CButton @click.native="submitLogin" v-bind="{ variant: 'primary', disabled: $v.$invalid || saving }">
-        <span v-if="saving"> <font-awesome-icon icon="fa-duotone fa-circle-notch" spin /> Logging You In</span
+      <CButton
+        @click.native="submitLogin"
+        v-bind="{ variant: 'primary', disabled: $v.$invalid || saving }"
+      >
+        <span v-if="saving">
+          <font-awesome-icon icon="fa-duotone fa-circle-notch" spin /> Logging
+          You In</span
         ><span v-else>Login</span></CButton
       >
     </div>
@@ -37,18 +44,20 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-const CInput = () => import(/* webpackChunkName: "CInput" */ '@/components/elements/Input.vue');
-const CButton = () => import(/* webpackChunkName: "CButton" */ '@/components/elements/Button.vue');
-import { required } from 'vuelidate/lib/validators';
-import { FormFunctions } from '@/utils/form-functionality';
-import { IFormData } from '@/types/forms/interfaces';
-import { ITrackData } from '@/types/analytics/interfaces';
-import CurrentUserMixin from '@/mixins/current-user';
-const AuthRepository = Vue.prototype.$apiRepository.get('auth');
+import Vue from "vue";
+const CInput = () =>
+  import(/* webpackChunkName: "CInput" */ "@/components/elements/Input.vue");
+const CButton = () =>
+  import(/* webpackChunkName: "CButton" */ "@/components/elements/Button.vue");
+import { required } from "vuelidate/lib/validators";
+import { FormFunctions } from "@/utils/form-functionality";
+import { IFormData } from "@/types/forms/interfaces";
+import { ITrackData } from "@/types/analytics/interfaces";
+import CurrentUserMixin from "@/mixins/current-user";
+const AuthRepository = Vue.prototype.$apiRepository.get("auth");
 
 export default CurrentUserMixin.extend({
-  name: 'LoginForm',
+  name: "LoginForm",
   components: { CInput, CButton },
   data() {
     return {
@@ -75,12 +84,14 @@ export default CurrentUserMixin.extend({
       try {
         this.saving = true;
         // this.authedUser from Mixin
-        this.authedUser = await AuthRepository.loginUser(FormFunctions.formatFormData(this.formData));
+        this.authedUser = await AuthRepository.loginUser(
+          FormFunctions.formatFormData(this.formData)
+        );
         // From Mixin
         await this.initSetCurrentUser(this.getCurrentUserTrackingInfo());
-        this.$router.replace('/');
+        this.$router.replace("/");
       } catch (error: any) {
-        console.log('Login error', error);
+        console.log("Login error", error);
         // To Do: better way to handle this error string instead of formatLoginError
         this.$alert.error(`Login Error: ${this.formatLoginError(error)}`);
       } finally {
@@ -90,7 +101,7 @@ export default CurrentUserMixin.extend({
     getCurrentUserTrackingInfo() {
       //this.authedUser is in the mixin that we use in this component
       return {
-        event: 'Login',
+        event: "Login",
         data: { email: this.authedUser?.email },
       } as ITrackData;
     },
@@ -98,10 +109,10 @@ export default CurrentUserMixin.extend({
     formatLoginError(error: any) {
       let message = error.message;
       if (
-        error.message === 'Firebase: Error (auth/wrong-password).' ||
-        error.message === 'Firebase: Error (auth/user-not-found).'
+        error.message === "Firebase: Error (auth/wrong-password)." ||
+        error.message === "Firebase: Error (auth/user-not-found)."
       ) {
-        message = 'Invalid Username Or Password';
+        message = "Invalid Username Or Password";
       }
       return message;
     },

@@ -8,7 +8,8 @@
             <component
               @tab-updated="setTabsList($event)"
               :tabs-list="tabsList"
-              :is="getTabContentComponent"></component>
+              :is="getTabContentComponent"
+            ></component>
           </template>
         </Tabs>
       </div>
@@ -20,17 +21,17 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { getPlatformTabsList } from './utils/platform-audience-tab-helper';
-import { getPlatformAudienceTitle } from './utils/platform-audience-title-helper';
-import { _deepCopyObjectsArray } from '@/utils/formatting';
-import Tabs from '@/components/elements/tabs/Tabs.vue';
-import { getPlatformPost } from '@/components/functional/social-post/post-component-loader';
-import SelectedContent from '@/components/functional/SelectedContent.vue';
-import { ITabContent } from '@/types/components/interfaces';
+import Vue from "vue";
+import { getPlatformTabsList } from "./utils/platform-audience-tab-helper";
+import { getPlatformAudienceTitle } from "./utils/platform-audience-title-helper";
+import { _deepCopyObjectsArray } from "@/utils/formatting";
+import Tabs from "@/components/elements/tabs/Tabs.vue";
+import { getPlatformPost } from "@/components/functional/social-post/post-component-loader";
+import SelectedContent from "@/components/functional/SelectedContent.vue";
+import { ITabContent } from "@/types/components/interfaces";
 
 export default Vue.extend({
-  name: 'AudienceIndex',
+  name: "AudienceIndex",
   components: { SelectedContent, Tabs },
   data() {
     return {
@@ -47,7 +48,9 @@ export default Vue.extend({
     getPlatformTabsList,
     getPlatformAudienceTitle,
     setInitialTabsList() {
-      const initialTabsList = this.getPlatformTabsList(this.currentPlatform as string);
+      const initialTabsList = this.getPlatformTabsList(
+        this.currentPlatform as string
+      );
       this.setTabsList(initialTabsList);
     },
     setTabsList(newTabsList: ITabContent) {

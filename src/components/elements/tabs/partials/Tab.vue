@@ -5,26 +5,31 @@
         v-if="content.completed"
         :class="{ 'tab__content-icon--checked--selected': isCurrentTab }"
         class="tab__content-icon--checked"
-        ><font-awesome-icon icon="fa-duotone fa-circle-check" />
+      >
+        <font-awesome-icon icon="fa-duotone fa-circle-check" />
       </div>
-      <div v-else class="tab__content-icon"><font-awesome-icon icon="fa-duotone fa-circle" /> </div>
-      <div class="tab__content-text"> {{ content.text }} </div>
+      <div v-else class="tab__content-icon">
+        <font-awesome-icon icon="fa-duotone fa-circle" />
+      </div>
+      <div class="tab__content-text">{{ content.text }}</div>
       <div class="tab__content-cues">
-        <div v-if="content.required" class="tab__content-cues-text"><span>required</span></div>
+        <div v-if="content.required" class="tab__content-cues-text">
+          <span>required</span>
+        </div>
         <div v-else class="tab__content-cues-text"><span>optional</span></div>
-        <div v-if="isCurrentTab" class="tab__content-cues-icon"
-          ><font-awesome-icon icon="fa-duotone fa-arrow-down"
-        /></div>
+        <div v-if="isCurrentTab" class="tab__content-cues-icon">
+          <font-awesome-icon icon="fa-duotone fa-arrow-down" />
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script lang="ts">
-import Vue from 'vue';
-import { ITabContent } from '@/types/components/interfaces';
+import Vue from "vue";
+import { ITabContent } from "@/types/components/interfaces";
 
 export default Vue.extend({
-  name: 'Tab',
+  name: "Tab",
   props: {
     content: { type: Object as () => ITabContent },
     isCurrentTab: Boolean,

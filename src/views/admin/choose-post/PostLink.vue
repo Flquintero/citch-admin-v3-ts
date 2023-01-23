@@ -1,8 +1,8 @@
 <template>
   <div class="choose-post-link">
     <div class="choose-post-link__title">
-      <h1>Enter the link of the post you want to promote below:</h1></div
-    >
+      <h1>Enter the link of the post you want to promote below:</h1>
+    </div>
     <div class="choose-post-link__input">
       <CInput
         @input="setFormValue(formData, $v, $event)"
@@ -17,7 +17,8 @@
           type: 'text',
           required: true,
         }"
-    /></div>
+      />
+    </div>
     <div class="choose-post-link__confirm">
       <Continue
         @click.native="confirmPostLink"
@@ -34,21 +35,24 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from 'vue';
-const CInput = () => import(/* webpackChunkName: "CInput" */ '@/components/elements/Input.vue');
+import Vue from "vue";
+const CInput = () =>
+  import(/* webpackChunkName: "CInput" */ "@/components/elements/Input.vue");
 const Continue = () =>
-  import(/* webpackChunkName: "Continue" */ '@/components/functional/Continue.vue');
-import { FormFunctions } from '@/utils/form-functionality';
-import { required, url } from 'vuelidate/lib/validators';
+  import(
+    /* webpackChunkName: "Continue" */ "@/components/functional/Continue.vue"
+  );
+import { FormFunctions } from "@/utils/form-functionality";
+import { required, url } from "vuelidate/lib/validators";
 
 export default Vue.extend({
-  name: 'PostLink',
+  name: "PostLink",
   components: { CInput, Continue },
   data() {
     return {
       saving: false,
       formData: {
-        postUrl: '',
+        postUrl: "",
       },
     };
   },
@@ -70,7 +74,7 @@ export default Vue.extend({
         const url = `/builder/${postPlatform}/connect?post=${this.formData.postUrl}`;
         this.$router.push(url);
       } catch (error: any) {
-        console.log('Login error', error);
+        console.log("Login error", error);
         this.$alert.error(`Login Error: ${error}`);
       } finally {
         this.saving = false;
@@ -79,13 +83,15 @@ export default Vue.extend({
     // TO DO: Move to an abstraction, maybe general utils
     determinePlatform() {
       const availablePlatforms = [
-        { variation: 'facebook', platform: 'facebook' },
-        { variation: 'fb', platform: 'facebook' }, //some urls have fb instead of facebook
-        { variation: 'instagram', platform: 'instagram' },
+        { variation: "facebook", platform: "facebook" },
+        { variation: "fb", platform: "facebook" }, //some urls have fb instead of facebook
+        { variation: "instagram", platform: "instagram" },
       ];
-      return availablePlatforms.filter((platformOptions: { [property: string]: string }) => {
-        return this.formData.postUrl.includes(platformOptions.variation);
-      })[0].platform;
+      return availablePlatforms.filter(
+        (platformOptions: { [property: string]: string }) => {
+          return this.formData.postUrl.includes(platformOptions.variation);
+        }
+      )[0].platform;
     },
   },
 });

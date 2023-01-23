@@ -1,13 +1,13 @@
-import Vue from 'vue';
-import { getUserAgent } from '@/utils/user-agent-breakpoints';
-import { mapMutations } from 'vuex';
+import Vue from "vue";
+import { getUserAgent } from "@/utils/user-agent-breakpoints";
+import { mapMutations } from "vuex";
 
-export default Vue.extend( {
-  name: 'ResponsiveMixin',
+export default Vue.extend({
+  name: "ResponsiveMixin",
   mounted() {
     // Run on window resize
     window.addEventListener(
-      'resize',
+      "resize",
       () => {
         this.setWindowSize();
       },
@@ -16,7 +16,7 @@ export default Vue.extend( {
     this.setWindowSize();
   },
   methods: {
-    ...mapMutations('Responsive', ['SET_DEVICE_WIDTH', 'SET_USER_AGENT']),
+    ...mapMutations("Responsive", ["SET_DEVICE_WIDTH", "SET_USER_AGENT"]),
     setWindowSize() {
       // NOTE: userAgent matches CSS breakpoints, preferable for most situations
       const deviceWidth = window.innerWidth;

@@ -1,10 +1,10 @@
-<template> <div>Facebook IG Connect</div> </template>
+<template><div>Facebook IG Connect</div></template>
 
 <script lang="ts">
-import Vue from 'vue';
+import Vue from "vue";
 
 export default Vue.extend({
-  name: 'FacebookInstagramConnect',
+  name: "FacebookInstagramConnect",
 });
 </script>
 <style lang="scss" scoped></style>

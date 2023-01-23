@@ -11,22 +11,25 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { mapGetters } from 'vuex';
-const Header = () => import(/* webpackChunkName: "Header" */ './Header.vue');
+import Vue from "vue";
+import { mapGetters } from "vuex";
+const Header = () => import(/* webpackChunkName: "Header" */ "./Header.vue");
 export default Vue.extend({
-  name: 'Auth',
+  name: "Auth",
   components: { Header },
   mounted() {
     this.setPageView();
   },
   methods: {
     setPageView() {
-      this.$analyticsFunctions.page({ category: 'Auth', name: this.$route.name });
+      this.$analyticsFunctions.page({
+        category: "Auth",
+        name: this.$route.name,
+      });
     },
   },
   computed: {
-    ...mapGetters('Responsive', ['desktopAndUp']),
+    ...mapGetters("Responsive", ["desktopAndUp"]),
   },
 });
 </script>

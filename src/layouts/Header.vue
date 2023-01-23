@@ -9,14 +9,19 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-const Logo = () => import(/* webpackChunkName: "Logo" */ '@/components/elements/Logo.vue');
+import Vue from "vue";
+const Logo = () =>
+  import(/* webpackChunkName: "Logo" */ "@/components/elements/Logo.vue");
 const LinkLogo = () =>
-  import(/* webpackChunkName: "LinkLogo" */ '@/components/elements/LinkLogo.vue');
+  import(
+    /* webpackChunkName: "LinkLogo" */ "@/components/elements/LinkLogo.vue"
+  );
 const NavBarMenu = () =>
-  import(/* webpackChunkName: "NavBarMenu" */ '@/components/layouts/header/NavBarMenu.vue');
+  import(
+    /* webpackChunkName: "NavBarMenu" */ "@/components/layouts/header/NavBarMenu.vue"
+  );
 export default Vue.extend({
-  name: 'Header',
+  name: "Header",
   components: { Logo, LinkLogo, NavBarMenu },
   props: {
     actions: { type: Boolean, default: true },

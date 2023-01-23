@@ -20,7 +20,8 @@
         v-bind="{ variant: 'primary', disabled: $v.$invalid || saving }"
       >
         <span v-if="saving">
-          <font-awesome-icon icon="fa-duotone fa-circle-notch" spin /> Sending</span
+          <font-awesome-icon icon="fa-duotone fa-circle-notch" spin />
+          Sending</span
         ><span v-else>Send Reset Password Email</span></CButton
       >
     </div>
@@ -28,15 +29,17 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-const CInput = () => import(/* webpackChunkName: "CInput" */ '@/components/elements/Input.vue');
-const CButton = () => import(/* webpackChunkName: "CButton" */ '@/components/elements/Button.vue');
-import { required, email } from 'vuelidate/lib/validators';
-import { FormFunctions } from '@/utils/form-functionality';
-const AuthRepository = Vue.prototype.$apiRepository.get('auth');
+import Vue from "vue";
+const CInput = () =>
+  import(/* webpackChunkName: "CInput" */ "@/components/elements/Input.vue");
+const CButton = () =>
+  import(/* webpackChunkName: "CButton" */ "@/components/elements/Button.vue");
+import { required, email } from "vuelidate/lib/validators";
+import { FormFunctions } from "@/utils/form-functionality";
+const AuthRepository = Vue.prototype.$apiRepository.get("auth");
 
 export default Vue.extend({
-  name: 'ResetPasswordForm',
+  name: "ResetPasswordForm",
   components: { CInput, CButton },
   data() {
     return {
@@ -60,10 +63,10 @@ export default Vue.extend({
       try {
         this.saving = true;
         await AuthRepository.initResetUserPassword(this.formData);
-        this.$alert.success('Email Sent! Please look in Inbox for Reset Link!');
+        this.$alert.success("Email Sent! Please look in Inbox for Reset Link!");
       } catch (e: any) {
-        console.log('Send Reset Email error', e);
-        this.$alert.error('Send Reset Email Error:', e);
+        console.log("Send Reset Email error", e);
+        this.$alert.error("Send Reset Email Error:", e);
       } finally {
         this.saving = false;
       }

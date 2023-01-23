@@ -5,18 +5,19 @@
         v-for="(tab, index) in tabsList"
         :key="`${tab.text}-${index}`"
         v-bind="{ content: tab, isCurrentTab: checkCurrentTab(index) }"
-        @click.native="setCurrentTab(index)" />
+        @click.native="setCurrentTab(index)"
+      />
     </div>
     <slot name="tab-content"></slot>
   </div>
 </template>
 <script lang="ts">
-import Vue from 'vue';
-import Tab from '@/components/elements/tabs/partials/Tab.vue';
-import { ITabContent } from '@/types/components/interfaces';
+import Vue from "vue";
+import Tab from "@/components/elements/tabs/partials/Tab.vue";
+import { ITabContent } from "@/types/components/interfaces";
 
 export default Vue.extend({
-  name: 'Tabs',
+  name: "Tabs",
   components: { Tab },
   props: {
     tabsList: Array as () => Array<ITabContent>,
@@ -32,7 +33,7 @@ export default Vue.extend({
     },
     setCurrentTab(tabIndex: number) {
       this.currentTabIndex = tabIndex;
-      this.$emit('tab-selected', tabIndex);
+      this.$emit("tab-selected", tabIndex);
     },
   },
 });

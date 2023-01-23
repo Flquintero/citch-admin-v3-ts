@@ -1,28 +1,31 @@
 <template>
   <div class="facebook-page-connect">
     <h3 class="facebook-page-connect__loading" v-if="checkingPages">
-      <font-awesome-icon icon="fa-duotone fa-circle-notch" spin /> <slot name="loading-title"></slot
-    ></h3>
+      <font-awesome-icon icon="fa-duotone fa-circle-notch" spin />
+      <slot name="loading-title"></slot>
+    </h3>
     <template v-else>
       <slot name="title"></slot>
       <div class="facebook-page-connect__content" v-if="postPage">
-        <div class="facebook-page-connect__content-img"><img :src="postPage.picture.data.url" /></div>
-        <div class="facebook-page-connect__content-name"
-          ><span>{{ postPage.name }}</span></div
-        >
+        <div class="facebook-page-connect__content-img">
+          <img :src="postPage.picture.data.url" />
+        </div>
+        <div class="facebook-page-connect__content-name">
+          <span>{{ postPage.name }}</span>
+        </div>
       </div>
     </template>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { IFacebookPage } from '@/types/facebook/pages/interfaces';
-import { mapActions } from 'vuex';
-const FacebookRepository = Vue.prototype.$apiRepository.get('facebook');
+import Vue from "vue";
+import { IFacebookPage } from "@/types/facebook/pages/interfaces";
+import { mapActions } from "vuex";
+const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");
 
 export default Vue.extend({
-  name: 'FacebookPageConnect',
+  name: "FacebookPageConnect",
   data() {
     return {
       checkingPages: true,
@@ -33,18 +36,24 @@ export default Vue.extend({
     this.getPostPage();
   },
   methods: {
-    ...mapActions('Facebook', ['setCurrentFacebookPage', 'setCurrentFacebookPost']),
+    ...mapActions("Facebook", [
+      "setCurrentFacebookPage",
+      "setCurrentFacebookPost",
+    ]),
     async getPostPage() {
       try {
         // TO Do: A more efficient/predictable way to handle this
         // Maybe add a mixin that runs the below in each page
-        const postId = (this.$route.query.post as string).split('/')[6];
+        const postId = (this.$route.query.post as string).split("/")[6];
         this.postPage = await FacebookRepository.getPostPage(postId);
         await this.setCurrentFacebookPage(this.postPage);
-        await this.setCurrentFacebookPost({ post: this.$route.query.post, postId });
+        await this.setCurrentFacebookPost({
+          post: this.$route.query.post,
+          postId,
+        });
         // END
       } catch (error: any) {
-        console.log('Error Getting Post Page', error);
+        console.log("Error Getting Post Page", error);
         this.$alert.error(`There was an error getting Page(s): ${error}`);
       } finally {
         this.checkingPages = false;

@@ -1,15 +1,21 @@
 <template>
   <div class="objective-index">
-    <h1 class="objective-index__title"
-      >What objective do you want to accomplish with your
+    <h1 class="objective-index__title">
+      What objective do you want to accomplish with your
       <SelectedContent
-        v-bind="{ content: $route.params.platform, capitalize: true, url: '/post-link' }"
+        v-bind="{
+          content: $route.params.platform,
+          capitalize: true,
+          url: '/post-link',
+        }"
       />
-      post?</h1
-    >
+      post?
+    </h1>
     <div class="objective-index__content">
       <!-- This renders the post chosen with the link -->
-      <component :is="getPlatformObjectives($route.params.platform)"></component>
+      <component
+        :is="getPlatformObjectives($route.params.platform)"
+      ></component>
       <!-- This renders the post chosen with the link -->
       <div class="objective-index__content-post">
         <component :is="getPlatformPost($route.params.platform)"></component>
@@ -19,13 +25,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { getPlatformObjectives } from './utils/platform-objectives-helper';
-import { getPlatformPost } from '@/components/functional/social-post/post-component-loader';
-import SelectedContent from '@/components/functional/SelectedContent.vue';
+import Vue from "vue";
+import { getPlatformObjectives } from "./utils/platform-objectives-helper";
+import { getPlatformPost } from "@/components/functional/social-post/post-component-loader";
+import SelectedContent from "@/components/functional/SelectedContent.vue";
 
 export default Vue.extend({
-  name: 'ObjectiveIndex',
+  name: "ObjectiveIndex",
   components: { SelectedContent },
   methods: {
     getPlatformObjectives,

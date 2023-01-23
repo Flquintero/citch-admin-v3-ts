@@ -1,12 +1,15 @@
 <template>
   <div class="login-values">
-    <img src="https://files.citch.io/citch-admin-v3/login-advert.png" alt="citch-login-advert" />
+    <img
+      src="https://files.citch.io/citch-admin-v3/login-advert.png"
+      alt="citch-login-advert"
+    />
   </div>
 </template>
 <script lang="ts">
-import Vue from 'vue';
+import Vue from "vue";
 export default Vue.extend({
-  name: 'LoginValues',
+  name: "LoginValues",
 });
 </script>
 <style lang="scss" scoped>

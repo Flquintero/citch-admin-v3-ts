@@ -1,5 +1,10 @@
-import { AnalyticsBrowser } from '@segment/analytics-next';
-import { IIdentifyData, ITrackData, IPageData, IAnalyticsFunctions } from '@/types/analytics/interfaces';
+import { AnalyticsBrowser } from "@segment/analytics-next";
+import {
+  IIdentifyData,
+  ITrackData,
+  IPageData,
+  IAnalyticsFunctions,
+} from "@/types/analytics/interfaces";
 
 const segment = AnalyticsBrowser.load({
   writeKey: process.env.VUE_APP_SEGMENT_KEY,

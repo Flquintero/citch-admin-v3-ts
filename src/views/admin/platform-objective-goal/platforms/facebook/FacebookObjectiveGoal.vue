@@ -15,7 +15,8 @@
             type: 'number',
             required: true,
           }"
-      /></div>
+        />
+      </div>
       <div class="objective-goal__content-confirm">
         <Continue
           @click.native="confirmObjectiveGoal"
@@ -26,24 +27,29 @@
             textContent: formatContinueButton,
             textIcon: 'fa-arrow-right',
             loadingContent: 'Saving to Continue',
-          }"></Continue>
+          }"
+        ></Continue>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-const CInput = () => import(/* webpackChunkName: "CInput" */ '@/components/elements/Input.vue');
-const Continue = () => import(/* webpackChunkName: "Continue" */ '@/components/functional/Continue.vue');
-import { FormFunctions } from '@/utils/form-functionality';
-import { required, numeric } from 'vuelidate/lib/validators';
-import { EFacebookObjectiveIdentifier } from '@/types/facebook/campaigns/enums';
-import { IFacebookObjective } from '@/types/facebook/campaigns/interfaces';
-import { getFacebookObjectiveByIdentifier } from '../../../platform-objective/platforms/facebook/utils/facebook-objective-identifier-parser';
+import Vue from "vue";
+const CInput = () =>
+  import(/* webpackChunkName: "CInput" */ "@/components/elements/Input.vue");
+const Continue = () =>
+  import(
+    /* webpackChunkName: "Continue" */ "@/components/functional/Continue.vue"
+  );
+import { FormFunctions } from "@/utils/form-functionality";
+import { required, numeric } from "vuelidate/lib/validators";
+import { EFacebookObjectiveIdentifier } from "@/types/facebook/campaigns/enums";
+import { IFacebookObjective } from "@/types/facebook/campaigns/interfaces";
+import { getFacebookObjectiveByIdentifier } from "../../../platform-objective/platforms/facebook/utils/facebook-objective-identifier-parser";
 
 export default Vue.extend({
-  name: 'FacebookObjectiveGoal',
+  name: "FacebookObjectiveGoal",
   components: { CInput, Continue },
   data() {
     return {
@@ -68,7 +74,8 @@ export default Vue.extend({
     ...FormFunctions,
     getFacebookObjectiveByIdentifier,
     checkExistingObjectiveGoal() {
-      if (this.isSavedObjectiveGoal) this.formData.objectiveGoal = this.savedObjectiveGoal;
+      if (this.isSavedObjectiveGoal)
+        this.formData.objectiveGoal = this.savedObjectiveGoal;
     },
     async confirmObjectiveGoal() {
       try {
@@ -82,7 +89,7 @@ export default Vue.extend({
     },
     async continueNextStep() {
       await this.$router.push({
-        name: 'platform audience',
+        name: "platform audience",
         params: this.$route.params,
         query: {
           ...this.$route.query,
@@ -102,21 +109,26 @@ export default Vue.extend({
       return parseInt(this.$route.query.objective as string);
     },
     savedObjective(): IFacebookObjective {
-      return this.getFacebookObjectiveByIdentifier(this.savedObjectiveIdentifier);
+      return this.getFacebookObjectiveByIdentifier(
+        this.savedObjectiveIdentifier
+      );
     },
-    savedObjectiveDisplayName(): IFacebookObjective['displayName'] {
+    savedObjectiveDisplayName(): IFacebookObjective["displayName"] {
       return this.savedObjective.displayName;
     },
     isSameObjectiveGoal() {
-      return this.$route.query.objectiveGoal === this.$data.formData.objectiveGoal?.toString();
+      return (
+        this.$route.query.objectiveGoal ===
+        this.$data.formData.objectiveGoal?.toString()
+      );
     },
     formatContinueButton() {
-      let renderButtonContent = 'Confirm Goal';
+      let renderButtonContent = "Confirm Goal";
       if (this.isSavedObjectiveGoal) {
         if (this.isSameObjectiveGoal) {
-          renderButtonContent = 'Continue';
+          renderButtonContent = "Continue";
         } else {
-          renderButtonContent = 'Save Change';
+          renderButtonContent = "Save Change";
         }
       }
       return renderButtonContent;

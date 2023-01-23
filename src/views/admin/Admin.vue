@@ -7,11 +7,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-const Header = () => import(/* webpackChunkName: "Header" */ '@/layouts/Header.vue');
+import Vue from "vue";
+const Header = () =>
+  import(/* webpackChunkName: "Header" */ "@/layouts/Header.vue");
 
 export default Vue.extend({
-  name: 'Home',
+  name: "Home",
   components: { Header },
 });
 </script>

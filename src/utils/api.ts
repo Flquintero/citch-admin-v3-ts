@@ -1,7 +1,7 @@
-import axios, { AxiosRequestConfig, AxiosInstance } from 'axios';
-import { getAppCheckToken } from '@/utils/firebase-app-check';
+import axios, { AxiosRequestConfig, AxiosInstance } from "axios";
+import { getAppCheckToken } from "@/utils/firebase-app-check";
 // used getUserToken from here and not from auth repo to not have circular imports
-import { getUserToken } from '@/config/firebase';
+import { getUserToken } from "@/config/firebase";
 
 let $axios: AxiosInstance;
 
@@ -36,15 +36,18 @@ $publicApiRequest = async function apiRequest(options: ApiRequestOptions) {
   }
 };
 
-async function getApiResponse(options: ApiRequestOptions, type: { authed: boolean }) {
+async function getApiResponse(
+  options: ApiRequestOptions,
+  type: { authed: boolean }
+) {
   const requestObj = {
     ...options,
     baseURL: process.env.VUE_APP_BASE_API_URL,
     headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Content-Type': 'application/json',
-      'X-Firebase-AppCheck': await getAppCheckToken(),
-      ...(type.authed ? { 'Authorization': await getUserToken() } : null),
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json",
+      "X-Firebase-AppCheck": await getAppCheckToken(),
+      ...(type.authed ? { Authorization: await getUserToken() } : null),
     },
   };
 

@@ -2,32 +2,37 @@
   <div class="signup">
     <AuthLayout>
       <template #auth-content
-        ><div class="signup__form-wrapper"
-          ><h2>Get Started</h2> <SignupForm />
-          <div class="signup__form-wrapper__redirect"
-            >Already have an account? <router-link to="/login">Login</router-link></div
-          >
+        ><div class="signup__form-wrapper">
+          <h2>Get Started</h2>
+          <SignupForm />
+          <div class="signup__form-wrapper__redirect">
+            Already have an account?
+            <router-link to="/login">Login</router-link>
+          </div>
         </div></template
       >
       <template #auth-advert
-        ><div class="signup__advert"> <SignupAdvert></SignupAdvert> </div
+        ><div class="signup__advert"><SignupAdvert></SignupAdvert></div
       ></template>
     </AuthLayout>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-const AuthLayout = () => import(/* webpackChunkName: "AuthLayout" */ '@/layouts/Auth.vue');
+import Vue from "vue";
+const AuthLayout = () =>
+  import(/* webpackChunkName: "AuthLayout" */ "@/layouts/Auth.vue");
 const SignupAdvert = () =>
   import(
-    /* webpackChunkName: "SignupAdvert" */ '@/components/layouts/auth/signup/SignupAdvert.vue'
+    /* webpackChunkName: "SignupAdvert" */ "@/components/layouts/auth/signup/SignupAdvert.vue"
   );
 const SignupForm = () =>
-  import(/* webpackChunkName: "SignupForm" */ '@/components/layouts/auth/signup/SignupForm.vue');
+  import(
+    /* webpackChunkName: "SignupForm" */ "@/components/layouts/auth/signup/SignupForm.vue"
+  );
 
 export default Vue.extend({
-  name: 'Signup',
+  name: "Signup",
   components: { AuthLayout, SignupAdvert, SignupForm },
 });
 </script>

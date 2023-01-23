@@ -20,10 +20,10 @@
 //   this.$alert.error('access denied');
 
 export enum AlertType {
-  INFO = 'info',
-  SUCCESS = 'success',
-  WARNING = 'warning',
-  ERROR = 'error'
+  INFO = "info",
+  SUCCESS = "success",
+  WARNING = "warning",
+  ERROR = "error",
 }
 
 interface AlertOptions {
@@ -34,42 +34,43 @@ interface AlertOptions {
 }
 
 export interface Alert {
-  info: (options: Omit<AlertOptions, 'type'> | string) => void;
-  success: (options: Omit<AlertOptions, 'type'> | string) => void;
-  warning: (options: Omit<AlertOptions, 'type'> | string) => void;
-  error: (options: Omit<AlertOptions, 'type'> | string) => void;
+  info: (options: Omit<AlertOptions, "type"> | string) => void;
+  success: (options: Omit<AlertOptions, "type"> | string) => void;
+  warning: (options: Omit<AlertOptions, "type"> | string) => void;
+  error: (options: Omit<AlertOptions, "type"> | string) => void;
 }
-import Vue from 'vue';
-import AlertComponent from '@/components/functional/Alert.vue';
+import Vue from "vue";
+import AlertComponent from "@/components/functional/Alert.vue";
 
 let alertWrapper: HTMLDivElement;
-const wrapperId = 'c-alerts-wrapper';
+const wrapperId = "c-alerts-wrapper";
 
-alertWrapper = document.createElement('div');
+alertWrapper = document.createElement("div");
 alertWrapper.id = wrapperId;
 document.body.prepend(alertWrapper);
 
 const AlertConstructor = Vue.extend(AlertComponent);
 
-const createAlertFunction = (type:AlertType) => (options: Omit<AlertOptions, 'type'> | string) => {
-  let newAlertData: AlertOptions = { type, message: '' };
+const createAlertFunction =
+  (type: AlertType) => (options: Omit<AlertOptions, "type"> | string) => {
+    let newAlertData: AlertOptions = { type, message: "" };
 
-  // If the user only passes a string, that should be the content
-  // Otherwise pass all the inputted options to the new alert
-  if (typeof options === 'string') {
-    newAlertData.message = options;
-  } else {
-    newAlertData = {
-      ...newAlertData,
-      ...options,
-    };
-  }
+    // If the user only passes a string, that should be the content
+    // Otherwise pass all the inputted options to the new alert
+    if (typeof options === "string") {
+      newAlertData.message = options;
+    } else {
+      newAlertData = {
+        ...newAlertData,
+        ...options,
+      };
+    }
 
-  const instance = new AlertConstructor({ propsData: newAlertData });
-  instance.$mount();
+    const instance = new AlertConstructor({ propsData: newAlertData });
+    instance.$mount();
 
-  alertWrapper.appendChild(instance.$el);
-};
+    alertWrapper.appendChild(instance.$el);
+  };
 
 export const $alert: Alert = {
   info: createAlertFunction(AlertType.INFO),

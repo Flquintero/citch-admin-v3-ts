@@ -4,8 +4,8 @@ import {
   EFacebookObjectiveName,
   EFacebookObjectiveDisplayName,
   EFacebookObjectiveDescription,
-} from '@/types/facebook/campaigns/enums';
-import { IFacebookObjective } from '@/types/facebook/campaigns/interfaces';
+} from "@/types/facebook/campaigns/enums";
+import { IFacebookObjective } from "@/types/facebook/campaigns/interfaces";
 
 export const FacebookObjectivesList: IFacebookObjective[] = [
   {
@@ -39,7 +39,10 @@ export const FacebookObjectivesList: IFacebookObjective[] = [
   {
     identifier: EFacebookObjectiveIdentifier.citch_reach,
     name: EFacebookObjectiveName.citch_reach,
-    facebookValues: [EFacebookObjectiveValue.reach, EFacebookObjectiveValue.engagements],
+    facebookValues: [
+      EFacebookObjectiveValue.reach,
+      EFacebookObjectiveValue.engagements,
+    ],
     displayName: EFacebookObjectiveDisplayName.citch_reach,
     description: EFacebookObjectiveDescription.citch_reach,
   },

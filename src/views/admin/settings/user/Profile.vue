@@ -19,20 +19,23 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-const CInput = () => import(/* webpackChunkName: "CInput" */ '@/components/elements/Input.vue');
-const CButton = () => import(/* webpackChunkName: "CButton" */ '@/components/elements/Button.vue');
-import { FormFunctions } from '@/utils/form-functionality';
-import { required } from 'vuelidate/lib/validators';
-const OrganizationsRepository = Vue.prototype.$apiRepository.get('organizations');
+import Vue from "vue";
+const CInput = () =>
+  import(/* webpackChunkName: "CInput" */ "@/components/elements/Input.vue");
+const CButton = () =>
+  import(/* webpackChunkName: "CButton" */ "@/components/elements/Button.vue");
+import { FormFunctions } from "@/utils/form-functionality";
+import { required } from "vuelidate/lib/validators";
+const OrganizationsRepository =
+  Vue.prototype.$apiRepository.get("organizations");
 
 export default Vue.extend({
-  name: 'UserProfile',
+  name: "UserProfile",
   components: { CInput, CButton },
   data() {
     return {
       formData: {
-        name: '',
+        name: "",
       },
     };
   },
@@ -47,12 +50,12 @@ export default Vue.extend({
     ...FormFunctions,
     async saveChanges() {
       try {
-        let updatedUser = await OrganizationsRepository.updateOrganization({
+        const updatedUser = await OrganizationsRepository.updateOrganization({
           updateData: FormFunctions.formatFormData(this.formData),
         });
-        console.log('udated user', updatedUser);
+        console.log("udated user", updatedUser);
       } catch (error: any) {
-        console.log('Login error', error);
+        console.log("Login error", error);
         this.$alert.error(`Login Error: ${error}`);
       } finally {
       }

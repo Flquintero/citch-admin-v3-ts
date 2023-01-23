@@ -3,7 +3,8 @@
     <ChooseSingleList
       @option-selected="setChosenObjective"
       :chosen-option="chosenObjective"
-      :options-list="objectives" />
+      :options-list="objectives"
+    />
     <Continue
       v-if="chosenObjective"
       @click.native="confirmObjective"
@@ -14,24 +15,33 @@
         textContent: formatContinueButton,
         textIcon: 'fa-arrow-right',
         loadingContent: 'Saving to Continue',
-      }"></Continue>
+      }"
+    ></Continue>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { mapActions } from 'vuex';
-import { ISaveFacebookCampaignObject, IFacebookObjective } from '@/types/facebook/campaigns/interfaces';
-import { EFacebookObjectiveIdentifier } from '@/types/facebook/campaigns/enums';
-import { FacebookObjectivesList } from './utils/facebook-platform-objectives';
-import dayjs from 'dayjs';
-const FacebookRepository = Vue.prototype.$apiRepository.get('facebook');
-const Continue = () => import(/* webpackChunkName: "Continue" */ '@/components/functional/Continue.vue');
+import Vue from "vue";
+import { mapActions } from "vuex";
+import {
+  ISaveFacebookCampaignObject,
+  IFacebookObjective,
+} from "@/types/facebook/campaigns/interfaces";
+import { EFacebookObjectiveIdentifier } from "@/types/facebook/campaigns/enums";
+import { FacebookObjectivesList } from "./utils/facebook-platform-objectives";
+import dayjs from "dayjs";
+const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");
+const Continue = () =>
+  import(
+    /* webpackChunkName: "Continue" */ "@/components/functional/Continue.vue"
+  );
 const ChooseSingleList = () =>
-  import(/* webpackChunkName: "ChooseSingleList" */ '@/components/elements/ChooseSingleList.vue');
+  import(
+    /* webpackChunkName: "ChooseSingleList" */ "@/components/elements/ChooseSingleList.vue"
+  );
 
 export default Vue.extend({
-  name: 'FacebookObjectives',
+  name: "FacebookObjectives",
   components: { Continue, ChooseSingleList },
   data() {
     return {
@@ -44,7 +54,7 @@ export default Vue.extend({
     this.checkExistingObjective();
   },
   methods: {
-    ...mapActions('Facebook', ['setCurrentFacebookCampaign']),
+    ...mapActions("Facebook", ["setCurrentFacebookCampaign"]),
     async checkExistingObjective() {
       // If user went passed objectives that they need to have saved objective and created campaign
       if (this.isSavedCampaign && this.isSavedObjective) {
@@ -53,7 +63,10 @@ export default Vue.extend({
     },
     getObjective() {
       return this.objectives.filter((objective: IFacebookObjective) => {
-        return this.savedObjective === (objective.identifier as IFacebookObjective['identifier']);
+        return (
+          this.savedObjective ===
+          (objective.identifier as IFacebookObjective["identifier"])
+        );
       })[0];
     },
     async confirmObjective() {
@@ -63,22 +76,28 @@ export default Vue.extend({
       }
       try {
         this.saving = true;
-        const pageId = this.currentPost.split('_')[0];
-        const now = dayjs().format('MM-DD-YY-Thhmmss');
+        const pageId = this.currentPost.split("_")[0];
+        const now = dayjs().format("MM-DD-YY-Thhmmss");
         const campaignObject: ISaveFacebookCampaignObject = {
           saveCampaignObject: {
-            ...(this.isSavedCampaign ? { campaignId: this.savedCampaign as string } : null),
+            ...(this.isSavedCampaign
+              ? { campaignId: this.savedCampaign as string }
+              : null),
             campaignData: {
               name: `${now}-${pageId}-${this.currentPlatform}-${this.chosenObjective?.displayName}`,
-              facebookObjectiveValues: this.chosenObjective?.facebookValues as IFacebookObjective['facebookValues'],
-              facebookObjectiveIdentifier: this.chosenObjective?.identifier as IFacebookObjective['identifier'],
+              facebookObjectiveValues: this.chosenObjective
+                ?.facebookValues as IFacebookObjective["facebookValues"],
+              facebookObjectiveIdentifier: this.chosenObjective
+                ?.identifier as IFacebookObjective["identifier"],
             },
           },
         };
         const savedCampaign: string = this.isSavedCampaign
           ? await FacebookRepository.updateCampaignObjective(campaignObject)
           : await FacebookRepository.saveCampaignObjective(campaignObject);
-        let campaignId: string = this.isSavedCampaign ? (this.savedCampaign as string) : savedCampaign;
+        const campaignId: string = this.isSavedCampaign
+          ? (this.savedCampaign as string)
+          : savedCampaign;
         await this.setCurrentFacebookCampaign({
           campaignId,
         });
@@ -91,7 +110,7 @@ export default Vue.extend({
     },
     async continueNextStep(campaignId: string) {
       await this.$router.push({
-        name: 'platform objective goal',
+        name: "platform objective goal",
         params: this.$route.params,
         query: {
           ...this.$route.query,
@@ -127,12 +146,12 @@ export default Vue.extend({
       return this.savedObjective === this.chosenObjective?.identifier;
     },
     formatContinueButton(): string {
-      let renderButtonContent = 'Confirm Objective';
+      let renderButtonContent = "Confirm Objective";
       if (this.isSavedCampaign) {
         if (this.isSameObjective && this.isSavedCampaign) {
-          renderButtonContent = 'Continue';
+          renderButtonContent = "Continue";
         } else {
-          renderButtonContent = 'Save Change';
+          renderButtonContent = "Save Change";
         }
       }
       return renderButtonContent;

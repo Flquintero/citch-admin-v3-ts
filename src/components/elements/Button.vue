@@ -16,18 +16,18 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import Vue from "vue";
 // Types
 interface BtnVariants {
   [k: string]: any;
 }
 
 export default Vue.extend({
-  name: 'Button',
+  name: "Button",
   components: {},
   props: {
     buttonText: String,
-    buttonType: { type: String, default: 'button' },
+    buttonType: { type: String, default: "button" },
     disabled: { type: Boolean, default: false },
     loading: { type: Boolean, default: false },
     variant: String,
@@ -35,15 +35,15 @@ export default Vue.extend({
   data: function () {
     return {
       variantsMap: {
-        primary: 'c-btn-primary',
-        primaryOutline: 'c-btn-primary-outline',
-        secondary: 'c-btn-secondary',
-        danger: 'c-btn-danger',
-        link: 'c-btn-link',
-        linkLight: 'c-btn-link-light',
-        light: 'c-btn-light',
-        dimmed: 'c-btn-dimmed',
-        tertiary: 'c-btn-tertiary',
+        primary: "c-btn-primary",
+        primaryOutline: "c-btn-primary-outline",
+        secondary: "c-btn-secondary",
+        danger: "c-btn-danger",
+        link: "c-btn-link",
+        linkLight: "c-btn-link-light",
+        light: "c-btn-light",
+        dimmed: "c-btn-dimmed",
+        tertiary: "c-btn-tertiary",
       } as BtnVariants,
     };
   },
@@ -78,7 +78,8 @@ export default Vue.extend({
     color: $button-primary-outline-color;
     border-color: $button-primary-outline;
     background-color: $button-primary-outline-background;
-    box-shadow: 0 4px 8px 0 rgba(44, 39, 56, 0.08), 0 2px 4px 0 rgba(44, 39, 56, 0.08);
+    box-shadow: 0 4px 8px 0 rgba(44, 39, 56, 0.08),
+      0 2px 4px 0 rgba(44, 39, 56, 0.08);
     // @include button-hover-after(#073a33);
     &:disabled {
       border-color: inherit;

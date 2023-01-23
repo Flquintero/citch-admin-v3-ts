@@ -5,32 +5,34 @@
         ><div class="set-new-password__form-wrapper">
           <h2>Set New Password</h2>
           <NewPasswordForm />
-          <div class="set-new-password__form-wrapper__redirect"
-            ><router-link to="/login">Back to Login</router-link></div
-          ></div
-        ></template
+          <div class="set-new-password__form-wrapper__redirect">
+            <router-link to="/login">Back to Login</router-link>
+          </div>
+        </div></template
       >
       <template #auth-advert
-        ><div class="set-new-password__advert"> <NewPasswordAdvert></NewPasswordAdvert> </div
+        ><div class="set-new-password__advert">
+          <NewPasswordAdvert></NewPasswordAdvert></div
       ></template>
     </AuthLayout>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-const AuthLayout = () => import(/* webpackChunkName: "AuthLayout" */ '@/layouts/Auth.vue');
+import Vue from "vue";
+const AuthLayout = () =>
+  import(/* webpackChunkName: "AuthLayout" */ "@/layouts/Auth.vue");
 const NewPasswordAdvert = () =>
   import(
-    /* webpackChunkName: "NewPasswordAdvert" */ '@/components/layouts/auth/reset-password/NewPasswordAdvert.vue'
+    /* webpackChunkName: "NewPasswordAdvert" */ "@/components/layouts/auth/reset-password/NewPasswordAdvert.vue"
   );
 const NewPasswordForm = () =>
   import(
-    /* webpackChunkName: "NewPasswordForm" */ '@/components/layouts/auth/reset-password/NewPasswordForm.vue'
+    /* webpackChunkName: "NewPasswordForm" */ "@/components/layouts/auth/reset-password/NewPasswordForm.vue"
   );
 
 export default Vue.extend({
-  name: 'ResetPassword',
+  name: "ResetPassword",
   components: { AuthLayout, NewPasswordAdvert, NewPasswordForm },
 });
 </script>

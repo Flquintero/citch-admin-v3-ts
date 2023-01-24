@@ -44,21 +44,26 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent, Vue } from "vue";
 const CInput = () =>
-  import(/* webpackChunkName: "CInput" */ "@/components/elements/Input.vue");
+  import(
+    /* webpackChunkName: "CInput" */ "@/components/elements/BaseInput.vue"
+  );
 const CButton = () =>
-  import(/* webpackChunkName: "CButton" */ "@/components/elements/Button.vue");
+  import(
+    /* webpackChunkName: "CButton" */ "@/components/elements/BaseButton.vue"
+  );
 import { required } from "vuelidate/lib/validators";
 import { FormFunctions } from "@/utils/form-functionality";
-import { IFormData } from "@/types/forms/interfaces";
-import { ITrackData } from "@/types/analytics/interfaces";
 import CurrentUserMixin from "@/mixins/current-user";
+import type { IFormData } from "@/types/forms/interfaces";
+import type { ITrackData } from "@/types/analytics/interfaces";
 const AuthRepository = Vue.prototype.$apiRepository.get("auth");
 
-export default CurrentUserMixin.extend({
+export default defineComponent({
   name: "LoginForm",
   components: { CInput, CButton },
+  mixins: [CurrentUserMixin],
   data() {
     return {
       saving: false,

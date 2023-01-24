@@ -40,13 +40,15 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent, Vue } from "vue";
 import { mapGetters } from "vuex";
 const CButton = () =>
-  import(/* webpackChunkName: "CButton" */ "@/components/elements/Button.vue");
+  import(
+    /* webpackChunkName: "CButton" */ "@/components/elements/BaseButton.vue"
+  );
 const AuthRepository = Vue.prototype.$apiRepository.get("auth");
 
-export default Vue.extend({
+export default defineComponent({
   name: "NavBarMenu",
   components: { CButton },
   data() {
@@ -54,7 +56,6 @@ export default Vue.extend({
       isMenuOpen: false,
     };
   },
-  mounted() {},
   methods: {
     async signOut() {
       try {

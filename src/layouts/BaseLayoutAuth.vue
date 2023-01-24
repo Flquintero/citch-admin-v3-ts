@@ -1,6 +1,6 @@
 <template>
   <div class="auth-layout">
-    <Header v-bind="{ linkLogo: true, to: '/login', actions: false }" />
+    <LayoutHeader v-bind="{ linkLogo: true, to: '/login', actions: false }" />
     <div class="auth-layout__content">
       <slot name="auth-content"></slot>
     </div>
@@ -11,12 +11,13 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent } from "vue";
 import { mapGetters } from "vuex";
-const Header = () => import(/* webpackChunkName: "Header" */ "./Header.vue");
-export default Vue.extend({
-  name: "Auth",
-  components: { Header },
+const LayoutHeader = () =>
+  import(/* webpackChunkName: "LayoutHeader" */ "./shared/LayoutHeader.vue");
+export default defineComponent({
+  name: "BaseLayoutAuth",
+  components: { LayoutHeader },
   mounted() {
     this.setPageView();
   },
@@ -50,10 +51,6 @@ export default Vue.extend({
     @include tablet-and-down() {
       max-width: 100%;
     }
-
-    // > div {
-    //   height: 100%;
-    // }
   }
 }
 </style>

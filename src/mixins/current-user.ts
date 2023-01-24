@@ -1,11 +1,11 @@
-import Vue from "vue";
+import { defineComponent } from "vue";
 import { mapActions } from "vuex";
 import { User } from "@firebase/auth";
-import { ITrackData } from "@/types/analytics/interfaces";
+import type { ITrackData } from "@/types/analytics/interfaces";
 import Repository from "@/api-repository/index";
 const AuthRepository = Repository.get("auth");
 
-export default Vue.extend({
+export default defineComponent({
   name: "CurrentUserMixin",
   data() {
     return {

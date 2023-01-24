@@ -2,16 +2,18 @@
   <div class="header-layout">
     <div class="header-layout__logo">
       <LinkLogo v-if="linkLogo" v-bind="{ to }" />
-      <Logo v-else />
+      <BaseLogo v-else />
     </div>
     <div v-if="actions" class="header-layout__menu"><NavBarMenu /></div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-const Logo = () =>
-  import(/* webpackChunkName: "Logo" */ "@/components/elements/Logo.vue");
+import { defineComponent } from "vue";
+const BaseLogo = () =>
+  import(
+    /* webpackChunkName: "BaseLogo" */ "@/components/elements/BaseLogo.vue"
+  );
 const LinkLogo = () =>
   import(
     /* webpackChunkName: "LinkLogo" */ "@/components/elements/LinkLogo.vue"
@@ -20,13 +22,13 @@ const NavBarMenu = () =>
   import(
     /* webpackChunkName: "NavBarMenu" */ "@/components/layouts/header/NavBarMenu.vue"
   );
-export default Vue.extend({
-  name: "Header",
-  components: { Logo, LinkLogo, NavBarMenu },
+export default defineComponent({
+  name: "LayoutHeader",
+  components: { BaseLogo, LinkLogo, NavBarMenu },
   props: {
     actions: { type: Boolean, default: true },
     linkLogo: { type: Boolean, default: false },
-    to: { type: String },
+    to: String,
   },
 });
 </script>

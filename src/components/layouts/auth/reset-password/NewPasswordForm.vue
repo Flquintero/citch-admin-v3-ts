@@ -40,16 +40,21 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent, Vue } from "vue";
 const CInput = () =>
-  import(/* webpackChunkName: "CInput" */ "@/components/elements/Input.vue");
+  import(
+    /* webpackChunkName: "CInput" */ "@/components/elements/BaseInput.vue"
+  );
 const CButton = () =>
-  import(/* webpackChunkName: "CButton" */ "@/components/elements/Button.vue");
+  import(
+    /* webpackChunkName: "CButton" */ "@/components/elements/BaseButton.vue"
+  );
 import { required, minLength, sameAs } from "vuelidate/lib/validators";
 import { FormFunctions } from "@/utils/form-functionality";
+import type { IFormData } from "@/types/forms/interfaces";
 const AuthRepository = Vue.prototype.$apiRepository.get("auth");
 
-export default Vue.extend({
+export default defineComponent({
   name: "NewPasswordForm",
   components: { CInput, CButton },
   data() {
@@ -58,7 +63,7 @@ export default Vue.extend({
       formData: {
         newPassword: null,
         confirmPassword: null,
-      } as { [property: string]: string | number | null },
+      } as IFormData,
     };
   },
   validations: {

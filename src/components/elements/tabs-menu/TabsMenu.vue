@@ -1,7 +1,7 @@
 <template>
   <div class="tabs">
     <div class="tabs__list">
-      <Tab
+      <TabsMenuItem
         v-for="(tab, index) in tabsList"
         :key="`${tab.text}-${index}`"
         v-bind="{ content: tab, isCurrentTab: checkCurrentTab(index) }"
@@ -12,15 +12,17 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from "vue";
-import Tab from "@/components/elements/tabs/partials/Tab.vue";
-import { ITabContent } from "@/types/components/interfaces";
+import { defineComponent } from "vue";
+import TabsMenuItem from "@/components/elements/tabs/partials/TabsMenuItem.vue";
 
-export default Vue.extend({
-  name: "Tabs",
-  components: { Tab },
+import type { PropType } from "vue";
+import type { ITabContent } from "@/types/components/interfaces";
+
+export default defineComponent({
+  name: "TabsMenu",
+  components: { TabsMenuItem },
   props: {
-    tabsList: Array as () => Array<ITabContent>,
+    tabsList: Array as PropType<ITabContent>,
   },
   data() {
     return {

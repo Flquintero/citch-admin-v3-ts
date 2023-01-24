@@ -52,10 +52,12 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { IValidationObject } from "@/types/forms/interfaces";
-export default Vue.extend({
-  name: "Input",
+import { defineComponent } from "vue";
+
+import type { IValidationObject } from "@/types/forms/interfaces";
+
+export default defineComponent({
+  name: "BaseInput",
   props: {
     placeholder: String,
     type: String,

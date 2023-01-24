@@ -16,6 +16,7 @@ module.exports = {
   plugins: ["@typescript-eslint", "prettier"],
   rules: {
     "prettier/prettier": "error",
+    "vue/require-default-prop": "off",
     // not needed for vue 3
     "vue/no-multiple-template-root": "off",
     "@typescript-eslint/no-explicit-any": "off",

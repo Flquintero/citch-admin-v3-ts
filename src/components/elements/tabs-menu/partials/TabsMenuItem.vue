@@ -25,13 +25,15 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from "vue";
-import { ITabContent } from "@/types/components/interfaces";
+import { defineComponent } from "vue";
 
-export default Vue.extend({
-  name: "Tab",
+import type { PropType } from "vue";
+import type { ITabContent } from "@/types/components/interfaces";
+
+export default defineComponent({
+  name: "TabsMenuItem",
   props: {
-    content: { type: Object as () => ITabContent },
+    content: Object as PropType<ITabContent>,
     isCurrentTab: Boolean,
   },
 });

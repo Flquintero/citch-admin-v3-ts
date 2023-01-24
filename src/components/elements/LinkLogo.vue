@@ -3,17 +3,15 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent } from "vue";
 const Logo = () =>
   import(/* webpackChunkName: "Logo" */ "@/components/elements/Logo.vue");
 
-export default Vue.extend({
+export default defineComponent({
   name: "LinkLogo",
   components: { Logo },
   props: {
-    to: {
-      type: String,
-    },
+    to: String,
   },
 });
 </script>

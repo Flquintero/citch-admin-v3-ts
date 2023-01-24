@@ -47,11 +47,7 @@ Vue.use(Vuelidate);
 
 // Icons
 
-import {
-  IconDefinition,
-  IconPack,
-  library,
-} from "@fortawesome/fontawesome-svg-core";
+import { IconDefinition, library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import {
   faCircleExclamation,

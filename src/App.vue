@@ -5,9 +5,9 @@
   </div>
 </template>
 <script lang="ts">
+import { defineComponent } from "vue";
 import ResponsiveMixin from "@/mixins/responsive";
 import CurrentUserMixin from "@/mixins/current-user";
-import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "App",

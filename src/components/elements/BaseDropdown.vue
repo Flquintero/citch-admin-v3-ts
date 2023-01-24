@@ -52,16 +52,18 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { IDropdownOption } from "@/types/components/interfaces";
+import { defineComponent } from "vue";
 
-export default Vue.extend({
-  name: "Dropdown",
+import type { PropType } from "vue";
+import type { IDropdownOption } from "@/types/components/interfaces";
+
+export default defineComponent({
+  name: "BaseDropdown",
   props: {
     placeholder: String,
     chosenLabel: String,
-    chosenOption: Object as () => IDropdownOption | null,
-    options: Array as () => IDropdownOption[],
+    chosenOption: Object as PropType<IDropdownOption>,
+    options: Array as PropType<IDropdownOption[]>,
   },
   data() {
     return {

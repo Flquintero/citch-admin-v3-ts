@@ -6,9 +6,9 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent } from "vue";
 
-export default Vue.extend({
-  name: "Logo",
+export default defineComponent({
+  name: "BaseLogo",
 });
 </script>

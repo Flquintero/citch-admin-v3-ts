@@ -42,15 +42,17 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from "vue";
-import { IChooseListOption } from "@/types/components/interfaces";
+import { defineComponent } from "vue";
 
-export default Vue.extend({
+import type { PropType } from "vue";
+import type { IChooseListOption } from "@/types/components/interfaces";
+
+export default defineComponent({
   name: "ChooseSingleList",
   components: {},
   props: {
-    optionsList: Array as () => Array<IChooseListOption>,
-    chosenOption: Object as () => IChooseListOption,
+    optionsList: Array as PropType<IChooseListOption[]>,
+    chosenOption: Object as PropType<IChooseListOption>,
     displayNameUnderline: { type: Boolean, default: true },
     itemMWidth: { type: String, default: "200px" },
     itemMaxWidth: { type: String, default: "280px" },

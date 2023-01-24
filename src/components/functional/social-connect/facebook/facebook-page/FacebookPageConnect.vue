@@ -40,12 +40,12 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { IFacebookPage } from "@/types/facebook/pages/interfaces";
+import { defineComponent, Vue } from "vue";
 import { mapActions } from "vuex";
+import type { IFacebookPage } from "@/types/facebook/pages/interfaces";
 const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");
 
-export default Vue.extend({
+export default defineComponent({
   name: "FacebookPageConnect",
   data() {
     return {

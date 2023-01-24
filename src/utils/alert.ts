@@ -40,12 +40,11 @@ export interface Alert {
   error: (options: Omit<AlertOptions, "type"> | string) => void;
 }
 import Vue from "vue";
-import AlertComponent from "@/components/functional/Alert.vue";
+import AlertComponent from "@/components/functional/BaseAlert.vue";
 
-let alertWrapper: HTMLDivElement;
 const wrapperId = "c-alerts-wrapper";
 
-alertWrapper = document.createElement("div");
+const alertWrapper: HTMLDivElement = document.createElement("div");
 alertWrapper.id = wrapperId;
 document.body.prepend(alertWrapper);
 

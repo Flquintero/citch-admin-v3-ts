@@ -5,10 +5,10 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent } from "vue";
 
-export default Vue.extend({
-  name: "Loader",
+export default defineComponent({
+  name: "BaseLoader",
   props: {
     size: String,
   },

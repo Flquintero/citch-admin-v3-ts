@@ -23,11 +23,11 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent } from "vue";
 import { AlertType } from "@/utils/alert";
 
-export default Vue.extend({
-  name: "Alert",
+export default defineComponent({
+  name: "BaseAlert",
   props: {
     type: {
       type: String,

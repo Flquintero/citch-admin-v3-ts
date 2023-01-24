@@ -17,12 +17,14 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent, Vue } from "vue";
 const CButton = () =>
-  import(/* webpackChunkName: "CButton" */ "@/components/elements/Button.vue");
+  import(
+    /* webpackChunkName: "CButton" */ "@/components/elements/BaseButton.vue"
+  );
 const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");
 
-export default Vue.extend({
+export default defineComponent({
   name: "FacebookDisconnectButton",
   components: { CButton },
   data() {

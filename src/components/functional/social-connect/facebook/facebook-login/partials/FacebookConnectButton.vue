@@ -6,20 +6,23 @@
   >
     <span v-if="connecting">
       <font-awesome-icon icon="fa-duotone fa-circle-notch" spin /> Loading</span
-    ><span v-else
-      ><font-awesome-icon icon="fa-brands fa-facebook" />
+    ><span v-else>
+      <font-awesome-icon icon="fa-brands fa-facebook" />
       <span class="facebook-connect-button__content-text">Connect</span></span
     >
   </CButton>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent, Vue } from "vue";
+
 const CButton = () =>
-  import(/* webpackChunkName: "CButton" */ "@/components/elements/Button.vue");
+  import(
+    /* webpackChunkName: "CButton" */ "@/components/elements/BaseButton.vue"
+  );
 const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");
 
-export default Vue.extend({
+export default defineComponent({
   name: "FacebookConnectButton",
   components: { CButton },
   data() {

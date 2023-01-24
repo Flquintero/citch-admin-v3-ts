@@ -18,13 +18,13 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent, Vue } from "vue";
 import FacebookConnectButton from "./partials/FacebookConnectButton.vue";
 import FacebookDisconnectButton from "./partials/FacebookDisconnectButton.vue";
-import { EFacebookConnectionStatus } from "@/types/facebook/auth/enums";
+import type { EFacebookConnectionStatus } from "@/types/facebook/auth/enums";
 const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");
 
-export default Vue.extend({
+export default defineComponent({
   name: "FacebookLogin",
   components: { FacebookConnectButton, FacebookDisconnectButton },
   data() {

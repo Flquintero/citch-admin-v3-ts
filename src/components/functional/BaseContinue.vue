@@ -12,12 +12,14 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent } from "vue";
 const CButton = () =>
-  import(/* webpackChunkName: "CButton" */ "@/components/elements/Button.vue");
+  import(
+    /* webpackChunkName: "CButton" */ "@/components/elements/BaseButton.vue"
+  );
 
-export default Vue.extend({
-  name: "Continue",
+export default defineComponent({
+  name: "BaseContinue",
   components: { CButton },
   props: {
     variant: String,

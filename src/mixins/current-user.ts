@@ -13,7 +13,8 @@ export default defineComponent({
     };
   },
   methods: {
-    ...mapActions("Users", ["setCurrentUser"]),
+    // need to setup the below correctly
+    ...mapActions("Users", { setCurrentUser: "setCurrentUser" }),
     async initGetCurrentUser() {
       this.authedUser = await AuthRepository.observerCurrentAuthedUser();
     },

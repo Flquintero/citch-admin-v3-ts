@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, Vue } from "vue";
+import Vue, { defineComponent } from "vue";
 import { mapActions, mapGetters } from "vuex";
 import { parseFacebookPostId } from "@/utils/facebook/facebook-post-id-finder";
 const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");

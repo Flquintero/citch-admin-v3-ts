@@ -26,9 +26,9 @@ export default defineComponent({
   name: "BaseButton",
   props: {
     buttonText: String,
-    buttonType: { required: true, type: String, default: "button" },
-    disabled: { required: true, type: Boolean, default: false },
-    loading: { required: true, type: Boolean, default: false },
+    buttonType: { type: String, default: "button" },
+    disabled: { type: Boolean, default: false },
+    loading: { type: Boolean, default: false },
     variant: String,
   },
   data: function () {

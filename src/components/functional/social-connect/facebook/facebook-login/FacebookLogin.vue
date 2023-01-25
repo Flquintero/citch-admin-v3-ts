@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, Vue } from "vue";
+import Vue, { defineComponent } from "vue";
 import FacebookConnectButton from "./partials/FacebookConnectButton.vue";
 import FacebookDisconnectButton from "./partials/FacebookDisconnectButton.vue";
 import { EFacebookConnectionStatus } from "@/types/facebook/auth/enums";

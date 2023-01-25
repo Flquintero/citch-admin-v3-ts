@@ -25,7 +25,7 @@
       <div class="nav-bar-menu__content-pages">
         <CButton @click.native="goTo('/post-link')">Promote Post</CButton>
         <CButton>Campaigns</CButton>
-        <CButton @click.native="goTo('/settings/user')">User Settings</CButton>
+        <CButton>User Settings</CButton>
       </div>
       <div class="nav-bar-menu__content-logout">
         <CButton @click.native="signOut"
@@ -40,7 +40,7 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, Vue } from "vue";
+import Vue, { defineComponent } from "vue";
 import { mapGetters } from "vuex";
 const CButton = () =>
   import(

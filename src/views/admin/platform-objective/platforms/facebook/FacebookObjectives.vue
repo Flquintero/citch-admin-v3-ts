@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, Vue } from "vue";
+import Vue, { defineComponent } from "vue";
 import { mapActions } from "vuex";
 import { FacebookObjectivesList } from "./utils/facebook-platform-objectives";
 import type {

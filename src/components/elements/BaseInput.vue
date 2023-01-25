@@ -53,7 +53,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-
+import type { PropType } from "vue";
 import type { IValidationObject } from "@/types/forms/interfaces";
 
 export default defineComponent({
@@ -64,7 +64,7 @@ export default defineComponent({
     value: String || Number || null,
     name: String,
     label: String,
-    validationObject: IValidationObject,
+    validationObject: Object as PropType<IValidationObject>,
     required: {
       type: Boolean,
       default: false,

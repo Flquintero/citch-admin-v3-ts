@@ -19,7 +19,7 @@ const CButton = () =>
   );
 
 export default defineComponent({
-  name: "BaseContinue",
+  name: "ContinueButton",
   components: { CButton },
   props: {
     variant: String,

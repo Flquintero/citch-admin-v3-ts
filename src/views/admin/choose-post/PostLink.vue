@@ -20,7 +20,7 @@
       />
     </div>
     <div class="choose-post-link__confirm">
-      <BaseContinue
+      <ContinueButton
         @click.native="confirmPostLink"
         v-bind="{
           variant: 'primary',
@@ -30,7 +30,7 @@
           textIcon: 'fa-arrow-right',
           loadingContent: 'Saving to Continue',
         }"
-      ></BaseContinue>
+      ></ContinueButton>
     </div>
   </div>
 </template>
@@ -40,16 +40,16 @@ const CInput = () =>
   import(
     /* webpackChunkName: "CInput" */ "@/components/elements/BaseInput.vue"
   );
-const BaseContinue = () =>
+const ContinueButton = () =>
   import(
-    /* webpackChunkName: "BaseContinue" */ "@/components/functional/BaseContinue.vue"
+    /* webpackChunkName: "ContinueButton" */ "@/components/functional/ContinueButton.vue"
   );
 import { FormFunctions } from "@/utils/form-functionality";
 import { required, url } from "vuelidate/lib/validators";
 
 export default defineComponent({
   name: "PostLink",
-  components: { CInput, BaseContinue },
+  components: { CInput, ContinueButton },
   data() {
     return {
       saving: false,

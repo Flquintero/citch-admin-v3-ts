@@ -25,7 +25,7 @@
           </h3></template
         >
       </FacebookPageConnect>
-      <BaseContinue
+      <ContinueButton
         v-if="currentFacebookPage"
         @click.native="confirmAccounts"
         v-bind="{
@@ -36,7 +36,7 @@
           textIcon: 'fa-arrow-right',
           loadingContent: 'Saving to Continue',
         }"
-      ></BaseContinue>
+      ></ContinueButton>
     </template>
   </div>
 </template>
@@ -55,16 +55,16 @@ const FacebookPageConnect = () =>
   import(
     /* webpackChunkName: "FacebookPageConnect" */ "@/components/functional/social-connect/facebook/facebook-page/FacebookPageConnect.vue"
   );
-const BaseContinue = () =>
+const ContinueButton = () =>
   import(
-    /* webpackChunkName: "BaseContinue" */ "@/components/functional/BaseContinue.vue"
+    /* webpackChunkName: "ContinueButton" */ "@/components/functional/ContinueButton.vue"
   );
 export default defineComponent({
   name: "FacebookConnect",
   components: {
     FacebookLogin,
     FacebookPageConnect,
-    BaseContinue,
+    ContinueButton,
   },
   data() {
     return {

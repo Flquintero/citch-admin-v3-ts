@@ -18,7 +18,7 @@
         />
       </div>
       <div class="objective-goal__content-confirm">
-        <BaseContinue
+        <ContinueButton
           @click.native="confirmObjectiveGoal"
           v-bind="{
             variant: 'primary',
@@ -28,7 +28,7 @@
             textIcon: 'fa-arrow-right',
             loadingContent: 'Saving to Continue',
           }"
-        ></BaseContinue>
+        ></ContinueButton>
       </div>
     </div>
   </div>
@@ -45,14 +45,14 @@ const CInput = () =>
   import(
     /* webpackChunkName: "CInput" */ "@/components/elements/BaseInput.vue"
   );
-const BaseContinue = () =>
+const ContinueButton = () =>
   import(
-    /* webpackChunkName: "BaseContinue" */ "@/components/functional/BaseContinue.vue"
+    /* webpackChunkName: "ContinueButton" */ "@/components/functional/ContinueButton.vue"
   );
 
 export default defineComponent({
   name: "FacebookObjectiveGoal",
-  components: { CInput, BaseContinue },
+  components: { CInput, ContinueButton },
   data() {
     return {
       saving: false,

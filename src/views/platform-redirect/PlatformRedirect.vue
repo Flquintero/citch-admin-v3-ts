@@ -11,7 +11,9 @@
 import { defineComponent, Vue } from "vue";
 
 const LayoutHeader = () =>
-  import(/* webpackChunkName: "LayoutHeader" */ "@/layouts/LayoutHeader.vue");
+  import(
+    /* webpackChunkName: "LayoutHeader" */ "@/layouts/shared/LayoutHeader.vue"
+  );
 const BaseLoader = () =>
   import(
     /* webpackChunkName: "BaseLoader" */ "@/components/functional/BaseLoader.vue"

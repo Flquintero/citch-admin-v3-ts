@@ -13,7 +13,7 @@ const routes: Array<RouteConfig> = [
     name: "admin",
     meta: { requiresAuth: true },
     component: () =>
-      import(/* webpackChunkName: "admin" */ "../views/admin/Admin.vue"),
+      import(/* webpackChunkName: "admin" */ "../views/admin/AdminIndex.vue"),
     children: [
       {
         path: "/post-link",

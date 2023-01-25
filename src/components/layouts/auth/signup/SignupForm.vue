@@ -93,9 +93,13 @@
 <script lang="ts">
 import { defineComponent, Vue } from "vue";
 const CInput = () =>
-  import(/* webpackChunkName: "CInput" */ "@/components/elements/Input.vue");
+  import(
+    /* webpackChunkName: "CInput" */ "@/components/elements/BaseInput.vue"
+  );
 const CButton = () =>
-  import(/* webpackChunkName: "CButton" */ "@/components/elements/Button.vue");
+  import(
+    /* webpackChunkName: "CButton" */ "@/components/elements/BaseButton.vue"
+  );
 import { required, minLength, email, sameAs } from "vuelidate/lib/validators";
 import { FormFunctions } from "@/utils/form-functionality";
 import { User } from "@firebase/auth";

@@ -9,7 +9,9 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 const LayoutHeader = () =>
-  import(/* webpackChunkName: "LayoutHeader" */ "@/layouts/LayoutHeader.vue");
+  import(
+    /* webpackChunkName: "LayoutHeader" */ "@/layouts/shared/LayoutHeader.vue"
+  );
 
 export default defineComponent({
   name: "AdminIndex",

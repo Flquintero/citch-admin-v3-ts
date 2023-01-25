@@ -5,7 +5,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 const Logo = () =>
-  import(/* webpackChunkName: "Logo" */ "@/components/elements/Logo.vue");
+  import(/* webpackChunkName: "Logo" */ "@/components/elements/BaseLogo.vue");
 
 export default defineComponent({
   name: "LinkLogo",

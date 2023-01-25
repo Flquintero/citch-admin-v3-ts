@@ -1,7 +1,9 @@
 <template>
   <div class="instagram-connect">
     <FacebookLogin v-if="!isFacebookConnected">
-      <template #title><h3>First, we need to connect your Facebook</h3></template>
+      <template #title
+        ><h3>First, we need to connect your Facebook</h3></template
+      >
     </FacebookLogin>
     <template v-else>
       <FacebookPageConnect />
@@ -15,21 +17,21 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { defineComponent } from "vue";
 const FacebookLogin = () =>
   import(
-    /* webpackChunkName: "FacebookLogin" */ '@/components/functional/social-connect/facebook/facebook-login/FacebookLogin.vue'
+    /* webpackChunkName: "FacebookLogin" */ "@/components/functional/social-connect/facebook/facebook-login/FacebookLogin.vue"
   );
 const FacebookPageConnect = () =>
   import(
-    /* webpackChunkName: "FacebookPageConnect" */ '@/components/functional/social-connect/facebook/facebook-page/FacebookPageConnect.vue'
+    /* webpackChunkName: "FacebookPageConnect" */ "@/components/functional/social-connect/facebook/facebook-page/FacebookPageConnect.vue"
   );
 const FacebookInstagramConnect = () =>
   import(
-    /* webpackChunkName: "FacebookInstagramConnect" */ '@/components/functional/social-connect/facebook/FacebookInstagramConnect.vue'
+    /* webpackChunkName: "FacebookInstagramConnect" */ "@/components/functional/social-connect/facebook/FacebookInstagramConnect.vue"
   );
-export default Vue.extend({
-  name: 'InstagramConnect',
+export default defineComponent({
+  name: "InstagramConnect",
   components: { FacebookLogin, FacebookPageConnect, FacebookInstagramConnect },
   data() {
     return {
@@ -39,4 +41,3 @@ export default Vue.extend({
   },
 });
 </script>
-<style lang="scss" scoped></style>

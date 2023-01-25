@@ -1,6 +1,6 @@
-import { User } from 'firebase/auth';
+import { User } from "firebase/auth";
 
 export interface IUserState {
   currentUser?: User;
-  isUserLoggedIn: Boolean;
+  isUserLoggedIn: boolean;
 }

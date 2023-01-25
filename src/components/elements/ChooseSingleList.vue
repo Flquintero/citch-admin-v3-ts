@@ -1,7 +1,7 @@
 <template>
   <div class="choose-single-list">
     <slot name="title">
-      <div class="choose-single-list__title"> <h3>Select one:</h3></div>
+      <div class="choose-single-list__title"><h3>Select one:</h3></div>
     </slot>
     <slot name="list">
       <div class="choose-single-list__list">
@@ -13,19 +13,27 @@
             'choose-single-list__list-item--chosen': isOptionChosen(option),
           }"
           v-for="option in optionsList"
-          :key="option.name">
+          :key="option.name"
+        >
           <div class="choose-single-list__list-item-name">
             <span
               :class="{
-                'choose-single-list__list-item-name--underline': displayNameUnderline,
+                'choose-single-list__list-item-name--underline':
+                  displayNameUnderline,
               }"
               >{{ option.displayName }}</span
             >
           </div>
-          <div v-if="option.description" class="choose-single-list__list-item-description">
+          <div
+            v-if="option.description"
+            class="choose-single-list__list-item-description"
+          >
             <span>{{ option.description }}</span>
           </div>
-          <div v-if="isOptionChosen(option)" class="choose-single-list__list-item-icon">
+          <div
+            v-if="isOptionChosen(option)"
+            class="choose-single-list__list-item-icon"
+          >
             <font-awesome-icon icon="fa-duotone fa-circle-check" />
           </div>
         </div>
@@ -34,22 +42,24 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from 'vue';
-import { IChooseListOption } from '@/types/components/interfaces';
+import { defineComponent } from "vue";
 
-export default Vue.extend({
-  name: 'ChooseSingleList',
+import type { PropType } from "vue";
+import type { IChooseListOption } from "@/types/components/interfaces";
+
+export default defineComponent({
+  name: "ChooseSingleList",
   components: {},
   props: {
-    optionsList: Array as () => Array<IChooseListOption>,
-    chosenOption: Object as () => IChooseListOption,
+    optionsList: Array as PropType<IChooseListOption[]>,
+    chosenOption: Object as PropType<IChooseListOption>,
     displayNameUnderline: { type: Boolean, default: true },
-    itemMWidth: { type: String, default: '200px' },
-    itemMaxWidth: { type: String, default: '280px' },
+    itemMWidth: { type: String, default: "200px" },
+    itemMaxWidth: { type: String, default: "280px" },
   },
   methods: {
     setChosenOption(option: IChooseListOption): void {
-      this.$emit('option-selected', option);
+      this.$emit("option-selected", option);
     },
     isOptionChosen(option: IChooseListOption): boolean {
       return this.chosenOption?.name === option.name;
@@ -68,7 +78,11 @@ export default Vue.extend({
   &__list {
     @include flex-config($flex-wrap: wrap, $justify-content: center);
     &-item {
-      @include flex-config($flex-direction: column, $justify-content: center, $align-items: center);
+      @include flex-config(
+        $flex-direction: column,
+        $justify-content: center,
+        $align-items: center
+      );
       min-height: 60px;
       flex-grow: 1;
       margin: 10px;

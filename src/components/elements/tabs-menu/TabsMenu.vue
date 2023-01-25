@@ -1,25 +1,31 @@
 <template>
   <div class="tabs">
     <div class="tabs__list">
-      <Tab
+      <TabsMenuItem
         v-for="(tab, index) in tabsList"
         :key="`${tab.text}-${index}`"
         v-bind="{ content: tab, isCurrentTab: checkCurrentTab(index) }"
-        @click.native="setCurrentTab(index)" />
+        @click.native="setCurrentTab(index)"
+      />
     </div>
     <slot name="tab-content"></slot>
   </div>
 </template>
 <script lang="ts">
-import Vue from 'vue';
-import Tab from '@/components/elements/tabs/partials/Tab.vue';
-import { ITabContent } from '@/types/components/interfaces';
+import { defineComponent } from "vue";
+import type { PropType } from "vue";
+import type { ITabContent } from "@/types/components/interfaces";
 
-export default Vue.extend({
-  name: 'Tabs',
-  components: { Tab },
+const TabsMenuItem = () =>
+  import(
+    /* webpackChunkName: "TabsMenuItem" */ "@/components/elements/tabs-menu/partials/TabsMenuItem.vue"
+  );
+
+export default defineComponent({
+  name: "TabsMenu",
+  components: { TabsMenuItem },
   props: {
-    tabsList: Array as () => Array<ITabContent>,
+    tabsList: Array as PropType<ITabContent>,
   },
   data() {
     return {
@@ -32,7 +38,7 @@ export default Vue.extend({
     },
     setCurrentTab(tabIndex: number) {
       this.currentTabIndex = tabIndex;
-      this.$emit('tab-selected', tabIndex);
+      this.$emit("tab-selected", tabIndex);
     },
   },
 });

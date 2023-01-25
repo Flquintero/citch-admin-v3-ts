@@ -12,10 +12,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { defineComponent } from "vue";
 
-export default Vue.extend({
-  name: 'FacebookPost',
+export default defineComponent({
+  name: "FacebookPost",
   data() {
     return {
       post: null as string | null,
@@ -26,7 +26,7 @@ export default Vue.extend({
   },
   methods: {
     setPost() {
-      const { post } = this.$route.query as any;
+      const { post } = this.$route.query as string;
       if (post) {
         this.post = post;
       }

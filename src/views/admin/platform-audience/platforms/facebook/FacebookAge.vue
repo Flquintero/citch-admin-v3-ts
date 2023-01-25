@@ -10,7 +10,8 @@
             chosenLabel: 'Min Age',
             chosenOption: formatChosenOption(formData.ageMin),
             options: formatAgeOptions(ageMinRange),
-          }" />
+          }"
+        />
       </div>
       <div class="facebook-audience-age__options-item">
         <CDropdown
@@ -20,47 +21,59 @@
             chosenLabel: 'Max Age',
             chosenOption: formatChosenOption(formData.ageMax),
             options: formatAgeOptions(ageMaxRange),
-          }" />
+          }"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { mapActions, mapGetters } from 'vuex';
-import { ageMinRange, ageMaxRange } from './utils/facebook-age-data';
-import CDropdown from '@/components/elements/Dropdown.vue';
-import { IDropdownOption } from '@/types/components/interfaces';
-import { setCompletedAudienceFields } from '../../utils/platform-audience-validation-helper';
-import { ITabContent } from '@/types/components/interfaces';
-import { EFacebookAudienceItems } from '@/types/facebook/campaigns/enums';
+import { defineComponent } from "vue";
+import { mapActions, mapGetters } from "vuex";
+import { ageMinRange, ageMaxRange } from "./utils/facebook-age-data";
+import { setCompletedAudienceFields } from "../../utils/platform-audience-validation-helper";
+import type { PropType } from "vue";
+import type { IDropdownOption } from "@/types/components/interfaces";
+import type { ITabContent } from "@/types/components/interfaces";
+import { EFacebookAudienceItems } from "@/types/facebook/campaigns/enums";
 
-export default Vue.extend({
-  name: 'FacebookAudienceAge',
+const CDropdown = () =>
+  import(
+    /* webpackChunkName: "CDropdown" */ "@/components/elements/BaseDropdown.vue"
+  );
+
+export default defineComponent({
+  name: "FacebookAudienceAge",
   props: {
-    tabsList: Array as () => Array<ITabContent>,
+    tabsList: Array as PropType<ITabContent[]>,
   },
   components: { CDropdown },
   data() {
     return {
       ageMinRange,
       ageMaxRange,
-      formData: { ageMin: null as string | null, ageMax: null as string | null },
+      formData: {
+        ageMin: null as string | null,
+        ageMax: null as string | null,
+      },
     };
   },
   mounted() {
     this.checkForSavedAudience();
   },
   methods: {
-    ...mapActions('Facebook', ['setCurrentFacebookAudience']),
+    ...mapActions("Facebook", ["setCurrentFacebookAudience"]),
     setCompletedAudienceFields,
     setMinAge(ageOption: IDropdownOption) {
       this.formData.ageMin = ageOption.value as string;
       if (this.formData.ageMax) this.validateMinAge();
     },
     validateMinAge() {
-      if (parseInt(this.formData.ageMin as string) > parseInt(this.formData.ageMax as string)) {
+      if (
+        parseInt(this.formData.ageMin as string) >
+        parseInt(this.formData.ageMax as string)
+      ) {
         this.$alert.error("Min Age can't be more than Max Age");
         this.formData.ageMin = null;
         return;
@@ -72,7 +85,10 @@ export default Vue.extend({
       if (this.formData.ageMin) this.validateMaxAge();
     },
     validateMaxAge() {
-      if (parseInt(this.formData.ageMax as string) < parseInt(this.formData.ageMin as string)) {
+      if (
+        parseInt(this.formData.ageMax as string) <
+        parseInt(this.formData.ageMin as string)
+      ) {
         this.$alert.error("Max Age can't be less than Min Age");
         this.formData.ageMax = null;
         return;
@@ -97,7 +113,7 @@ export default Vue.extend({
         this.tabsList,
         this.currentFacebookAudience
       );
-      this.$emit('tab-updated', updatedTabs);
+      this.$emit("tab-updated", updatedTabs);
     },
     checkForSavedAudience() {
       if (this.currentFacebookAudience) {
@@ -112,7 +128,7 @@ export default Vue.extend({
     },
   },
   computed: {
-    ...mapGetters('Facebook', ['currentFacebookAudience']),
+    ...mapGetters("Facebook", ["currentFacebookAudience"]),
   },
 });
 </script>
@@ -123,7 +139,11 @@ export default Vue.extend({
     text-align: center;
   }
   &__options {
-    @include flex-config($flex-wrap: wrap, $justify-content: center, $align-items: center);
+    @include flex-config(
+      $flex-wrap: wrap,
+      $justify-content: center,
+      $align-items: center
+    );
     @include center-with-margin($max-width: 400px, $top: 25px);
     &-item {
       flex-grow: 1;

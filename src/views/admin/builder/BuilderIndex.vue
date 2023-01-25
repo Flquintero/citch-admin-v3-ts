@@ -3,9 +3,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { defineComponent } from "vue";
 
-export default Vue.extend({
-  name: 'BuilderIndex',
+export default defineComponent({
+  name: "BuilderIndex",
 });
 </script>

@@ -1,10 +1,12 @@
 <template>
   <div @click="goTo" class="selected-content">
     <div class="selected-content__text">
-      <span :class="{ 'capitalized': capitalize }">{{ formattedContent() }}</span>
+      <span :class="{ capitalized: capitalize }">{{ formattedContent() }}</span>
       <div class="selected-content__action">
         <CButton v-bind="{ variant: 'link' }">
-          <span><font-awesome-icon icon="fa-duotone fa-arrow-left" /> change</span>
+          <span
+            ><font-awesome-icon icon="fa-duotone fa-arrow-left" /> change</span
+          >
         </CButton>
       </div>
     </div>
@@ -12,11 +14,14 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-const CButton = () => import(/* webpackChunkName: "CButton" */ '@/components/elements/Button.vue');
+import { defineComponent } from "vue";
+const CButton = () =>
+  import(
+    /* webpackChunkName: "CButton" */ "@/components/elements/BaseButton.vue"
+  );
 
-export default Vue.extend({
-  name: 'SelectedContent',
+export default defineComponent({
+  name: "SelectedContent",
   components: { CButton },
   props: {
     content: String,

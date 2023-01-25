@@ -11,13 +11,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { getPlatformObjectiveGoal } from './utils/platform-objective-goal-helper';
-import { getPlatformObjectiveGoalTitle } from './utils/platform-objective-goal-title-helper';
-import { getPlatformPost } from '@/components/functional/social-post/post-component-loader';
+import { defineComponent } from "vue";
+import { getPlatformObjectiveGoal } from "./utils/platform-objective-goal-helper";
+import { getPlatformObjectiveGoalTitle } from "./utils/platform-objective-goal-title-helper";
+import { getPlatformPost } from "@/components/functional/social-post/post-component-loader";
 
-export default Vue.extend({
-  name: 'ObjectiveGoalIndex',
+export default defineComponent({
+  name: "ObjectiveGoalIndex",
   methods: {
     getPlatformObjectiveGoal,
     getPlatformObjectiveGoalTitle,

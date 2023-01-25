@@ -9,23 +9,25 @@
       'c-alert--error': type === AlertType.ERROR,
     }"
   >
-    <div class="c-alert__icon"> <font-awesome-icon :icon="`fa-duotone ${chosenIcon}`" /></div>
+    <div class="c-alert__icon">
+      <font-awesome-icon :icon="`fa-duotone ${chosenIcon}`" />
+    </div>
     <div class="c-alert__message-wrapper">
       <span class="c-alert__title" v-if="title">{{ title }}</span>
       <span class="c-alert__message">{{ message }}</span>
     </div>
     <div @click="close" class="c-alert__icon">
-      <font-awesome-icon :icon="`fa-duotone fa-xmark`"
-    /></div>
+      <font-awesome-icon :icon="`fa-duotone fa-xmark`" />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { AlertType } from '@/utils/alert';
+import { defineComponent } from "vue";
+import { AlertType } from "@/utils/alert";
 
-export default Vue.extend({
-  name: 'Alert',
+export default defineComponent({
+  name: "BaseAlert",
   props: {
     type: {
       type: String,
@@ -79,15 +81,15 @@ export default Vue.extend({
     chosenIcon() {
       switch (this.type) {
         case AlertType.SUCCESS:
-          return 'fa-circle-check';
+          return "fa-circle-check";
         case AlertType.INFO:
-          return 'fa-circle-info';
+          return "fa-circle-info";
         case AlertType.WARNING:
-          return 'fa-triangle-exclamation';
+          return "fa-triangle-exclamation";
         case AlertType.ERROR:
-          return 'fa-circle-exclamation';
+          return "fa-circle-exclamation";
         default:
-          return 'fa-circle-check';
+          return "fa-circle-check";
       }
     },
   },
@@ -116,7 +118,8 @@ export default Vue.extend({
   max-width: 52rem;
   padding: 12px 16px;
   border-radius: 4px;
-  box-shadow: 0 4px 8px 0 rgba(44, 39, 56, 0.08), 0 2px 4px 0 rgba(44, 39, 56, 0.08);
+  box-shadow: 0 4px 8px 0 rgba(44, 39, 56, 0.08),
+    0 2px 4px 0 rgba(44, 39, 56, 0.08);
 
   &__icon {
     margin-top: 2px;

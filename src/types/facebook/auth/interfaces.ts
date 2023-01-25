@@ -1,4 +1,4 @@
-import { EFacebookConnectionStatus } from './enums';
+import { EFacebookConnectionStatus } from "./enums";
 
 export interface IFacebookConsentPayload {
   url: string;

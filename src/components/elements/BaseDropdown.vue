@@ -1,15 +1,24 @@
 <template>
   <div v-custom-click-outside="closeMenu" class="dropdown">
-    <div @click="toggleMenu" class="dropdown__trigger" :class="{ 'dropdown__trigger--active': showMenu }">
+    <div
+      @click="toggleMenu"
+      class="dropdown__trigger"
+      :class="{ 'dropdown__trigger--active': showMenu }"
+    >
       <div class="dropdown__trigger-content">
         <div>
           <div
             v-if="chosenOption"
-            :class="{ 'dropdown__trigger-content-icon--checked--selected': showMenu }"
+            :class="{
+              'dropdown__trigger-content-icon--checked--selected': showMenu,
+            }"
             class="dropdown__trigger-content-icon--checked"
-            ><font-awesome-icon icon="fa-duotone fa-circle-check" />
+          >
+            <font-awesome-icon icon="fa-duotone fa-circle-check" />
           </div>
-          <div v-else class="dropdown__trigger-content-icon"><font-awesome-icon icon="fa-duotone fa-circle" /> </div>
+          <div v-else class="dropdown__trigger-content-icon">
+            <font-awesome-icon icon="fa-duotone fa-circle" />
+          </div>
         </div>
         <slot name="dropdown-trigger-content-text">
           <div class="dropdown__trigger-content-text">
@@ -18,7 +27,9 @@
         </slot>
       </div>
       <div class="dropdown__trigger-icon">
-        <span v-if="chosenOption" class="dropdown__trigger-chosen-label">{{ chosenLabel }}</span>
+        <span v-if="chosenOption" class="dropdown__trigger-chosen-label">{{
+          chosenLabel
+        }}</span>
         <font-awesome-icon icon="fa-duotone fa-chevron-down" />
       </div>
       <!-- <div v-if="chosenOption" class="dropdown__trigger-chosen-label"
@@ -32,24 +43,27 @@
           v-for="(option, index) in options"
           :key="`${option.value}-${index}`"
           @click="setChosenOption(option)"
-          ><span>{{ option.text }}</span></div
         >
+          <span>{{ option.text }}</span>
+        </div>
       </slot>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { IDropdownOption } from '@/types/components/interfaces';
+import { defineComponent } from "vue";
 
-export default Vue.extend({
-  name: 'Dropdown',
+import type { PropType } from "vue";
+import type { IDropdownOption } from "@/types/components/interfaces";
+
+export default defineComponent({
+  name: "BaseDropdown",
   props: {
     placeholder: String,
     chosenLabel: String,
-    chosenOption: Object as () => IDropdownOption | null,
-    options: Array as () => IDropdownOption[],
+    chosenOption: Object as PropType<IDropdownOption>,
+    options: Array as PropType<IDropdownOption[]>,
   },
   data() {
     return {
@@ -58,7 +72,7 @@ export default Vue.extend({
   },
   methods: {
     setChosenOption(option: IDropdownOption) {
-      this.$emit('option-selected', option);
+      this.$emit("option-selected", option);
       this.showMenu = false;
     },
     toggleMenu() {

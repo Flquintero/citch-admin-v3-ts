@@ -1,20 +1,31 @@
 <template>
-  <CButton @click.native="initFacebookDisconnect" class="facebook-disconnect-button" variant="danger">
-    <span v-if="disconnecting"> <font-awesome-icon icon="fa-duotone fa-circle-notch" spin /> Disconnecting</span
+  <CButton
+    @click.native="initFacebookDisconnect"
+    class="facebook-disconnect-button"
+    variant="danger"
+  >
+    <span v-if="disconnecting">
+      <font-awesome-icon icon="fa-duotone fa-circle-notch" spin />
+      Disconnecting</span
     ><span v-else
       ><font-awesome-icon icon="fa-brands fa-facebook" />
-      <span class="facebook-disconnect-button__content-text">Disconnect</span></span
+      <span class="facebook-disconnect-button__content-text"
+        >Disconnect</span
+      ></span
     >
   </CButton>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-const CButton = () => import(/* webpackChunkName: "CButton" */ '@/components/elements/Button.vue');
-const FacebookRepository = Vue.prototype.$apiRepository.get('facebook');
+import Vue, { defineComponent } from "vue";
+const CButton = () =>
+  import(
+    /* webpackChunkName: "CButton" */ "@/components/elements/BaseButton.vue"
+  );
+const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");
 
-export default Vue.extend({
-  name: 'FacebookDisconnectButton',
+export default defineComponent({
+  name: "FacebookDisconnectButton",
   components: { CButton },
   data() {
     return {
@@ -26,8 +37,8 @@ export default Vue.extend({
       try {
         this.disconnecting = true;
         await FacebookRepository.disconnectUser();
-        this.$emit('facebook-disconnected');
-        this.$alert.success('Disconnected Successfully');
+        this.$emit("facebook-disconnected");
+        this.$alert.success("Disconnected Successfully");
       } catch (error) {
         console.error(`Error Disconnecting Facebook:`, error);
         this.$alert.error(`Error Disconnecting Facebook: ${error}`);

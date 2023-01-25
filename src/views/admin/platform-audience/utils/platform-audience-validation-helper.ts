@@ -1,5 +1,5 @@
-import { EFacebookAudienceItems } from '@/types/facebook/campaigns/enums';
-import { ITabContent } from '@/types/components/interfaces';
+import { EFacebookAudienceItems } from "@/types/facebook/campaigns/enums";
+import type { ITabContent } from "@/types/components/interfaces";
 
 export function setCompletedAudienceFields(
   targetAudienceItemIdentifier: EFacebookAudienceItems, // enum

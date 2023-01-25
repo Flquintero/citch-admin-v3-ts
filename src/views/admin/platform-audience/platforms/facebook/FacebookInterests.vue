@@ -5,10 +5,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { defineComponent } from "vue";
 
-export default Vue.extend({
-  name: 'FacebookAudienceInterests',
+export default defineComponent({
+  name: "FacebookAudienceInterests",
 });
 </script>
 <style lang="scss" scoped>

@@ -3,14 +3,18 @@
     <component :is="getPlatformAudienceTitle(currentPlatform)"></component>
     <div class="audience-selection__content">
       <div class="audience-selection__content-tabs">
-        <Tabs @tab-selected="setCurrentTabIndex($event)" :tabs-list="tabsList">
+        <TabsMenu
+          @tab-selected="setCurrentTabIndex($event)"
+          :tabs-list="tabsList"
+        >
           <template #tab-content>
             <component
               @tab-updated="setTabsList($event)"
               :tabs-list="tabsList"
-              :is="getTabContentComponent"></component>
+              :is="getTabContentComponent"
+            ></component>
           </template>
-        </Tabs>
+        </TabsMenu>
       </div>
       <div class="audience-selection__content-post">
         <component :is="getPlatformPost(currentPlatform)"></component>
@@ -20,21 +24,29 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { getPlatformTabsList } from './utils/platform-audience-tab-helper';
-import { getPlatformAudienceTitle } from './utils/platform-audience-title-helper';
-import { _deepCopyObjectsArray } from '@/utils/formatting';
-import Tabs from '@/components/elements/tabs/Tabs.vue';
-import { getPlatformPost } from '@/components/functional/social-post/post-component-loader';
-import SelectedContent from '@/components/functional/SelectedContent.vue';
-import { ITabContent } from '@/types/components/interfaces';
+import { defineComponent } from "vue";
+import { getPlatformTabsList } from "./utils/platform-audience-tab-helper";
+import { getPlatformAudienceTitle } from "./utils/platform-audience-title-helper";
+import { _deepCopyObjectsArray } from "@/utils/formatting";
+import { getPlatformPost } from "@/components/functional/social-post/post-component-loader";
+import type { ITabContent } from "@/types/components/interfaces";
 
-export default Vue.extend({
-  name: 'AudienceIndex',
-  components: { SelectedContent, Tabs },
+const SelectedContent = () =>
+  import(
+    /* webpackChunkName: "SelectedContent" */ "@/components/functional/SelectedContent.vue"
+  );
+
+const TabsMenu = () =>
+  import(
+    /* webpackChunkName: "TabsMenu" */ "@/components/elements/tabs-menu/TabsMenu.vue"
+  );
+
+export default defineComponent({
+  name: "AudienceIndex",
+  components: { SelectedContent, TabsMenu },
   data() {
     return {
-      tabsList: [] as any[],
+      tabsList: [] as ITabContent[],
       currentTabIndex: 0 as number,
     };
   },
@@ -47,7 +59,9 @@ export default Vue.extend({
     getPlatformTabsList,
     getPlatformAudienceTitle,
     setInitialTabsList() {
-      const initialTabsList = this.getPlatformTabsList(this.currentPlatform as string);
+      const initialTabsList = this.getPlatformTabsList(
+        this.currentPlatform as string
+      );
       this.setTabsList(initialTabsList);
     },
     setTabsList(newTabsList: ITabContent) {

@@ -1,12 +1,15 @@
 <template>
   <div class="new-password-values">
-    <img src="https://files.citch.io/citch-admin-v3/login-advert.png" alt="citch-login-advert" />
+    <img
+      src="https://files.citch.io/citch-admin-v3/login-advert.png"
+      alt="citch-login-advert"
+    />
   </div>
 </template>
 <script lang="ts">
-import Vue from 'vue';
-export default Vue.extend({
-  name: 'EewPasswordValues',
+import { defineComponent } from "vue";
+export default defineComponent({
+  name: "EewPasswordValues",
 });
 </script>
 <style lang="scss" scoped>

@@ -1,8 +1,9 @@
 <template>
   <div class="facebook-page-connect">
     <h3 class="facebook-page-connect__loading" v-if="checkingPages">
-      <font-awesome-icon icon="fa-duotone fa-circle-notch" spin /> <slot name="loading-title"></slot
-    ></h3>
+      <font-awesome-icon icon="fa-duotone fa-circle-notch" spin />
+      <slot name="loading-title"></slot>
+    </h3>
     <template v-else>
       <slot name="title"></slot>
       <div v-if="userPages.length" class="facebook-page-connect__results">
@@ -14,12 +15,18 @@
           :class="{
             'facebook-page-connect__content--chosen': isPageChosen(page),
           }"
-          class="facebook-page-connect__content">
-          <div class="facebook-page-connect__content-img"><img :src="page.picture.data.url" /></div>
-          <div class="facebook-page-connect__content-name"
-            ><span>{{ page.name }}</span></div
+          class="facebook-page-connect__content"
+        >
+          <div class="facebook-page-connect__content-img">
+            <img :src="page.picture.data.url" />
+          </div>
+          <div class="facebook-page-connect__content-name">
+            <span>{{ page.name }}</span>
+          </div>
+          <div
+            v-if="isPageChosen(page)"
+            class="facebook-page-connect__content-icon"
           >
-          <div v-if="isPageChosen(page)" class="facebook-page-connect__content-icon">
             <font-awesome-icon icon="fa-duotone fa-circle-check" />
           </div>
         </div>
@@ -33,13 +40,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { IFacebookPage } from '@/types/facebook/pages/interfaces';
-import { mapActions } from 'vuex';
-const FacebookRepository = Vue.prototype.$apiRepository.get('facebook');
+import Vue, { defineComponent } from "vue";
+import { mapActions } from "vuex";
+import type { IFacebookPage } from "@/types/facebook/pages/interfaces";
+const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");
 
-export default Vue.extend({
-  name: 'FacebookPageConnect',
+export default defineComponent({
+  name: "FacebookPageConnect",
   data() {
     return {
       checkingPages: true,
@@ -52,14 +59,17 @@ export default Vue.extend({
     this.getUserPages();
   },
   methods: {
-    ...mapActions('Facebook', ['setCurrentFacebookPage', 'setCurrentFacebookPost']),
+    ...mapActions("Facebook", [
+      "setCurrentFacebookPage",
+      "setCurrentFacebookPost",
+    ]),
     async getUserPages() {
       try {
         this.userPages = await FacebookRepository.getUserPages();
 
         // END
       } catch (error: any) {
-        console.log('Error Getting Post Page', error);
+        console.log("Error Getting Post Page", error);
         this.$alert.error(`There was an error getting Page(s): ${error}`);
       } finally {
         this.checkingPages = false;

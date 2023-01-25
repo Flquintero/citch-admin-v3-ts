@@ -1,12 +1,16 @@
 <template>
   <div class="connect-index">
-    <h1 class="connect-index__title"
-      >Awesome, let's connect your
+    <h1 class="connect-index__title">
+      Awesome, let's connect your
       <SelectedContent
-        v-bind="{ content: $route.params.platform, capitalize: true, url: '/post-link' }"
+        v-bind="{
+          content: $route.params.platform,
+          capitalize: true,
+          url: '/post-link',
+        }"
       />
-      account</h1
-    >
+      account
+    </h1>
     <div class="connect-index__content">
       <!-- This renders the post chosen with the link -->
       <component :is="getPlatformPost($route.params.platform)"></component>
@@ -17,13 +21,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import { getPlatformConnect } from './utils/platform-connect-helper';
-import { getPlatformPost } from '@/components/functional/social-post/post-component-loader';
-import SelectedContent from '@/components/functional/SelectedContent.vue';
+import { defineComponent } from "vue";
+import { getPlatformConnect } from "./utils/platform-connect-helper";
+import { getPlatformPost } from "@/components/functional/social-post/post-component-loader";
+import SelectedContent from "@/components/functional/SelectedContent.vue";
 
-export default Vue.extend({
-  name: 'ConnectIndex',
+export default defineComponent({
+  name: "ConnectIndex",
   components: { SelectedContent },
   methods: {
     getPlatformConnect,
@@ -45,18 +49,21 @@ export default Vue.extend({
     padding: 50px 20px;
     @include center-with-margin($max-width: 800px);
     @include tablet-and-down() {
-      @include flex-config($flex-direction: column-reverse, $justify-content: space-between);
+      @include flex-config(
+        $flex-direction: column-reverse,
+        $justify-content: space-between
+      );
       //add margin top to any of the posts on mobile
-      div[class*='-post'] {
+      div[class*="-post"] {
         margin-top: 50px;
         max-width: 100%;
       }
     }
-    div[class*='-connect'],
-    div[class*='-post'] {
+    div[class*="-connect"],
+    div[class*="-post"] {
       margin: 0 auto;
     }
-    div[class*='-connect'] {
+    div[class*="-connect"] {
       max-width: 285px;
     }
   }

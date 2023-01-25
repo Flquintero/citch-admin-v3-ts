@@ -15,52 +15,56 @@
             class="nav-bar-menu__trigger"
             icon="fa-duotone fa-user"
             style="--fa-secondary-opacity: 1"
-        /></div>
-        <div
-          ><span>{{ currentUser.displayName }}</span> <span>{{ currentUser.email }}</span></div
-        >
+          />
+        </div>
+        <div>
+          <span>{{ currentUser.displayName }}</span>
+          <span>{{ currentUser.email }}</span>
+        </div>
       </div>
       <div class="nav-bar-menu__content-pages">
         <CButton @click.native="goTo('/post-link')">Promote Post</CButton>
         <CButton>Campaigns</CButton>
-        <CButton @click.native="goTo('/settings/user')">User Settings</CButton>
+        <CButton>User Settings</CButton>
       </div>
-      <div class="nav-bar-menu__content-logout"
-        ><CButton @click.native="signOut"
+      <div class="nav-bar-menu__content-logout">
+        <CButton @click.native="signOut"
           ><font-awesome-icon
             icon="fa-duotone fa-arrow-right-from-bracket"
             style="--fa-secondary-opacity: 1"
           />
           <span>Logout</span></CButton
-        ></div
-      >
+        >
+      </div>
     </div>
   </div>
 </template>
 <script lang="ts">
-import Vue from 'vue';
-import { mapGetters } from 'vuex';
-const CButton = () => import(/* webpackChunkName: "CButton" */ '@/components/elements/Button.vue');
-const AuthRepository = Vue.prototype.$apiRepository.get('auth');
+import Vue, { defineComponent } from "vue";
+import { mapGetters } from "vuex";
+const CButton = () =>
+  import(
+    /* webpackChunkName: "CButton" */ "@/components/elements/BaseButton.vue"
+  );
+const AuthRepository = Vue.prototype.$apiRepository.get("auth");
 
-export default Vue.extend({
-  name: 'NavBarMenu',
+export default defineComponent({
+  name: "NavBarMenu",
   components: { CButton },
   data() {
     return {
       isMenuOpen: false,
     };
   },
-  mounted() {},
   methods: {
     async signOut() {
       try {
         await AuthRepository.initSignOut();
-        this.$router.replace('/login');
-        this.$alert.success('Logged Out!');
+        this.$router.replace("/login");
+        this.$alert.success("Logged Out!");
       } catch (e: any) {
-        console.log('Signout error', e);
-        this.$alert.error('Logging Out Error:', e);
+        console.log("Signout error", e);
+        this.$alert.error("Logging Out Error:", e);
       }
     },
     goTo(path: string) {
@@ -71,7 +75,7 @@ export default Vue.extend({
     },
   },
   computed: {
-    ...mapGetters('Users', ['currentUser']),
+    ...mapGetters("Users", ["currentUser"]),
   },
 });
 </script>

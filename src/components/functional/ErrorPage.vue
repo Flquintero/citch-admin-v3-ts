@@ -1,22 +1,27 @@
 <template>
   <div class="error-page">
     <div class="error-page__icon">
-      <font-awesome-icon icon="fa-duotone fa-circle-exclamation"
-    /></div>
+      <font-awesome-icon icon="fa-duotone fa-circle-exclamation" />
+    </div>
     <div class="error-page__text">
       <p>{{ errorText }}</p>
     </div>
-    <div class="error-page__redirect"><router-link to="/login">Back to Login</router-link></div>
+    <div class="error-page__redirect">
+      <router-link to="/login">Back to Login</router-link>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import { defineComponent } from "vue";
 
-export default Vue.extend({
-  name: 'ErrorPage',
+export default defineComponent({
+  name: "ErrorPage",
   props: {
-    errorText: { type: String, default: 'An Error has occurred. Please contact support' },
+    errorText: {
+      type: String,
+      default: "An Error has occurred. Please contact support",
+    },
   },
 });
 </script>

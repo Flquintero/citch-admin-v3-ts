@@ -1,4 +1,4 @@
-import { IFacebookState } from './types';
+import { IFacebookState } from "./types";
 
 export const getters = {
   currentFacebookCampaign(state: IFacebookState) {

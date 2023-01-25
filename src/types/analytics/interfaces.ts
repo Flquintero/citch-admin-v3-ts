@@ -1,4 +1,4 @@
-import { ID } from '@segment/analytics-next';
+import { ID } from "@segment/analytics-next";
 
 export interface IIdentifyData {
   id: ID;

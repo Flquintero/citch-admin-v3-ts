@@ -4,7 +4,7 @@ import {
   EFacebookObjectiveValue,
   EFacebookObjectiveDisplayName,
   EFacebookObjectiveDescription,
-} from './enums';
+} from "./enums";
 
 export interface IFacebookObjective {
   identifier: EFacebookObjectiveIdentifier;
@@ -19,7 +19,7 @@ export interface ISaveFacebookCampaignObject {
     campaignId?: string;
     campaignData: {
       name?: string;
-      facebookObjectiveValues?: IFacebookObjective['facebookValues']; // from our set objectives
+      facebookObjectiveValues?: IFacebookObjective["facebookValues"]; // from our set objectives
       facebookObjectiveIdentifier?: EFacebookObjectiveIdentifier; // from our set objectives
     };
   };

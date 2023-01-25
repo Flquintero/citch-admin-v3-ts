@@ -1,21 +1,29 @@
 <template>
-  <CButton @click.native="initFacebookConnect" class="facebook-connect-button" variant="primary">
+  <CButton
+    @click.native="initFacebookConnect"
+    class="facebook-connect-button"
+    variant="primary"
+  >
     <span v-if="connecting">
       <font-awesome-icon icon="fa-duotone fa-circle-notch" spin /> Loading</span
-    ><span v-else
-      ><font-awesome-icon icon="fa-brands fa-facebook" />
+    ><span v-else>
+      <font-awesome-icon icon="fa-brands fa-facebook" />
       <span class="facebook-connect-button__content-text">Connect</span></span
     >
   </CButton>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-const CButton = () => import(/* webpackChunkName: "CButton" */ '@/components/elements/Button.vue');
-const FacebookRepository = Vue.prototype.$apiRepository.get('facebook');
+import Vue, { defineComponent } from "vue";
 
-export default Vue.extend({
-  name: 'FacebookConnectButton',
+const CButton = () =>
+  import(
+    /* webpackChunkName: "CButton" */ "@/components/elements/BaseButton.vue"
+  );
+const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");
+
+export default defineComponent({
+  name: "FacebookConnectButton",
   components: { CButton },
   data() {
     return {
@@ -27,7 +35,8 @@ export default Vue.extend({
       try {
         this.connecting = true;
         const { platform } = this.$route.params;
-        const facebookConsentData = await FacebookRepository.initFacebookConsent();
+        const facebookConsentData =
+          await FacebookRepository.initFacebookConsent();
         const { url, state } = facebookConsentData;
         localStorage.setItem(`redirect-${platform}-path`, this.$route.fullPath);
         localStorage.setItem(`${platform}-state`, state);

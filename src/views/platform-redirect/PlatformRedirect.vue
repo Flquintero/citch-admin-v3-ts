@@ -1,19 +1,28 @@
 <template>
   <div class="platform-redirect">
-    <Header v-bind="{ actions: false }" />
-    <div class="platform-redirect__loader"><Loader v-bind="{ size: '6x' }" /></div>
+    <LayoutHeader v-bind="{ actions: false }" />
+    <div class="platform-redirect__loader">
+      <BaseLoader v-bind="{ size: '6x' }" />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-const Header = () => import(/* webpackChunkName: "Header" */ '@/layouts/Header.vue');
-const Loader = () => import(/* webpackChunkName: "Loader" */ '@/components/functional/Loader.vue');
-const FacebookRepository = Vue.prototype.$apiRepository.get('facebook');
+import Vue, { defineComponent } from "vue";
 
-export default Vue.extend({
-  name: 'PlatformRedirect',
-  components: { Loader, Header },
+const LayoutHeader = () =>
+  import(
+    /* webpackChunkName: "LayoutHeader" */ "@/layouts/shared/LayoutHeader.vue"
+  );
+const BaseLoader = () =>
+  import(
+    /* webpackChunkName: "BaseLoader" */ "@/components/functional/BaseLoader.vue"
+  );
+const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");
+
+export default defineComponent({
+  name: "PlatformRedirect",
+  components: { BaseLoader, LayoutHeader },
   data() {
     return {
       platform: null as string | null,
@@ -26,7 +35,9 @@ export default Vue.extend({
   methods: {
     checkForCode() {
       this.platform = this.$route.params.platform;
-      this.redirectPath = localStorage.getItem(`redirect-${this.platform}-path`);
+      this.redirectPath = localStorage.getItem(
+        `redirect-${this.platform}-path`
+      );
       if (this.$route.query.code) {
         this.checkForPlatform();
       } else {
@@ -39,13 +50,14 @@ export default Vue.extend({
       //  CONFIRM STATES MATCH, IF NOT IF NOT RETURN USER HOME AND MAYBE LOGOUT
       if (localStorage.getItem(`${this.platform}-state`) === state) {
         switch (this.platform) {
-          case 'instagram':
-          case 'facebook':
+          case "instagram":
+          case "facebook":
             this.initSaveFacebookData();
+            break;
           default:
         }
       } else {
-        console.log('no state');
+        console.log("no state");
         this.errorRedirect();
       }
     },
@@ -56,8 +68,8 @@ export default Vue.extend({
         };
         await FacebookRepository.saveUser(facebookConnectData);
       } catch (error: any) {
-        console.error('Error Saving Facebook Data Info', error);
-        this.$alert.error('Error Saving Platform Info');
+        console.error("Error Saving Facebook Data Info", error);
+        this.$alert.error("Error Saving Platform Info");
       } finally {
         this.redirectToPath();
       }
@@ -71,12 +83,12 @@ export default Vue.extend({
         localStorage.removeItem(`redirect-${this.platform}-path`);
         this.redirectPath = null;
       } else {
-        this.$router.push('/');
+        this.$router.push("/");
       }
       localStorage.removeItem(`${this.platform}-hash`);
     },
     errorRedirect() {
-      this.$alert.error('Error Connecting to Platform');
+      this.$alert.error("Error Connecting to Platform");
       this.redirectToPath();
     },
   },

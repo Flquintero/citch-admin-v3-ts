@@ -63,13 +63,17 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import SelectedContent from "@/components/functional/SelectedContent.vue";
-import { IFacebookObjective } from "@/types/facebook/campaigns/interfaces";
+import { defineComponent } from "vue";
+import type { IFacebookObjective } from "@/types/facebook/campaigns/interfaces";
 import { EFacebookObjectiveIdentifier } from "@/types/facebook/campaigns/enums";
 import { getFacebookObjectiveByIdentifier } from "../../../platform-objective/platforms/facebook/utils/facebook-objective-identifier-parser";
 
-export default Vue.extend({
+const SelectedContent = () =>
+  import(
+    /* webpackChunkName: "SelectedContent" */ "@/components/functional/SelectedContent.vue"
+  );
+
+export default defineComponent({
   name: "FacebookAudienceTitle",
   components: { SelectedContent },
   computed: {

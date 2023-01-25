@@ -5,7 +5,7 @@
       :chosen-option="chosenObjective"
       :options-list="objectives"
     />
-    <Continue
+    <BaseContinue
       v-if="chosenObjective"
       @click.native="confirmObjective"
       v-bind="{
@@ -16,33 +16,34 @@
         textIcon: 'fa-arrow-right',
         loadingContent: 'Saving to Continue',
       }"
-    ></Continue>
+    ></BaseContinue>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent, Vue } from "vue";
 import { mapActions } from "vuex";
-import {
+import { FacebookObjectivesList } from "./utils/facebook-platform-objectives";
+import type {
   ISaveFacebookCampaignObject,
   IFacebookObjective,
 } from "@/types/facebook/campaigns/interfaces";
 import { EFacebookObjectiveIdentifier } from "@/types/facebook/campaigns/enums";
-import { FacebookObjectivesList } from "./utils/facebook-platform-objectives";
 import dayjs from "dayjs";
 const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");
-const Continue = () =>
+
+const BaseContinue = () =>
   import(
-    /* webpackChunkName: "Continue" */ "@/components/functional/Continue.vue"
+    /* webpackChunkName: "BaseContinue" */ "@/components/functional/BaseContinue.vue"
   );
 const ChooseSingleList = () =>
   import(
     /* webpackChunkName: "ChooseSingleList" */ "@/components/elements/ChooseSingleList.vue"
   );
 
-export default Vue.extend({
+export default defineComponent({
   name: "FacebookObjectives",
-  components: { Continue, ChooseSingleList },
+  components: { BaseContinue, ChooseSingleList },
   data() {
     return {
       saving: false,

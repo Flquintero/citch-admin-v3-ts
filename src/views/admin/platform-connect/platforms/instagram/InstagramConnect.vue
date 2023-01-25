@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent } from "vue";
 const FacebookLogin = () =>
   import(
     /* webpackChunkName: "FacebookLogin" */ "@/components/functional/social-connect/facebook/facebook-login/FacebookLogin.vue"
@@ -30,7 +30,7 @@ const FacebookInstagramConnect = () =>
   import(
     /* webpackChunkName: "FacebookInstagramConnect" */ "@/components/functional/social-connect/facebook/FacebookInstagramConnect.vue"
   );
-export default Vue.extend({
+export default defineComponent({
   name: "InstagramConnect",
   components: { FacebookLogin, FacebookPageConnect, FacebookInstagramConnect },
   data() {
@@ -41,4 +41,3 @@ export default Vue.extend({
   },
 });
 </script>
-<style lang="scss" scoped></style>

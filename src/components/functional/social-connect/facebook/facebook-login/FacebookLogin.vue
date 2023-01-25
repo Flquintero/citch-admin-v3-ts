@@ -21,7 +21,7 @@
 import { defineComponent, Vue } from "vue";
 import FacebookConnectButton from "./partials/FacebookConnectButton.vue";
 import FacebookDisconnectButton from "./partials/FacebookDisconnectButton.vue";
-import type { EFacebookConnectionStatus } from "@/types/facebook/auth/enums";
+import { EFacebookConnectionStatus } from "@/types/facebook/auth/enums";
 const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");
 
 export default defineComponent({

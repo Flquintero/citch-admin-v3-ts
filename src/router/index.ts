@@ -73,7 +73,7 @@ const routes: Array<RouteConfig> = [
         meta: { requiresAuth: true },
         component: () =>
           import(
-            /* webpackChunkName: "settings" */ "../views/admin/settings/Settings.vue"
+            /* webpackChunkName: "settings" */ "../views/admin/settings/SettingsIndex.vue"
           ),
         children: [
           {
@@ -95,7 +95,9 @@ const routes: Array<RouteConfig> = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "login" */ "../views/auth/login/Login.vue"),
+      import(
+        /* webpackChunkName: "login" */ "../views/auth/login/AuthLogin.vue"
+      ),
   },
   {
     path: "/signup",
@@ -105,7 +107,7 @@ const routes: Array<RouteConfig> = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(
-        /* webpackChunkName: "register" */ "../views/auth/signup/Signup.vue"
+        /* webpackChunkName: "register" */ "../views/auth/signup/AuthSignup.vue"
       ),
   },
   {

@@ -14,23 +14,25 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent } from "vue";
 import { mapActions, mapGetters } from "vuex";
 import { genderOptions } from "./utils/facebook-gender-data";
 import { setCompletedAudienceFields } from "../../utils/platform-audience-validation-helper";
 import { _capitalizeString } from "@/utils/formatting";
-import { ITabContent } from "@/types/components/interfaces";
+import type { PropType } from "vue";
+import type { ITabContent } from "@/types/components/interfaces";
 import { EFacebookAudienceItems } from "@/types/facebook/campaigns/enums";
-import { IChooseListOption } from "@/types/components/interfaces";
+import type { IChooseListOption } from "@/types/components/interfaces";
+
 const ChooseSingleList = () =>
   import(
     /* webpackChunkName: "ChooseSingleList" */ "@/components/elements/ChooseSingleList.vue"
   );
 
-export default Vue.extend({
+export default defineComponent({
   name: "FacebookAudienceGender",
   props: {
-    tabsList: Array as () => Array<ITabContent>,
+    tabsList: Array as PropType<ITabContent[]>,
   },
   components: { ChooseSingleList },
   data() {

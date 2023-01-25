@@ -1,8 +1,8 @@
 <template>
   <div class="auth-redirect">
-    <Header v-bind="{ actions: false }" />
+    <LayoutHeader v-bind="{ actions: false }" />
     <div v-if="loading" class="auth-redirect__loader">
-      <Loader v-bind="{ size: '6x' }" />
+      <BaseLoader v-bind="{ size: '6x' }" />
     </div>
     <PasswordConfirm v-else-if="showPasswordConfirm" />
     <ErrorPage v-else />
@@ -10,11 +10,13 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-const Header = () =>
-  import(/* webpackChunkName: "Header" */ "@/layouts/Header.vue");
-const Loader = () =>
-  import(/* webpackChunkName: "Loader" */ "@/components/functional/Loader.vue");
+import { defineComponent, Vue } from "vue";
+const LayoutHeader = () =>
+  import(/* webpackChunkName: "LayoutHeader" */ "@/layouts/LayoutHeader.vue");
+const BaseLoader = () =>
+  import(
+    /* webpackChunkName: "Loader" */ "@/components/functional/BaseLoader.vue"
+  );
 const ErrorPage = () =>
   import(
     /* webpackChunkName: "ErrorPage" */ "@/components/functional/ErrorPage.vue"
@@ -25,11 +27,11 @@ const PasswordConfirm = () =>
   );
 const AuthRepository = Vue.prototype.$apiRepository.get("auth");
 
-import { IVerifyPassword } from "@/types/auth/interfaces";
+import type { IVerifyPassword } from "@/types/auth/interfaces";
 
-export default Vue.extend({
+export default defineComponent({
   name: "AuthRedirect",
-  components: { Loader, Header, PasswordConfirm, ErrorPage },
+  components: { BaseLoader, LayoutHeader, PasswordConfirm, ErrorPage },
   data() {
     return {
       loading: true,
@@ -45,6 +47,7 @@ export default Vue.extend({
       switch (mode) {
         case "resetPassword":
           this.initResetPasswordCheck();
+          break;
         default:
       }
     },

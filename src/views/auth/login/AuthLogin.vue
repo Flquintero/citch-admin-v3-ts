@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <AuthLayout>
+    <LayoutAuth>
       <template #auth-content
         ><div class="login__form-wrapper">
           <h2>Login</h2>
@@ -13,14 +13,14 @@
       <template #auth-advert
         ><div class="login__advert"><LoginAdvert></LoginAdvert></div
       ></template>
-    </AuthLayout>
+    </LayoutAuth>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-const AuthLayout = () =>
-  import(/* webpackChunkName: "AuthLayout" */ "@/layouts/Auth.vue");
+import { defineComponent } from "vue";
+const LayoutAuth = () =>
+  import(/* webpackChunkName: "LayoutAuth" */ "@/layouts/LayoutAuth.vue");
 const LoginAdvert = () =>
   import(
     /* webpackChunkName: "LoginAdvert" */ "@/components/layouts/auth/login/LoginAdvert.vue"
@@ -30,9 +30,9 @@ const LoginForm = () =>
     /* webpackChunkName: "LoginForm" */ "@/components/layouts/auth/login/LoginForm.vue"
   );
 
-export default Vue.extend({
-  name: "Login",
-  components: { AuthLayout, LoginAdvert, LoginForm },
+export default defineComponent({
+  name: "AuthLogin",
+  components: { LayoutAuth, LoginAdvert, LoginForm },
 });
 </script>
 <style lang="scss" scoped>

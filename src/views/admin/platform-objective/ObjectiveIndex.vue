@@ -25,12 +25,16 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent } from "vue";
 import { getPlatformObjectives } from "./utils/platform-objectives-helper";
 import { getPlatformPost } from "@/components/functional/social-post/post-component-loader";
-import SelectedContent from "@/components/functional/SelectedContent.vue";
 
-export default Vue.extend({
+const SelectedContent = () =>
+  import(
+    /* webpackChunkName: "SelectedContent" */ "@/components/functional/SelectedContent.vue"
+  );
+
+export default defineComponent({
   name: "ObjectiveIndex",
   components: { SelectedContent },
   methods: {

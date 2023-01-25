@@ -3,7 +3,10 @@
     <component :is="getPlatformAudienceTitle(currentPlatform)"></component>
     <div class="audience-selection__content">
       <div class="audience-selection__content-tabs">
-        <Tabs @tab-selected="setCurrentTabIndex($event)" :tabs-list="tabsList">
+        <TabsMenu
+          @tab-selected="setCurrentTabIndex($event)"
+          :tabs-list="tabsList"
+        >
           <template #tab-content>
             <component
               @tab-updated="setTabsList($event)"
@@ -11,7 +14,7 @@
               :is="getTabContentComponent"
             ></component>
           </template>
-        </Tabs>
+        </TabsMenu>
       </div>
       <div class="audience-selection__content-post">
         <component :is="getPlatformPost(currentPlatform)"></component>
@@ -21,21 +24,29 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent } from "vue";
 import { getPlatformTabsList } from "./utils/platform-audience-tab-helper";
 import { getPlatformAudienceTitle } from "./utils/platform-audience-title-helper";
 import { _deepCopyObjectsArray } from "@/utils/formatting";
-import Tabs from "@/components/elements/tabs/Tabs.vue";
 import { getPlatformPost } from "@/components/functional/social-post/post-component-loader";
-import SelectedContent from "@/components/functional/SelectedContent.vue";
-import { ITabContent } from "@/types/components/interfaces";
+import type { ITabContent } from "@/types/components/interfaces";
 
-export default Vue.extend({
+const SelectedContent = () =>
+  import(
+    /* webpackChunkName: "SelectedContent" */ "@/components/functional/SelectedContent.vue"
+  );
+
+const TabsMenu = () =>
+  import(
+    /* webpackChunkName: "TabsMenu" */ "@/components/elements/tabs-menu/TabsMenu.vue"
+  );
+
+export default defineComponent({
   name: "AudienceIndex",
-  components: { SelectedContent, Tabs },
+  components: { SelectedContent, TabsMenu },
   data() {
     return {
-      tabsList: [] as any[],
+      tabsList: [] as ITabContent[],
       currentTabIndex: 0 as number,
     };
   },

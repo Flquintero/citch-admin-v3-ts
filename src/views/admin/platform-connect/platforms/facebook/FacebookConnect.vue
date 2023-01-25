@@ -25,7 +25,7 @@
           </h3></template
         >
       </FacebookPageConnect>
-      <Continue
+      <BaseContinue
         v-if="currentFacebookPage"
         @click.native="confirmAccounts"
         v-bind="{
@@ -36,16 +36,17 @@
           textIcon: 'fa-arrow-right',
           loadingContent: 'Saving to Continue',
         }"
-      ></Continue>
+      ></BaseContinue>
     </template>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent, Vue } from "vue";
 import { mapActions, mapGetters } from "vuex";
 import { parseFacebookPostId } from "@/utils/facebook/facebook-post-id-finder";
 const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");
+
 const FacebookLogin = () =>
   import(
     /* webpackChunkName: "FacebookLogin" */ "@/components/functional/social-connect/facebook/facebook-login/FacebookLogin.vue"
@@ -54,21 +55,16 @@ const FacebookPageConnect = () =>
   import(
     /* webpackChunkName: "FacebookPageConnect" */ "@/components/functional/social-connect/facebook/facebook-page/FacebookPageConnect.vue"
   );
-const FacebookInstagramConnect = () =>
+const BaseContinue = () =>
   import(
-    /* webpackChunkName: "FacebookInstagramConnect" */ "@/components/functional/social-connect/facebook/FacebookInstagramConnect.vue"
+    /* webpackChunkName: "BaseContinue" */ "@/components/functional/BaseContinue.vue"
   );
-const Continue = () =>
-  import(
-    /* webpackChunkName: "Continue" */ "@/components/functional/Continue.vue"
-  );
-export default Vue.extend({
+export default defineComponent({
   name: "FacebookConnect",
   components: {
     FacebookLogin,
     FacebookPageConnect,
-    FacebookInstagramConnect,
-    Continue,
+    BaseContinue,
   },
   data() {
     return {

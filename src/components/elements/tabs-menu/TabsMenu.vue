@@ -13,10 +13,13 @@
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
-import TabsMenuItem from "@/components/elements/tabs/partials/TabsMenuItem.vue";
-
 import type { PropType } from "vue";
 import type { ITabContent } from "@/types/components/interfaces";
+
+const TabsMenuItem = () =>
+  import(
+    /* webpackChunkName: "TabsMenuItem" */ "@/components/elements/tabs-menu/partials/TabsMenuItem.vue"
+  );
 
 export default defineComponent({
   name: "TabsMenu",

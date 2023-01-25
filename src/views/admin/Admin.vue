@@ -1,19 +1,19 @@
 <template>
   <!-- routes that require you be logged in  -->
   <div class="admin">
-    <Header v-bind="{ to: '/', linkLogo: true }"></Header>
+    <LayoutHeader v-bind="{ to: '/', linkLogo: true }"></LayoutHeader>
     <router-view></router-view>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-const Header = () =>
-  import(/* webpackChunkName: "Header" */ "@/layouts/Header.vue");
+import { defineComponent } from "vue";
+const LayoutHeader = () =>
+  import(/* webpackChunkName: "LayoutHeader" */ "@/layouts/LayoutHeader.vue");
 
-export default Vue.extend({
-  name: "Home",
-  components: { Header },
+export default defineComponent({
+  name: "AdminIndex",
+  components: { LayoutHeader },
 });
 </script>
 <style lang="scss" scoped>

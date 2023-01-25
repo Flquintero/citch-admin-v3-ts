@@ -21,14 +21,13 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent } from "vue";
 import { getPlatformConnect } from "./utils/platform-connect-helper";
 import { getPlatformPost } from "@/components/functional/social-post/post-component-loader";
 import SelectedContent from "@/components/functional/SelectedContent.vue";
 
-import { defineComponent } from "vue";
-
 export default defineComponent({
+  name: "ConnectIndex",
   components: { SelectedContent },
   methods: {
     getPlatformConnect,

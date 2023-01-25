@@ -1,23 +1,26 @@
 <template>
   <div class="platform-redirect">
-    <Header v-bind="{ actions: false }" />
+    <LayoutHeader v-bind="{ actions: false }" />
     <div class="platform-redirect__loader">
-      <Loader v-bind="{ size: '6x' }" />
+      <BaseLoader v-bind="{ size: '6x' }" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-const Header = () =>
-  import(/* webpackChunkName: "Header" */ "@/layouts/Header.vue");
-const Loader = () =>
-  import(/* webpackChunkName: "Loader" */ "@/components/functional/Loader.vue");
+import { defineComponent, Vue } from "vue";
+
+const LayoutHeader = () =>
+  import(/* webpackChunkName: "LayoutHeader" */ "@/layouts/LayoutHeader.vue");
+const BaseLoader = () =>
+  import(
+    /* webpackChunkName: "BaseLoader" */ "@/components/functional/BaseLoader.vue"
+  );
 const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");
 
-export default Vue.extend({
+export default defineComponent({
   name: "PlatformRedirect",
-  components: { Loader, Header },
+  components: { BaseLoader, LayoutHeader },
   data() {
     return {
       platform: null as string | null,
@@ -48,6 +51,7 @@ export default Vue.extend({
           case "instagram":
           case "facebook":
             this.initSaveFacebookData();
+            break;
           default:
         }
       } else {

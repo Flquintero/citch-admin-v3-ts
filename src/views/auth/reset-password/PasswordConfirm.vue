@@ -1,6 +1,6 @@
 <template>
   <div class="set-new-password">
-    <AuthLayout>
+    <LayoutAuth>
       <template #auth-content
         ><div class="set-new-password__form-wrapper">
           <h2>Set New Password</h2>
@@ -14,14 +14,15 @@
         ><div class="set-new-password__advert">
           <NewPasswordAdvert></NewPasswordAdvert></div
       ></template>
-    </AuthLayout>
+    </LayoutAuth>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-const AuthLayout = () =>
-  import(/* webpackChunkName: "AuthLayout" */ "@/layouts/Auth.vue");
+import { defineComponent } from "vue";
+
+const LayoutAuth = () =>
+  import(/* webpackChunkName: "LayoutAuth" */ "@/layouts/LayoutAuth.vue");
 const NewPasswordAdvert = () =>
   import(
     /* webpackChunkName: "NewPasswordAdvert" */ "@/components/layouts/auth/reset-password/NewPasswordAdvert.vue"
@@ -31,9 +32,9 @@ const NewPasswordForm = () =>
     /* webpackChunkName: "NewPasswordForm" */ "@/components/layouts/auth/reset-password/NewPasswordForm.vue"
   );
 
-export default Vue.extend({
+export default defineComponent({
   name: "ResetPassword",
-  components: { AuthLayout, NewPasswordAdvert, NewPasswordForm },
+  components: { LayoutAuth, NewPasswordAdvert, NewPasswordForm },
 });
 </script>
 <style lang="scss" scoped>

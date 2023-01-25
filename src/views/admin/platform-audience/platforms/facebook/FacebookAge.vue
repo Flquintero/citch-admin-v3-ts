@@ -29,19 +29,24 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent } from "vue";
 import { mapActions, mapGetters } from "vuex";
 import { ageMinRange, ageMaxRange } from "./utils/facebook-age-data";
-import CDropdown from "@/components/elements/Dropdown.vue";
-import { IDropdownOption } from "@/types/components/interfaces";
 import { setCompletedAudienceFields } from "../../utils/platform-audience-validation-helper";
-import { ITabContent } from "@/types/components/interfaces";
+import type { PropType } from "vue";
+import type { IDropdownOption } from "@/types/components/interfaces";
+import type { ITabContent } from "@/types/components/interfaces";
 import { EFacebookAudienceItems } from "@/types/facebook/campaigns/enums";
 
-export default Vue.extend({
+const CDropdown = () =>
+  import(
+    /* webpackChunkName: "CDropdown" */ "@/components/elements/BaseDropdown.vue"
+  );
+
+export default defineComponent({
   name: "FacebookAudienceAge",
   props: {
-    tabsList: Array as () => Array<ITabContent>,
+    tabsList: Array as PropType<ITabContent[]>,
   },
   components: { CDropdown },
   data() {

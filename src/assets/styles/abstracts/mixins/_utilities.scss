@@ -162,3 +162,9 @@ $colors: (
     -webkit-line-clamp: $lines-limit;
     overflow: hidden;
 }
+
+@mixin box-shadow (){
+    -webkit-box-shadow: 1px 1px 1px 0px rgba(48, 45, 45, 0.25);
+    -moz-box-shadow: 1px 1px 1px 0px rgba(48, 45, 45, 0.25);
+    box-shadow: 1px 1px 1px 0px rgba(48, 45, 45, 0.25);  
+}

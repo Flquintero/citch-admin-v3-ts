@@ -56,6 +56,7 @@ $error-light: #f6e2e2;
 
 // Form elements
 $border: $pale  !default;
+$border-specs: 1px solid $pale;
 
 // Buttons
 $button-primary-background: $burgundy  !default;
@@ -139,9 +140,6 @@ $dialog-background-secondary-color: rgba($pale, 0.3) !default;
 
 // Tooltip
 // $tooltip-background-color: $tooltip-green  !default;
-
-//Mega menu
-$mega-menu-active-tab-border-color: $dark-grey  !default;
 
 // Z-Index
 $z-index-loading-overlay: 90;

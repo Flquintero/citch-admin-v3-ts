@@ -18,7 +18,7 @@ import type { ITabContent } from "@/types/components/interfaces";
 
 const TabsMenuItem = () =>
   import(
-    /* webpackChunkName: "TabsMenuItem" */ "@/components/elements/tabs-menu/partials/TabsMenuItem.vue"
+    /* webpackChunkName: "TabsMenuItem" */ "@/components/functional/tabs-menu/partials/TabsMenuItem.vue"
   );
 
 export default defineComponent({

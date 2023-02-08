@@ -38,7 +38,7 @@ const ContinueButton = () =>
   );
 const ChooseSingleList = () =>
   import(
-    /* webpackChunkName: "ChooseSingleList" */ "@/components/elements/ChooseSingleList.vue"
+    /* webpackChunkName: "ChooseSingleList" */ "@/components/functional/ChooseSingleList.vue"
   );
 
 export default defineComponent({

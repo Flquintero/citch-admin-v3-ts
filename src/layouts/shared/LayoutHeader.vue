@@ -16,7 +16,7 @@ const BaseLogo = () =>
   );
 const LinkLogo = () =>
   import(
-    /* webpackChunkName: "LinkLogo" */ "@/components/elements/LinkLogo.vue"
+    /* webpackChunkName: "LinkLogo" */ "@/components/functional/LinkLogo.vue"
   );
 const NavBarMenu = () =>
   import(

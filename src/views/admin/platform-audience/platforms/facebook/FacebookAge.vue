@@ -40,7 +40,7 @@ import { EFacebookAudienceItems } from "@/types/facebook/campaigns/enums";
 
 const CDropdown = () =>
   import(
-    /* webpackChunkName: "CDropdown" */ "@/components/elements/BaseDropdown.vue"
+    /* webpackChunkName: "CDropdown" */ "@/components/functional/dropdown-menu/DropdownMenu.vue"
   );
 
 export default defineComponent({
@@ -110,7 +110,7 @@ export default defineComponent({
     updateAudienceTabs() {
       const updatedTabs = this.setCompletedAudienceFields(
         EFacebookAudienceItems.age,
-        this.tabsList,
+        this.tabsList as ITabContent[],
         this.currentFacebookAudience
       );
       this.$emit("tab-updated", updatedTabs);

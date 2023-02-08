@@ -2,29 +2,42 @@
   <div class="facebook-audience-location">
     <!-- Add selected options as badges with clear option -->
     <div class="facebook-audience-location__input">
-      <SearchInputDropdown
+      <CInput
+        @input="initSearch(formData, $v, $event)"
         v-bind="{
-          placeholder: 'Enter Location',
-          label: 'Location',
-          name: 'Location',
-          description: 'Search Country, City, State or Zip',
-          required: true,
+          value: formData.searchValue,
+          error: hasInputError($v, 'searchValue'),
+          validationObject: $v,
+          placeholder,
+          label,
+          name,
+          description,
+          type,
+          required,
         }"
       />
+      <div class="search-input__dropdown">
+        <div class="search-input__dropdown-item"><span>Delray Beach</span></div>
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-const SearchInputDropdown = () =>
+const CInput = () =>
   import(
-    /* webpackChunkName: "SearchInputDropdown" */ "@/components/functional/SearchInputDropdown.vue"
+    /* webpackChunkName: "CInput" */ "@/components/elements/BaseInput.vue"
   );
 
 export default defineComponent({
   name: "FacebookAudienceLocation",
-  components: { SearchInputDropdown },
+  components: { CInput },
+  methods: {
+    initFacebookLocationSearch() {
+      console.log("searching");
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

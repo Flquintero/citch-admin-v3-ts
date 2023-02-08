@@ -20,3 +20,14 @@ export function _capitalizeString(str: string) {
   // Directly return the joined string
   return splitStr.join(" ");
 }
+
+// Add delay to action/method after user types
+export function _debounce(callback: any, waitTime: any) {
+  let timeoutId: any = null;
+  return (...args: any) => {
+    window.clearTimeout(timeoutId);
+    timeoutId = window.setTimeout(() => {
+      callback(...args);
+    }, waitTime);
+  };
+}

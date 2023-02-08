@@ -59,7 +59,9 @@ export default defineComponent({
   methods: {
     ...FormFunctions,
     initSearch(formData: IFormData, $v: any, $event: any) {
+      console.log(formData, $v, $event);
       this.setFormValue(formData, $v, $event);
+      this.$emit("updated-search", formData);
     },
   },
 });

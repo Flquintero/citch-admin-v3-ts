@@ -38,7 +38,7 @@ const SelectedContent = () =>
 
 const TabsMenu = () =>
   import(
-    /* webpackChunkName: "TabsMenu" */ "@/components/elements/tabs-menu/TabsMenu.vue"
+    /* webpackChunkName: "TabsMenu" */ "@/components/functional/tabs-menu/TabsMenu.vue"
   );
 
 export default defineComponent({

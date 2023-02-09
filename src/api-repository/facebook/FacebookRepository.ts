@@ -79,4 +79,9 @@ export default {
       data: campaignObject,
     });
   },
+  getLocations: async (searchString: string) => {
+    return await $authedApiRequest({
+      url: `${DOMAIN_PATH}/locations/${searchString}`,
+    });
+  },
 };

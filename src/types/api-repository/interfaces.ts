@@ -9,6 +9,7 @@ import {
   IFacebookConsentPayload,
   IFacebookConnectStatus,
 } from "../facebook/auth/interfaces";
+import { IFacebookLocation } from "../facebook/audience/interfaces";
 import { IFormData } from "../forms/interfaces";
 
 export interface IApi {
@@ -54,4 +55,5 @@ export interface IFacebookRepository {
   updateCampaignObjective(
     campaignDataObject: IFacebookCampaignData
   ): Promise<IFacebookCampaign>;
+  getLocations(searchString: string): Promise<IFacebookLocation[]>;
 }

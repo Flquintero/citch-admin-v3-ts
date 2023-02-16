@@ -16,7 +16,7 @@
           type: 'text',
           required: true,
           isLoading: isSearching,
-          isDisabled: isSeaching,
+          isDisabled: isSearching,
           isClearable: true,
         }"
       />
@@ -128,10 +128,14 @@ export default defineComponent({
           return location.name;
       }
     },
+    setChosenOption(location: IFacebookLocation) {
+      console.log("location", location);
+    },
   },
 });
 </script>
 <style lang="scss" scoped>
+// rest of styling for native input is in asssets elements
 .facebook-audience-location {
   &__input {
     @include center-with-margin($max-width: 400px, $top: 50px, $bottom: 50px);

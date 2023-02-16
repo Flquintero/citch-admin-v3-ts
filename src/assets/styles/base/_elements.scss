@@ -2,3 +2,10 @@ a {
     font-weight: bold;
     text-decoration: underline;
 }
+
+input {
+    &:disabled {
+        background-color: transparent ;
+        cursor: not-allowed;
+    }
+}

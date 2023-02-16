@@ -56,7 +56,7 @@
     <div v-if="required && !error && !isLoading" class="input__required">
       <span>required</span>
     </div>
-    <div v-if="isLoading" class="input__required">
+    <div v-if="isLoading" class="input__loader">
       <CLoader />
     </div>
   </div>
@@ -185,6 +185,19 @@ export default defineComponent({
     align-items: center;
     font-size: rem(10);
     background-color: $white;
+  }
+  &__loader {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: rem(10);
+    background-color: $white;
+    color: $primary;
   }
   &__clear {
     position: absolute;

@@ -1,6 +1,10 @@
 <template>
   <div class="facebook-audience-location">
-    <!-- Add selected options as badges with clear option -->
+    <SelectedItems
+      :items-list="chosenLocations"
+      render-text-key="name"
+      @removed-item="updateChosenLocations($event)"
+    />
     <div class="facebook-audience-location__input">
       <CInput
         @input="facebookLocationSearchDebounced(formData, $v, $event)"
@@ -26,7 +30,7 @@
             class="dropdown-list__item"
             v-for="(location, index) in locationResults"
             :key="`${location.key}-${index}`"
-            @click="setChosenOption(location)"
+            @click="setChosenLocation(location)"
           >
             <span>{{ locationText(location) }}</span>
           </div>
@@ -45,6 +49,11 @@ import type { IFormData } from "@/types/forms/interfaces";
 import { _debounce } from "@/utils/formatting";
 const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");
 
+const SelectedItems = () =>
+  import(
+    /* webpackChunkName: "SelectedItems" */ "@/components/functional/SelectedItems.vue"
+  );
+
 const CInput = () =>
   import(
     /* webpackChunkName: "CInput" */ "@/components/elements/BaseInput.vue"
@@ -56,7 +65,7 @@ const DropdownList = () =>
 
 export default defineComponent({
   name: "FacebookAudienceLocation",
-  components: { CInput, DropdownList },
+  components: { SelectedItems, CInput, DropdownList },
   data() {
     return {
       isSearching: false,
@@ -68,6 +77,7 @@ export default defineComponent({
       facebookLocationSearchDebounced: null as
         | null
         | ((any: any) => Promise<any>),
+      chosenLocations: [] as IFacebookLocation[],
     };
   },
   created() {
@@ -128,8 +138,19 @@ export default defineComponent({
           return location.name;
       }
     },
-    setChosenOption(location: IFacebookLocation) {
+    hasChosenLocation(location: IFacebookLocation) {
+      return true;
+    },
+    setChosenLocation(location: IFacebookLocation) {
+      if (this.hasChosenLocation(location)) {
+        this.$alert.error("This Location has already been chosen");
+        return;
+      }
+      this.chosenLocations.push(location);
       console.log("location", location);
+    },
+    updateChosenLocations(locationIndex: number) {
+      this.chosenLocations.splice(locationIndex, 1);
     },
   },
 });

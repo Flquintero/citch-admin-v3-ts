@@ -1,6 +1,8 @@
 <template>
   <div class="facebook-audience-location">
+    <h3 class="facebook-audience-location__title">Enter Location:</h3>
     <SelectedItems
+      v-if="!!chosenLocations.length"
       :items-list="chosenLocations"
       render-text-key="name"
       @removed-item="updateChosenLocations($event)"
@@ -53,7 +55,6 @@ const SelectedItems = () =>
   import(
     /* webpackChunkName: "SelectedItems" */ "@/components/functional/SelectedItems.vue"
   );
-
 const CInput = () =>
   import(
     /* webpackChunkName: "CInput" */ "@/components/elements/BaseInput.vue"
@@ -89,9 +90,7 @@ export default defineComponent({
   },
   validations: {
     formData: {
-      searchLocationValue: {
-        required,
-      },
+      searchLocationValue: {},
     },
   },
   methods: {
@@ -139,7 +138,9 @@ export default defineComponent({
       }
     },
     hasChosenLocation(location: IFacebookLocation) {
-      return true;
+      return !!this.chosenLocations.find(
+        (locationItem: IFacebookLocation) => locationItem.key === location.key
+      );
     },
     setChosenLocation(location: IFacebookLocation) {
       if (this.hasChosenLocation(location)) {
@@ -158,6 +159,10 @@ export default defineComponent({
 <style lang="scss" scoped>
 // rest of styling for native input is in asssets elements
 .facebook-audience-location {
+  margin: 25px 25px 0;
+  &__title {
+    text-align: center;
+  }
   &__input {
     @include center-with-margin($max-width: 400px, $top: 50px, $bottom: 50px);
     position: relative;

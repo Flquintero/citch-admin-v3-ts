@@ -66,7 +66,7 @@ export default defineComponent({
     updateAudienceTabs() {
       const updatedTabs = this.setCompletedAudienceFields(
         EFacebookAudienceItems.gender,
-        this.tabsList,
+        this.tabsList as ITabContent[],
         this.currentFacebookAudience
       );
       this.$emit("tab-updated", updatedTabs);

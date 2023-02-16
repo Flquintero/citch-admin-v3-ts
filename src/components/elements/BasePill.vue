@@ -1,9 +1,9 @@
 <template>
-  <div>
-    <div>
+  <div class="pill">
+    <div class="pill__text">
       <span>{{ pillText }}</span>
     </div>
-    <div @click="$emit('remove', pillIndex)">
+    <div class="pill__icon" @click="$emit('remove', pillIndex)">
       <font-awesome-icon icon="fa-duotone fa-xmark" />
     </div>
   </div>
@@ -29,3 +29,23 @@ export default defineComponent({
   methods: {},
 });
 </script>
+<style lang="scss" scoped>
+.pill {
+  @include flex-config($justify-content: space-between);
+  border: $border-specs-primary;
+  background-color: $primary;
+  color: $white;
+  border-radius: $border-radius;
+  min-width: 100px;
+  width: auto;
+  max-width: 400px;
+  padding: 5px 10px;
+  margin: 5px 10px;
+  &__text {
+    margin-right: 20px;
+  }
+  &__icon {
+    cursor: pointer;
+  }
+}
+</style>

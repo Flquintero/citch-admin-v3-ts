@@ -56,7 +56,11 @@ $error-light: #f6e2e2;
 
 // Form elements
 $border: $pale  !default;
-$border-specs: 1px solid $pale;
+$border-radius: 2px;
+$border-width: 1px;
+$border-type: solid;
+$border-specs: $border-width $border-type $pale;
+$border-specs-primary: $border-width $border-type $primary;
 
 // Buttons
 $button-primary-background: $burgundy  !default;

@@ -18,7 +18,7 @@
           placeholder: 'Enter Location',
           label: 'Location',
           name: 'searchLocationValue',
-          description: 'Search for Country, State, City and/or Zipcode', // find a post from citch and add here
+          description: 'Search for Country, State or City', // Zip is suppose to work but i dont know what happened
           type: 'text',
           required: true,
           isLoading: isSearching,
@@ -45,7 +45,6 @@
 <script lang="ts">
 import Vue, { defineComponent } from "vue";
 import { FormFunctions } from "@/utils/form-functionality";
-import { required } from "vuelidate/lib/validators";
 import type { IFacebookLocation } from "@/types/facebook/audience/interfaces";
 import type { IFormData } from "@/types/forms/interfaces";
 import { _debounce } from "@/utils/formatting";

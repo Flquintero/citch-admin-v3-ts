@@ -10,3 +10,6 @@ export interface IFacebookLocation {
   supports_region: boolean;
   type: string;
 }
+export interface IFacebookInterest {
+  [k: string]: any;
+}

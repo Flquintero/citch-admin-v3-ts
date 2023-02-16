@@ -1,17 +1,157 @@
 <template>
-  <div class="facebook-audience-interests">
-    <span>Interests</span>
+  <div class="facebook-audience-interest">
+    <h3 class="facebook-audience-interest__title">Enter Interest:</h3>
+    <SelectedItems
+      v-if="!!chosenInterests.length"
+      :items-list="chosenInterests"
+      render-text-key="name"
+      @removed-item="updateChosenInterests($event)"
+    />
+    <div class="facebook-audience-interest__input">
+      <CInput
+        @input="facebookInterestSearchDebounced(formData, $v, $event)"
+        @clear="facebookInterestClear(formData, $v, $event)"
+        v-bind="{
+          value: formData.searchInterestValue,
+          error: hasInputError($v, 'searchInterestValue'),
+          validationObject: $v,
+          placeholder: 'Enter Interest',
+          label: 'Interest',
+          name: 'searchInterestValue',
+          description: 'Search for any interest such as: Baseball', // Zip is suppose to work but i dont know what happened
+          type: 'text',
+          required: true,
+          isLoading: isSearching,
+          isDisabled: isSearching,
+          isClearable: true,
+        }"
+      />
+      <DropdownList v-if="InterestResults">
+        <template #dropdown-list-content>
+          <div
+            class="dropdown-list__item"
+            v-for="(interest, index) in interestResults"
+            :key="`${interest.key}-${index}`"
+            @click="setChosenInterest(interest)"
+          >
+            <span>{{ interestText(interest) }}</span>
+          </div>
+        </template>
+      </DropdownList>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import Vue, { defineComponent } from "vue";
+import { FormFunctions } from "@/utils/form-functionality";
+import type { IFacebookInterest } from "@/types/facebook/audience/interfaces";
+import type { IFormData } from "@/types/forms/interfaces";
+import { _debounce } from "@/utils/formatting";
+const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");
+
+const SelectedItems = () =>
+  import(
+    /* webpackChunkName: "SelectedItems" */ "@/components/functional/SelectedItems.vue"
+  );
+const CInput = () =>
+  import(
+    /* webpackChunkName: "CInput" */ "@/components/elements/BaseInput.vue"
+  );
+const DropdownList = () =>
+  import(
+    /* webpackChunkName: "DropdownList" */ "@/components/functional/dropdown-menu/partials/DropdownList.vue"
+  );
 
 export default defineComponent({
-  name: "FacebookAudienceInterests",
+  name: "FacebookAudienceInterest",
+  components: { SelectedItems, CInput, DropdownList },
+  data() {
+    return {
+      isSearching: false,
+      formData: {
+        searchInterestValue: null,
+      } as IFormData,
+      interestResults: null as null | IFacebookInterest[],
+      // To do: need to type it
+      facebookInterestSearchDebounced: null as
+        | null
+        | ((any: any) => Promise<any>),
+      chosenInterests: [] as IFacebookInterest[],
+    };
+  },
+  created() {
+    /// To do: need to type it
+    this.facebookInterestSearchDebounced = _debounce(
+      this.initFacebookInterestSearch,
+      400
+    ) as (any: any) => Promise<any>;
+  },
+  validations: {
+    formData: {
+      searchInterestValue: {},
+    },
+  },
+  methods: {
+    ...FormFunctions,
+    async initFacebookInterestSearch(
+      formData: IFormData,
+      $v: any,
+      $event: any
+    ) {
+      this.setFormValue(formData, $v, $event);
+      if (formData.searchInterestValue.length < 1) {
+        this.interestResults = null;
+        return;
+      }
+      try {
+        this.isSearching = true;
+        this.interestResults = await FacebookRepository.getInterests(
+          formData.searchInterestValue
+        );
+      } catch (error: any) {
+        console.error("Error Facebook Getting Interests", error);
+        this.$alert.error("Error Facebook Getting Interests");
+      } finally {
+        this.isSearching = false;
+      }
+    },
+    facebookInterestClear(formData: IFormData, $v: any, $event: any) {
+      this.setFormValue(formData, $v, $event);
+      this.interestResults = null;
+    },
+    interestText(interest: IFacebookInterest) {
+      return "test";
+    },
+    hasChosenInterest(interest: IFacebookInterest) {
+      return !!this.chosenInterests.find(
+        (interestItem: IFacebookInterest) => interestItem.key === interest.key
+      );
+    },
+    setChosenInterest(interest: IFacebookInterest) {
+      if (this.hasChosenInterest(interest)) {
+        this.$alert.error("This Interest has already been chosen");
+        return;
+      }
+      this.chosenInterests.push(interest);
+      console.log("interest", interest);
+    },
+    updateChosenLocations(interestIndex: number) {
+      this.chosenInterests.splice(interestIndex, 1);
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>
-.facebook-audience-interests {
+// rest of styling for native input is in asssets elements
+.facebook-audience-interest {
+  margin: 25px 25px 0;
+  &__title {
+    text-align: center;
+  }
+  &__input {
+    @include center-with-margin($max-width: 400px, $top: 50px, $bottom: 50px);
+    position: relative;
+  }
 }
 </style>

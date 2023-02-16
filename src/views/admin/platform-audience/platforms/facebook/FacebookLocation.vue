@@ -4,6 +4,7 @@
     <div class="facebook-audience-location__input">
       <CInput
         @input="facebookLocationSearchDebounced(formData, $v, $event)"
+        @clear="facebookLocationClear(formData, $v, $event)"
         v-bind="{
           value: formData.searchLocationValue,
           error: hasInputError($v, 'searchLocationValue'),
@@ -14,6 +15,9 @@
           description: 'Search for Country, State, City and/or Zipcode', // find a post from citch and add here
           type: 'text',
           required: true,
+          isLoading: isSearching,
+          isDisabled: isSeaching,
+          isClearable: true,
         }"
       />
       <DropdownList v-if="locationResults">
@@ -55,15 +59,23 @@ export default defineComponent({
   components: { CInput, DropdownList },
   data() {
     return {
+      isSearching: false,
       formData: {
         searchLocationValue: null,
       } as IFormData,
       locationResults: null as null | IFacebookLocation[],
-      facebookLocationSearchDebounced: _debounce(
-        this.initFacebookLocationSearch,
-        400
-      ) as (any: any) => Promise<any>,
+      // To do: need to type it
+      facebookLocationSearchDebounced: null as
+        | null
+        | ((any: any) => Promise<any>),
     };
+  },
+  created() {
+    /// To do: need to type it
+    this.facebookLocationSearchDebounced = _debounce(
+      this.initFacebookLocationSearch,
+      200
+    ) as (any: any) => Promise<any>;
   },
   validations: {
     formData: {
@@ -80,16 +92,22 @@ export default defineComponent({
       $event: any
     ) {
       this.setFormValue(formData, $v, $event);
-      console.log("searching", formData, $v, $event);
       if (formData.searchLocationValue.length < 2) return false;
       try {
+        this.isSearching = true;
         this.locationResults = await FacebookRepository.getLocations(
           formData.searchLocationValue
         );
       } catch (error: any) {
         console.error("Error Facebook Getting Locations", error);
         this.$alert.error("Error Facebook Getting Locations");
+      } finally {
+        this.isSearching = false;
       }
+    },
+    facebookLocationClear(formData: IFormData, $v: any, $event: any) {
+      this.setFormValue(formData, $v, $event);
+      this.locationResults = null;
     },
     locationText(location: IFacebookLocation) {
       switch (location.type) {

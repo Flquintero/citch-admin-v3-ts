@@ -7,6 +7,7 @@
       :name="name"
       :id="name"
       :placeholder="placeholder"
+      :disabled="isDisabled"
       class="input__field"
       :class="{ 'input__field--error': error }"
     />
@@ -45,8 +46,18 @@
     >
       <font-awesome-icon icon="fa-duotone fa-circle-exclamation" />
     </div>
-    <div v-if="required && !error" class="input__required">
+    <div
+      v-if="isClearable && !error && !isLoading"
+      @click="$emit('clear', { field: name, value: null })"
+      class="input__clear"
+    >
+      <font-awesome-icon icon="fa-duotone fa-xmark" />
+    </div>
+    <div v-if="required && !error && !isLoading" class="input__required">
       <span>required</span>
+    </div>
+    <div v-if="isLoading" class="input__required">
+      <CLoader />
     </div>
   </div>
 </template>
@@ -56,8 +67,14 @@ import { defineComponent } from "vue";
 import type { PropType } from "vue";
 import type { IValidationObject } from "@/types/forms/interfaces";
 
+const CLoader = () =>
+  import(
+    /* webpackChunkName: "CLoader" */ "@/components/functional/BaseLoader.vue"
+  );
+
 export default defineComponent({
   name: "BaseInput",
+  components: { CLoader },
   props: {
     placeholder: String,
     type: String,
@@ -76,6 +93,15 @@ export default defineComponent({
     description: {
       type: String,
       default: null,
+    },
+    isLoading: {
+      type: Boolean,
+    },
+    isDisabled: {
+      type: Boolean,
+    },
+    isClearable: {
+      type: Boolean,
     },
   },
 });
@@ -159,6 +185,22 @@ export default defineComponent({
     align-items: center;
     font-size: rem(10);
     background-color: $white;
+  }
+  &__clear {
+    position: absolute;
+    top: 0;
+    right: 45px;
+    width: 40px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: rem(10);
+    background-color: $white;
+    cursor: pointer;
+    &:hover {
+      color: $primary;
+    }
   }
 }
 </style>

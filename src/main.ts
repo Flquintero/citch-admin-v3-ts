@@ -46,7 +46,7 @@ import Vuelidate from "vuelidate";
 Vue.use(Vuelidate);
 
 // Icons
-
+// Abstract to another file
 import { IconDefinition, library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import {

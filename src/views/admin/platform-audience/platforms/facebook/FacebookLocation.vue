@@ -74,7 +74,7 @@ export default defineComponent({
     /// To do: need to type it
     this.facebookLocationSearchDebounced = _debounce(
       this.initFacebookLocationSearch,
-      200
+      400
     ) as (any: any) => Promise<any>;
   },
   validations: {
@@ -92,7 +92,10 @@ export default defineComponent({
       $event: any
     ) {
       this.setFormValue(formData, $v, $event);
-      if (formData.searchLocationValue.length < 2) return false;
+      if (formData.searchLocationValue.length < 1) {
+        this.locationResults = null;
+        return;
+      }
       try {
         this.isSearching = true;
         this.locationResults = await FacebookRepository.getLocations(

@@ -47,7 +47,7 @@
       <font-awesome-icon icon="fa-duotone fa-circle-exclamation" />
     </div>
     <div
-      v-if="isClearable && !error && !isDisabled && !isLoading"
+      v-if="isClearable && value && !error && !isDisabled && !isLoading"
       @click="$emit('clear', { field: name, value: null })"
       class="input__clear"
     >

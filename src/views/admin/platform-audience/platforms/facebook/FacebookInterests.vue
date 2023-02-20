@@ -26,7 +26,7 @@
           isClearable: true,
         }"
       />
-      <DropdownList v-if="InterestResults">
+      <DropdownList v-if="interestResults">
         <template #dropdown-list-content>
           <div
             class="dropdown-list__item"
@@ -121,11 +121,11 @@ export default defineComponent({
       this.interestResults = null;
     },
     interestText(interest: IFacebookInterest) {
-      return "test";
+      return interest.name;
     },
     hasChosenInterest(interest: IFacebookInterest) {
       return !!this.chosenInterests.find(
-        (interestItem: IFacebookInterest) => interestItem.key === interest.key
+        (interestItem: IFacebookInterest) => interestItem.id === interest.id
       );
     },
     setChosenInterest(interest: IFacebookInterest) {
@@ -134,9 +134,8 @@ export default defineComponent({
         return;
       }
       this.chosenInterests.push(interest);
-      console.log("interest", interest);
     },
-    updateChosenLocations(interestIndex: number) {
+    updateChosenInterests(interestIndex: number) {
       this.chosenInterests.splice(interestIndex, 1);
     },
   },

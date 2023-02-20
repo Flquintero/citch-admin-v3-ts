@@ -84,4 +84,9 @@ export default {
       url: `${DOMAIN_PATH}/locations/${searchString}`,
     });
   },
+  getInterests: async (searchString: string) => {
+    return await $authedApiRequest({
+      url: `${DOMAIN_PATH}/interests/${searchString}`,
+    });
+  },
 };

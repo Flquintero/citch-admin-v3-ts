@@ -77,7 +77,7 @@ export default defineComponent({
   components: { CLoader },
   props: {
     placeholder: String,
-    type: String,
+    type: String || Number,
     value: String || Number || null,
     name: String,
     label: String,

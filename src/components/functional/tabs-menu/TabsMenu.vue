@@ -25,20 +25,59 @@ export default defineComponent({
   name: "TabsMenu",
   components: { TabsMenuItem },
   props: {
-    tabsList: Array as PropType<ITabContent>,
+    tabsList: Array as PropType<ITabContent[]>,
   },
   data() {
     return {
-      currentTabIndex: 0,
+      currentTabIndex: null as null | number,
     };
   },
+  beforeDestroy() {
+    this.clearSavedtab();
+  },
+  created() {
+    this.setInitialTab();
+  },
   methods: {
+    clearSavedtab() {
+      const { currentTab, ...desiredQueryParams } = this.$route.query;
+      this.$router.replace({
+        query: desiredQueryParams,
+      });
+    },
     checkCurrentTab(tabIndex: number) {
       return this.currentTabIndex === tabIndex;
     },
     setCurrentTab(tabIndex: number) {
+      console.log("hit");
       this.currentTabIndex = tabIndex;
       this.$emit("tab-selected", tabIndex);
+      this.setUrlQuery();
+    },
+    setInitialTab() {
+      const savedTabIndex = this.$route.query.currentTab;
+      if (savedTabIndex) {
+        this.setCurrentTab(parseInt(savedTabIndex as string));
+      } else {
+        this.setCurrentTab(0);
+      }
+    },
+    // for when you reset
+    async setUrlQuery() {
+      // avoid nav duplicate error
+      if (
+        this.currentTabIndex ===
+        parseInt(this.$route.query.currentTab as string)
+      ) {
+        return;
+      }
+
+      await this.$router.replace({
+        query: {
+          ...this.$route.query,
+          currentTab: this.currentTabIndex?.toString(),
+        },
+      });
     },
   },
 });

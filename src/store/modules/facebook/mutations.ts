@@ -29,6 +29,7 @@ export const mutations = {
     state: IFacebookState,
     facebookAudience: IFacebookAudience
   ) {
+    console.log("facebookAudience", facebookAudience);
     const audience = state.currentFacebookAudience || {};
     const newAudience = Object.assign(audience, facebookAudience);
     state.currentFacebookAudience = newAudience;

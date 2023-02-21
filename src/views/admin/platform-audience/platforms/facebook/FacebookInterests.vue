@@ -1,6 +1,8 @@
 <template>
   <div class="facebook-audience-interest">
-    <h3 class="facebook-audience-interest__title">Enter Interest:</h3>
+    <h3 class="facebook-audience-interest__title">
+      {{ hasChosenInterests ? "Selected Interests:" : "Enter Interest" }}
+    </h3>
     <SelectedItems
       v-if="!!chosenInterests.length"
       :items-list="chosenInterests"
@@ -15,7 +17,9 @@
           value: formData.searchInterestValue,
           error: hasInputError($v, 'searchInterestValue'),
           validationObject: $v,
-          placeholder: 'Enter Interest',
+          placeholder: `${
+            hasChosenInterests ? 'Enter another Interest' : 'Enter Interest'
+          }`,
           label: 'Interest',
           name: 'searchInterestValue',
           description: 'Search for any interest such as: Baseball', // Zip is suppose to work but i dont know what happened
@@ -44,9 +48,14 @@
 
 <script lang="ts">
 import Vue, { defineComponent } from "vue";
+import type { PropType } from "vue";
+import { mapActions, mapGetters } from "vuex";
 import { FormFunctions } from "@/utils/form-functionality";
+import { setCompletedAudienceFields } from "../../utils/platform-audience-validation-helper";
 import type { IFacebookInterest } from "@/types/facebook/audience/interfaces";
 import type { IFormData } from "@/types/forms/interfaces";
+import type { ITabContent } from "@/types/components/interfaces";
+import { EFacebookAudienceItems } from "@/types/facebook/campaigns/enums";
 import { _debounce } from "@/utils/formatting";
 const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");
 
@@ -66,6 +75,9 @@ const DropdownList = () =>
 export default defineComponent({
   name: "FacebookAudienceInterest",
   components: { SelectedItems, CInput, DropdownList },
+  props: {
+    tabsList: Array as PropType<ITabContent[]>,
+  },
   data() {
     return {
       isSearching: false,
@@ -80,6 +92,11 @@ export default defineComponent({
       chosenInterests: [] as IFacebookInterest[],
     };
   },
+  validations: {
+    formData: {
+      searchInterestValue: {},
+    },
+  },
   created() {
     /// To do: need to type it
     this.facebookInterestSearchDebounced = _debounce(
@@ -87,13 +104,15 @@ export default defineComponent({
       400
     ) as (any: any) => Promise<any>;
   },
-  validations: {
-    formData: {
-      searchInterestValue: {},
-    },
+  mounted() {
+    this.checkForSavedAudience();
   },
   methods: {
+    ...mapActions("Facebook", {
+      setCurrentFacebookAudience: "setCurrentFacebookAudience",
+    }),
     ...FormFunctions,
+    setCompletedAudienceFields,
     async initFacebookInterestSearch(
       formData: IFormData,
       $v: any,
@@ -134,9 +153,37 @@ export default defineComponent({
         return;
       }
       this.chosenInterests.push(interest);
+      this.setCurrentFacebookAudience({
+        chosenInterests: this.chosenInterests,
+      });
+      this.updateAudienceTabs();
+    },
+    updateAudienceTabs() {
+      const updatedTabs = this.setCompletedAudienceFields(
+        EFacebookAudienceItems.interests,
+        this.tabsList as ITabContent[],
+        this.currentFacebookAudience
+      );
+      this.$emit("tab-updated", updatedTabs);
     },
     updateChosenInterests(interestIndex: number) {
       this.chosenInterests.splice(interestIndex, 1);
+    },
+    checkForSavedAudience() {
+      if (this.currentFacebookAudience) {
+        const { chosenInterests } = this.currentFacebookAudience;
+        if (chosenInterests) {
+          this.chosenInterests = chosenInterests;
+        }
+      }
+    },
+  },
+  computed: {
+    ...mapGetters("Facebook", {
+      currentFacebookAudience: "currentFacebookAudience",
+    }),
+    hasChosenInterests(): boolean {
+      return this.chosenInterests.length > 0;
     },
   },
 });

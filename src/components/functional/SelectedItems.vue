@@ -34,12 +34,11 @@ export default defineComponent({
       },
     };
   },
-  methods: {},
 });
 </script>
 <style lang="scss">
 .selected-items {
   @include flex-config($flex-wrap: wrap);
-  @include center-with-margin($max-width: 750px, $top: 50px, $bottom: 50px);
+  @include center-with-margin($max-width: 750px, $top: 20px, $bottom: 20px);
 }
 </style>

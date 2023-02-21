@@ -36,10 +36,10 @@ export default defineComponent({
     this.getPostPage();
   },
   methods: {
-    ...mapActions("Facebook", [
-      "setCurrentFacebookPage",
-      "setCurrentFacebookPost",
-    ]),
+    ...mapActions("Facebook", {
+      setCurrentFacebookPage: "setCurrentFacebookPage",
+      setCurrentFacebookPost: "setCurrentFacebookPost",
+    }),
     async getPostPage() {
       try {
         // TO Do: A more efficient/predictable way to handle this

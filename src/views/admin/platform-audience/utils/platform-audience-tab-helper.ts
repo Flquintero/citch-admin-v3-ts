@@ -5,6 +5,7 @@ import { getPlatformInterests } from "../utils/platform-audience-interests-helpe
 import { EFacebookAudienceItems } from "@/types/facebook/campaigns/enums";
 import type { ITabContent } from "@/types/components/interfaces";
 
+// Create one of these for each platform
 const facebook: ITabContent[] = [
   {
     text: "Age",
@@ -27,7 +28,7 @@ const facebook: ITabContent[] = [
     identifier: EFacebookAudienceItems.location,
     required: true,
     completed: false,
-    requiredFields: [],
+    requiredFields: ["chosenLocations"],
     component: getPlatformLocation("facebook"),
   },
   {
@@ -35,7 +36,7 @@ const facebook: ITabContent[] = [
     identifier: EFacebookAudienceItems.interests,
     required: false,
     completed: false,
-    requiredFields: [],
+    requiredFields: ["chosenInterests"],
     component: getPlatformInterests("facebook"),
   },
 ];

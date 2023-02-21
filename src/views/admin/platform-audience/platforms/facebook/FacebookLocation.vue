@@ -1,6 +1,8 @@
 <template>
   <div class="facebook-audience-location">
-    <h3 class="facebook-audience-location__title">Enter Location:</h3>
+    <h3 class="facebook-audience-location__title">
+      {{ hasChosenLocations ? "Selected Locations:" : "Enter Location" }}
+    </h3>
     <SelectedItems
       v-if="!!chosenLocations.length"
       :items-list="chosenLocations"
@@ -15,7 +17,9 @@
           value: formData.searchLocationValue,
           error: hasInputError($v, 'searchLocationValue'),
           validationObject: $v,
-          placeholder: 'Enter Location',
+          placeholder: `${
+            hasChosenLocations ? 'Enter another Location' : 'Enter Location'
+          }`,
           label: 'Location',
           name: 'searchLocationValue',
           description: 'Search for Country, State or City', // Zip is suppose to work but i dont know what happened
@@ -44,9 +48,14 @@
 
 <script lang="ts">
 import Vue, { defineComponent } from "vue";
+import type { PropType } from "vue";
+import { mapActions, mapGetters } from "vuex";
 import { FormFunctions } from "@/utils/form-functionality";
+import { setCompletedAudienceFields } from "../../utils/platform-audience-validation-helper";
 import type { IFacebookLocation } from "@/types/facebook/audience/interfaces";
 import type { IFormData } from "@/types/forms/interfaces";
+import type { ITabContent } from "@/types/components/interfaces";
+import { EFacebookAudienceItems } from "@/types/facebook/campaigns/enums";
 import { _debounce } from "@/utils/formatting";
 const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");
 
@@ -66,6 +75,9 @@ const DropdownList = () =>
 export default defineComponent({
   name: "FacebookAudienceLocation",
   components: { SelectedItems, CInput, DropdownList },
+  props: {
+    tabsList: Array as PropType<ITabContent[]>,
+  },
   data() {
     return {
       isSearching: false,
@@ -80,6 +92,11 @@ export default defineComponent({
       chosenLocations: [] as IFacebookLocation[],
     };
   },
+  validations: {
+    formData: {
+      searchLocationValue: {},
+    },
+  },
   created() {
     /// To do: need to type it
     this.facebookLocationSearchDebounced = _debounce(
@@ -87,13 +104,15 @@ export default defineComponent({
       400
     ) as (any: any) => Promise<any>;
   },
-  validations: {
-    formData: {
-      searchLocationValue: {},
-    },
+  mounted() {
+    this.checkForSavedAudience();
   },
   methods: {
+    ...mapActions("Facebook", {
+      setCurrentFacebookAudience: "setCurrentFacebookAudience",
+    }),
     ...FormFunctions,
+    setCompletedAudienceFields,
     async initFacebookLocationSearch(
       formData: IFormData,
       $v: any,
@@ -147,10 +166,37 @@ export default defineComponent({
         return;
       }
       this.chosenLocations.push(location);
-      console.log("location", location);
+      this.setCurrentFacebookAudience({
+        chosenLocations: this.chosenLocations,
+      });
+      this.updateAudienceTabs();
+    },
+    updateAudienceTabs() {
+      const updatedTabs = this.setCompletedAudienceFields(
+        EFacebookAudienceItems.location,
+        this.tabsList as ITabContent[],
+        this.currentFacebookAudience
+      );
+      this.$emit("tab-updated", updatedTabs);
     },
     updateChosenLocations(locationIndex: number) {
       this.chosenLocations.splice(locationIndex, 1);
+    },
+    checkForSavedAudience() {
+      if (this.currentFacebookAudience) {
+        const { chosenLocations } = this.currentFacebookAudience;
+        if (chosenLocations) {
+          this.chosenLocations = chosenLocations;
+        }
+      }
+    },
+  },
+  computed: {
+    ...mapGetters("Facebook", {
+      currentFacebookAudience: "currentFacebookAudience",
+    }),
+    hasChosenLocations(): boolean {
+      return this.chosenLocations.length > 0;
     },
   },
 });

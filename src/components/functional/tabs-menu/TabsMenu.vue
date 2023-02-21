@@ -49,7 +49,6 @@ export default defineComponent({
       return this.currentTabIndex === tabIndex;
     },
     setCurrentTab(tabIndex: number) {
-      console.log("hit");
       this.currentTabIndex = tabIndex;
       this.$emit("tab-selected", tabIndex);
       this.setUrlQuery();

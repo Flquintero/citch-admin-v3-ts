@@ -35,6 +35,11 @@ export interface IFacebookObjective {
 }
 
 export interface IFacebookAudience {
+  [property: string]:
+    | undefined
+    | string
+    | IFacebookLocation[]
+    | IFacebookInterest[];
   ageMin?: string;
   ageMax?: string;
   gender?: string;

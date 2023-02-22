@@ -43,6 +43,16 @@ export enum EFacebookAudienceItems {
   interests,
 }
 
+export enum EFacebookAudienceRequiredFields {
+  age = "ageMin,ageMax",
+  gender = "gender",
+  location = "chosenLocations",
+}
+
+export enum EFacebookAudienceOptionalFields {
+  interests = "chosenInterests",
+}
+
 export enum EFacebookAudienceGender {
   all,
   male,

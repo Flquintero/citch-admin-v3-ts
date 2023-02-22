@@ -2,17 +2,21 @@ import { getPlatformAge } from "../utils/platform-audience-age-helper";
 import { getPlatformGender } from "../utils/platform-audience-gender-helper";
 import { getPlatformLocation } from "../utils/platform-audience-location-helper";
 import { getPlatformInterests } from "../utils/platform-audience-interests-helper";
-import { EFacebookAudienceItems } from "@/types/facebook/campaigns/enums";
+import {
+  EFacebookAudienceItems,
+  EFacebookAudienceRequiredFields,
+  EFacebookAudienceOptionalFields,
+} from "@/types/facebook/campaigns/enums";
 import type { ITabContent } from "@/types/components/interfaces";
 
 // Create one of these for each platform
-const facebook: ITabContent[] = [
+export const facebook: ITabContent[] = [
   {
     text: "Age",
     identifier: EFacebookAudienceItems.age,
     required: true,
     completed: false,
-    requiredFields: ["ageMin", "ageMax"],
+    requiredFields: EFacebookAudienceRequiredFields.age.split(","),
     component: getPlatformAge("facebook"),
   },
   {
@@ -20,7 +24,7 @@ const facebook: ITabContent[] = [
     identifier: EFacebookAudienceItems.gender,
     required: true,
     completed: false,
-    requiredFields: ["gender"],
+    requiredFields: EFacebookAudienceRequiredFields.gender.split(","),
     component: getPlatformGender("facebook"),
   },
   {
@@ -28,7 +32,7 @@ const facebook: ITabContent[] = [
     identifier: EFacebookAudienceItems.location,
     required: true,
     completed: false,
-    requiredFields: ["chosenLocations"],
+    requiredFields: EFacebookAudienceRequiredFields.location.split(","),
     component: getPlatformLocation("facebook"),
   },
   {
@@ -36,7 +40,7 @@ const facebook: ITabContent[] = [
     identifier: EFacebookAudienceItems.interests,
     required: false,
     completed: false,
-    requiredFields: ["chosenInterests"],
+    requiredFields: EFacebookAudienceOptionalFields.interests.split(","),
     component: getPlatformInterests("facebook"),
   },
 ];

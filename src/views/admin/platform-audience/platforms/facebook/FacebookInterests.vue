@@ -52,7 +52,7 @@ import type { PropType } from "vue";
 import { mapActions, mapGetters } from "vuex";
 import { FormFunctions } from "@/utils/form-functionality";
 import { setCompletedAudienceFields } from "../../utils/platform-audience-validation-helper";
-import type { IFacebookInterest } from "@/types/facebook/audience/interfaces";
+import type { IFacebookInterest } from "@/types/facebook/campaigns/interfaces";
 import type { IFormData } from "@/types/forms/interfaces";
 import type { ITabContent } from "@/types/components/interfaces";
 import { EFacebookAudienceItems } from "@/types/facebook/campaigns/enums";

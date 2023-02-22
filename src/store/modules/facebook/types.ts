@@ -1,5 +1,5 @@
 import { IFacebookCampaign } from "@/types/facebook/campaigns/interfaces";
-import { IFacebookAudience } from "@/types/facebook/audience/interfaces";
+import { IFacebookAudience } from "@/types/facebook/campaigns/interfaces";
 import type { IFacebookPage } from "@/types/facebook/pages/interfaces";
 import type { IFacebookPost } from "@/types/facebook/post/interfaces";
 
@@ -8,4 +8,5 @@ export interface IFacebookState {
   currentFacebookPage?: IFacebookPage;
   currentFacebookPost?: IFacebookPost;
   currentFacebookAudience?: IFacebookAudience;
+  currentFacebookAudienceComplete: boolean;
 }

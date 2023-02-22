@@ -44,6 +44,7 @@ export default defineComponent({
   overflow-y: auto;
   padding: 10px;
   background: $white;
+  z-index: 200;
 
   &__item {
     margin-bottom: 10px;

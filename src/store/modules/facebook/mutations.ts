@@ -5,6 +5,7 @@ import {
 } from "@/types/facebook/campaigns/interfaces";
 import { IFacebookPage } from "@/types/facebook/pages/interfaces";
 import { IFacebookPost } from "@/types/facebook/post/interfaces";
+import { EFacebookAudienceRequiredFields } from "@/types/facebook/campaigns/enums";
 
 export const mutations = {
   SET_CURRENT_FACEBOOK_CAMPAIGN(
@@ -32,5 +33,22 @@ export const mutations = {
     const audience = state.currentFacebookAudience || {};
     const newAudience = Object.assign(audience, facebookAudience);
     state.currentFacebookAudience = newAudience;
+  },
+  SET_CURRENT_FACEBOOK_AUDIENCE_COMPLETE(state: IFacebookState) {
+    const { currentFacebookAudience } = state;
+    if (!currentFacebookAudience) return false;
+    const audienceRequiredFieldKeys = Object.entries(
+      EFacebookAudienceRequiredFields
+    )
+      .map((keyValueArray: string[]) => {
+        return keyValueArray[1].split(",");
+      })
+      .flat();
+    const missingField = audienceRequiredFieldKeys.filter(
+      (fieldKey: string) => {
+        return !currentFacebookAudience[fieldKey];
+      }
+    );
+    state.currentFacebookAudienceComplete = missingField.length ? false : true;
   },
 };

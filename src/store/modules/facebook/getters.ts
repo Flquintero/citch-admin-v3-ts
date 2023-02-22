@@ -13,4 +13,7 @@ export const getters = {
   currentFacebookAudience(state: IFacebookState) {
     return state.currentFacebookAudience;
   },
+  currentFacebookAudienceComplete(state: IFacebookState) {
+    return state.currentFacebookAudienceComplete;
+  },
 };

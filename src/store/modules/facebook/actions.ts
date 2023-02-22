@@ -25,10 +25,11 @@ export const actions = {
   ) {
     commit("SET_CURRENT_FACEBOOK_POST", facebookPost);
   },
-  setCurrentFacebookAudience(
+  async setCurrentFacebookAudience(
     { commit }: { commit: Commit },
     facebookAudience: IFacebookAudience
   ) {
-    commit("SET_CURRENT_FACEBOOK_AUDIENCE", facebookAudience);
+    await commit("SET_CURRENT_FACEBOOK_AUDIENCE", facebookAudience);
+    await commit("SET_CURRENT_FACEBOOK_AUDIENCE_COMPLETE");
   },
 };

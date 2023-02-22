@@ -16,6 +16,11 @@
           </template>
         </TabsMenu>
       </div>
+      <div class="audience-selection__content-confirm">
+        <component
+          :is="getPlatformAudienceConfirmButton(currentPlatform)"
+        ></component>
+      </div>
       <div class="audience-selection__content-post">
         <component :is="getPlatformPost(currentPlatform)"></component>
       </div>
@@ -27,6 +32,7 @@
 import { defineComponent } from "vue";
 import { getPlatformTabsList } from "./utils/platform-audience-tab-helper";
 import { getPlatformAudienceTitle } from "./utils/platform-audience-title-helper";
+import { getPlatformAudienceConfirmButton } from "./utils/platform-audience-confirm-button-helper";
 import { _deepCopyObjectsArray } from "@/utils/formatting";
 import { getPlatformPost } from "@/components/functional/social-post/post-component-loader";
 import type { ITabContent } from "@/types/components/interfaces";
@@ -58,6 +64,7 @@ export default defineComponent({
     getPlatformPost,
     getPlatformTabsList,
     getPlatformAudienceTitle,
+    getPlatformAudienceConfirmButton,
     setInitialTabsList() {
       const initialTabsList = this.getPlatformTabsList(
         this.currentPlatform as string
@@ -69,6 +76,18 @@ export default defineComponent({
     },
     setCurrentTabIndex: function (tabIndex: number): void {
       this.currentTabIndex = tabIndex;
+    },
+    formatContinueButton() {
+      return "Confirm Audience";
+      // let renderButtonContent = "Confirm Goal";
+      // if (this.isSavedObjectiveGoal) {
+      //   if (this.isSameObjectiveGoal) {
+      //     renderButtonContent = "Continue";
+      //   } else {
+      //     renderButtonContent = "Save Change";
+      //   }
+      // }
+      // return renderButtonContent;
     },
   },
   computed: {
@@ -109,6 +128,9 @@ export default defineComponent({
       @include center-with-margin($max-width: 600px);
       margin-top: 40px;
       @include flex-config($justify-content: center);
+    }
+    &-confirm {
+      @include center-with-margin($max-width: 400px);
     }
   }
 }

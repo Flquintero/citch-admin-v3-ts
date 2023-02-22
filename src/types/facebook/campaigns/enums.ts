@@ -42,3 +42,9 @@ export enum EFacebookAudienceItems {
   location,
   interests,
 }
+
+export enum EFacebookAudienceGender {
+  all,
+  male,
+  female,
+}

@@ -87,7 +87,7 @@ export default defineComponent({
       flex-grow: 1;
       margin: 10px;
       padding: 10px;
-      border: 1px solid $border;
+      border: 1px solid $primary-light;
       border-radius: 2px;
       position: relative;
       cursor: pointer;

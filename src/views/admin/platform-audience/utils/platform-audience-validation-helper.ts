@@ -6,9 +6,6 @@ export function setCompletedAudienceFields(
   audienceTabList: Array<ITabContent>,
   newAudienceObject: ITabContent
 ) {
-  console.log("enceItemIdentifier", targetAudienceItemIdentifier);
-  console.log("audienceTabList", audienceTabList);
-  console.log("newAudienceObject", newAudienceObject);
   // We filter the existing audience tab list that has keys that are objects with tab info
   // we make sure they have what we need and then put them in the new array that will ultimately have the updated tab info
   return audienceTabList.map((existingAudienceItem: ITabContent) => {

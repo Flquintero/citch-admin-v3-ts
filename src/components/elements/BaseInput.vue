@@ -103,6 +103,16 @@ export default defineComponent({
     isClearable: {
       type: Boolean,
     },
+    resetInput: {
+      type: Boolean,
+    },
+  },
+  watch: {
+    resetInput(status: boolean) {
+      if (status) {
+        this.$emit("clear", { field: this.name, value: null });
+      }
+    },
   },
 });
 </script>

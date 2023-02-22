@@ -26,8 +26,8 @@
           type: 'text',
           required: true,
           isLoading: isSearching,
-          isDisabled: isSearching,
           isClearable: true,
+          resetInput: isResetSearch,
         }"
       />
       <DropdownList v-if="locationResults">
@@ -81,6 +81,7 @@ export default defineComponent({
   data() {
     return {
       isSearching: false,
+      isResetSearch: false,
       formData: {
         searchLocationValue: null,
       } as IFormData,
@@ -170,6 +171,13 @@ export default defineComponent({
         chosenLocations: this.chosenLocations,
       });
       this.updateAudienceTabs();
+      this.resetSearch();
+    },
+    resetSearch() {
+      this.isResetSearch = true;
+      setTimeout(() => {
+        this.isResetSearch = false;
+      }, 100);
     },
     updateAudienceTabs() {
       const updatedTabs = this.setCompletedAudienceFields(
@@ -181,6 +189,10 @@ export default defineComponent({
     },
     updateChosenLocations(locationIndex: number) {
       this.chosenLocations.splice(locationIndex, 1);
+      this.setCurrentFacebookAudience({
+        chosenLocations: this.chosenLocations,
+      });
+      this.updateAudienceTabs();
     },
     checkForSavedAudience() {
       if (this.currentFacebookAudience) {

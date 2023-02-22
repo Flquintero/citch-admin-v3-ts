@@ -24,10 +24,10 @@
           name: 'searchInterestValue',
           description: 'Search for any interest such as: Baseball', // Zip is suppose to work but i dont know what happened
           type: 'text',
-          required: true,
+          required: false,
           isLoading: isSearching,
-          isDisabled: isSearching,
           isClearable: true,
+          resetInput: isResetSearch,
         }"
       />
       <DropdownList v-if="interestResults">
@@ -81,6 +81,7 @@ export default defineComponent({
   data() {
     return {
       isSearching: false,
+      isResetSearch: false,
       formData: {
         searchInterestValue: null,
       } as IFormData,
@@ -157,6 +158,7 @@ export default defineComponent({
         chosenInterests: this.chosenInterests,
       });
       this.updateAudienceTabs();
+      this.resetSearch();
     },
     updateAudienceTabs() {
       const updatedTabs = this.setCompletedAudienceFields(
@@ -168,6 +170,10 @@ export default defineComponent({
     },
     updateChosenInterests(interestIndex: number) {
       this.chosenInterests.splice(interestIndex, 1);
+      this.setCurrentFacebookAudience({
+        chosenInterests: this.chosenInterests,
+      });
+      this.updateAudienceTabs();
     },
     checkForSavedAudience() {
       if (this.currentFacebookAudience) {
@@ -176,6 +182,12 @@ export default defineComponent({
           this.chosenInterests = chosenInterests;
         }
       }
+    },
+    resetSearch() {
+      this.isResetSearch = true;
+      setTimeout(() => {
+        this.isResetSearch = false;
+      }, 100);
     },
   },
   computed: {

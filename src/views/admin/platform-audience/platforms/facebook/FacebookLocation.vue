@@ -56,7 +56,7 @@ import type { IFacebookLocation } from "@/types/facebook/campaigns/interfaces";
 import type { IFormData } from "@/types/forms/interfaces";
 import type { ITabContent } from "@/types/components/interfaces";
 import { EFacebookAudienceItems } from "@/types/facebook/campaigns/enums";
-import { _debounce } from "@/utils/formatting";
+import { _debounce, _deepCopy } from "@/utils/formatting";
 const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");
 
 const SelectedItems = () =>
@@ -168,7 +168,7 @@ export default defineComponent({
       }
       this.chosenLocations.push(location);
       this.setCurrentFacebookAudience({
-        chosenLocations: this.chosenLocations,
+        chosenLocations: _deepCopy(this.chosenLocations),
       });
       this.updateAudienceTabs();
       this.resetSearch();
@@ -190,7 +190,7 @@ export default defineComponent({
     updateChosenLocations(locationIndex: number) {
       this.chosenLocations.splice(locationIndex, 1);
       this.setCurrentFacebookAudience({
-        chosenLocations: this.chosenLocations,
+        chosenLocations: _deepCopy(this.chosenLocations),
       });
       this.updateAudienceTabs();
     },

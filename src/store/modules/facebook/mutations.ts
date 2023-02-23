@@ -6,6 +6,7 @@ import {
 import { IFacebookPage } from "@/types/facebook/pages/interfaces";
 import { IFacebookPost } from "@/types/facebook/post/interfaces";
 import { EFacebookAudienceRequiredFields } from "@/types/facebook/campaigns/enums";
+import { _deepCopy } from "@/utils/formatting";
 
 export const mutations = {
   SET_CURRENT_FACEBOOK_CAMPAIGN(
@@ -46,7 +47,14 @@ export const mutations = {
       .flat();
     const missingField = audienceRequiredFieldKeys.filter(
       (fieldKey: string) => {
-        return !currentFacebookAudience[fieldKey];
+        return (
+          !currentFacebookAudience[fieldKey] ||
+          !(
+            currentFacebookAudience[
+              fieldKey
+            ] as IFacebookAudience["chosenLocations"]
+          )?.length
+        );
       }
     );
     state.currentFacebookAudienceComplete = missingField.length ? false : true;

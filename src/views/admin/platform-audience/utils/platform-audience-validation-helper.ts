@@ -1,4 +1,5 @@
 import { EFacebookAudienceItems } from "@/types/facebook/campaigns/enums";
+import type { IFacebookAudience } from "@/types/facebook/campaigns/interfaces";
 import type { ITabContent } from "@/types/components/interfaces";
 
 export function setCompletedAudienceFields(
@@ -15,13 +16,22 @@ export function setCompletedAudienceFields(
       // check that it has the required fields, they are set in the tab audience object
       existingAudienceItem.requiredFields?.forEach((field: string) => {
         // if it is missing just one field than we will not mark as complete
-        if (!newAudienceObject[field]) {
+        if (
+          !newAudienceObject[field] ||
+          !(
+            newAudienceObject[field] as
+              | IFacebookAudience["chosenLocations"]
+              | IFacebookAudience["chosenInterests"]
+          )?.length
+        ) {
           hasFields = false;
         }
       });
       // all fieds are there so mark as completed in the object
       if (hasFields) {
         existingAudienceItem.completed = true;
+      } else {
+        existingAudienceItem.completed = false;
       }
     }
     return existingAudienceItem;

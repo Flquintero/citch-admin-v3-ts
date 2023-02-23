@@ -56,7 +56,7 @@ import type { IFacebookInterest } from "@/types/facebook/campaigns/interfaces";
 import type { IFormData } from "@/types/forms/interfaces";
 import type { ITabContent } from "@/types/components/interfaces";
 import { EFacebookAudienceItems } from "@/types/facebook/campaigns/enums";
-import { _debounce } from "@/utils/formatting";
+import { _debounce, _deepCopy } from "@/utils/formatting";
 const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");
 
 const SelectedItems = () =>
@@ -155,7 +155,7 @@ export default defineComponent({
       }
       this.chosenInterests.push(interest);
       this.setCurrentFacebookAudience({
-        chosenInterests: this.chosenInterests,
+        chosenInterests: _deepCopy(this.chosenInterests),
       });
       this.updateAudienceTabs();
       this.resetSearch();
@@ -171,7 +171,7 @@ export default defineComponent({
     updateChosenInterests(interestIndex: number) {
       this.chosenInterests.splice(interestIndex, 1);
       this.setCurrentFacebookAudience({
-        chosenInterests: this.chosenInterests,
+        chosenInterests: _deepCopy(this.chosenInterests),
       });
       this.updateAudienceTabs();
     },

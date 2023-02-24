@@ -55,7 +55,9 @@ export default defineComponent({
     this.checkExistingObjective();
   },
   methods: {
-    ...mapActions("Facebook", ["setCurrentFacebookCampaign"]),
+    ...mapActions("Facebook", {
+      setCurrentFacebookCampaign: "setCurrentFacebookCampaign",
+    }),
     async checkExistingObjective() {
       // If user went passed objectives that they need to have saved objective and created campaign
       if (this.isSavedCampaign && this.isSavedObjective) {
@@ -77,13 +79,15 @@ export default defineComponent({
       }
       try {
         this.saving = true;
-        const pageId = this.currentPost.split("_")[0];
+        const pageId = this.$route.query.pageId as string; // this.currentPost.split("_")[0]; <--- could be not consistent
         const now = dayjs().format("MM-DD-YY-Thhmmss");
         const campaignObject: ISaveFacebookCampaignObject = {
           saveCampaignObject: {
             ...(this.isSavedCampaign
               ? { campaignId: this.savedCampaign as string }
               : null),
+            pageId,
+            platform: this.currentPlatform,
             campaignData: {
               name: `${now}-${pageId}-${this.currentPlatform}-${this.chosenObjective?.displayName}`,
               facebookObjectiveValues: this.chosenObjective

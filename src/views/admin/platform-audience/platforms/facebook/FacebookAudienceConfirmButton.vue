@@ -1,7 +1,7 @@
 <template>
   <ContinueButton
     v-if="currentFacebookAudienceComplete"
-    @click.native="confirmObjectiveGoal"
+    @click.native="confirmAudience"
     v-bind="{
       variant: 'primary',
       disabled: !currentFacebookAudience || saving,
@@ -14,8 +14,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import Vue, { defineComponent } from "vue";
 import { mapGetters } from "vuex";
+const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");
 
 const ContinueButton = () =>
   import(
@@ -25,6 +26,11 @@ const ContinueButton = () =>
 export default defineComponent({
   name: "FacebookAudienceConfirmButton",
   components: { ContinueButton },
+  data() {
+    return {
+      saving: false,
+    };
+  },
   methods: {
     formatContinueButton() {
       const renderButtonContent = "Confirm Audience";
@@ -36,6 +42,24 @@ export default defineComponent({
       //     }
       //   }
       return renderButtonContent;
+    },
+    async confirmAudience() {
+      try {
+        this.saving = true;
+        const saveCampaignObject = {
+          campaignId: this.$route.query.campaignId,
+          audience: this.currentFacebookAudience,
+        };
+        const savedAudience = await FacebookRepository.saveCampaignAudience({
+          saveCampaignObject,
+        });
+        console.log("savedAudience", savedAudience);
+      } catch (error: any) {
+        this.$alert.error(`Error Saving Audience`);
+        console.log("Error Saving Audience", error);
+      } finally {
+        this.saving = false;
+      }
     },
   },
   computed: {

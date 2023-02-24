@@ -1,16 +1,17 @@
-import { IVerifyPassword } from "../auth/interfaces";
-import { IFacebookPage } from "../facebook/pages/interfaces";
-import {
+import type { IVerifyPassword } from "../auth/interfaces";
+import type { IFacebookPage } from "../facebook/pages/interfaces";
+import type {
   IFacebookCampaignData,
   IFacebookCampaign,
+  IFacebookLocation,
+  IFacebookInterest,
 } from "../facebook/campaigns/interfaces";
-import {
+import type {
   IFacebookConnectData,
   IFacebookConsentPayload,
   IFacebookConnectStatus,
 } from "../facebook/auth/interfaces";
-import { IFacebookLocation } from "../facebook/audience/interfaces";
-import { IFormData } from "../forms/interfaces";
+import type { IFormData } from "../forms/interfaces";
 
 export interface IApi {
   [property: string]: any;
@@ -56,4 +57,8 @@ export interface IFacebookRepository {
     campaignDataObject: IFacebookCampaignData
   ): Promise<IFacebookCampaign>;
   getLocations(searchString: string): Promise<IFacebookLocation[]>;
+  getInterests(searchString: string): Promise<IFacebookInterest[]>;
+  saveCampaignAudience(
+    campaignDataObject: IFacebookCampaignData
+  ): Promise<IFacebookCampaign>;
 }

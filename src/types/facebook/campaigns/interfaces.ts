@@ -9,6 +9,8 @@ import {
 export interface ISaveFacebookCampaignObject {
   saveCampaignObject: {
     campaignId?: string;
+    pageId?: string;
+    platform?: string;
     campaignData: {
       name?: string;
       facebookObjectiveValues?: IFacebookObjective["facebookValues"]; // from our set objectives

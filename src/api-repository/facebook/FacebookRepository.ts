@@ -89,4 +89,11 @@ export default {
       url: `${DOMAIN_PATH}/interests/${searchString}`,
     });
   },
+  saveCampaignAudience: async (campaignObject: IFacebookCampaignData) => {
+    return await $authedApiRequest({
+      method: "post",
+      url: `${DOMAIN_PATH}/save-campaign-audience`,
+      data: campaignObject,
+    });
+  },
 };

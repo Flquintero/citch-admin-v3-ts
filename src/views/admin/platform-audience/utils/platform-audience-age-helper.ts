@@ -1,4 +1,4 @@
-import facebook from "../platforms/facebook/FacebookAge.vue";
+import facebook from "../platforms/facebook/FacebookAudienceAge.vue";
 
 export const platforms: { [platform: string]: any } = { facebook };
 

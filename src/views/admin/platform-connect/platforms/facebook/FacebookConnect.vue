@@ -1,8 +1,8 @@
 <template>
   <div class="facebook-connect">
     <FacebookLogin @facebook-connected="setIsFacebookAccountConnected($event)">
-      <template #loading-title
-        >Checking if you are connected to Facebook</template
+      <template #loading-title>
+        &nbsp;Checking if you are connected to Facebook</template
       >
       <template v-if="isFacebookAccountConnected" #title
         ><h3 class="facebook-login__title">
@@ -17,7 +17,7 @@
     </FacebookLogin>
     <template v-if="isFacebookAccountConnected">
       <FacebookPageConnect>
-        <template #loading-title>Checking for Facebook Pages</template>
+        <template #loading-title>&nbsp;Checking for Facebook Pages</template>
         <template #title
           ><h3 class="facebook-page-connect__title">
             Please select <strong>page </strong>associated to
@@ -109,7 +109,11 @@ export default defineComponent({
         await this.$router.push({
           name: "platform objective",
           params: this.$route.params,
-          query: { ...this.$route.query, postId: confirmObject.postId },
+          query: {
+            ...this.$route.query,
+            postId: confirmObject.postId,
+            pageId: this.currentFacebookPage.id,
+          },
         });
 
         // GO TO OBJECTIVES with CAMPAIGN ID in url maybe ? SO WE CAN CALL EACH TIME IN FUTURE PAGES ?

@@ -2,7 +2,7 @@
   <div class="facebook-audience-title">
     <h1
       v-if="isReachObjective || isCitchReachObjective"
-      class="facebook-audience-title__title"
+      class="facebook-audience-title__content"
     >
       What audience are you looking for to
       <SelectedContent
@@ -107,12 +107,12 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
-.acebook-audience-title {
+.facebook-audience-title {
   @include view-web-gutter();
   @include mobile() {
     @include view-mobile-gutter();
   }
-  &__title {
+  &__content {
     text-align: center;
   }
 }

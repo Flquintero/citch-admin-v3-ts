@@ -49,6 +49,8 @@ export default defineComponent({
         const saveCampaignObject = {
           campaignId: this.$route.query.campaignId,
           audience: this.currentFacebookAudience,
+          pageId: this.$route.query.pageId,
+          platform: this.$route.params.platform,
         };
         const savedAudience = await FacebookRepository.saveCampaignAudience({
           saveCampaignObject,

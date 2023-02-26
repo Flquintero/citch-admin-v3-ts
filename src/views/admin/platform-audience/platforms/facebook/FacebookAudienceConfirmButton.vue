@@ -6,7 +6,7 @@
       variant: 'primary',
       disabled: !currentFacebookAudience || saving,
       loading: saving,
-      textContent: formatContinueButton(),
+      textContent: formatContinueButton,
       textIcon: 'fa-arrow-right',
       loadingContent: 'Saving to Continue',
     }"
@@ -14,8 +14,9 @@
 </template>
 
 <script lang="ts">
+import { _deepCopy } from "@/utils/formatting";
 import Vue, { defineComponent } from "vue";
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");
 
 const ContinueButton = () =>
@@ -29,20 +30,13 @@ export default defineComponent({
   data() {
     return {
       saving: false,
+      isUserAudienceSaved: false,
     };
   },
   methods: {
-    formatContinueButton() {
-      const renderButtonContent = "Confirm Audience";
-      //   if (this.isSavedObjectiveGoal) {
-      //     if (this.isSameObjectiveGoal) {
-      //       renderButtonContent = "Continue";
-      //     } else {
-      //       renderButtonContent = "Save Change";
-      //     }
-      //   }
-      return renderButtonContent;
-    },
+    ...mapActions("Facebook", {
+      setSavedFacebookAudience: "setSavedFacebookAudience",
+    }),
     async confirmAudience() {
       try {
         this.saving = true;
@@ -52,13 +46,15 @@ export default defineComponent({
           pageId: this.$route.query.pageId,
           platform: this.$route.params.platform,
         };
-        const savedAudience = await FacebookRepository.saveCampaignAudience({
+        await FacebookRepository.saveCampaignAudience({
           saveCampaignObject,
         });
-        console.log("savedAudience", savedAudience);
+        this.setSavedFacebookAudience(_deepCopy(this.currentFacebookAudience));
+        this.isUserAudienceSaved = true;
+        this.$alert.success(`Audience Saved`);
       } catch (error: any) {
         this.$alert.error(`Error Saving Audience`);
-        console.log("Error Saving Audience", error);
+        console.log(`Error: ${error.title} - ${error.message}`);
       } finally {
         this.saving = false;
       }
@@ -68,7 +64,19 @@ export default defineComponent({
     ...mapGetters("Facebook", {
       currentFacebookAudience: "currentFacebookAudience",
       currentFacebookAudienceComplete: "currentFacebookAudienceComplete",
+      isFacebookAudienceUpdated: "isFacebookAudienceUpdated",
     }),
+    formatContinueButton(): string {
+      let renderButtonContent = "Confirm Audience";
+      if (this.isUserAudienceSaved) {
+        if (this.isFacebookAudienceUpdated) {
+          renderButtonContent = "Save Changes";
+        } else {
+          renderButtonContent = "Continue";
+        }
+      }
+      return renderButtonContent;
+    },
   },
 });
 </script>

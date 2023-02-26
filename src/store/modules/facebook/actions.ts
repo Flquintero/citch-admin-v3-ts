@@ -1,3 +1,4 @@
+import { IFacebookState } from "./types";
 import { Commit } from "vuex";
 import {
   IFacebookCampaign,
@@ -26,10 +27,19 @@ export const actions = {
     commit("SET_CURRENT_FACEBOOK_POST", facebookPost);
   },
   async setCurrentFacebookAudience(
-    { commit }: { commit: Commit },
+    { state, commit }: { state: IFacebookState; commit: Commit },
     facebookAudience: IFacebookAudience
   ) {
     await commit("SET_CURRENT_FACEBOOK_AUDIENCE", facebookAudience);
     await commit("SET_CURRENT_FACEBOOK_AUDIENCE_COMPLETE");
+    if (state.savedFacebookAudience) {
+      await commit("SET_IS_FACEBOOK_AUDIENCE_UPDATED");
+    }
+  },
+  async setSavedFacebookAudience(
+    { commit }: { commit: Commit },
+    savedFacebookAudience: IFacebookAudience
+  ) {
+    await commit("SET_SAVED_FACEBOOK_AUDIENCE", savedFacebookAudience);
   },
 };

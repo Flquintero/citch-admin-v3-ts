@@ -8,5 +8,7 @@ export interface IFacebookState {
   currentFacebookPage?: IFacebookPage;
   currentFacebookPost?: IFacebookPost;
   currentFacebookAudience?: IFacebookAudience;
+  savedFacebookAudience?: IFacebookAudience;
+  isFacebookAudienceUpdated: boolean;
   currentFacebookAudienceComplete: boolean;
 }

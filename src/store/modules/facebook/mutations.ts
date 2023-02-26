@@ -6,7 +6,7 @@ import {
 import { IFacebookPage } from "@/types/facebook/pages/interfaces";
 import { IFacebookPost } from "@/types/facebook/post/interfaces";
 import { EFacebookAudienceRequiredFields } from "@/types/facebook/campaigns/enums";
-import { _deepCopy } from "@/utils/formatting";
+import { _checkObjectFieldsUpdated } from "@/utils/comparisons";
 
 export const mutations = {
   SET_CURRENT_FACEBOOK_CAMPAIGN(
@@ -34,6 +34,18 @@ export const mutations = {
     const audience = state.currentFacebookAudience || {};
     const newAudience = Object.assign(audience, facebookAudience);
     state.currentFacebookAudience = newAudience;
+  },
+  SET_SAVED_FACEBOOK_AUDIENCE(
+    state: IFacebookState,
+    facebookAudience: IFacebookAudience
+  ) {
+    state.savedFacebookAudience = facebookAudience;
+  },
+  SET_IS_FACEBOOK_AUDIENCE_UPDATED(state: IFacebookState) {
+    state.isFacebookAudienceUpdated = _checkObjectFieldsUpdated(
+      state.currentFacebookAudience as IFacebookAudience,
+      state.savedFacebookAudience as IFacebookAudience
+    );
   },
   SET_CURRENT_FACEBOOK_AUDIENCE_COMPLETE(state: IFacebookState) {
     const { currentFacebookAudience } = state;

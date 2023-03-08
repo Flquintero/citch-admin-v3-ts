@@ -15,6 +15,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { _deepCopy } from "@/utils/formatting";
 const CButton = () =>
   import(
     /* webpackChunkName: "CButton" */ "@/components/elements/BaseButton.vue"
@@ -32,10 +33,21 @@ export default defineComponent({
   },
   methods: {
     goTo() {
+      console.log("query", this.$route.query);
       this.$router.push({
         path: this.url,
         ...(this.addQueryParams ? { query: this.$route.query } : null),
       });
+    },
+    // To Do: Make this work to be able to remove some query params that we dont need that might affect other commponents
+    // Problem here is that it gives redundant navigation error
+    async cleanQueryParams() {
+      const nonTransferKeys = ["currentTab"];
+      const transferQueryParams = _deepCopy(this.$route.query);
+      nonTransferKeys.forEach((param: string) => {
+        delete transferQueryParams[param];
+      });
+      return transferQueryParams;
     },
     formattedContent() {
       let renderContent = this.content;

@@ -77,8 +77,8 @@ export default defineComponent({
     color: $button-primary-outline-color;
     border-color: $button-primary-outline;
     background-color: $button-primary-outline-background;
-    box-shadow: 0 4px 8px 0 rgba(44, 39, 56, 0.08),
-      0 2px 4px 0 rgba(44, 39, 56, 0.08);
+    // box-shadow: 0 4px 8px 0 rgba(44, 39, 56, 0.08),
+    //   0 2px 4px 0 rgba(44, 39, 56, 0.08);
     // @include button-hover-after(#073a33);
     &:disabled {
       border-color: inherit;

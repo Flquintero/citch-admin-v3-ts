@@ -16,7 +16,12 @@
         textIcon: 'fa-arrow-right',
         loadingContent: 'Saving to Continue',
       }"
-    ></ContinueButton>
+    />
+    <ResetButton
+      v-if="isSavedCampaign && !isSameObjective && !saving"
+      @click.native="resetChange"
+      v-bind="{ textContent: 'Reset Change' }"
+    />
   </div>
 </template>
 
@@ -24,6 +29,7 @@
 import Vue, { defineComponent } from "vue";
 import { mapActions } from "vuex";
 import { FacebookObjectivesList } from "./utils/facebook-platform-objectives";
+import { getFacebookObjectiveByIdentifier } from "./utils/facebook-objective-identifier-parser";
 import type {
   ISaveFacebookCampaignObject,
   IFacebookObjective,
@@ -34,16 +40,20 @@ const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");
 
 const ContinueButton = () =>
   import(
-    /* webpackChunkName: "ContinueButton" */ "@/components/functional/ContinueButton.vue"
+    /* webpackChunkName: "ContinueButton" */ "@/components/functional/ButtonContinue.vue"
   );
 const ChooseSingleList = () =>
   import(
     /* webpackChunkName: "ChooseSingleList" */ "@/components/functional/ChooseSingleList.vue"
   );
+const ResetButton = () =>
+  import(
+    /* webpackChunkName: "ResetButton" */ "@/components/functional/ButtonReset.vue"
+  );
 
 export default defineComponent({
   name: "FacebookObjectives",
-  components: { ContinueButton, ChooseSingleList },
+  components: { ContinueButton, ChooseSingleList, ResetButton },
   data() {
     return {
       saving: false,
@@ -61,20 +71,25 @@ export default defineComponent({
     async checkExistingObjective() {
       // If user went passed objectives that they need to have saved objective and created campaign
       if (this.isSavedCampaign && this.isSavedObjective) {
-        this.chosenObjective = await this.getObjective();
+        this.setSavedObjective();
       }
     },
+    setSavedObjective() {
+      this.chosenObjective = getFacebookObjectiveByIdentifier(
+        this.savedObjective
+      );
+    },
     getObjective() {
-      return this.objectives.filter((objective: IFacebookObjective) => {
+      return this.objectives.find((objective: IFacebookObjective) => {
         return (
           this.savedObjective ===
           (objective.identifier as IFacebookObjective["identifier"])
         );
-      })[0];
+      }) as IFacebookObjective;
     },
     async confirmObjective() {
       if (this.isSameObjective) {
-        await this.continueNextStep(this.$route.query.campaignIds as string);
+        await this.continueNextStep(this.$route.query.campaignId as string);
         return;
       }
       try {
@@ -126,6 +141,9 @@ export default defineComponent({
     },
     async setChosenObjective(objective: IFacebookObjective | null) {
       this.chosenObjective = objective;
+    },
+    resetChange() {
+      this.setSavedObjective();
     },
   },
   computed: {

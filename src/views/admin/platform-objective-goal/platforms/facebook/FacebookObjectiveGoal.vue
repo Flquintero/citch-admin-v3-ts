@@ -29,6 +29,11 @@
             loadingContent: 'Saving to Continue',
           }"
         ></ContinueButton>
+        <ResetButton
+          v-if="isSavedObjectiveGoal && !isSameObjectiveGoal && !saving"
+          @click.native="resetChange"
+          v-bind="{ textContent: 'Reset Change' }"
+        />
       </div>
     </div>
   </div>
@@ -47,12 +52,16 @@ const CInput = () =>
   );
 const ContinueButton = () =>
   import(
-    /* webpackChunkName: "ContinueButton" */ "@/components/functional/ContinueButton.vue"
+    /* webpackChunkName: "ContinueButton" */ "@/components/functional/ButtonContinue.vue"
+  );
+const ResetButton = () =>
+  import(
+    /* webpackChunkName: "ResetButton" */ "@/components/functional/ButtonReset.vue"
   );
 
 export default defineComponent({
   name: "FacebookObjectiveGoal",
-  components: { CInput, ContinueButton },
+  components: { CInput, ContinueButton, ResetButton },
   data() {
     return {
       saving: false,
@@ -74,10 +83,11 @@ export default defineComponent({
   },
   methods: {
     ...FormFunctions,
-    getFacebookObjectiveByIdentifier,
     checkExistingObjectiveGoal() {
-      if (this.isSavedObjectiveGoal)
-        this.formData.objectiveGoal = this.savedObjectiveGoal;
+      if (this.isSavedObjectiveGoal) this.setSavedValue();
+    },
+    setSavedValue() {
+      this.formData.objectiveGoal = this.savedObjectiveGoal;
     },
     async confirmObjectiveGoal() {
       try {
@@ -99,6 +109,9 @@ export default defineComponent({
         },
       });
     },
+    resetChange() {
+      this.setSavedValue();
+    },
   },
   computed: {
     isSavedObjectiveGoal(): boolean {
@@ -111,9 +124,7 @@ export default defineComponent({
       return parseInt(this.$route.query.objective as string);
     },
     savedObjective(): IFacebookObjective {
-      return this.getFacebookObjectiveByIdentifier(
-        this.savedObjectiveIdentifier
-      );
+      return getFacebookObjectiveByIdentifier(this.savedObjectiveIdentifier);
     },
     savedObjectiveDisplayName(): IFacebookObjective["displayName"] {
       return this.savedObjective.displayName;
@@ -154,6 +165,11 @@ export default defineComponent({
     &-post {
       @include flex-config($justify-content: center);
     }
+  }
+  &__reset-btn {
+    margin: 20px 0;
+    max-width: 100%;
+    height: 50px !important;
   }
 }
 </style>

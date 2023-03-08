@@ -1,16 +1,23 @@
 <template>
-  <ContinueButton
-    v-if="currentFacebookAudienceComplete"
-    @click.native="confirmAudience"
-    v-bind="{
-      variant: 'primary',
-      disabled: !currentFacebookAudience || saving,
-      loading: saving,
-      textContent: formatContinueButton,
-      textIcon: 'fa-arrow-right',
-      loadingContent: 'Saving to Continue',
-    }"
-  ></ContinueButton>
+  <div>
+    <ContinueButton
+      v-if="currentFacebookAudienceComplete"
+      @click.native="confirmAudience"
+      v-bind="{
+        variant: 'primary',
+        disabled: !currentFacebookAudience || saving,
+        loading: saving,
+        textContent: formatContinueButton,
+        textIcon: 'fa-arrow-right',
+        loadingContent: 'Saving to Continue',
+      }"
+    ></ContinueButton>
+    <ResetButton
+      v-if="isUserAudienceSaved && isFacebookAudienceUpdated"
+      @click.native="resetChanges"
+      v-bind="{ textContent: 'Reset Changes' }"
+    />
+  </div>
 </template>
 
 <script lang="ts">
@@ -21,12 +28,16 @@ const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");
 
 const ContinueButton = () =>
   import(
-    /* webpackChunkName: "ContinueButton" */ "@/components/functional/ContinueButton.vue"
+    /* webpackChunkName: "ContinueButton" */ "@/components/functional/ButtonContinue.vue"
+  );
+const ResetButton = () =>
+  import(
+    /* webpackChunkName: "ResetButton" */ "@/components/functional/ButtonReset.vue"
   );
 
 export default defineComponent({
   name: "FacebookAudienceConfirmButton",
-  components: { ContinueButton },
+  components: { ContinueButton, ResetButton },
   data() {
     return {
       saving: false,
@@ -37,6 +48,14 @@ export default defineComponent({
     ...mapActions("Facebook", {
       setSavedFacebookAudience: "setSavedFacebookAudience",
     }),
+    async initSetSavedFacebookAudience() {
+      await this.setSavedFacebookAudience(
+        _deepCopy(this.currentFacebookAudience)
+      );
+    },
+    async resetChanges() {
+      await this.initSetSavedFacebookAudience();
+    },
     async confirmAudience() {
       try {
         this.saving = true;
@@ -49,7 +68,7 @@ export default defineComponent({
         await FacebookRepository.saveCampaignAudience({
           saveCampaignObject,
         });
-        this.setSavedFacebookAudience(_deepCopy(this.currentFacebookAudience));
+        await this.initSetSavedFacebookAudience();
         this.isUserAudienceSaved = true;
         this.$alert.success(`Audience Saved`);
       } catch (error: any) {

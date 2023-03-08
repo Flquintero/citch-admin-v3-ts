@@ -42,7 +42,7 @@ const CInput = () =>
   );
 const ContinueButton = () =>
   import(
-    /* webpackChunkName: "ContinueButton" */ "@/components/functional/ContinueButton.vue"
+    /* webpackChunkName: "ContinueButton" */ "@/components/functional/ButtonContinue.vue"
   );
 import { FormFunctions } from "@/utils/form-functionality";
 import { required, url } from "vuelidate/lib/validators";

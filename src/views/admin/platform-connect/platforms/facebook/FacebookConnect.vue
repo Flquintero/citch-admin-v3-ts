@@ -57,7 +57,7 @@ const FacebookPageConnect = () =>
   );
 const ContinueButton = () =>
   import(
-    /* webpackChunkName: "ContinueButton" */ "@/components/functional/ContinueButton.vue"
+    /* webpackChunkName: "ContinueButton" */ "@/components/functional/ButtonContinue.vue"
   );
 export default defineComponent({
   name: "FacebookConnect",

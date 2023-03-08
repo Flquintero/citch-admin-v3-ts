@@ -4,7 +4,7 @@ import type { IFacebookObjective } from "@/types/facebook/campaigns/interfaces";
 export function getFacebookObjectiveByIdentifier(
   identifier: IFacebookObjective["identifier"]
 ) {
-  return FacebookObjectivesList.filter((objectivesItem: IFacebookObjective) => {
+  return FacebookObjectivesList.find((objectivesItem: IFacebookObjective) => {
     return objectivesItem.identifier === identifier;
-  })[0];
+  }) as IFacebookObjective;
 }

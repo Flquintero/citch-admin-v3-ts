@@ -77,8 +77,8 @@ export default defineComponent({
   components: { CLoader },
   props: {
     placeholder: String,
-    type: String || Number,
-    value: String || Number || null,
+    type: [String, Number],
+    value: [String, Number] || null,
     name: String,
     label: String,
     validationObject: Object as PropType<IValidationObject>,

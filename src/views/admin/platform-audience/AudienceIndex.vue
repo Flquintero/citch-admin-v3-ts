@@ -29,13 +29,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import Vue, { defineComponent } from "vue";
 import { getPlatformTabsList } from "./utils/platform-audience-tab-helper";
 import { getPlatformAudienceTitle } from "./utils/platform-audience-title-helper";
 import { getPlatformAudienceConfirmButton } from "./utils/platform-audience-confirm-button-helper";
 import { _deepCopyObjectsArray } from "@/utils/formatting";
 import { getPlatformPost } from "@/components/functional/social-post/post-component-loader";
 import type { ITabContent } from "@/types/components/interfaces";
+const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");
 
 const SelectedContent = () =>
   import(
@@ -54,10 +55,14 @@ export default defineComponent({
     return {
       tabsList: [] as ITabContent[],
       currentTabIndex: 0 as number,
+      savedCampaignAudience: {
+        facebook: {} as any,
+      } as any,
     };
   },
   created() {
     this.setInitialTabsList();
+    this.getSavedCampaignAudience();
   },
   methods: {
     _deepCopyObjectsArray,
@@ -74,20 +79,28 @@ export default defineComponent({
     setTabsList(newTabsList: ITabContent) {
       this.tabsList = _deepCopyObjectsArray(newTabsList);
     },
-    setCurrentTabIndex: function (tabIndex: number): void {
+    setCurrentTabIndex(tabIndex: number): void {
       this.currentTabIndex = tabIndex;
     },
-    formatContinueButton() {
-      return "Confirm Audience";
-      // let renderButtonContent = "Confirm Goal";
-      // if (this.isSavedObjectiveGoal) {
-      //   if (this.isSameObjectiveGoal) {
-      //     renderButtonContent = "Continue";
-      //   } else {
-      //     renderButtonContent = "Save Change";
-      //   }
-      // }
-      // return renderButtonContent;
+    async getSavedCampaignAudience() {
+      switch (this.currentPlatform) {
+        case "facebook" || "instagram":
+          await this.getSavedFacebookCampaignAudience();
+          break;
+        default:
+          break;
+      }
+    },
+    async getSavedFacebookCampaignAudience() {
+      try {
+        this.savedCampaignAudience[this.currentPlatform] =
+          await FacebookRepository.getSavedCampaignAudience(
+            this.$route.query.campaignId as string
+          );
+        console.log(this.savedCampaignAudience);
+      } catch (error: any) {
+        console.log("Get Facebook Campaign Audience Error", error);
+      }
     },
   },
   computed: {

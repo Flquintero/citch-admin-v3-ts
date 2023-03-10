@@ -5,6 +5,7 @@ import type {
   IFacebookCampaign,
   IFacebookLocation,
   IFacebookInterest,
+  IFacebookAudience,
 } from "../facebook/campaigns/interfaces";
 import type {
   IFacebookConnectData,
@@ -61,4 +62,5 @@ export interface IFacebookRepository {
   saveCampaignAudience(
     campaignDataObject: IFacebookCampaignData
   ): Promise<IFacebookCampaign>;
+  getSavedCampaignAudience(campaignId: string): Promise<IFacebookAudience>;
 }

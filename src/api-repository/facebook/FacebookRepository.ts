@@ -96,4 +96,9 @@ export default {
       data: campaignObject,
     });
   },
+  getSavedCampaignAudience: async (campaignId: string) => {
+    return await $authedApiRequest({
+      url: `${DOMAIN_PATH}/campaign-audience/${campaignId}`,
+    });
+  },
 };

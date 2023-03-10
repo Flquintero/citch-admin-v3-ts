@@ -62,7 +62,7 @@ export default defineComponent({
   },
   created() {
     this.setInitialTabsList();
-    this.getSavedCampaignAudience();
+    if (this.hasSavedCampaign) this.getSavedCampaignAudience();
   },
   methods: {
     _deepCopyObjectsArray,
@@ -106,6 +106,9 @@ export default defineComponent({
   computed: {
     currentPlatform(): string {
       return this.$route.params.platform;
+    },
+    hasSavedCampaign(): boolean {
+      return !!this.$route.query.campaignId;
     },
     currentObjective(): string {
       return this.$route.query.objective as string;

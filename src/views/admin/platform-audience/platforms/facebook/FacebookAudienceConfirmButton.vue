@@ -13,7 +13,7 @@
       }"
     ></ContinueButton>
     <ResetButton
-      v-if="isUserAudienceSaved && isFacebookAudienceUpdated"
+      v-if="savedFacebookAudience && isFacebookAudienceUpdated"
       @click.native="resetChanges"
       v-bind="{ textContent: 'Reset Changes' }"
     />
@@ -41,7 +41,6 @@ export default defineComponent({
   data() {
     return {
       saving: false,
-      isUserAudienceSaved: false,
     };
   },
   methods: {
@@ -50,7 +49,7 @@ export default defineComponent({
     }),
     async initSetSavedFacebookAudience() {
       await this.setSavedFacebookAudience(
-        _deepCopy(this.currentFacebookAudience)
+        _deepCopy(this.savedFacebookAudience)
       );
     },
     async resetChanges() {
@@ -82,6 +81,7 @@ export default defineComponent({
   computed: {
     ...mapGetters("Facebook", {
       currentFacebookAudience: "currentFacebookAudience",
+      savedFacebookAudience: "savedFacebookAudience",
       currentFacebookAudienceComplete: "currentFacebookAudienceComplete",
       isFacebookAudienceUpdated: "isFacebookAudienceUpdated",
     }),

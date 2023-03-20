@@ -3,12 +3,18 @@
     <h3 class="facebook-audience-location__title">
       {{ hasChosenLocations ? "Selected Locations:" : "Enter Location" }}
     </h3>
-    <SelectedItems
+    <div
       v-if="!!chosenLocations.length"
-      :items-list="chosenLocations"
-      render-text-key="name"
-      @removed-item="updateChosenLocations($event)"
-    />
+      class="facebook-audience-location__selected-items"
+    >
+      <CPill
+        v-for="(item, index) in chosenLocations"
+        :pill-text="formatChosenLocationText(item)"
+        :pill-index="index"
+        :key="`${index}-${formatChosenLocationText(item)}`"
+        @remove="updateChosenLocations($event)"
+      />
+    </div>
     <div class="facebook-audience-location__input">
       <CInput
         @input="facebookLocationSearchDebounced(formData, $v, $event)"
@@ -55,14 +61,9 @@ import { setCompletedAudienceFields } from "../../utils/platform-audience-valida
 import type { IFacebookLocation } from "@/types/facebook/campaigns/interfaces";
 import type { IFormData } from "@/types/forms/interfaces";
 import type { ITabContent } from "@/types/components/interfaces";
-import { EFacebookAudienceItems } from "@/types/facebook/campaigns/enums";
 import { _debounce, _deepCopy } from "@/utils/formatting";
 const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");
 
-const SelectedItems = () =>
-  import(
-    /* webpackChunkName: "SelectedItems" */ "@/components/functional/SelectedItems.vue"
-  );
 const CInput = () =>
   import(
     /* webpackChunkName: "CInput" */ "@/components/elements/BaseInput.vue"
@@ -71,10 +72,12 @@ const DropdownList = () =>
   import(
     /* webpackChunkName: "DropdownList" */ "@/components/functional/dropdown-menu/partials/DropdownList.vue"
   );
+const CPill = () =>
+  import(/* webpackChunkName: "CPill" */ "@/components/elements/BasePill.vue");
 
 export default defineComponent({
   name: "FacebookAudienceLocation",
-  components: { SelectedItems, CInput, DropdownList },
+  components: { CInput, DropdownList, CPill },
   props: {
     tabsList: Array as PropType<ITabContent[]>,
   },
@@ -181,7 +184,6 @@ export default defineComponent({
     },
     updateAudienceTabs() {
       const updatedTabs = this.setCompletedAudienceFields(
-        EFacebookAudienceItems.location,
         this.tabsList as ITabContent[],
         this.currentFacebookAudience
       );
@@ -202,13 +204,54 @@ export default defineComponent({
         }
       }
     },
+    formatChosenLocationText(item: IFacebookLocation) {
+      // NOTE: One possibility is to put a country library in backend and return country code and country name
+
+      /*
+        IMPORTANT: The big problem here is that what facebook returns in the search is different then when saved campaign gives back audience
+        
+        Note:
+        When its a country it has country_code when it comes back from searcg and we format it the same way when it comes back from backend. The rest don't have it.
+        Also country_code and key are the same for countries in both search and front end
+        
+        if there is no name its because its a country our type country so it will only have country nothing else
+        if there is no name then no need for first comma
+        if there is name it could have region, if not then just country comes after
+        if it has region then it needs a second comma, if not then doesnt need it
+        if it has region then the last portion would be country
+      */
+
+      // Country has a different format
+      const isCountry = !item.name || item.type === "country";
+      if (isCountry) {
+        return item.country_code;
+      }
+      const renderText = `${item.name}${item.name ? "," : ""}${" "}${
+        item.name ? item.region || item.country : ""
+      }${item.region ? "," : ""}${item.region ? item.country : ""}`;
+      return renderText;
+    },
   },
   computed: {
     ...mapGetters("Facebook", {
       currentFacebookAudience: "currentFacebookAudience",
+      savedFacebookAudience: "savedFacebookAudience",
     }),
     hasChosenLocations(): boolean {
       return this.chosenLocations.length > 0;
+    },
+    // There is a problem when faceboook returns country that only returns the code
+    // so we need to render code for now so there is no confusion when we get the saved values
+    formattedChosenLocations(): any[] {
+      return this.chosenLocations.map((location: IFacebookLocation) => {
+        return {
+          ...location,
+          included_render_key:
+            location.type === "country" || !location.type
+              ? "country_code"
+              : "name",
+        };
+      });
     },
   },
 });
@@ -219,6 +262,10 @@ export default defineComponent({
   margin: 25px 25px 0;
   &__title {
     text-align: center;
+  }
+  &__selected-items {
+    @include flex-config($flex-wrap: wrap);
+    @include center-with-margin($max-width: 750px, $top: 20px, $bottom: 20px);
   }
   &__input {
     @include center-with-margin($max-width: 400px, $top: 50px, $bottom: 50px);

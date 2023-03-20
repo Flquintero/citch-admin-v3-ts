@@ -3,12 +3,18 @@
     <h3 class="facebook-audience-interest__title">
       {{ hasChosenInterests ? "Selected Interests:" : "Enter Interest" }}
     </h3>
-    <SelectedItems
+    <div
       v-if="!!chosenInterests.length"
-      :items-list="chosenInterests"
-      render-text-key="name"
-      @removed-item="updateChosenInterests($event)"
-    />
+      class="facebook-audience-interest__selected-items"
+    >
+      <CPill
+        v-for="(item, index) in chosenInterests"
+        :pill-text="item.name"
+        :pill-index="index"
+        :key="`${index}-${item.name}`"
+        @removed-item="updateChosenInterests($event)"
+      />
+    </div>
     <div class="facebook-audience-interest__input">
       <CInput
         @input="facebookInterestSearchDebounced(formData, $v, $event)"
@@ -55,14 +61,12 @@ import { setCompletedAudienceFields } from "../../utils/platform-audience-valida
 import type { IFacebookInterest } from "@/types/facebook/campaigns/interfaces";
 import type { IFormData } from "@/types/forms/interfaces";
 import type { ITabContent } from "@/types/components/interfaces";
-import { EFacebookAudienceItems } from "@/types/facebook/campaigns/enums";
 import { _debounce, _deepCopy } from "@/utils/formatting";
 const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");
 
-const SelectedItems = () =>
-  import(
-    /* webpackChunkName: "SelectedItems" */ "@/components/functional/SelectedItems.vue"
-  );
+const CPill = () =>
+  import(/* webpackChunkName: "CPill" */ "@/components/elements/BasePill.vue");
+
 const CInput = () =>
   import(
     /* webpackChunkName: "CInput" */ "@/components/elements/BaseInput.vue"
@@ -74,7 +78,7 @@ const DropdownList = () =>
 
 export default defineComponent({
   name: "FacebookAudienceInterest",
-  components: { SelectedItems, CInput, DropdownList },
+  components: { CPill, CInput, DropdownList },
   props: {
     tabsList: Array as PropType<ITabContent[]>,
   },
@@ -162,7 +166,6 @@ export default defineComponent({
     },
     updateAudienceTabs() {
       const updatedTabs = this.setCompletedAudienceFields(
-        EFacebookAudienceItems.interests,
         this.tabsList as ITabContent[],
         this.currentFacebookAudience
       );
@@ -206,6 +209,10 @@ export default defineComponent({
   margin: 25px 25px 0;
   &__title {
     text-align: center;
+  }
+  &__selected-items {
+    @include flex-config($flex-wrap: wrap);
+    @include center-with-margin($max-width: 750px, $top: 20px, $bottom: 20px);
   }
   &__input {
     @include center-with-margin($max-width: 400px, $top: 50px, $bottom: 50px);

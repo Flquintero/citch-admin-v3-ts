@@ -36,7 +36,6 @@ import { setCompletedAudienceFields } from "../../utils/platform-audience-valida
 import type { PropType } from "vue";
 import type { IDropdownOption } from "@/types/components/interfaces";
 import type { ITabContent } from "@/types/components/interfaces";
-import { EFacebookAudienceItems } from "@/types/facebook/campaigns/enums";
 
 const CDropdown = () =>
   import(
@@ -109,7 +108,6 @@ export default defineComponent({
     },
     updateAudienceTabs() {
       const updatedTabs = this.setCompletedAudienceFields(
-        EFacebookAudienceItems.age,
         this.tabsList as ITabContent[],
         this.currentFacebookAudience
       );

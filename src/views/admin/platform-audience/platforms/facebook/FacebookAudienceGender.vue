@@ -21,7 +21,6 @@ import { setCompletedAudienceFields } from "../../utils/platform-audience-valida
 import { _capitalizeString } from "@/utils/formatting";
 import type { PropType } from "vue";
 import type { ITabContent } from "@/types/components/interfaces";
-import { EFacebookAudienceItems } from "@/types/facebook/campaigns/enums";
 import type { IChooseListOption } from "@/types/components/interfaces";
 
 const ChooseSingleList = () =>
@@ -65,7 +64,6 @@ export default defineComponent({
     },
     updateAudienceTabs() {
       const updatedTabs = this.setCompletedAudienceFields(
-        EFacebookAudienceItems.gender,
         this.tabsList as ITabContent[],
         this.currentFacebookAudience
       );

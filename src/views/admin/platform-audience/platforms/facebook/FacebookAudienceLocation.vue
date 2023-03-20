@@ -227,8 +227,10 @@ export default defineComponent({
         return item.country_code;
       }
       const renderText = `${item.name}${item.name ? "," : ""}${" "}${
-        item.name ? item.region || item.country : ""
-      }${item.region ? "," : ""}${item.region ? item.country : ""}`;
+        item.name ? item.region || item.country || item.country_code : ""
+      }${item.region ? "," : ""} ${
+        item.region ? item.country || item.country_code : ""
+      }`;
       return renderText;
     },
   },

@@ -128,7 +128,7 @@ export default defineComponent({
     updateFacebookAudienceTabs() {
       const updatedTabs = this.setCompletedAudienceFields(
         this.tabsList as ITabContent[],
-        this.currentFacebookAudience
+        this.currentFacebookAudience // could switch it off for a more generica variable that takes in the platform audience we want
       );
       this.setTabsList(updatedTabs);
     },

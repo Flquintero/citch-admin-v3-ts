@@ -9,6 +9,11 @@ import { EFacebookAudienceRequiredFields } from "@/types/facebook/campaigns/enum
 import { _checkObjectFieldsUpdated } from "@/utils/comparisons";
 
 export const mutations = {
+  SET_RESET_FACEBOOK_STATE(state: IFacebookState) {
+    for (const property in state) {
+      state[property] = undefined;
+    }
+  },
   SET_CURRENT_FACEBOOK_CAMPAIGN(
     state: IFacebookState,
     facebookCampaign: IFacebookCampaign

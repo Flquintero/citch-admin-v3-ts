@@ -8,6 +8,9 @@ import { IFacebookPage } from "@/types/facebook/pages/interfaces";
 import { IFacebookPost } from "@/types/facebook/post/interfaces";
 
 export const actions = {
+  resetFacebookState({ commit }: { commit: Commit }) {
+    commit("SET_RESET_FACEBOOK_STATE");
+  },
   setCurrentFacebookCampaign(
     { commit }: { commit: Commit },
     facebookCampaign: IFacebookCampaign

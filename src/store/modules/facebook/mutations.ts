@@ -50,7 +50,6 @@ export const mutations = {
     state.savedFacebookAudience = facebookAudience;
   },
   SET_IS_FACEBOOK_AUDIENCE_UPDATED(state: IFacebookState) {
-    console.log("here");
     state.isFacebookAudienceUpdated = _checkObjectFieldsUpdated(
       state.currentFacebookAudience as IFacebookAudience,
       state.savedFacebookAudience as IFacebookAudience

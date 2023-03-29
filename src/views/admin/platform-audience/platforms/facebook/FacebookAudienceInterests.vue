@@ -12,7 +12,7 @@
         :pill-text="item.name"
         :pill-index="index"
         :key="`${index}-${item.name}`"
-        @removed-item="updateChosenInterests($event)"
+        @remove="updateChosenInterests($event)"
       />
     </div>
     <div class="facebook-audience-interest__input">
@@ -164,6 +164,12 @@ export default defineComponent({
       this.updateAudienceTabs();
       this.resetSearch();
     },
+    resetSearch() {
+      this.isResetSearch = true;
+      setTimeout(() => {
+        this.isResetSearch = false;
+      }, 100);
+    },
     updateAudienceTabs() {
       const updatedTabs = this.setCompletedAudienceFields(
         this.tabsList as ITabContent[],
@@ -172,6 +178,7 @@ export default defineComponent({
       this.$emit("tab-updated", updatedTabs);
     },
     updateChosenInterests(interestIndex: number) {
+      console.log("index", interestIndex);
       this.chosenInterests.splice(interestIndex, 1);
       this.setCurrentFacebookAudience({
         chosenInterests: _deepCopy(this.chosenInterests),
@@ -180,25 +187,31 @@ export default defineComponent({
     },
     checkForSavedAudience() {
       if (this.currentFacebookAudience) {
-        const { chosenInterests } = this.currentFacebookAudience;
+        const { chosenInterests } = _deepCopy(this.currentFacebookAudience);
         if (chosenInterests) {
           this.chosenInterests = chosenInterests;
         }
       }
     },
-    resetSearch() {
-      this.isResetSearch = true;
-      setTimeout(() => {
-        this.isResetSearch = false;
-      }, 100);
-    },
   },
   computed: {
     ...mapGetters("Facebook", {
       currentFacebookAudience: "currentFacebookAudience",
+      isFacebookAudienceUpdated: "isFacebookAudienceUpdated",
     }),
     hasChosenInterests(): boolean {
       return this.chosenInterests.length > 0;
+    },
+  },
+  watch: {
+    /* 
+      This variable is a good indication that the reset changes button is clicked, and if it went from true to false then reset and check
+      for saved values so it resets chosen locations 
+    */
+    isFacebookAudienceUpdated(isUpdated: boolean) {
+      if (!isUpdated) {
+        this.checkForSavedAudience();
+      }
     },
   },
 });

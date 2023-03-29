@@ -237,7 +237,6 @@ export default defineComponent({
   computed: {
     ...mapGetters("Facebook", {
       currentFacebookAudience: "currentFacebookAudience",
-      savedFacebookAudience: "savedFacebookAudience",
       isFacebookAudienceUpdated: "isFacebookAudienceUpdated",
     }),
     hasChosenLocations(): boolean {

@@ -74,9 +74,15 @@ export default defineComponent({
           pageId: this.$route.query.pageId,
           platform: this.$route.params.platform,
         };
-        await FacebookRepository.saveCampaignAudience({
-          saveCampaignObject,
-        });
+        if (this.savedFacebookAudience) {
+          await FacebookRepository.updateCampaignAudience({
+            saveCampaignObject,
+          });
+        } else {
+          await FacebookRepository.saveCampaignAudience({
+            saveCampaignObject,
+          });
+        }
         await this.initSetSavedFacebookAudience();
         this.isUserAudienceSaved = true;
         this.$alert.success(`Audience Saved`);

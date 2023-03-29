@@ -75,10 +75,15 @@ export default defineComponent({
     this.setInitialTabsList();
     if (this.hasSavedCampaign) this.getSavedCampaignAudience();
   },
+  beforeDestroy() {
+    this.resetPropertyFacebookState("currentFacebookAudience");
+    this.resetPropertyFacebookState("savedFacebookAudience");
+  },
   methods: {
     ...mapActions("Facebook", [
       "setSavedFacebookAudience",
       "setCurrentFacebookAudience",
+      "resetPropertyFacebookState",
     ]),
     _deepCopyObjectsArray,
     getPlatformPost,

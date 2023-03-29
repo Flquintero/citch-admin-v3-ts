@@ -36,6 +36,7 @@
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
+import { mapActions } from "vuex";
 const CInput = () =>
   import(
     /* webpackChunkName: "CInput" */ "@/components/elements/BaseInput.vue"
@@ -66,8 +67,16 @@ export default defineComponent({
       },
     },
   },
+  created() {
+    this.resetPlatformStates();
+  },
   methods: {
+    ...mapActions("Facebook", ["resetAllFacebookState"]),
     ...FormFunctions,
+    resetPlatformStates() {
+      // TO DO: Need to be able to have a more scalable way for multiple platforms
+      this.resetAllFacebookState();
+    },
     async confirmPostLink() {
       try {
         this.saving = true;

@@ -22,8 +22,10 @@
 
 <script lang="ts">
 import { _deepCopy } from "@/utils/formatting";
-import Vue, { defineComponent } from "vue";
+import Vue, { PropType, defineComponent } from "vue";
 import { mapActions, mapGetters } from "vuex";
+import { setCompletedAudienceFields } from "../../utils/platform-audience-validation-helper";
+import type { ITabContent } from "@/types/components/interfaces";
 const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");
 
 const ContinueButton = () =>
@@ -38,6 +40,9 @@ const ResetButton = () =>
 export default defineComponent({
   name: "FacebookAudienceConfirmButton",
   components: { ContinueButton, ResetButton },
+  props: {
+    tabsList: Array as PropType<ITabContent[]>,
+  },
   data() {
     return {
       saving: false,
@@ -46,14 +51,19 @@ export default defineComponent({
   methods: {
     ...mapActions("Facebook", {
       setSavedFacebookAudience: "setSavedFacebookAudience",
+      setCurrentFacebookAudience: "setCurrentFacebookAudience",
     }),
+    setCompletedAudienceFields,
     async initSetSavedFacebookAudience() {
       await this.setSavedFacebookAudience(
         _deepCopy(this.savedFacebookAudience)
       );
     },
     async resetChanges() {
-      await this.initSetSavedFacebookAudience();
+      await this.setCurrentFacebookAudience(
+        _deepCopy(this.savedFacebookAudience)
+      );
+      this.updateAudienceTabs();
     },
     async confirmAudience() {
       try {
@@ -77,6 +87,13 @@ export default defineComponent({
         this.saving = false;
       }
     },
+    updateAudienceTabs() {
+      const updatedTabs = this.setCompletedAudienceFields(
+        this.tabsList as ITabContent[],
+        this.currentFacebookAudience
+      );
+      this.$emit("tab-updated", updatedTabs);
+    },
   },
   computed: {
     ...mapGetters("Facebook", {
@@ -87,7 +104,7 @@ export default defineComponent({
     }),
     formatContinueButton(): string {
       let renderButtonContent = "Confirm Audience";
-      if (this.isUserAudienceSaved) {
+      if (this.savedFacebookAudience) {
         if (this.isFacebookAudienceUpdated) {
           renderButtonContent = "Save Changes";
         } else {

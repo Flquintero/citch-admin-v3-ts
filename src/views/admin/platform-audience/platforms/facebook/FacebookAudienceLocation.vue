@@ -198,7 +198,7 @@ export default defineComponent({
     },
     checkForSavedAudience() {
       if (this.currentFacebookAudience) {
-        const { chosenLocations } = this.currentFacebookAudience;
+        const { chosenLocations } = _deepCopy(this.currentFacebookAudience);
         if (chosenLocations) {
           this.chosenLocations = chosenLocations;
         }
@@ -238,6 +238,7 @@ export default defineComponent({
     ...mapGetters("Facebook", {
       currentFacebookAudience: "currentFacebookAudience",
       savedFacebookAudience: "savedFacebookAudience",
+      isFacebookAudienceUpdated: "isFacebookAudienceUpdated",
     }),
     hasChosenLocations(): boolean {
       return this.chosenLocations.length > 0;
@@ -254,6 +255,17 @@ export default defineComponent({
               : "name",
         };
       });
+    },
+  },
+  watch: {
+    /* 
+      This variable is a good indication that the reset changes button is clicked, and if it went from true to false then reset and check
+      for saved values so it resets chosen locations 
+    */
+    isFacebookAudienceUpdated(isUpdated: boolean) {
+      if (!isUpdated) {
+        this.checkForSavedAudience();
+      }
     },
   },
 });

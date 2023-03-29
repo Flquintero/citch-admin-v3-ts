@@ -21,6 +21,8 @@
       </div>
       <div class="audience-selection__content-confirm">
         <component
+          @tab-updated="setTabsList($event)"
+          :tabs-list="tabsList"
           :is="getPlatformAudienceConfirmButton(currentPlatform)"
         ></component>
       </div>

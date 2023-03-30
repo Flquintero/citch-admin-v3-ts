@@ -178,7 +178,6 @@ export default defineComponent({
       this.$emit("tab-updated", updatedTabs);
     },
     updateChosenInterests(interestIndex: number) {
-      console.log("index", interestIndex);
       this.chosenInterests.splice(interestIndex, 1);
       this.setCurrentFacebookAudience({
         chosenInterests: _deepCopy(this.chosenInterests),

@@ -124,8 +124,8 @@ export default defineComponent({
           );
         const platformAudience =
           this.savedCampaignAudience[this.currentPlatform];
-        this.setSavedFacebookAudience(platformAudience);
-        this.setCurrentFacebookAudience(platformAudience);
+        await this.setSavedFacebookAudience(platformAudience);
+        await this.setCurrentFacebookAudience(platformAudience);
       } catch (error: any) {
         console.log("Get Facebook Campaign Audience Error", error);
       } finally {

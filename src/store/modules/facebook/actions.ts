@@ -47,5 +47,6 @@ export const actions = {
     savedFacebookAudience: IFacebookAudience
   ) {
     await commit("SET_SAVED_FACEBOOK_AUDIENCE", savedFacebookAudience);
+    await commit("SET_IS_FACEBOOK_AUDIENCE_UPDATED");
   },
 };

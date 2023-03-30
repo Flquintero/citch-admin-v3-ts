@@ -52,13 +52,9 @@ export default defineComponent({
     ...mapActions("Facebook", {
       setSavedFacebookAudience: "setSavedFacebookAudience",
       setCurrentFacebookAudience: "setCurrentFacebookAudience",
+      getSavedFacebookCampaignAudience: "getSavedFacebookCampaignAudience",
     }),
     setCompletedAudienceFields,
-    async initSetSavedFacebookAudience() {
-      await this.setSavedFacebookAudience(
-        _deepCopy(this.savedFacebookAudience)
-      );
-    },
     async resetChanges() {
       await this.setCurrentFacebookAudience(
         _deepCopy(this.savedFacebookAudience)
@@ -83,8 +79,9 @@ export default defineComponent({
             saveCampaignObject,
           });
         }
-        await this.initSetSavedFacebookAudience();
-        this.isUserAudienceSaved = true;
+        await this.setSavedFacebookAudience(
+          _deepCopy(this.currentFacebookAudience)
+        );
         this.$alert.success(`Audience Saved`);
       } catch (error: any) {
         this.$alert.error(`Error Saving Audience`);

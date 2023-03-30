@@ -146,7 +146,7 @@ export default defineComponent({
     locationText(location: IFacebookLocation) {
       switch (location.type) {
         case "country":
-          return location.country_name;
+          return `${location.country_name} (${location.country_code})`;
         case "region":
           return `${location.name}, ${location.country_name}`;
         case "city":
@@ -200,39 +200,38 @@ export default defineComponent({
       if (this.currentFacebookAudience) {
         const { chosenLocations } = _deepCopy(this.currentFacebookAudience);
         if (chosenLocations) {
-          this.chosenLocations =
-            this.formatSavedChosenLocationPayload(chosenLocations);
+          this.chosenLocations = chosenLocations;
         }
       }
     },
-    formatSavedChosenLocationPayload(
-      savedChosenLocations: IFacebookLocation[]
-    ) {
-      return savedChosenLocations.map((location: IFacebookLocation) => {
-        return {
-          ...location,
-          type: this.setSavedChosenLocationType(location),
-        } as IFacebookLocation;
-      });
-    },
-    setSavedChosenLocationType(location: IFacebookLocation) {
-      const { country, region_id, primary_city_id } = location;
-      const isCountry = !country;
-      const isState = country && !region_id && !primary_city_id;
-      const isCity = country && region_id && !primary_city_id;
-      const isZipCode = country && region_id && primary_city_id;
-      if (isCountry) {
-        return "country";
-      } else if (isState) {
-        return "region";
-      } else if (isCity) {
-        return "city";
-      } else if (isZipCode) {
-        return "zip";
-      } else {
-        throw new Error("Count not format location type");
-      }
-    },
+    // formatSavedChosenLocationPayload(
+    //   savedChosenLocations: IFacebookLocation[]
+    // ) {
+    //   return savedChosenLocations.map((location: IFacebookLocation) => {
+    //     return {
+    //       ...location,
+    //       type: this.setSavedChosenLocationType(location),
+    //     } as IFacebookLocation;
+    //   });
+    // },
+    // setSavedChosenLocationType(location: IFacebookLocation) {
+    //   const { country, region_id, primary_city_id } = location;
+    //   const isCountry = !country;
+    //   const isState = country && !region_id && !primary_city_id;
+    //   const isCity = country && region_id && !primary_city_id;
+    //   const isZipCode = country && region_id && primary_city_id;
+    //   if (isCountry) {
+    //     return "country";
+    //   } else if (isState) {
+    //     return "region";
+    //   } else if (isCity) {
+    //     return "city";
+    //   } else if (isZipCode) {
+    //     return "zip";
+    //   } else {
+    //     throw new Error("Count not format location type");
+    //   }
+    // },
     formatChosenLocationText(item: IFacebookLocation) {
       // NOTE: One possibility is to put a country library in backend and return country code and country name
 

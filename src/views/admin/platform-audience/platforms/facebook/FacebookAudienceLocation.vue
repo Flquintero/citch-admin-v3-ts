@@ -200,8 +200,37 @@ export default defineComponent({
       if (this.currentFacebookAudience) {
         const { chosenLocations } = _deepCopy(this.currentFacebookAudience);
         if (chosenLocations) {
-          this.chosenLocations = chosenLocations;
+          this.chosenLocations =
+            this.formatSavedChosenLocationPayload(chosenLocations);
         }
+      }
+    },
+    formatSavedChosenLocationPayload(
+      savedChosenLocations: IFacebookLocation[]
+    ) {
+      return savedChosenLocations.map((location: IFacebookLocation) => {
+        return {
+          ...location,
+          type: this.setSavedChosenLocationType(location),
+        } as IFacebookLocation;
+      });
+    },
+    setSavedChosenLocationType(location: IFacebookLocation) {
+      const { country, region_id, primary_city_id } = location;
+      const isCountry = !country;
+      const isState = country && !region_id && !primary_city_id;
+      const isCity = country && region_id && !primary_city_id;
+      const isZipCode = country && region_id && primary_city_id;
+      if (isCountry) {
+        return "country";
+      } else if (isState) {
+        return "region";
+      } else if (isCity) {
+        return "city";
+      } else if (isZipCode) {
+        return "zip";
+      } else {
+        throw new Error("Count not format location type");
       }
     },
     formatChosenLocationText(item: IFacebookLocation) {
@@ -209,11 +238,11 @@ export default defineComponent({
 
       /*
         IMPORTANT: The big problem here is that what facebook returns in the search is different then when saved campaign gives back audience
-        
+
         Note:
         When its a country it has country_code when it comes back from searcg and we format it the same way when it comes back from backend. The rest don't have it.
         Also country_code and key are the same for countries in both search and front end
-        
+
         if there is no name its because its a country our type country so it will only have country nothing else
         if there is no name then no need for first comma
         if there is name it could have region, if not then just country comes after
@@ -257,9 +286,9 @@ export default defineComponent({
     },
   },
   watch: {
-    /* 
+    /*
       This variable is a good indication that the reset changes button is clicked, and if it went from true to false then reset and check
-      for saved values so it resets chosen locations 
+      for saved values so it resets chosen locations
     */
     isFacebookAudienceUpdated(isUpdated: boolean) {
       if (!isUpdated) {

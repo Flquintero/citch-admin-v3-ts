@@ -1,5 +1,5 @@
 <template>
-  <div class="nav-bar-menu">
+  <div v-custom-click-outside="closeMenuIfOpen" class="nav-bar-menu">
     <CButton @click.native="toggleMenu">
       <font-awesome-icon
         class="nav-bar-menu__trigger"
@@ -69,9 +69,15 @@ export default defineComponent({
     },
     goTo(path: string) {
       this.$router.replace(path);
+      this.closeMenuIfOpen();
     },
     toggleMenu() {
       this.isMenuOpen = !this.isMenuOpen;
+    },
+    closeMenuIfOpen() {
+      if (this.isMenuOpen) {
+        this.toggleMenu();
+      }
     },
   },
   computed: {

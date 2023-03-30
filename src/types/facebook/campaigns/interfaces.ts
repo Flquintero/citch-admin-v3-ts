@@ -61,6 +61,7 @@ export interface IFacebookLocation {
   supports_city?: boolean;
   supports_region?: boolean;
   type?: string;
+  primary_city_id?: number;
 }
 
 export interface IFacebookInterest {

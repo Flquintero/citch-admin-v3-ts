@@ -62,6 +62,10 @@ export default defineComponent({
       this.updateAudienceTabs();
     },
     async confirmAudience() {
+      if (this.savedFacebookAudience && !this.isFacebookAudienceUpdated) {
+        await this.continueNextStep();
+        return;
+      }
       try {
         this.saving = true;
         const saveCampaignObject = {
@@ -89,6 +93,15 @@ export default defineComponent({
       } finally {
         this.saving = false;
       }
+    },
+    async continueNextStep() {
+      await this.$router.push({
+        name: "platform date",
+        params: this.$route.params,
+        query: {
+          ...this.$route.query,
+        },
+      });
     },
     updateAudienceTabs() {
       const updatedTabs = this.setCompletedAudienceFields(

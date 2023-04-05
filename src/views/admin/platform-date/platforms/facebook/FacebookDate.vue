@@ -1,7 +1,7 @@
 <template>
-  <div class="objective-goal">
-    <div class="objective-goal__content">
-      <div class="objective-goal__content-input">
+  <div class="date">
+    <div class="date__content">
+      <div class="date__content-input">
         <CInput
           @input="setFormValue(formData, $v, $event)"
           v-bind="{
@@ -17,7 +17,7 @@
           }"
         />
       </div>
-      <div class="objective-goal__content-confirm">
+      <div class="date__content-confirm">
         <ContinueButton
           @click.native="confirmObjectiveGoal"
           v-bind="{
@@ -43,9 +43,6 @@
 import { defineComponent } from "vue";
 import { FormFunctions } from "@/utils/form-functionality";
 import { required, numeric } from "vuelidate/lib/validators";
-import { EFacebookObjectiveIdentifier } from "@/types/facebook/campaigns/enums";
-import type { IFacebookObjective } from "@/types/facebook/campaigns/interfaces";
-import { getFacebookObjectiveByIdentifier } from "../../../platform-objective/platforms/facebook/utils/facebook-objective-identifier-parser";
 const CInput = () =>
   import(
     /* webpackChunkName: "CInput" */ "@/components/elements/BaseInput.vue"
@@ -60,7 +57,7 @@ const ResetButton = () =>
   );
 
 export default defineComponent({
-  name: "FacebookObjectiveGoal",
+  name: "FacebookDate",
   components: { CInput, ContinueButton, ResetButton },
   data() {
     return {
@@ -78,16 +75,10 @@ export default defineComponent({
       },
     },
   },
-  mounted() {
-    this.checkExistingObjectiveGoal();
-  },
   methods: {
     ...FormFunctions,
-    checkExistingObjectiveGoal() {
-      if (this.isSavedObjectiveGoal) this.setSavedValue();
-    },
     setSavedValue() {
-      this.formData.objectiveGoal = this.savedObjectiveGoal;
+      console.log("reset");
     },
     async confirmObjectiveGoal() {
       try {
@@ -115,29 +106,8 @@ export default defineComponent({
     },
   },
   computed: {
-    isSavedObjectiveGoal(): boolean {
-      return !!this.$route.query.objectiveGoal;
-    },
-    savedObjectiveGoal(): number {
-      return parseInt(this.$route.query.objectiveGoal as string);
-    },
-    savedObjectiveIdentifier(): EFacebookObjectiveIdentifier {
-      return parseInt(this.$route.query.objective as string);
-    },
-    savedObjective(): IFacebookObjective {
-      return getFacebookObjectiveByIdentifier(this.savedObjectiveIdentifier);
-    },
-    savedObjectiveDisplayName(): IFacebookObjective["displayName"] {
-      return this.savedObjective.displayName;
-    },
-    isSameObjectiveGoal() {
-      return (
-        this.$route.query.objectiveGoal ===
-        this.$data.formData.objectiveGoal?.toString()
-      );
-    },
     formatContinueButton() {
-      let renderButtonContent = "Confirm Goal";
+      let renderButtonContent = "Confirm Date";
       if (this.isSavedObjectiveGoal) {
         if (this.isSameObjectiveGoal) {
           renderButtonContent = "Continue";
@@ -151,7 +121,7 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
-.objective-goal {
+.date {
   @include view-web-gutter();
   @include mobile() {
     @include view-mobile-gutter();

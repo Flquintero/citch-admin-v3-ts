@@ -2,19 +2,9 @@
   <div class="date">
     <div class="date__content">
       <div class="date__content-input">
-        <CInput
-          @input="setFormValue(formData, $v, $event)"
-          v-bind="{
-            value: formData.objectiveGoal,
-            error: hasInputError($v, 'objectiveGoal'),
-            validationObject: $v,
-            placeholder: `Enter Number of ${savedObjectiveDisplayName}`,
-            label: `${savedObjectiveDisplayName} Goal`,
-            name: 'objectiveGoal',
-            description: 'Enter Numbers Only',
-            type: 'number',
-            required: true,
-          }"
+        <VueFlatPicker
+          v-model="formData.startDate"
+          :config="{ ...dateTimePickerPresets }"
         />
       </div>
       <div class="date__content-confirm">
@@ -43,10 +33,8 @@
 import { defineComponent } from "vue";
 import { FormFunctions } from "@/utils/form-functionality";
 import { required, numeric } from "vuelidate/lib/validators";
-const CInput = () =>
-  import(
-    /* webpackChunkName: "CInput" */ "@/components/elements/BaseInput.vue"
-  );
+import { dateTimePickerPresets } from "@/utils/date-time-picker-options";
+
 const ContinueButton = () =>
   import(
     /* webpackChunkName: "ContinueButton" */ "@/components/functional/ButtonContinue.vue"
@@ -58,12 +46,14 @@ const ResetButton = () =>
 
 export default defineComponent({
   name: "FacebookDate",
-  components: { CInput, ContinueButton, ResetButton },
+  components: { ContinueButton, ResetButton },
   data() {
     return {
+      dateTimePickerPresets,
       saving: false,
       formData: {
-        objectiveGoal: null as number | null,
+        startDate: null as Date | null,
+        endDate: null as Date | null,
       },
     };
   },
@@ -97,7 +87,6 @@ export default defineComponent({
         params: this.$route.params,
         query: {
           ...this.$route.query,
-          objectiveGoal: this.formData.objectiveGoal?.toString(),
         },
       });
     },

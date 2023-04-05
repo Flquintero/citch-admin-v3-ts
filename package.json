@@ -37,6 +37,7 @@
     "path": "^0.12.7",
     "serve-static": "^1.15.0",
     "vue": "^2.7.5",
+    "vue-flatpickr-component": "^8.1.8",
     "vue-router": "^3.5.1",
     "vuefire": "^2.2.5",
     "vuelidate": "^0.7.7",

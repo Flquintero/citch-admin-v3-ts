@@ -1,11 +1,35 @@
 <template>
   <div class="date">
     <div class="date__content">
-      <div class="date__content-input">
-        <VueFlatPicker
-          v-model="formData.startDate"
-          :config="{ ...dateTimePickerPresets }"
-        />
+      <div class="date__content-inputs">
+        <div>
+          <VueFlatPicker
+            v-model="renderData.startDate"
+            :config="{
+              ...dateTimePickerPresets.date,
+              ...(this.formData.endTime
+                ? {
+                    maxDate: this.formData.endTime,
+                  }
+                : null),
+            }"
+            @on-change="setStartTime($event)"
+          />
+        </div>
+        <div>
+          <VueFlatPicker
+            v-model="renderData.endDate"
+            :config="{
+              ...dateTimePickerPresets.date,
+              ...(this.formData.startTime
+                ? {
+                    minDate: this.formData.startTime,
+                  }
+                : null),
+            }"
+            @on-change="setEndTime($event)"
+          />
+        </div>
       </div>
       <div class="date__content-confirm">
         <ContinueButton
@@ -30,10 +54,14 @@
 </template>
 
 <script lang="ts">
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 import { defineComponent } from "vue";
 import { FormFunctions } from "@/utils/form-functionality";
 import { required, numeric } from "vuelidate/lib/validators";
 import { dateTimePickerPresets } from "@/utils/date-time-picker-options";
+
+dayjs.extend(utc);
 
 const ContinueButton = () =>
   import(
@@ -51,9 +79,13 @@ export default defineComponent({
     return {
       dateTimePickerPresets,
       saving: false,
-      formData: {
+      renderData: {
         startDate: null as Date | null,
         endDate: null as Date | null,
+      },
+      formData: {
+        startTime: null as Date | null,
+        endTime: null as Date | null,
       },
     };
   },
@@ -67,6 +99,12 @@ export default defineComponent({
   },
   methods: {
     ...FormFunctions,
+    setStartTime(date: Date) {
+      this.formData.startTime = dayjs(date).toDate();
+    },
+    setEndTime(date: Date) {
+      this.formData.endTime = dayjs(date).toDate();
+    },
     setSavedValue() {
       console.log("reset");
     },
@@ -116,8 +154,9 @@ export default defineComponent({
     @include view-mobile-gutter();
   }
   &__content {
-    &-input {
+    &-inputs {
       @include center-with-margin($max-width: 300px, $top: 40px);
+      @include flex-config($justify-content: center);
     }
     &-confirm {
       @include center-with-margin($max-width: 350px, $top: 45px, $bottom: 40px);

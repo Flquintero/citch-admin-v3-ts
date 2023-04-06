@@ -1,10 +1,11 @@
 <template>
-  <div class="date">
-    <div class="date__content">
-      <div class="date__content-inputs">
-        <div>
+  <div class="facebook-campaign-date">
+    <div class="facebook-campaign-date__content">
+      <div class="facebook-campaign-date__content-inputs">
+        <div class="facebook-campaign-date__content-inputs-wrapper">
           <VueFlatPicker
             v-model="renderData.startDate"
+            placeholder="Choose Start Date"
             :config="{
               ...dateTimePickerPresets.date,
               ...(this.formData.endTime
@@ -16,9 +17,13 @@
             @on-change="setStartTime($event)"
           />
         </div>
-        <div>
+        <div class="facebook-campaign-date__content-inputs-separator">
+          <div><span>To</span></div>
+        </div>
+        <div class="facebook-campaign-date__content-inputs-wrapper">
           <VueFlatPicker
             v-model="renderData.endDate"
+            placeholder="Choose End Date"
             :config="{
               ...dateTimePickerPresets.date,
               ...(this.formData.startTime
@@ -31,7 +36,7 @@
           />
         </div>
       </div>
-      <div class="date__content-confirm">
+      <div class="facebook-campaign-date__content-confirm">
         <ContinueButton
           @click.native="confirmObjectiveGoal"
           v-bind="{
@@ -147,8 +152,8 @@ export default defineComponent({
   },
 });
 </script>
-<style lang="scss" scoped>
-.date {
+<style lang="scss">
+.facebook-campaign-date {
   @include view-web-gutter();
   @include mobile() {
     @include view-mobile-gutter();
@@ -157,6 +162,19 @@ export default defineComponent({
     &-inputs {
       @include center-with-margin($max-width: 300px, $top: 40px);
       @include flex-config($justify-content: center);
+      &-separator {
+        @include flex-config($align-items: center, $justify-content: center);
+        margin: 0 10px;
+      }
+      &-wrapper {
+        border-bottom: 2px solid $dark-blue;
+        padding: 5px;
+        margin: 0 10px;
+        input {
+          border: none;
+          outline: none;
+        }
+      }
     }
     &-confirm {
       @include center-with-margin($max-width: 350px, $top: 45px, $bottom: 40px);

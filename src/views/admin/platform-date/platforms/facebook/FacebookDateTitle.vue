@@ -1,6 +1,21 @@
 <template>
-  <h1 v-if="isReachObjective || isCitchReachObjective" class="date-title">
-    How many people are you looking to
+  <h1 class="facebook-date-title">
+    <span>{{
+      isReachObjective || isCitchReachObjective
+        ? `Great, we'll reach `
+        : `Great, we'll generate `
+    }}</span>
+    <SelectedContent
+      v-bind="{
+        content: savedObjectiveGoal,
+        url: `bjective-goal`,
+        addQueryParams: true,
+      }"
+    />
+    <span>{{
+      isReachObjective || isCitchReachObjective ? ` people ` : ` of `
+    }}</span>
+    <!-- Impressions -->
     <SelectedContent
       v-bind="{
         content: savedObjectiveDisplayName,
@@ -9,23 +24,22 @@
         addQueryParams: true,
       }"
     />
-    with your
+    from
+    <!-- gender -->
     <SelectedContent
       v-bind="{ content: currentPlatform, capitalize: true, url: '/post-link' }"
     />
-    post?
-  </h1>
-  <h1 v-else class="date-title">
-    How many
+    between
+    <!-- age -->
     <SelectedContent
-      v-bind="{
-        content: savedObjectiveDisplayName,
-        capitalize: true,
-        url: `objective`,
-        addQueryParams: true,
-      }"
+      v-bind="{ content: currentPlatform, capitalize: true, url: '/post-link' }"
     />
-    are you looking to generate for your
+    in
+    <!-- locations - put first location & other locations -->
+    <SelectedContent
+      v-bind="{ content: currentPlatform, capitalize: true, url: '/post-link' }"
+    />
+    for your
     <SelectedContent
       v-bind="{ content: currentPlatform, capitalize: true, url: '/post-link' }"
     />
@@ -57,6 +71,9 @@ export default defineComponent({
     savedObjectiveDisplayName(): IFacebookObjective["displayName"] {
       return this.savedObjective.displayName;
     },
+    savedObjectiveGoal(): string {
+      return this.$route.query.objectiveGoal as string;
+    },
     savedObjectiveIdentifier(): EFacebookObjectiveIdentifier {
       return parseInt(this.$route.query.objective as string);
     },
@@ -75,7 +92,8 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
-.date-title {
+.facebook-date-title {
   text-align: center;
+  line-height: 1.5;
 }
 </style>

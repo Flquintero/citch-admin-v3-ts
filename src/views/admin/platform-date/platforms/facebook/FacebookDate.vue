@@ -1,6 +1,9 @@
 <template>
   <div class="facebook-campaign-date">
     <div class="facebook-campaign-date__content">
+      <h3 class="facebook-campaign-date__content-title">
+        Please select the start and end date for this promotion:
+      </h3>
       <div class="facebook-campaign-date__content-inputs">
         <DateSelectSingle
           v-bind="{
@@ -154,6 +157,9 @@ export default defineComponent({
     @include view-mobile-gutter();
   }
   &__content {
+    &-title {
+      margin-top: 50px;
+    }
     &-inputs {
       @include center-with-margin($max-width: 300px, $top: 40px);
       @include flex-config($justify-content: center);

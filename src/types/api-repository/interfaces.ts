@@ -66,4 +66,7 @@ export interface IFacebookRepository {
   updateCampaignAudience(
     campaignDataObject: IFacebookCampaignData
   ): Promise<IFacebookCampaign>;
+  updateCampaignDate(
+    campaignDataObject: IFacebookCampaignData
+  ): Promise<IFacebookCampaign>;
 }

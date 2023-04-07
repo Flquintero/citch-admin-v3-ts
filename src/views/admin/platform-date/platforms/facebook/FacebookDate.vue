@@ -69,8 +69,9 @@
 <script lang="ts">
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
-import { defineComponent } from "vue";
+import Vue, { defineComponent } from "vue";
 import { dateTimePickerPresets } from "@/utils/date-time-picker-options";
+const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");
 
 dayjs.extend(utc);
 
@@ -102,6 +103,7 @@ export default defineComponent({
       },
     };
   },
+  // CHECK TO SEE IF CAMPAIGN HAS FLAG OF DATE UPDATED
   methods: {
     setStartTime(date: Date) {
       this.formData.startTime = dayjs(date).toDate();
@@ -112,12 +114,33 @@ export default defineComponent({
     setSavedValue() {
       console.log("reset");
     },
-    async confirmObjectiveGoal() {
+    async confirmDate() {
+      if (this.savedFacebookAudience && !this.isFacebookAudienceUpdated) {
+        await this.continueNextStep();
+        return;
+      }
       try {
         this.saving = true;
-        await this.continueNextStep();
+        const saveCampaignObject = {
+          campaignId: this.$route.query.campaignId,
+          audience: this.currentFacebookAudience,
+          pageId: this.$route.query.pageId,
+          platform: this.$route.params.platform,
+        };
+        // IF DATE HAS NOT BEEN UPDATED BY USER, THERE IS A FLAG IN DB THEN SAVE DATE
+        // IF DATE HAS BEEN UPDATED BY USER, THERE IS A FLAG IN DB THEN UPDATE DATE
+
+        if (this.savedFacebookAudience) {
+          await FacebookRepository.updateCampaignDate({
+            saveCampaignObject,
+          });
+        }
+        // await this.setSavedFacebookAudience(
+        //   _deepCopy(this.currentFacebookAudience)
+        // );
+        this.$alert.success(`Date Saved`);
       } catch (error: any) {
-        this.$alert.error(`Error Saving Objective: ${error}`);
+        this.$alert.error(`Error Saving Date`);
       } finally {
         this.saving = false;
       }
@@ -125,7 +148,7 @@ export default defineComponent({
     // TO DO: could be abstracted
     async continueNextStep() {
       await this.$router.push({
-        name: "platform audience",
+        name: "platform budget",
         params: this.$route.params,
         query: {
           ...this.$route.query,

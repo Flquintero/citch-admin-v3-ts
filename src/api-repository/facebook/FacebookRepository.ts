@@ -103,6 +103,13 @@ export default {
       data: campaignObject,
     });
   },
+  updateCampaignDate: async (campaignObject: IFacebookCampaignData) => {
+    return await $authedApiRequest({
+      method: "put",
+      url: `${DOMAIN_PATH}/campaign-date`,
+      data: campaignObject,
+    });
+  },
   getSavedCampaignAudience: async (campaignId: string) => {
     return await $authedApiRequest({
       url: `${DOMAIN_PATH}/campaign-audience/${campaignId}`,

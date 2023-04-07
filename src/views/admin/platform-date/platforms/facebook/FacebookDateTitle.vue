@@ -1,21 +1,8 @@
 <template>
   <h1 class="facebook-date-title">
     <span>{{
-      isReachObjective || isCitchReachObjective
-        ? `Great, we'll reach `
-        : `Great, we'll generate `
+      isAltReachTitle ? `Great, we'll ` : `Great, we'll generate `
     }}</span>
-    <SelectedContent
-      v-bind="{
-        content: savedObjectiveGoal,
-        url: `objective-goal`,
-        addQueryParams: true,
-      }"
-    />
-    <span>{{
-      isReachObjective || isCitchReachObjective ? ` people ` : ` of `
-    }}</span>
-    <!-- Impressions -->
     <SelectedContent
       v-bind="{
         content: savedObjectiveDisplayName,
@@ -24,7 +11,27 @@
         addQueryParams: true,
       }"
     />
-    from
+    <span>{{ ` ` }}</span>
+    <SelectedContent
+      v-bind="{
+        content: savedObjectiveGoal,
+        url: `objective-goal`,
+        addQueryParams: true,
+      }"
+    />
+    <span>{{ isAltReachTitle ? ` ` : ` of ` }}</span>
+    <template v-if="!isAltReachTitle">
+      <!-- Impressions -->
+      <SelectedContent
+        v-bind="{
+          content: savedObjectiveDisplayName,
+          capitalize: true,
+          url: `objective`,
+          addQueryParams: true,
+        }"
+      />
+      from
+    </template>
     <!-- gender -->
     <SelectedContent
       v-bind="{
@@ -92,6 +99,9 @@ export default defineComponent({
     ...mapGetters("Facebook", {
       savedFacebookAudience: "savedFacebookAudience",
     }),
+    isAltReachTitle(): boolean {
+      return this.isReachObjective || this.isCitchReachObjective;
+    },
     currentPlatform(): string {
       return this.$route.params.platform;
     },
@@ -126,7 +136,7 @@ export default defineComponent({
         case "male":
           return "Males";
         case "all":
-          return "Males & Females";
+          return "Males or Females";
         default:
           return "";
       }
@@ -135,17 +145,27 @@ export default defineComponent({
       return `${this.savedFacebookAudience.ageMin}-${this.savedFacebookAudience.ageMax}`;
     },
     currentAudienceLocations(): string {
+      let renderLocation = "";
+      const firstLocation = this.savedFacebookAudience.chosenLocations[0];
+      switch (firstLocation.type) {
+        case "country":
+          renderLocation = firstLocation.country_code;
+          break;
+        default:
+          renderLocation = firstLocation.name;
+          break;
+      }
       if (this.savedFacebookAudience.chosenLocations.length === 1) {
-        return `${this.savedFacebookAudience.chosenLocations[0].name}`;
+        return renderLocation;
       } else {
-        return `${this.savedFacebookAudience.chosenLocations[0].name} & other locations`;
+        return `${renderLocation} & other locations`;
       }
     },
     currentAudienceInterests(): string {
       if (this.savedFacebookAudience.chosenInterests.length === 1) {
         return `${this.savedFacebookAudience.chosenInterests[0].name}`;
       } else {
-        return `${this.savedFacebookAudience.chosenInterests[0].name} & other interests `;
+        return `${this.savedFacebookAudience.chosenInterests[0].name} & other interests`;
       }
     },
   },

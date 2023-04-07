@@ -21,6 +21,7 @@
     </div>
     <div class="choose-post-link__confirm">
       <ContinueButton
+        v-if="formData.postUrl"
         @click.native="confirmPostLink"
         v-bind="{
           variant: 'primary',

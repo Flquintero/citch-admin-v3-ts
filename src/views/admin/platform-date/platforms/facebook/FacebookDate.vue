@@ -2,7 +2,11 @@
   <div class="facebook-campaign-date">
     <div class="facebook-campaign-date__content">
       <h3 class="facebook-campaign-date__content-title">
-        Please select the start and end date for this promotion:
+        {{
+          hasDates
+            ? `Dates selected:`
+            : `Please select the start and end date for this promotion:`
+        }}
       </h3>
       <div class="facebook-campaign-date__content-inputs">
         <DateSelectSingle
@@ -158,7 +162,8 @@ export default defineComponent({
   }
   &__content {
     &-title {
-      margin-top: 50px;
+      @include center-with-margin($max-width: 600px, $top: 40px);
+      text-align: center;
     }
     &-inputs {
       @include center-with-margin($max-width: 300px, $top: 40px);

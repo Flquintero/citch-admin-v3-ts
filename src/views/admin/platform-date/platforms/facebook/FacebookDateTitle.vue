@@ -69,7 +69,7 @@
     <SelectedContent
       v-bind="{ content: currentPlatform, capitalize: true, url: '/post-link' }"
     />
-    post?
+    post
   </h1>
 </template>
 

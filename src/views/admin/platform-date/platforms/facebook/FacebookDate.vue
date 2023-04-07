@@ -2,46 +2,47 @@
   <div class="facebook-campaign-date">
     <div class="facebook-campaign-date__content">
       <div class="facebook-campaign-date__content-inputs">
-        <div class="facebook-campaign-date__content-inputs-wrapper">
-          <VueFlatPicker
-            v-model="renderData.startDate"
-            placeholder="Choose Start Date"
-            :config="{
-              ...dateTimePickerPresets.date,
+        <DateSelectSingle
+          v-bind="{
+            inputPlacehoder: 'Choose Start',
+            inputLabel: 'Start Date and Time',
+            inputRequired: true,
+            customConfigurations: {
               ...(this.formData.endTime
                 ? {
                     maxDate: this.formData.endTime,
                   }
                 : null),
-            }"
-            @on-change="setStartTime($event)"
-          />
-        </div>
+            },
+          }"
+          @on-change="setStartTime($event)"
+        />
         <div class="facebook-campaign-date__content-inputs-separator">
           <div><span>To</span></div>
         </div>
-        <div class="facebook-campaign-date__content-inputs-wrapper">
-          <VueFlatPicker
-            v-model="renderData.endDate"
-            placeholder="Choose End Date"
-            :config="{
-              ...dateTimePickerPresets.date,
+        <DateSelectSingle
+          v-bind="{
+            inputPlacehoder: 'Choose End',
+            inputLabel: 'End Date and Time',
+            inputRequired: true,
+            customConfigurations: {
               ...(this.formData.startTime
                 ? {
                     minDate: this.formData.startTime,
                   }
                 : null),
-            }"
-            @on-change="setEndTime($event)"
-          />
-        </div>
+            },
+          }"
+          @on-change="setEndTime($event)"
+        />
       </div>
       <div class="facebook-campaign-date__content-confirm">
         <ContinueButton
-          @click.native="confirmObjectiveGoal"
+          v-if="hasDates"
+          @click.native="confirmDate"
           v-bind="{
             variant: 'primary',
-            disabled: $v.$invalid || saving,
+            disabled: !hasDates || saving,
             loading: saving,
             textContent: formatContinueButton,
             textIcon: 'fa-arrow-right',
@@ -62,8 +63,6 @@
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import { defineComponent } from "vue";
-import { FormFunctions } from "@/utils/form-functionality";
-import { required, numeric } from "vuelidate/lib/validators";
 import { dateTimePickerPresets } from "@/utils/date-time-picker-options";
 
 dayjs.extend(utc);
@@ -72,6 +71,12 @@ const ContinueButton = () =>
   import(
     /* webpackChunkName: "ContinueButton" */ "@/components/functional/ButtonContinue.vue"
   );
+
+const DateSelectSingle = () =>
+  import(
+    /* webpackChunkName: "DateSelectSingle" */ "@/components/functional/DateSelectSingle.vue"
+  );
+
 const ResetButton = () =>
   import(
     /* webpackChunkName: "ResetButton" */ "@/components/functional/ButtonReset.vue"
@@ -79,31 +84,18 @@ const ResetButton = () =>
 
 export default defineComponent({
   name: "FacebookDate",
-  components: { ContinueButton, ResetButton },
+  components: { ContinueButton, ResetButton, DateSelectSingle },
   data() {
     return {
       dateTimePickerPresets,
       saving: false,
-      renderData: {
-        startDate: null as Date | null,
-        endDate: null as Date | null,
-      },
       formData: {
         startTime: null as Date | null,
         endTime: null as Date | null,
       },
     };
   },
-  validations: {
-    formData: {
-      objectiveGoal: {
-        required,
-        numeric,
-      },
-    },
-  },
   methods: {
-    ...FormFunctions,
     setStartTime(date: Date) {
       this.formData.startTime = dayjs(date).toDate();
     },
@@ -138,6 +130,9 @@ export default defineComponent({
     },
   },
   computed: {
+    hasDates() {
+      return this.formData.endTime && this.formData.startTime;
+    },
     formatContinueButton() {
       let renderButtonContent = "Confirm Date";
       if (this.isSavedObjectiveGoal) {
@@ -165,15 +160,6 @@ export default defineComponent({
       &-separator {
         @include flex-config($align-items: center, $justify-content: center);
         margin: 0 10px;
-      }
-      &-wrapper {
-        border-bottom: 2px solid $dark-blue;
-        padding: 5px;
-        margin: 0 10px;
-        input {
-          border: none;
-          outline: none;
-        }
       }
     }
     &-confirm {

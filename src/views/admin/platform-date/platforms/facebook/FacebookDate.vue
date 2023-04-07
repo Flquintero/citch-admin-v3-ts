@@ -134,7 +134,7 @@ export default defineComponent({
       return this.formData.endTime && this.formData.startTime;
     },
     formatContinueButton() {
-      let renderButtonContent = "Confirm Date";
+      let renderButtonContent = "Confirm Dates";
       if (this.isSavedObjectiveGoal) {
         if (this.isSameObjectiveGoal) {
           renderButtonContent = "Continue";

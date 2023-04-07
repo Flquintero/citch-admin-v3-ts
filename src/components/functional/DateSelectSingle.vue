@@ -82,11 +82,12 @@ export default defineComponent({
     }
   }
   &__label {
-    bottom: -15px;
+    bottom: -18px;
     left: 0;
     position: absolute;
     font-size: rem(11);
     text-align: center;
+    width: 100%;
   }
   &__required {
     position: absolute;

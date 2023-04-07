@@ -53,7 +53,7 @@
           }"
         ></ContinueButton>
         <ResetButton
-          v-if="isSavedObjectiveGoal && !isSameObjectiveGoal && !saving"
+          v-if="savedFacebookDates && isFacebookDatesUpdated"
           @click.native="resetChange"
           v-bind="{ textContent: 'Reset Change' }"
         />

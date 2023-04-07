@@ -13,7 +13,7 @@
       }"
     ></ContinueButton>
     <ResetButton
-      v-if="savedFacebookAudience && isFacebookAudienceUpdated"
+      v-if="savedFacebookAudience && isFacebookAudienceUpdated && !saving"
       @click.native="resetChanges"
       v-bind="{ textContent: 'Reset Changes' }"
     />

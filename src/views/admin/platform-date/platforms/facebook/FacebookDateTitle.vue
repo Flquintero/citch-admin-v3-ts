@@ -8,7 +8,7 @@
     <SelectedContent
       v-bind="{
         content: savedObjectiveGoal,
-        url: `bjective-goal`,
+        url: `objective-goal`,
         addQueryParams: true,
       }"
     />
@@ -27,18 +27,44 @@
     from
     <!-- gender -->
     <SelectedContent
-      v-bind="{ content: currentPlatform, capitalize: true, url: '/post-link' }"
+      v-bind="{
+        content: currentAudienceGender,
+        capitalize: true,
+        url: 'audience',
+        addQueryParams: true,
+      }"
     />
     between
     <!-- age -->
     <SelectedContent
-      v-bind="{ content: currentPlatform, capitalize: true, url: '/post-link' }"
+      v-bind="{
+        content: currentAudienceAge,
+        capitalize: true,
+        url: 'audience',
+        addQueryParams: true,
+      }"
     />
     in
     <!-- locations - put first location & other locations -->
     <SelectedContent
-      v-bind="{ content: currentPlatform, capitalize: true, url: '/post-link' }"
+      v-bind="{
+        content: currentAudienceLocations,
+        capitalize: true,
+        url: 'audience',
+        addQueryParams: true,
+      }"
     />
+    <template v-if="savedFacebookAudience.chosenInterests">
+      that are interested in
+      <SelectedContent
+        v-bind="{
+          content: currentAudienceInterests,
+          capitalize: true,
+          url: 'audience',
+          addQueryParams: true,
+        }"
+      />
+    </template>
     for your
     <SelectedContent
       v-bind="{ content: currentPlatform, capitalize: true, url: '/post-link' }"
@@ -52,6 +78,7 @@ import { defineComponent } from "vue";
 import { EFacebookObjectiveIdentifier } from "@/types/facebook/campaigns/enums";
 import type { IFacebookObjective } from "@/types/facebook/campaigns/interfaces";
 import { getFacebookObjectiveByIdentifier } from "../../../platform-objective/platforms/facebook/utils/facebook-objective-identifier-parser";
+import { mapGetters } from "vuex";
 
 const SelectedContent = () =>
   import(
@@ -62,6 +89,9 @@ export default defineComponent({
   name: "FacebookDateTitle",
   components: { SelectedContent },
   computed: {
+    ...mapGetters("Facebook", {
+      savedFacebookAudience: "savedFacebookAudience",
+    }),
     currentPlatform(): string {
       return this.$route.params.platform;
     },
@@ -87,6 +117,36 @@ export default defineComponent({
         this.savedObjectiveIdentifier ===
         EFacebookObjectiveIdentifier.citch_reach
       );
+    },
+    currentAudienceGender(): string {
+      console.log(this.savedFacebookAudience);
+      switch (this.savedFacebookAudience.gender) {
+        case "female":
+          return "Females";
+        case "male":
+          return "Males";
+        case "all":
+          return "Males & Females";
+        default:
+          return "";
+      }
+    },
+    currentAudienceAge(): string {
+      return `${this.savedFacebookAudience.ageMin}-${this.savedFacebookAudience.ageMax}`;
+    },
+    currentAudienceLocations(): string {
+      if (this.savedFacebookAudience.chosenLocations.length === 1) {
+        return `${this.savedFacebookAudience.chosenLocations[0].name}`;
+      } else {
+        return `${this.savedFacebookAudience.chosenLocations[0].name} & other locations`;
+      }
+    },
+    currentAudienceInterests(): string {
+      if (this.savedFacebookAudience.chosenInterests.length === 1) {
+        return `${this.savedFacebookAudience.chosenInterests[0].name}`;
+      } else {
+        return `${this.savedFacebookAudience.chosenInterests[0].name} & other interests `;
+      }
     },
   },
 });

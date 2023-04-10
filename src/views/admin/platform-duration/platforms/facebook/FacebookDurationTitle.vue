@@ -94,7 +94,7 @@ const SelectedContent = () =>
   );
 
 export default defineComponent({
-  name: "FacebookDateTitle",
+  name: "FacebookDurationTitle",
   components: { SelectedContent },
   computed: {
     ...mapGetters("Facebook", {
@@ -130,8 +130,7 @@ export default defineComponent({
       );
     },
     currentAudienceGender(): string {
-      console.log(this.savedFacebookAudience);
-      switch (this.savedFacebookAudience.gender) {
+      switch (this.savedFacebookAudience?.gender) {
         case "female":
           return "Females";
         case "male":

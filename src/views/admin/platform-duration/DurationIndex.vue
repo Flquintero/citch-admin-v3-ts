@@ -62,7 +62,7 @@ export default defineComponent({
       try {
         this.isLoading = true;
         this.savedCampaignAudience[this.currentPlatform as string] =
-          await FacebookRepository.getSavedCampaignAudience(
+          await FacebookRepository.getCampaignAudience(
             this.$route.query.campaignId as string
           );
         const platformAudience =

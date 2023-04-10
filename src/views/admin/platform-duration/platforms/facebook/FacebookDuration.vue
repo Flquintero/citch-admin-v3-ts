@@ -15,9 +15,9 @@
             inputLabel: 'Start Date and Time',
             inputRequired: true,
             customConfigurations: {
-              ...(this.formData.endDate
+              ...(formData.endDate
                 ? {
-                    maxDate: this.formData.endDate,
+                    maxDate: formattedMaxDateLimit,
                   }
                 : null),
             },
@@ -33,9 +33,9 @@
             inputLabel: 'End Date and Time',
             inputRequired: true,
             customConfigurations: {
-              ...(this.formData.startDate
+              ...(formData.startDate
                 ? {
-                    minDate: this.formData.startDate,
+                    minDate: formattedMinDateLimit,
                   }
                 : null),
             },
@@ -100,18 +100,18 @@ export default defineComponent({
       dateTimePickerPresets,
       saving: false,
       formData: {
-        startDate: null as Date | null,
-        endDate: null as Date | null,
+        startDate: null as any | null,
+        endDate: null as any | null,
       },
     };
   },
   // CHECK TO SEE IF CAMPAIGN HAS FLAG OF DATE UPDATED
   methods: {
     setStartDate(date: Date) {
-      this.formData.startDate = dayjs(date).toDate();
+      this.formData.startDate = dayjs(date).toISOString();
     },
     setEndDate(date: Date) {
-      this.formData.endDate = dayjs(date).toDate();
+      this.formData.endDate = dayjs(date).toISOString();
     },
     setSavedValue() {
       console.log("reset");
@@ -174,6 +174,12 @@ export default defineComponent({
         }
       }
       return renderButtonContent;
+    },
+    formattedMinDateLimit(): string {
+      return this.formData.startDate;
+    },
+    formattedMaxDateLimit(): string {
+      return this.formData.endDate;
     },
   },
 });

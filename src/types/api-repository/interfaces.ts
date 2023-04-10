@@ -6,6 +6,7 @@ import type {
   IFacebookLocation,
   IFacebookInterest,
   IFacebookAudience,
+  IFacebookDuration,
 } from "../facebook/campaigns/interfaces";
 import type {
   IFacebookConnectData,
@@ -62,11 +63,15 @@ export interface IFacebookRepository {
   saveCampaignAudience(
     campaignDataObject: IFacebookCampaignData
   ): Promise<IFacebookCampaign>;
-  getSavedCampaignAudience(campaignId: string): Promise<IFacebookAudience>;
+  getCampaignAudience(campaignId: string): Promise<IFacebookAudience>;
   updateCampaignAudience(
     campaignDataObject: IFacebookCampaignData
   ): Promise<IFacebookCampaign>;
-  updateCampaignDate(
+  getCampaignDuration(campaignId: string): Promise<IFacebookDuration>;
+  saveCampaignDuration(
+    campaignDataObject: IFacebookCampaignData
+  ): Promise<IFacebookCampaign>;
+  updateCampaignDuration(
     campaignDataObject: IFacebookCampaignData
   ): Promise<IFacebookCampaign>;
 }

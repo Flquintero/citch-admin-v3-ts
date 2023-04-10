@@ -103,16 +103,28 @@ export default {
       data: campaignObject,
     });
   },
-  updateCampaignDate: async (campaignObject: IFacebookCampaignData) => {
+  getCampaignAudience: async (campaignId: string) => {
     return await $authedApiRequest({
-      method: "put",
-      url: `${DOMAIN_PATH}/campaign-date`,
+      url: `${DOMAIN_PATH}/campaign-audience/${campaignId}`,
+    });
+  },
+  saveCampaignDuration: async (campaignObject: IFacebookCampaignData) => {
+    return await $authedApiRequest({
+      method: "post",
+      url: `${DOMAIN_PATH}/campaign-duration`,
       data: campaignObject,
     });
   },
-  getSavedCampaignAudience: async (campaignId: string) => {
+  updateCampaignDuration: async (campaignObject: IFacebookCampaignData) => {
     return await $authedApiRequest({
-      url: `${DOMAIN_PATH}/campaign-audience/${campaignId}`,
+      method: "put",
+      url: `${DOMAIN_PATH}/campaign-duration`,
+      data: campaignObject,
+    });
+  },
+  getCampaignDuration: async (campaignId: string) => {
+    return await $authedApiRequest({
+      url: `${DOMAIN_PATH}/campaign-duration/${campaignId}`,
     });
   },
 };

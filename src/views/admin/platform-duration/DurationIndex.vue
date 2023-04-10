@@ -1,12 +1,12 @@
 <template>
-  <div v-if="isLoading" class="date-index__loading">
+  <div v-if="isLoading" class="duration-index__loading">
     <BaseLoader v-bind="{ size: '3x' }" />
   </div>
-  <div v-else class="date-index">
-    <component :is="getPlatformDateTitle(currentPlatform)"></component>
-    <div class="date-index__content">
-      <component :is="getPlatformDate(currentPlatform)"></component>
-      <div class="date-index__content-post">
+  <div v-else class="duration-index">
+    <component :is="getPlatformDurationTitle(currentPlatform)"></component>
+    <div class="duration-index__content">
+      <component :is="getPlatformDuration(currentPlatform)"></component>
+      <div class="duration-index__content-post">
         <component :is="getPlatformPost(currentPlatform)"></component>
       </div>
     </div>
@@ -15,8 +15,8 @@
 
 <script lang="ts">
 import Vue, { defineComponent } from "vue";
-import { getPlatformDate } from "./utils/platform-date-helper";
-import { getPlatformDateTitle } from "./utils/platform-date-title-helper";
+import { getPlatformDuration } from "./utils/platform-duration-helper";
+import { getPlatformDurationTitle } from "./utils/platform-duration-title-helper";
 import { getPlatformPost } from "@/components/functional/social-post/post-component-loader";
 import { mapActions } from "vuex";
 const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");
@@ -27,7 +27,7 @@ const BaseLoader = () =>
   );
 
 export default defineComponent({
-  name: "DateIndex",
+  name: "DurationIndex",
   components: { BaseLoader },
   data() {
     return {
@@ -46,8 +46,8 @@ export default defineComponent({
       "setCurrentFacebookAudience",
       "resetPropertyFacebookState",
     ]),
-    getPlatformDate,
-    getPlatformDateTitle,
+    getPlatformDuration,
+    getPlatformDurationTitle,
     getPlatformPost,
     async getSavedCampaignAudience() {
       switch (this.currentPlatform) {
@@ -86,7 +86,7 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
-.date-index {
+.duration-index {
   @include view-web-gutter();
   @include mobile() {
     @include view-mobile-gutter();

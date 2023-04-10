@@ -1,30 +1,30 @@
 <template>
-  <div class="facebook-campaign-date">
-    <div class="facebook-campaign-date__content">
-      <h3 class="facebook-campaign-date__content-title">
+  <div class="facebook-campaign-duration">
+    <div class="facebook-campaign-duration__content">
+      <h3 class="facebook-campaign-duration__content-title">
         {{
           hasDates
             ? `Dates selected:`
             : `Please select the start and end date for this promotion:`
         }}
       </h3>
-      <div class="facebook-campaign-date__content-inputs">
+      <div class="facebook-campaign-duration__content-inputs">
         <DateSelectSingle
           v-bind="{
             inputPlacehoder: 'Choose Start',
             inputLabel: 'Start Date and Time',
             inputRequired: true,
             customConfigurations: {
-              ...(this.formData.endTime
+              ...(this.formData.endDate
                 ? {
-                    maxDate: this.formData.endTime,
+                    maxDate: this.formData.endDate,
                   }
                 : null),
             },
           }"
-          @on-change="setStartTime($event)"
+          @on-change="setStartDate($event)"
         />
-        <div class="facebook-campaign-date__content-inputs-separator">
+        <div class="facebook-campaign-duration__content-inputs-separator">
           <div><span>To</span></div>
         </div>
         <DateSelectSingle
@@ -33,17 +33,17 @@
             inputLabel: 'End Date and Time',
             inputRequired: true,
             customConfigurations: {
-              ...(this.formData.startTime
+              ...(this.formData.startDate
                 ? {
-                    minDate: this.formData.startTime,
+                    minDate: this.formData.startDate,
                   }
                 : null),
             },
           }"
-          @on-change="setEndTime($event)"
+          @on-change="setEndDate($event)"
         />
       </div>
-      <div class="facebook-campaign-date__content-confirm">
+      <div class="facebook-campaign-duration__content-confirm">
         <ContinueButton
           v-if="hasDates"
           @click.native="confirmDate"
@@ -57,7 +57,7 @@
           }"
         ></ContinueButton>
         <ResetButton
-          v-if="savedFacebookDates && isFacebookDatesUpdated"
+          v-if="savedFacebookDate && isFacebookDateUpdated"
           @click.native="resetChange"
           v-bind="{ textContent: 'Reset Change' }"
         />
@@ -91,31 +91,33 @@ const ResetButton = () =>
   );
 
 export default defineComponent({
-  name: "FacebookDate",
+  name: "FacebookDuration",
   components: { ContinueButton, ResetButton, DateSelectSingle },
   data() {
     return {
+      isFacebookDateUpdated: false,
+      savedFacebookDate: false, // <----- TEMP for testing
       dateTimePickerPresets,
       saving: false,
       formData: {
-        startTime: null as Date | null,
-        endTime: null as Date | null,
+        startDate: null as Date | null,
+        endDate: null as Date | null,
       },
     };
   },
   // CHECK TO SEE IF CAMPAIGN HAS FLAG OF DATE UPDATED
   methods: {
-    setStartTime(date: Date) {
-      this.formData.startTime = dayjs(date).toDate();
+    setStartDate(date: Date) {
+      this.formData.startDate = dayjs(date).toDate();
     },
-    setEndTime(date: Date) {
-      this.formData.endTime = dayjs(date).toDate();
+    setEndDate(date: Date) {
+      this.formData.endDate = dayjs(date).toDate();
     },
     setSavedValue() {
       console.log("reset");
     },
     async confirmDate() {
-      if (this.savedFacebookAudience && !this.isFacebookAudienceUpdated) {
+      if (this.savedFacebookDate && !this.isFacebookDateUpdated) {
         await this.continueNextStep();
         return;
       }
@@ -123,15 +125,14 @@ export default defineComponent({
         this.saving = true;
         const saveCampaignObject = {
           campaignId: this.$route.query.campaignId,
-          audience: this.currentFacebookAudience,
-          pageId: this.$route.query.pageId,
-          platform: this.$route.params.platform,
+          campaignDates: this.formData,
         };
-        // IF DATE HAS NOT BEEN UPDATED BY USER, THERE IS A FLAG IN DB THEN SAVE DATE
-        // IF DATE HAS BEEN UPDATED BY USER, THERE IS A FLAG IN DB THEN UPDATE DATE
-
-        if (this.savedFacebookAudience) {
-          await FacebookRepository.updateCampaignDate({
+        if (this.savedFacebookDate) {
+          await FacebookRepository.updateCampaignDuration({
+            saveCampaignObject,
+          });
+        } else {
+          await FacebookRepository.saveCampaignDuration({
             saveCampaignObject,
           });
         }
@@ -161,7 +162,7 @@ export default defineComponent({
   },
   computed: {
     hasDates() {
-      return this.formData.endTime && this.formData.startTime;
+      return this.formData.endDate && this.formData.startDate;
     },
     formatContinueButton() {
       let renderButtonContent = "Confirm Dates";
@@ -178,7 +179,7 @@ export default defineComponent({
 });
 </script>
 <style lang="scss">
-.facebook-campaign-date {
+.facebook-campaign-duration {
   @include view-web-gutter();
   @include mobile() {
     @include view-mobile-gutter();

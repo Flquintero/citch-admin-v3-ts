@@ -4,6 +4,7 @@
       isAltReachTitle ? `Great, we'll ` : `Great, we'll generate `
     }}</span>
     <SelectedContent
+      v-if="isAltReachTitle"
       v-bind="{
         content: savedObjectiveDisplayName,
         capitalize: true,
@@ -19,7 +20,7 @@
         addQueryParams: true,
       }"
     />
-    <span>{{ isAltReachTitle ? ` ` : ` of ` }}</span>
+    <span>{{ ` ` }}</span>
     <template v-if="!isAltReachTitle">
       <!-- Impressions -->
       <SelectedContent

@@ -20,11 +20,12 @@ export interface ISaveFacebookCampaignObject {
 }
 
 export interface IFacebookCampaign {
+  // FIX !!!
   [property: string]: any;
 }
 
 export interface IFacebookCampaignData {
-  // FIX!!!
+  // FIX!!! Needs to have all the possible properties that this cam take
   [k: string]: any;
 }
 
@@ -72,4 +73,9 @@ export interface IFacebookInterest {
   name: string;
   path: string[];
   topic: string;
+}
+
+export interface IFacebookDuration {
+  endDate: Date;
+  startDate: Date;
 }

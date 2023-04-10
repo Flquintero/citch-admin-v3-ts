@@ -66,11 +66,11 @@ const routes: Array<RouteConfig> = [
               ),
           },
           {
-            path: "date",
-            name: "platform date",
+            path: "duration",
+            name: "platform duration",
             component: () =>
               import(
-                /* webpackChunkName: "platformDate" */ "../views/admin/platform-date/DateIndex.vue"
+                /* webpackChunkName: "platformDuration" */ "../views/admin/platform-duration/DurationIndex.vue"
               ),
           },
         ],

@@ -26,7 +26,7 @@
             loading: saving,
             textContent: formatContinueButton,
             textIcon: 'fa-arrow-right',
-            loadingContent: 'Saving to Continue',
+            loadingContent: 'Saving',
           }"
         ></ContinueButton>
         <ResetButton

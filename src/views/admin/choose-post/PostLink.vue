@@ -29,7 +29,7 @@
           loading: saving,
           textContent: 'Confirm',
           textIcon: 'fa-arrow-right',
-          loadingContent: 'Saving to Continue',
+          loadingContent: 'Saving',
         }"
       ></ContinueButton>
     </div>

@@ -86,6 +86,7 @@ export default defineComponent({
         await this.setSavedFacebookAudience(
           _deepCopy(this.currentFacebookAudience)
         );
+        this.continueNextStep();
         this.$alert.success(`Audience Saved`);
       } catch (error: any) {
         this.$alert.error(`Error Saving Audience`);
@@ -96,7 +97,7 @@ export default defineComponent({
     },
     async continueNextStep() {
       await this.$router.push({
-        name: "platform date",
+        name: "platform duration",
         params: this.$route.params,
         query: {
           ...this.$route.query,

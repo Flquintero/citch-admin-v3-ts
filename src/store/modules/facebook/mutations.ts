@@ -2,6 +2,7 @@ import { IFacebookState } from "./types";
 import {
   IFacebookCampaign,
   IFacebookAudience,
+  IFacebookDuration,
 } from "@/types/facebook/campaigns/interfaces";
 import { IFacebookPage } from "@/types/facebook/pages/interfaces";
 import { IFacebookPost } from "@/types/facebook/post/interfaces";
@@ -78,5 +79,25 @@ export const mutations = {
       }
     );
     state.currentFacebookAudienceComplete = missingField.length ? false : true;
+  },
+  SET_CURRENT_FACEBOOK_DURATION(
+    state: IFacebookState,
+    facebookDuration: IFacebookDuration
+  ) {
+    const duration = state.currentFacebookDuration || {};
+    const newDuration = Object.assign(duration, facebookDuration);
+    state.currentFacebookDuration = newDuration;
+  },
+  SET_SAVED_FACEBOOK_DURATION(
+    state: IFacebookState,
+    facebookDuration: IFacebookDuration
+  ) {
+    state.savedFacebookDuration = facebookDuration;
+  },
+  SET_IS_FACEBOOK_DURATION_UPDATED(state: IFacebookState) {
+    state.isFacebookDurationUpdated = _checkObjectFieldsUpdated(
+      state.currentDurationAudience as IFacebookDuration,
+      state.savedDurationAudience as IFacebookDuration
+    );
   },
 };

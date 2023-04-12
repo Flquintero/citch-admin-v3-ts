@@ -3,6 +3,7 @@ import { Commit } from "vuex";
 import {
   IFacebookCampaign,
   IFacebookAudience,
+  IFacebookDuration,
 } from "@/types/facebook/campaigns/interfaces";
 import { IFacebookPage } from "@/types/facebook/pages/interfaces";
 import { IFacebookPost } from "@/types/facebook/post/interfaces";
@@ -48,5 +49,21 @@ export const actions = {
   ) {
     await commit("SET_SAVED_FACEBOOK_AUDIENCE", savedFacebookAudience);
     await commit("SET_IS_FACEBOOK_AUDIENCE_UPDATED");
+  },
+  async setCurrentFacebookDuration(
+    { state, commit }: { state: IFacebookState; commit: Commit },
+    facebookDuration: IFacebookDuration
+  ) {
+    await commit("SET_CURRENT_FACEBOOK_DURATION", facebookDuration);
+    if (state.savedFacebookDuration) {
+      await commit("SET_IS_FACEBOOK_DURATION_UPDATED");
+    }
+  },
+  async setSavedFacebookDuration(
+    { commit }: { commit: Commit },
+    savedFacebookDuration: IFacebookDuration
+  ) {
+    await commit("SET_SAVED_FACEBOOK_DURATION", savedFacebookDuration);
+    await commit("SET_IS_FACEBOOK_DURATION_UPDATED");
   },
 };

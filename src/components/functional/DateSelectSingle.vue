@@ -37,6 +37,9 @@ import { dateTimePickerPresets } from "@/utils/date-time-picker-options";
 export default defineComponent({
   name: "DateSelectSingle",
   props: {
+    savedValue: {
+      type: [Date, String] || null,
+    },
     inputPlacehoder: {
       type: String,
       default: "Choose",
@@ -52,11 +55,24 @@ export default defineComponent({
       default: false,
     },
   },
+  mounted() {
+    this.setSavedDate();
+  },
   data() {
     return {
       dateTimePickerPresets,
-      renderDate: null as Date | null,
+      renderDate: null as Date | null | string | undefined,
     };
+  },
+  methods: {
+    setSavedDate() {
+      this.renderDate = this.savedValue;
+    },
+  },
+  watch: {
+    savedValue() {
+      this.setSavedDate();
+    },
   },
 });
 </script>

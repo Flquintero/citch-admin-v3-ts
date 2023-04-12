@@ -76,6 +76,6 @@ export interface IFacebookInterest {
 }
 
 export interface IFacebookDuration {
-  endDate: Date;
-  startDate: Date;
+  endDate: string | Date;
+  startDate: string | Date;
 }

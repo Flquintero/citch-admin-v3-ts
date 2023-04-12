@@ -1,6 +1,9 @@
 <template>
   <div class="facebook-campaign-duration">
-    <div class="facebook-campaign-duration__content">
+    <div v-if="isLoading" class="facebook-campaign-duration__loading">
+      <BaseLoader v-bind="{ size: '3x' }" />
+    </div>
+    <div v-else class="facebook-campaign-duration__content">
       <h3 class="facebook-campaign-duration__content-title">
         {{
           hasDates
@@ -11,6 +14,7 @@
       <div class="facebook-campaign-duration__content-inputs">
         <DateSelectSingle
           v-bind="{
+            savedValue: savedDuration.startDate,
             inputPlacehoder: 'Choose Start',
             inputLabel: 'Start Date and Time',
             inputRequired: true,
@@ -29,6 +33,7 @@
         </div>
         <DateSelectSingle
           v-bind="{
+            savedValue: savedDuration.endDate,
             inputPlacehoder: 'Choose End',
             inputLabel: 'End Date and Time',
             inputRequired: true,
@@ -57,7 +62,7 @@
           }"
         ></ContinueButton>
         <ResetButton
-          v-if="savedFacebookDate && isFacebookDateUpdated"
+          v-if="isSavedDuration && isFacebookDurationUpdated"
           @click.native="resetChange"
           v-bind="{ textContent: 'Reset Change' }"
         />
@@ -71,9 +76,17 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import Vue, { defineComponent } from "vue";
 import { dateTimePickerPresets } from "@/utils/date-time-picker-options";
+import { mapActions, mapGetters } from "vuex";
+import { _deepCopy } from "@/utils/formatting";
+import { IFacebookDuration } from "@/types/facebook/campaigns/interfaces";
 const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");
 
 dayjs.extend(utc);
+
+const BaseLoader = () =>
+  import(
+    /* webpackChunkName: "BaseLoader" */ "@/components/functional/BaseLoader.vue"
+  );
 
 const ContinueButton = () =>
   import(
@@ -92,21 +105,30 @@ const ResetButton = () =>
 
 export default defineComponent({
   name: "FacebookDuration",
-  components: { ContinueButton, ResetButton, DateSelectSingle },
+  components: { BaseLoader, ContinueButton, ResetButton, DateSelectSingle },
   data() {
     return {
-      isFacebookDateUpdated: false,
-      savedFacebookDate: false, // <----- TEMP for testing
       dateTimePickerPresets,
       saving: false,
+      isLoading: false,
       formData: {
+        startDate: null as any | null,
+        endDate: null as any | null,
+      },
+      savedDuration: {
         startDate: null as any | null,
         endDate: null as any | null,
       },
     };
   },
-  // CHECK TO SEE IF CAMPAIGN HAS FLAG OF DATE UPDATED
+  async created() {
+    await this.getSavedCampaignDuration();
+  },
   methods: {
+    ...mapActions("Facebook", [
+      "setCurrentFacebookDuration",
+      "setSavedFacebookDuration",
+    ]),
     setStartDate(date: Date) {
       this.formData.startDate = dayjs(date).toISOString();
     },
@@ -117,7 +139,7 @@ export default defineComponent({
       console.log("reset");
     },
     async confirmDate() {
-      if (this.savedFacebookDate && !this.isFacebookDateUpdated) {
+      if (this.isSavedDuration && !this.isFacebookDurationUpdated) {
         await this.continueNextStep();
         return;
       }
@@ -127,7 +149,7 @@ export default defineComponent({
           campaignId: this.$route.query.campaignId,
           campaignDates: this.formData,
         };
-        if (this.savedFacebookDate) {
+        if (this.savedFacebookDuration) {
           await FacebookRepository.updateCampaignDuration({
             saveCampaignObject,
           });
@@ -159,15 +181,46 @@ export default defineComponent({
     resetChange() {
       this.setSavedValue();
     },
+    async getSavedCampaignDuration() {
+      try {
+        this.isLoading = true;
+        const facebookCampaignDuration =
+          await FacebookRepository.getCampaignDuration(
+            this.$route.query.campaignId as string
+          );
+        await this.setSavedFacebookDuration(facebookCampaignDuration);
+        await this.setCurrentFacebookDuration(facebookCampaignDuration);
+      } catch (error: any) {
+        console.log("Get Facebook Campaign Duration Error", error);
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    setSavedDuration() {
+      const { endDate, startDate } = _deepCopy(this.savedFacebookDuration);
+      if (endDate && startDate) {
+        this.savedDuration = {
+          endDate: endDate,
+          startDate: startDate,
+        };
+      }
+    },
   },
   computed: {
+    ...mapGetters("Facebook", [
+      "savedFacebookDuration",
+      "isFacebookDurationUpdated",
+    ]),
     hasDates() {
       return this.formData.endDate && this.formData.startDate;
     },
+    isSavedDuration(): boolean {
+      return !!this.savedFacebookDuration;
+    },
     formatContinueButton() {
       let renderButtonContent = "Confirm Dates";
-      if (this.isSavedObjectiveGoal) {
-        if (this.isSameObjectiveGoal) {
+      if (this.isSavedDuration) {
+        if (!this.isFacebookDurationUpdated) {
           renderButtonContent = "Continue";
         } else {
           renderButtonContent = "Save Change";
@@ -182,6 +235,11 @@ export default defineComponent({
       return this.formData.endDate;
     },
   },
+  watch: {
+    savedFacebookDuration(savedDuration?: IFacebookDuration) {
+      if (savedDuration) this.setSavedDuration();
+    },
+  },
 });
 </script>
 <style lang="scss">
@@ -189,6 +247,12 @@ export default defineComponent({
   @include view-web-gutter();
   @include mobile() {
     @include view-mobile-gutter();
+  }
+  &__loading {
+    @include center-with-margin($max-width: 800px);
+    @include flex-config($justify-content: center, $align-items: center);
+    height: 200px;
+    color: $secondary;
   }
   &__content {
     &-title {

@@ -86,8 +86,8 @@ export default defineComponent({
         await this.setSavedFacebookAudience(
           _deepCopy(this.currentFacebookAudience)
         );
-        this.continueNextStep();
         this.$alert.success(`Audience Saved`);
+        this.continueNextStep();
       } catch (error: any) {
         this.$alert.error(`Error Saving Audience`);
         console.log(`Error: ${error.title} - ${error.message}`);

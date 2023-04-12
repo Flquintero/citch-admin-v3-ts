@@ -197,16 +197,16 @@ export default defineComponent({
       const { endDate, startDate } = _deepCopy(this.savedFacebookDuration);
       if (endDate && startDate) {
         this.savedDuration = {
-          endDate: endDate,
-          startDate: startDate,
+          endDate: dayjs(endDate).toISOString(),
+          startDate: dayjs(startDate).toISOString(),
         };
       }
     },
   },
   computed: {
     ...mapGetters("Facebook", ["savedFacebookDuration"]),
-    hasDates() {
-      return this.formData.endDate && this.formData.startDate;
+    hasDates(): boolean {
+      return !!(this.formData.endDate && this.formData.startDate);
     },
     isSavedDuration(): boolean {
       return !!this.savedFacebookDuration;
@@ -229,13 +229,14 @@ export default defineComponent({
       return this.formData.endDate;
     },
     isFacebookDurationUpdated(): boolean {
-      const isStartDateSame =
-        dayjs(this.formData.startDate).unix() ===
-        dayjs(this.savedDuration.startDate).unix();
-      const isEndDateSame =
-        dayjs(this.formData.endDate).unix() ===
-        dayjs(this.savedDuration.endDate).unix();
-      return !(isStartDateSame && isEndDateSame);
+      if (this.isSavedDuration) {
+        const isStartDateUpdated =
+          this.formData.startDate !== this.savedDuration.startDate;
+        const isEndDateUpdated =
+          this.formData.endDate !== this.savedDuration.endDate;
+        return isStartDateUpdated || isEndDateUpdated;
+      }
+      return false;
     },
   },
   watch: {

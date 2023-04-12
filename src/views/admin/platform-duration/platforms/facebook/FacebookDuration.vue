@@ -64,7 +64,7 @@
         <ResetButton
           v-if="isSavedDuration && isFacebookDurationUpdated && !saving"
           @click.native="resetChange"
-          v-bind="{ textContent: 'Reset Change' }"
+          v-bind="{ textContent: 'Reset Changes' }"
         />
       </div>
     </div>
@@ -217,7 +217,7 @@ export default defineComponent({
         if (!this.isFacebookDurationUpdated) {
           renderButtonContent = "Continue";
         } else {
-          renderButtonContent = "Save Change";
+          renderButtonContent = "Save Changes";
         }
       }
       return renderButtonContent;

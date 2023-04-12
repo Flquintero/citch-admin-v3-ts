@@ -62,7 +62,7 @@
           }"
         ></ContinueButton>
         <ResetButton
-          v-if="isSavedDuration && isFacebookDurationUpdated"
+          v-if="isSavedDuration && isFacebookDurationUpdated && !saving"
           @click.native="resetChange"
           v-bind="{ textContent: 'Reset Change' }"
         />
@@ -111,7 +111,6 @@ export default defineComponent({
       dateTimePickerPresets,
       saving: false,
       isLoading: false,
-      // isFacebookDurationUpdated: false,
       formData: {
         startDate: null as any | null,
         endDate: null as any | null,
@@ -132,21 +131,10 @@ export default defineComponent({
     ]),
     setStartDate(date: Date) {
       this.formData.startDate = dayjs(date).toISOString();
-      // this.checkUpdatedDuration();
     },
     setEndDate(date: Date) {
       this.formData.endDate = dayjs(date).toISOString();
-      // this.checkUpdatedDuration();
     },
-    // checkUpdatedDuration() {
-    //   const isStartDateSame =
-    //     dayjs(this.formData.startDate).unix() ===
-    //     dayjs(this.savedDuration.startDate).unix();
-    //   const isEndDateSame =
-    //     dayjs(this.formData.endDate).unix() ===
-    //     dayjs(this.savedDuration.endDate).unix();
-    //   this.isFacebookDurationUpdated = !(isStartDateSame && isEndDateSame);
-    // },
     updateCurrentDuration() {
       this.setCurrentFacebookDuration(this.formData);
     },
@@ -170,10 +158,8 @@ export default defineComponent({
             saveCampaignObject,
           });
         }
-        // await this.setSavedFacebookAudience(
-        //   _deepCopy(this.currentFacebookAudience)
-        // );
-        this.$alert.success(`Date Saved`);
+        await this.setSavedFacebookDuration(this.formData);
+        this.$alert.success(`Duration Saved`);
       } catch (error: any) {
         this.$alert.error(`Error Saving Date`);
       } finally {

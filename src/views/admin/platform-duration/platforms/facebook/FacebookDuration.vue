@@ -111,6 +111,7 @@ export default defineComponent({
       dateTimePickerPresets,
       saving: false,
       isLoading: false,
+      // isFacebookDurationUpdated: false,
       formData: {
         startDate: null as any | null,
         endDate: null as any | null,
@@ -131,12 +132,23 @@ export default defineComponent({
     ]),
     setStartDate(date: Date) {
       this.formData.startDate = dayjs(date).toISOString();
+      // this.checkUpdatedDuration();
     },
     setEndDate(date: Date) {
       this.formData.endDate = dayjs(date).toISOString();
+      // this.checkUpdatedDuration();
     },
-    setSavedValue() {
-      console.log("reset");
+    // checkUpdatedDuration() {
+    //   const isStartDateSame =
+    //     dayjs(this.formData.startDate).unix() ===
+    //     dayjs(this.savedDuration.startDate).unix();
+    //   const isEndDateSame =
+    //     dayjs(this.formData.endDate).unix() ===
+    //     dayjs(this.savedDuration.endDate).unix();
+    //   this.isFacebookDurationUpdated = !(isStartDateSame && isEndDateSame);
+    // },
+    updateCurrentDuration() {
+      this.setCurrentFacebookDuration(this.formData);
     },
     async confirmDate() {
       if (this.isSavedDuration && !this.isFacebookDurationUpdated) {
@@ -178,8 +190,8 @@ export default defineComponent({
         },
       });
     },
-    resetChange() {
-      this.setSavedValue();
+    async resetChange() {
+      await this.getSavedCampaignDuration();
     },
     async getSavedCampaignDuration() {
       try {
@@ -189,7 +201,6 @@ export default defineComponent({
             this.$route.query.campaignId as string
           );
         await this.setSavedFacebookDuration(facebookCampaignDuration);
-        await this.setCurrentFacebookDuration(facebookCampaignDuration);
       } catch (error: any) {
         console.log("Get Facebook Campaign Duration Error", error);
       } finally {
@@ -207,10 +218,7 @@ export default defineComponent({
     },
   },
   computed: {
-    ...mapGetters("Facebook", [
-      "savedFacebookDuration",
-      "isFacebookDurationUpdated",
-    ]),
+    ...mapGetters("Facebook", ["savedFacebookDuration"]),
     hasDates() {
       return this.formData.endDate && this.formData.startDate;
     },
@@ -233,6 +241,15 @@ export default defineComponent({
     },
     formattedMaxDateLimit(): string {
       return this.formData.endDate;
+    },
+    isFacebookDurationUpdated(): boolean {
+      const isStartDateSame =
+        dayjs(this.formData.startDate).unix() ===
+        dayjs(this.savedDuration.startDate).unix();
+      const isEndDateSame =
+        dayjs(this.formData.endDate).unix() ===
+        dayjs(this.savedDuration.endDate).unix();
+      return !(isStartDateSame && isEndDateSame);
     },
   },
   watch: {

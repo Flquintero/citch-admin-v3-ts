@@ -22,13 +22,7 @@ export const getters = {
   currentFacebookAudienceComplete(state: IFacebookState) {
     return state.currentFacebookAudienceComplete;
   },
-  currentFacebookDuration(state: IFacebookState) {
-    return state.currentFacebookDuration;
-  },
   savedFacebookDuration(state: IFacebookState) {
     return state.savedFacebookDuration;
-  },
-  isFacebookDurationUpdated(state: IFacebookState) {
-    return state.isFacebookDurationUpdated;
   },
 };

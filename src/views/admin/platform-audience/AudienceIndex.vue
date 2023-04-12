@@ -1,10 +1,10 @@
 <template>
-  <div class="audience-selection">
+  <div v-if="isLoading" class="audience-selection__loading">
+    <BaseLoader v-bind="{ size: '3x' }" />
+  </div>
+  <div v-else class="audience-selection">
     <component :is="getPlatformAudienceTitle(currentPlatform)"></component>
-    <div v-if="isLoading" class="audience-selection__loading">
-      <BaseLoader v-bind="{ size: '3x' }" />
-    </div>
-    <div v-else class="audience-selection__content">
+    <div class="audience-selection__content">
       <div class="audience-selection__content-tabs">
         <TabsMenu
           @tab-selected="setCurrentTabIndex($event)"
@@ -119,7 +119,7 @@ export default defineComponent({
       try {
         this.isLoading = true;
         this.savedCampaignAudience[this.currentPlatform] =
-          await FacebookRepository.getSavedCampaignAudience(
+          await FacebookRepository.getCampaignAudience(
             this.$route.query.campaignId as string
           );
         const platformAudience =

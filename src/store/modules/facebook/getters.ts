@@ -22,4 +22,7 @@ export const getters = {
   currentFacebookAudienceComplete(state: IFacebookState) {
     return state.currentFacebookAudienceComplete;
   },
+  savedFacebookDuration(state: IFacebookState) {
+    return state.savedFacebookDuration;
+  },
 };

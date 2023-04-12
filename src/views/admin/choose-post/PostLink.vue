@@ -21,6 +21,7 @@
     </div>
     <div class="choose-post-link__confirm">
       <ContinueButton
+        v-if="formData.postUrl"
         @click.native="confirmPostLink"
         v-bind="{
           variant: 'primary',
@@ -28,7 +29,7 @@
           loading: saving,
           textContent: 'Confirm',
           textIcon: 'fa-arrow-right',
-          loadingContent: 'Saving to Continue',
+          loadingContent: 'Saving',
         }"
       ></ContinueButton>
     </div>

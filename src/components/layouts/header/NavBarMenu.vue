@@ -101,6 +101,8 @@ export default defineComponent({
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    background-color: $white;
+    z-index: 100;
     &-user {
       padding: 10px;
       border-bottom: 1px solid $border;

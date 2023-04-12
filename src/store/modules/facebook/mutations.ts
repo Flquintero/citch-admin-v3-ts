@@ -2,6 +2,7 @@ import { IFacebookState } from "./types";
 import {
   IFacebookCampaign,
   IFacebookAudience,
+  IFacebookDuration,
 } from "@/types/facebook/campaigns/interfaces";
 import { IFacebookPage } from "@/types/facebook/pages/interfaces";
 import { IFacebookPost } from "@/types/facebook/post/interfaces";
@@ -78,5 +79,11 @@ export const mutations = {
       }
     );
     state.currentFacebookAudienceComplete = missingField.length ? false : true;
+  },
+  SET_SAVED_FACEBOOK_DURATION(
+    state: IFacebookState,
+    facebookDuration: IFacebookDuration
+  ) {
+    state.savedFacebookDuration = facebookDuration;
   },
 };

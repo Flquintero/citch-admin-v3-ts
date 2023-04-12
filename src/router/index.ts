@@ -65,6 +65,14 @@ const routes: Array<RouteConfig> = [
                 /* webpackChunkName: "platformAudience" */ "../views/admin/platform-audience/AudienceIndex.vue"
               ),
           },
+          {
+            path: "duration",
+            name: "platform duration",
+            component: () =>
+              import(
+                /* webpackChunkName: "platformDuration" */ "../views/admin/platform-duration/DurationIndex.vue"
+              ),
+          },
         ],
       },
       {

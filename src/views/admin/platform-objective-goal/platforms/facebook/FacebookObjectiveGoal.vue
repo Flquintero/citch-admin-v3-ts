@@ -26,7 +26,7 @@
             loading: saving,
             textContent: formatContinueButton,
             textIcon: 'fa-arrow-right',
-            loadingContent: 'Saving to Continue',
+            loadingContent: 'Saving',
           }"
         ></ContinueButton>
         <ResetButton
@@ -99,6 +99,7 @@ export default defineComponent({
         this.saving = false;
       }
     },
+    // TO DO: could be abstracted
     async continueNextStep() {
       await this.$router.push({
         name: "platform audience",

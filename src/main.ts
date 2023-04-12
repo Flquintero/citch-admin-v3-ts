@@ -91,6 +91,13 @@ import { analyticsFunctions } from "@/utils/analytics-tracking";
 
 Vue.prototype.$analyticsFunctions = analyticsFunctions;
 
+// Date picker
+
+import VueFlatPicker from "vue-flatpickr-component";
+import "flatpickr/dist/flatpickr.css";
+
+Vue.component("VueFlatPicker", VueFlatPicker);
+
 // Init
 
 new Vue({

@@ -9,11 +9,11 @@
         loading: saving,
         textContent: formatContinueButton,
         textIcon: 'fa-arrow-right',
-        loadingContent: 'Saving to Continue',
+        loadingContent: 'Saving',
       }"
     ></ContinueButton>
     <ResetButton
-      v-if="savedFacebookAudience && isFacebookAudienceUpdated"
+      v-if="savedFacebookAudience && isFacebookAudienceUpdated && !saving"
       @click.native="resetChanges"
       v-bind="{ textContent: 'Reset Changes' }"
     />
@@ -62,6 +62,10 @@ export default defineComponent({
       this.updateAudienceTabs();
     },
     async confirmAudience() {
+      if (this.savedFacebookAudience && !this.isFacebookAudienceUpdated) {
+        await this.continueNextStep();
+        return;
+      }
       try {
         this.saving = true;
         const saveCampaignObject = {
@@ -82,6 +86,7 @@ export default defineComponent({
         await this.setSavedFacebookAudience(
           _deepCopy(this.currentFacebookAudience)
         );
+        this.continueNextStep();
         this.$alert.success(`Audience Saved`);
       } catch (error: any) {
         this.$alert.error(`Error Saving Audience`);
@@ -89,6 +94,15 @@ export default defineComponent({
       } finally {
         this.saving = false;
       }
+    },
+    async continueNextStep() {
+      await this.$router.push({
+        name: "platform duration",
+        params: this.$route.params,
+        query: {
+          ...this.$route.query,
+        },
+      });
     },
     updateAudienceTabs() {
       const updatedTabs = this.setCompletedAudienceFields(

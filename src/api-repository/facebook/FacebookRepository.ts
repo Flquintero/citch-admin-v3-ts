@@ -14,7 +14,7 @@ export default {
   saveUser: async (facebookConnectData: IFacebookConnectData) => {
     return await $authedApiRequest({
       method: "post",
-      url: `${DOMAIN_PATH}/save-user`,
+      url: `${DOMAIN_PATH}/user`,
       data: facebookConnectData,
     });
   },
@@ -54,28 +54,28 @@ export default {
   createCampaign: async (campaignObject: IFacebookCampaignData) => {
     return await $authedApiRequest({
       method: "post",
-      url: `${DOMAIN_PATH}/create-campaign`,
+      url: `${DOMAIN_PATH}/campaign`,
       data: campaignObject,
     });
   },
   updateCampaign: async (campaignObject: IFacebookCampaignData) => {
     return await $authedApiRequest({
       method: "put",
-      url: `${DOMAIN_PATH}/update-campaign`,
+      url: `${DOMAIN_PATH}/campaign`,
       data: campaignObject,
     });
   },
   saveCampaignObjective: async (campaignObject: IFacebookCampaignData) => {
     return await $authedApiRequest({
       method: "post",
-      url: `${DOMAIN_PATH}/save-campaign-objective`,
+      url: `${DOMAIN_PATH}/campaign-objective`,
       data: campaignObject,
     });
   },
   updateCampaignObjective: async (campaignObject: IFacebookCampaignData) => {
     return await $authedApiRequest({
       method: "put",
-      url: `${DOMAIN_PATH}/update-campaign-objective`,
+      url: `${DOMAIN_PATH}/campaign-objective`,
       data: campaignObject,
     });
   },
@@ -92,7 +92,7 @@ export default {
   saveCampaignAudience: async (campaignObject: IFacebookCampaignData) => {
     return await $authedApiRequest({
       method: "post",
-      url: `${DOMAIN_PATH}/save-campaign-audience`,
+      url: `${DOMAIN_PATH}/campaign-audience`,
       data: campaignObject,
     });
   },
@@ -103,9 +103,28 @@ export default {
       data: campaignObject,
     });
   },
-  getSavedCampaignAudience: async (campaignId: string) => {
+  getCampaignAudience: async (campaignId: string) => {
     return await $authedApiRequest({
       url: `${DOMAIN_PATH}/campaign-audience/${campaignId}`,
+    });
+  },
+  saveCampaignDuration: async (campaignObject: IFacebookCampaignData) => {
+    return await $authedApiRequest({
+      method: "post",
+      url: `${DOMAIN_PATH}/campaign-duration`,
+      data: campaignObject,
+    });
+  },
+  updateCampaignDuration: async (campaignObject: IFacebookCampaignData) => {
+    return await $authedApiRequest({
+      method: "put",
+      url: `${DOMAIN_PATH}/campaign-duration`,
+      data: campaignObject,
+    });
+  },
+  getCampaignDuration: async (campaignId: string) => {
+    return await $authedApiRequest({
+      url: `${DOMAIN_PATH}/campaign-duration/${campaignId}`,
     });
   },
 };

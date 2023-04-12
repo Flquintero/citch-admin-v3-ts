@@ -34,7 +34,7 @@
           loading: confirming,
           textContent: 'Confirm',
           textIcon: 'fa-arrow-right',
-          loadingContent: 'Saving to Continue',
+          loadingContent: 'Saving',
         }"
       ></ContinueButton>
     </template>

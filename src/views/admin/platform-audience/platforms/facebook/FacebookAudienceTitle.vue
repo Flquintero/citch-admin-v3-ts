@@ -114,6 +114,7 @@ export default defineComponent({
   }
   &__content {
     text-align: center;
+    line-height: 1.5;
   }
 }
 </style>

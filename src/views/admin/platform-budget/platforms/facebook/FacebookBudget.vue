@@ -1,54 +1,18 @@
 <template>
-  <div class="facebook-campaign-duration">
-    <div v-if="isLoading" class="facebook-campaign-duration__loading">
+  <div class="facebook-campaign-budget">
+    <div v-if="isLoading" class="facebook-campaign-budget__loading">
       <BaseLoader v-bind="{ size: '3x' }" />
     </div>
-    <div v-else class="facebook-campaign-duration__content">
-      <h3 class="facebook-campaign-duration__content-title">
+    <div v-else class="facebook-campaign-budget__content">
+      <h3 class="facebook-campaign-budget__content-title">
         {{
           hasDates
-            ? `Budget selected:`
-            : `Please select the budget for this promotion:`
+            ? `Budget entered:`
+            : `Please enter the budget for this promotion:`
         }}
       </h3>
-      <div class="facebook-campaign-duration__content-inputs">
-        <DateSelectSingle
-          v-bind="{
-            savedValue: savedDuration.startDate,
-            inputPlacehoder: 'Choose Start',
-            inputLabel: 'Start Date and Time',
-            inputRequired: true,
-            customConfigurations: {
-              ...(formData.endDate
-                ? {
-                    maxDate: formattedMaxDateLimit,
-                  }
-                : null),
-            },
-          }"
-          @on-change="setStartDate($event)"
-        />
-        <div class="facebook-campaign-duration__content-inputs-separator">
-          <div><span>To</span></div>
-        </div>
-        <DateSelectSingle
-          v-bind="{
-            savedValue: savedDuration.endDate,
-            inputPlacehoder: 'Choose End',
-            inputLabel: 'End Date and Time',
-            inputRequired: true,
-            customConfigurations: {
-              ...(formData.startDate
-                ? {
-                    minDate: formattedMinDateLimit,
-                  }
-                : null),
-            },
-          }"
-          @on-change="setEndDate($event)"
-        />
-      </div>
-      <div class="facebook-campaign-duration__content-confirm">
+      <div class="facebook-campaign-budget__content-inputs"></div>
+      <div class="facebook-campaign-budget__content-confirm">
         <ContinueButton
           v-if="hasDates"
           @click.native="confirmDate"
@@ -93,19 +57,14 @@ const ContinueButton = () =>
     /* webpackChunkName: "ContinueButton" */ "@/components/functional/ButtonContinue.vue"
   );
 
-const DateSelectSingle = () =>
-  import(
-    /* webpackChunkName: "DateSelectSingle" */ "@/components/functional/DateSelectSingle.vue"
-  );
-
 const ResetButton = () =>
   import(
     /* webpackChunkName: "ResetButton" */ "@/components/functional/ButtonReset.vue"
   );
 
 export default defineComponent({
-  name: "FacebookDuration",
-  components: { BaseLoader, ContinueButton, ResetButton, DateSelectSingle },
+  name: "FacebookBudget",
+  components: { BaseLoader, ContinueButton, ResetButton },
   data() {
     return {
       dateTimePickerPresets,
@@ -160,7 +119,6 @@ export default defineComponent({
         }
         await this.setSavedFacebookDuration(this.formData);
         this.$alert.success(`Duration Saved`);
-        await this.continueNextStep();
       } catch (error: any) {
         this.$alert.error(`Error Saving Date`);
       } finally {
@@ -248,7 +206,7 @@ export default defineComponent({
 });
 </script>
 <style lang="scss">
-.facebook-campaign-duration {
+.facebook-campaign-budget {
   @include view-web-gutter();
   @include mobile() {
     @include view-mobile-gutter();

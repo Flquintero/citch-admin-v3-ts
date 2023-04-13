@@ -73,6 +73,14 @@ const routes: Array<RouteConfig> = [
                 /* webpackChunkName: "platformDuration" */ "../views/admin/platform-duration/DurationIndex.vue"
               ),
           },
+          {
+            path: "budget",
+            name: "platform budget",
+            component: () =>
+              import(
+                /* webpackChunkName: "platformBudget" */ "../views/admin/platform-budget/BudgetIndex.vue"
+              ),
+          },
         ],
       },
       {

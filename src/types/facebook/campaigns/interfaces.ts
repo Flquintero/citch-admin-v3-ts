@@ -79,3 +79,7 @@ export interface IFacebookDuration {
   endDate: string | Date;
   startDate: string | Date;
 }
+
+export interface IFacebookBudget {
+  budget: number;
+}

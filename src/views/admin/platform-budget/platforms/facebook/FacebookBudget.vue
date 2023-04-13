@@ -6,16 +6,31 @@
     <div v-else class="facebook-campaign-budget__content">
       <h3 class="facebook-campaign-budget__content-title">
         {{
-          hasDates
+          hasBudget
             ? `Budget entered:`
             : `Please enter the budget for this promotion:`
         }}
       </h3>
-      <div class="facebook-campaign-budget__content-inputs"></div>
+      <div class="facebook-campaign-budget__content-input">
+        <CInput
+          @input="setFormValue(formData, $v, $event)"
+          v-bind="{
+            value: formData.budget,
+            error: hasInputError($v, 'budget'),
+            validationObject: $v,
+            placeholder: `Enter Budget`,
+            label: `Campaign Budget`,
+            name: 'budget',
+            description: '$ US Dollars - Numbers Only',
+            type: 'number',
+            required: true,
+          }"
+        />
+      </div>
       <div class="facebook-campaign-budget__content-confirm">
         <ContinueButton
-          v-if="hasDates"
-          @click.native="confirmDate"
+          v-if="hasBudget"
+          @click.native="confirmBudget"
           v-bind="{
             variant: 'primary',
             disabled: !hasDates || saving,
@@ -26,7 +41,7 @@
           }"
         ></ContinueButton>
         <ResetButton
-          v-if="isSavedDuration && isFacebookDurationUpdated && !saving"
+          v-if="isSavedBudget && isFacebookBudgetUpdated && !saving"
           @click.native="resetChange"
           v-bind="{ textContent: 'Reset Changes' }"
         />
@@ -36,16 +51,18 @@
 </template>
 
 <script lang="ts">
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
 import Vue, { defineComponent } from "vue";
-import { dateTimePickerPresets } from "@/utils/date-time-picker-options";
 import { mapActions, mapGetters } from "vuex";
-import { _deepCopy } from "@/utils/formatting";
-import { IFacebookDuration } from "@/types/facebook/campaigns/interfaces";
+// import { _deepCopy } from "@/utils/formatting";
+import { FormFunctions } from "@/utils/form-functionality";
+import { required, numeric } from "vuelidate/lib/validators";
+import { IFacebookBudget } from "@/types/facebook/campaigns/interfaces";
 const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");
 
-dayjs.extend(utc);
+const CInput = () =>
+  import(
+    /* webpackChunkName: "CInput" */ "@/components/elements/BaseInput.vue"
+  );
 
 const BaseLoader = () =>
   import(
@@ -64,41 +81,38 @@ const ResetButton = () =>
 
 export default defineComponent({
   name: "FacebookBudget",
-  components: { BaseLoader, ContinueButton, ResetButton },
+  components: { BaseLoader, ContinueButton, ResetButton, CInput },
   data() {
     return {
-      dateTimePickerPresets,
       saving: false,
       isLoading: false,
       formData: {
-        startDate: null as any | null,
-        endDate: null as any | null,
+        budget: null as number | null,
       },
-      savedDuration: {
-        startDate: null as any | null,
-        endDate: null as any | null,
+      savedBudget: {
+        budget: null as number | null,
       },
     };
   },
+  validations: {
+    formData: {
+      budget: {
+        required,
+        numeric,
+      },
+    },
+  },
   async created() {
-    await this.getSavedCampaignDuration();
+    await this.getSavedCampaignBudget();
   },
   methods: {
     ...mapActions("Facebook", [
-      "setCurrentFacebookDuration",
-      "setSavedFacebookDuration",
+      "setCurrentFacebookBudget",
+      "setSavedFacebookBudget",
     ]),
-    setStartDate(date: Date) {
-      this.formData.startDate = dayjs(date).toISOString();
-    },
-    setEndDate(date: Date) {
-      this.formData.endDate = dayjs(date).toISOString();
-    },
-    updateCurrentDuration() {
-      this.setCurrentFacebookDuration(this.formData);
-    },
-    async confirmDate() {
-      if (this.isSavedDuration && !this.isFacebookDurationUpdated) {
+    ...FormFunctions,
+    async confirmBudget() {
+      if (this.isSavedBudget && !this.isFacebookBudgetUpdated) {
         await this.continueNextStep();
         return;
       }
@@ -106,21 +120,21 @@ export default defineComponent({
         this.saving = true;
         const saveCampaignObject = {
           campaignId: this.$route.query.campaignId,
-          campaignDates: this.formData,
+          campaignBudget: this.formData,
         };
         if (this.savedFacebookDuration) {
-          await FacebookRepository.updateCampaignDuration({
+          await FacebookRepository.updateCampaignBudget({
             saveCampaignObject,
           });
         } else {
-          await FacebookRepository.saveCampaignDuration({
+          await FacebookRepository.saveCampaignBudget({
             saveCampaignObject,
           });
         }
-        await this.setSavedFacebookDuration(this.formData);
-        this.$alert.success(`Duration Saved`);
+        await this.setSavedFacebookBudget(this.formData);
+        this.$alert.success(`Budget Saved`);
       } catch (error: any) {
-        this.$alert.error(`Error Saving Date`);
+        this.$alert.error(`Error Saving Budget`);
       } finally {
         this.saving = false;
       }
@@ -128,7 +142,7 @@ export default defineComponent({
     // TO DO: could be abstracted
     async continueNextStep() {
       await this.$router.push({
-        name: "platform budget",
+        name: "platform publish",
         params: this.$route.params,
         query: {
           ...this.$route.query,
@@ -136,44 +150,44 @@ export default defineComponent({
       });
     },
     async resetChange() {
-      await this.getSavedCampaignDuration();
+      await this.getSavedCampaignBudget();
     },
-    async getSavedCampaignDuration() {
+    async getSavedCampaignBudget() {
       try {
         this.isLoading = true;
-        const facebookCampaignDuration =
-          await FacebookRepository.getCampaignDuration(
-            this.$route.query.campaignId as string
-          );
-        await this.setSavedFacebookDuration(facebookCampaignDuration);
+        // const facebookCampaignDuration =
+        //   await FacebookRepository.getCampaignDuration(
+        //     this.$route.query.campaignId as string
+        //   );
+        // await this.setSavedFacebookDuration(facebookCampaignDuration);
       } catch (error: any) {
-        console.log("Get Facebook Campaign Duration Error", error);
+        console.log("Get Facebook Campaign Budget Error", error);
       } finally {
         this.isLoading = false;
       }
     },
-    setSavedDuration() {
-      const { endDate, startDate } = _deepCopy(this.savedFacebookDuration);
-      if (endDate && startDate) {
-        this.savedDuration = {
-          endDate: dayjs(endDate).toISOString(),
-          startDate: dayjs(startDate).toISOString(),
-        };
-      }
+    setSavedBudget() {
+      //   const { endDate, startDate } = _deepCopy(this.savedFacebookDuration);
+      //   if (endDate && startDate) {
+      //     this.savedDuration = {
+      //       endDate: dayjs(endDate).toISOString(),
+      //       startDate: dayjs(startDate).toISOString(),
+      //     };
+      //   }
     },
   },
   computed: {
-    ...mapGetters("Facebook", ["savedFacebookDuration"]),
-    hasDates(): boolean {
-      return !!(this.formData.endDate && this.formData.startDate);
+    ...mapGetters("Facebook", ["savedFacebookDuration", "savedFacebookBudget"]),
+    hasBudget(): boolean {
+      return !!this.formData.budget;
     },
-    isSavedDuration(): boolean {
-      return !!this.savedFacebookDuration;
+    isSavedBudget(): boolean {
+      return !!this.savedFacebookBudget;
     },
     formatContinueButton() {
       let renderButtonContent = "Confirm Dates";
-      if (this.isSavedDuration) {
-        if (!this.isFacebookDurationUpdated) {
+      if (this.isSavedBudget) {
+        if (!this.isFacebookBudgetUpdated) {
           renderButtonContent = "Continue";
         } else {
           renderButtonContent = "Save Changes";
@@ -181,26 +195,21 @@ export default defineComponent({
       }
       return renderButtonContent;
     },
-    formattedMinDateLimit(): string {
-      return this.formData.startDate;
-    },
-    formattedMaxDateLimit(): string {
-      return this.formData.endDate;
-    },
-    isFacebookDurationUpdated(): boolean {
-      if (this.isSavedDuration) {
-        const isStartDateUpdated =
-          this.formData.startDate !== this.savedDuration.startDate;
-        const isEndDateUpdated =
-          this.formData.endDate !== this.savedDuration.endDate;
-        return isStartDateUpdated || isEndDateUpdated;
-      }
+
+    isFacebookBudgetUpdated(): boolean {
+      //   if (this.isSavedDuration) {
+      //     const isStartDateUpdated =
+      //       this.formData.startDate !== this.savedDuration.startDate;
+      //     const isEndDateUpdated =
+      //       this.formData.endDate !== this.savedDuration.endDate;
+      //     return isStartDateUpdated || isEndDateUpdated;
+      //   }
       return false;
     },
   },
   watch: {
-    savedFacebookDuration(savedDuration?: IFacebookDuration) {
-      if (savedDuration) this.setSavedDuration();
+    savedFacebookBudget(savedBudget?: IFacebookBudget) {
+      if (savedBudget) this.setSavedBudget();
     },
   },
 });
@@ -222,13 +231,8 @@ export default defineComponent({
       @include center-with-margin($max-width: 600px, $top: 40px);
       text-align: center;
     }
-    &-inputs {
-      @include center-with-margin($max-width: 300px, $top: 40px);
-      @include flex-config($justify-content: center);
-      &-separator {
-        @include flex-config($align-items: center, $justify-content: center);
-        margin: 0 10px;
-      }
+    &-input {
+      @include center-with-margin($max-width: 600px, $top: 40px);
     }
     &-confirm {
       @include center-with-margin($max-width: 350px, $top: 45px, $bottom: 40px);

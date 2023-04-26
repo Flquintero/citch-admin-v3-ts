@@ -122,7 +122,7 @@ export default defineComponent({
           campaignId: this.$route.query.campaignId,
           campaignBudget: this.formData,
         };
-        if (this.savedFacebookBudget) {
+        if (this.isSavedBudget) {
           await FacebookRepository.updateCampaignBudget({
             saveCampaignObject,
           });

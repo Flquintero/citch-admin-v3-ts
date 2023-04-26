@@ -81,6 +81,14 @@ const routes: Array<RouteConfig> = [
                 /* webpackChunkName: "platformBudget" */ "../views/admin/platform-budget/BudgetIndex.vue"
               ),
           },
+          {
+            path: "publish",
+            name: "platform publish",
+            component: () =>
+              import(
+                /* webpackChunkName: "platformPublish" */ "../views/admin/platform-publish/PublishIndex.vue"
+              ),
+          },
         ],
       },
       {

@@ -1,5 +1,5 @@
 <template>
-  <h1 class="facebook-date-title">
+  <h1 class="facebook-duration-title">
     <span>{{
       isAltReachTitle ? `Great, we'll ` : `Great, we'll generate `
     }}</span>
@@ -172,7 +172,7 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
-.facebook-date-title {
+.facebook-duration-title {
   text-align: center;
   line-height: 1.5;
 }

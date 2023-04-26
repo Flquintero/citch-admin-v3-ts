@@ -64,6 +64,7 @@ import {
   faUser,
   faCircle,
   faChevronDown,
+  faPlay,
 } from "@fortawesome/pro-duotone-svg-icons";
 import { faFacebook } from "@fortawesome/free-brands-svg-icons";
 library.add(
@@ -81,6 +82,7 @@ library.add(
   faCircle,
   faArrowDown,
   faChevronDown,
+  faPlay,
   faFacebook as IconDefinition
 );
 Vue.component("FontAwesomeIcon", FontAwesomeIcon);

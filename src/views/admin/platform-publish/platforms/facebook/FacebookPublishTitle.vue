@@ -1,8 +1,6 @@
 <template>
-  <h1 class="facebook-budget-title">
-    <span>{{
-      isAltReachTitle ? `Great, we'll ` : `Great, we'll generate `
-    }}</span>
+  <h1 class="facebook-publish-title">
+    <span>{{ isAltReachTitle ? `We'll ` : `We'll generate ` }}</span>
     <SelectedContent
       v-if="isAltReachTitle"
       v-bind="{
@@ -103,7 +101,7 @@ const SelectedContent = () =>
   );
 
 export default defineComponent({
-  name: "FacebookBudgetTitle",
+  name: "FacebookPublishTitle",
   components: { SelectedContent },
   computed: {
     ...mapGetters("Facebook", {
@@ -187,7 +185,7 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
-.facebook-budget-title {
+.facebook-publish-title {
   text-align: center;
   line-height: 1.5;
 }

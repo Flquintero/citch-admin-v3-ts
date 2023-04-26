@@ -7,8 +7,8 @@
       <h3 class="facebook-campaign-duration__content-title">
         {{
           hasDates
-            ? `Budget selected:`
-            : `Please select the budget for this promotion:`
+            ? `Dates selected:`
+            : `Please select the date for this promotion:`
         }}
       </h3>
       <div class="facebook-campaign-duration__content-inputs">

@@ -103,7 +103,7 @@ const SelectedContent = () =>
   );
 
 export default defineComponent({
-  name: "FacebookDurationTitle",
+  name: "FacebookBudgetTitle",
   components: { SelectedContent },
   computed: {
     ...mapGetters("Facebook", {
@@ -152,7 +152,7 @@ export default defineComponent({
       }
     },
     currentAudienceAge(): string {
-      return `${this.savedFacebookAudience.ageMin}-${this.savedFacebookAudience.ageMax}`;
+      return `${this.savedFacebookAudience.ageMin} - ${this.savedFacebookAudience.ageMax}`;
     },
     currentAudienceLocations(): string {
       let renderLocation = "";
@@ -179,9 +179,9 @@ export default defineComponent({
       }
     },
     campaignDates(): string {
-      return `${dayjs(this.savedFacebookDuration.startDate).format(
+      return `${dayjs(this.savedFacebookDuration?.startDate).format(
         "MMM D"
-      )} - ${dayjs(this.savedFacebookDuration.endDate).format("MMM D")}`;
+      )} - ${dayjs(this.savedFacebookDuration?.endDate).format("MMM D")}`;
     },
   },
 });

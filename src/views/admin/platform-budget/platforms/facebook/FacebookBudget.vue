@@ -33,7 +33,7 @@
           @click.native="confirmBudget"
           v-bind="{
             variant: 'primary',
-            disabled: !hasDates || saving,
+            disabled: !hasBudget || saving,
             loading: saving,
             textContent: formatContinueButton,
             textIcon: 'fa-arrow-right',
@@ -53,7 +53,7 @@
 <script lang="ts">
 import Vue, { defineComponent } from "vue";
 import { mapActions, mapGetters } from "vuex";
-// import { _deepCopy } from "@/utils/formatting";
+import { _deepCopy } from "@/utils/formatting";
 import { FormFunctions } from "@/utils/form-functionality";
 import { required, numeric } from "vuelidate/lib/validators";
 import { IFacebookBudget } from "@/types/facebook/campaigns/interfaces";
@@ -122,7 +122,7 @@ export default defineComponent({
           campaignId: this.$route.query.campaignId,
           campaignBudget: this.formData,
         };
-        if (this.savedFacebookDuration) {
+        if (this.savedFacebookBudget) {
           await FacebookRepository.updateCampaignBudget({
             saveCampaignObject,
           });
@@ -155,11 +155,11 @@ export default defineComponent({
     async getSavedCampaignBudget() {
       try {
         this.isLoading = true;
-        // const facebookCampaignDuration =
-        //   await FacebookRepository.getCampaignDuration(
-        //     this.$route.query.campaignId as string
-        //   );
-        // await this.setSavedFacebookDuration(facebookCampaignDuration);
+        const facebookCampaignBudget =
+          await FacebookRepository.getCampaignBudget(
+            this.$route.query.campaignId as string
+          );
+        await this.setSavedFacebookBudget(facebookCampaignBudget);
       } catch (error: any) {
         console.log("Get Facebook Campaign Budget Error", error);
       } finally {
@@ -167,17 +167,12 @@ export default defineComponent({
       }
     },
     setSavedBudget() {
-      //   const { endDate, startDate } = _deepCopy(this.savedFacebookDuration);
-      //   if (endDate && startDate) {
-      //     this.savedDuration = {
-      //       endDate: dayjs(endDate).toISOString(),
-      //       startDate: dayjs(startDate).toISOString(),
-      //     };
-      //   }
+      this.savedBudget = _deepCopy(this.savedFacebookBudget);
+      this.formData = _deepCopy(this.savedFacebookBudget);
     },
   },
   computed: {
-    ...mapGetters("Facebook", ["savedFacebookDuration", "savedFacebookBudget"]),
+    ...mapGetters("Facebook", ["savedFacebookBudget"]),
     hasBudget(): boolean {
       return !!this.formData.budget;
     },
@@ -185,25 +180,21 @@ export default defineComponent({
       return !!this.savedFacebookBudget;
     },
     formatContinueButton() {
-      let renderButtonContent = "Confirm Dates";
+      let renderButtonContent = "Confirm Budget";
       if (this.isSavedBudget) {
         if (!this.isFacebookBudgetUpdated) {
           renderButtonContent = "Continue";
         } else {
-          renderButtonContent = "Save Changes";
+          renderButtonContent = "Save Change";
         }
       }
       return renderButtonContent;
     },
 
     isFacebookBudgetUpdated(): boolean {
-      //   if (this.isSavedDuration) {
-      //     const isStartDateUpdated =
-      //       this.formData.startDate !== this.savedDuration.startDate;
-      //     const isEndDateUpdated =
-      //       this.formData.endDate !== this.savedDuration.endDate;
-      //     return isStartDateUpdated || isEndDateUpdated;
-      //   }
+      if (this.isSavedBudget) {
+        return this.formData.budget !== this.savedBudget.budget;
+      }
       return false;
     },
   },

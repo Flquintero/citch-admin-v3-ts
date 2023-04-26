@@ -127,4 +127,23 @@ export default {
       url: `${DOMAIN_PATH}/campaign-duration/${campaignId}`,
     });
   },
+  saveCampaignBudget: async (campaignObject: IFacebookCampaignData) => {
+    return await $authedApiRequest({
+      method: "post",
+      url: `${DOMAIN_PATH}/campaign-budget`,
+      data: campaignObject,
+    });
+  },
+  updateCampaignBudget: async (campaignObject: IFacebookCampaignData) => {
+    return await $authedApiRequest({
+      method: "put",
+      url: `${DOMAIN_PATH}/campaign-budget`,
+      data: campaignObject,
+    });
+  },
+  getCampaignBudget: async (campaignId: string) => {
+    return await $authedApiRequest({
+      url: `${DOMAIN_PATH}/campaign-budget/${campaignId}`,
+    });
+  },
 };

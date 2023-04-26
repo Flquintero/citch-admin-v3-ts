@@ -4,6 +4,12 @@
       <BaseLoader v-bind="{ size: '3x' }" />
     </div>
     <div v-else class="facebook-campaign-budget__content">
+      <div class="facebook-campaign-budget__content-recomendation">
+        <h3>We estimate that that this promotion will cost about:</h3>
+        <div class="facebook-campaign-budget__content-recomendation-digits">
+          <span>${{ budgetRecomendation }}</span>
+        </div>
+      </div>
       <h3 class="facebook-campaign-budget__content-title">
         {{
           hasBudget
@@ -173,6 +179,11 @@ export default defineComponent({
   },
   computed: {
     ...mapGetters("Facebook", ["savedFacebookBudget"]),
+    budgetRecomendation(): string {
+      return (
+        parseInt(this.$route.query.objectiveGoal as string) * 1
+      ).toString();
+    },
     hasBudget(): boolean {
       return !!this.formData.budget;
     },
@@ -218,6 +229,15 @@ export default defineComponent({
     color: $secondary;
   }
   &__content {
+    &-recomendation {
+      @include center-with-margin($max-width: 600px, $top: 40px);
+      text-align: center;
+      &-digits {
+        margin-top: 5px;
+        font-size: rem(18);
+        font-weight: 600;
+      }
+    }
     &-title {
       @include center-with-margin($max-width: 600px, $top: 40px);
       text-align: center;

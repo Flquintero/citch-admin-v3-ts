@@ -41,6 +41,9 @@ export default defineComponent({
       savedCampaignDuration: {
         facebook: {} as any,
       } as any,
+      savedCampaignBudget: {
+        facebook: {} as any,
+      } as any,
     };
   },
   async created() {
@@ -50,6 +53,7 @@ export default defineComponent({
     ...mapActions("Facebook", [
       "setSavedFacebookAudience",
       "setSavedFacebookDuration",
+      "setSavedFacebookBudget",
       "resetPropertyFacebookState",
     ]),
     getPlatformPublish,
@@ -60,6 +64,7 @@ export default defineComponent({
         case "facebook" || "instagram":
           await this.getSavedFacebookCampaignAudience();
           await this.getSavedFacebookCampaignDuration();
+          await this.getSavedFacebookCampaignBudget();
           break;
         default:
           break;
@@ -88,11 +93,26 @@ export default defineComponent({
           await FacebookRepository.getCampaignDuration(
             this.$route.query.campaignId as string
           );
-        const platformAudience =
+        const platformDuration =
           this.savedCampaignDuration[this.currentPlatform];
-        await this.setSavedFacebookDuration(platformAudience);
+        await this.setSavedFacebookDuration(platformDuration);
       } catch (error: any) {
         console.log("Get Facebook Campaign Duration Error", error);
+      } finally {
+        this.isLoading = false;
+      }
+    },
+    async getSavedFacebookCampaignBudget() {
+      try {
+        this.isLoading = true;
+        this.savedCampaignBudget[this.currentPlatform] =
+          await FacebookRepository.getCampaignBudget(
+            this.$route.query.campaignId as string
+          );
+        const platformBudget = this.savedCampaignBudget[this.currentPlatform];
+        await this.setSavedFacebookBudget(platformBudget);
+      } catch (error: any) {
+        console.log("Get Facebook Campaign Budget Error", error);
       } finally {
         this.isLoading = false;
       }

@@ -84,6 +84,15 @@
         addQueryParams: true,
       }"
     />
+    and won't spend more than
+    <SelectedContent
+      v-bind="{
+        content: campaignBudget,
+        capitalize: true,
+        url: 'budget',
+        addQueryParams: true,
+      }"
+    />
   </h1>
 </template>
 
@@ -107,6 +116,7 @@ export default defineComponent({
     ...mapGetters("Facebook", {
       savedFacebookAudience: "savedFacebookAudience",
       savedFacebookDuration: "savedFacebookDuration",
+      savedFacebookBudget: "savedFacebookBudget",
     }),
     isAltReachTitle(): boolean {
       return this.isReachObjective || this.isCitchReachObjective;
@@ -180,6 +190,9 @@ export default defineComponent({
       return `${dayjs(this.savedFacebookDuration?.startDate).format(
         "MMM D"
       )} - ${dayjs(this.savedFacebookDuration?.endDate).format("MMM D")}`;
+    },
+    campaignBudget(): string {
+      return `$${this.savedFacebookBudget?.budget}`;
     },
   },
 });

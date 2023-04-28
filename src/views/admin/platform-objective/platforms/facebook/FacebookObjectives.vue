@@ -95,6 +95,7 @@ export default defineComponent({
       try {
         this.saving = true;
         const pageId = this.$route.query.pageId as string; // this.currentPost.split("_")[0]; <--- could be not consistent
+        const postId = this.$route.query.postId as string;
         const now = dayjs().format("MM-DD-YY-Thhmmss");
         const campaignObject: ISaveFacebookCampaignObject = {
           saveCampaignObject: {
@@ -102,6 +103,7 @@ export default defineComponent({
               ? { campaignId: this.savedCampaign as string }
               : null),
             pageId,
+            postId,
             platform: this.currentPlatform,
             campaignData: {
               name: `${now}-${pageId}-${this.currentPlatform}-${this.chosenObjective?.displayName}`,

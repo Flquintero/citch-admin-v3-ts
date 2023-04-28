@@ -137,8 +137,9 @@ export default defineComponent({
             saveCampaignObject,
           });
         }
-        await this.setSavedFacebookBudget(this.formData);
         this.$alert.success(`Budget Saved`);
+        await this.setSavedFacebookBudget(this.formData);
+        await this.continueNextStep();
       } catch (error: any) {
         this.$alert.error(`Error Saving Budget`);
       } finally {

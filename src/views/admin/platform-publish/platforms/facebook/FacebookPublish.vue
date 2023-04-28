@@ -50,17 +50,10 @@ export default defineComponent({
         this.saving = true;
         const saveCampaignObject = {
           campaignId: this.$route.query.campaignId,
-          campaignBudget: this.formData,
         };
-        if (this.isSavedBudget) {
-          await FacebookRepository.updateCampaignBudget({
-            saveCampaignObject,
-          });
-        } else {
-          await FacebookRepository.saveCampaignBudget({
-            saveCampaignObject,
-          });
-        }
+        await FacebookRepository.campaignPublish({
+          saveCampaignObject,
+        });
         this.$alert.success(`Campaign Published`);
       } catch (error: any) {
         this.$alert.error(`Error Publishing Campaign`);

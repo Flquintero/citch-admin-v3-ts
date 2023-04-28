@@ -146,4 +146,11 @@ export default {
       url: `${DOMAIN_PATH}/campaign-budget/${campaignId}`,
     });
   },
+  campaignPublish: async (campaignObject: IFacebookCampaignData) => {
+    return await $authedApiRequest({
+      method: "post",
+      url: `${DOMAIN_PATH}/campaign-publish`,
+      data: campaignObject,
+    });
+  },
 };

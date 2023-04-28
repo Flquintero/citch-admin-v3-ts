@@ -10,6 +10,7 @@ export interface ISaveFacebookCampaignObject {
   saveCampaignObject: {
     campaignId?: string;
     pageId?: string;
+    postId?: string;
     platform?: string;
     campaignData: {
       name?: string;

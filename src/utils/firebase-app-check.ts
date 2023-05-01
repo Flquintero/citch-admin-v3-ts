@@ -1,6 +1,6 @@
-import Vue from 'vue';
-const { getToken } = require('firebase/app-check');
-import { appCheck } from '@/config/firebase';
+import Vue from "vue";
+const { getToken } = require("firebase/app-check");
+import { appCheck } from "@/config/firebase";
 
 const getAppCheckToken = async () => {
   let appCheckTokenResponse;
@@ -8,7 +8,7 @@ const getAppCheckToken = async () => {
     appCheckTokenResponse = await getToken(appCheck, /* forceRefresh= */ true);
     return appCheckTokenResponse.token;
   } catch (error: any) {
-    console.log('App check Token Error!!!', error);
+    console.log("App check Token Error!!!", error);
     Vue.prototype.$alert.error(`Error With App check Token`);
     return;
   }

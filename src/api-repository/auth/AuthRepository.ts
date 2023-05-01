@@ -1,6 +1,6 @@
-import { IFormData } from '@/types/forms';
-import { IVerifyPassword, IPasswordConfirm } from '@/types/auth';
-import { UserCredential, User } from 'firebase/auth';
+import { IFormData } from "@/types/forms/interfaces";
+import { IVerifyPassword, IPasswordConfirm } from "@/types/auth/interfaces";
+import { UserCredential, User } from "firebase/auth";
 import {
   auth,
   createUserWithEmailAndPassword,
@@ -9,14 +9,14 @@ import {
   signOut,
   onAuthStateChanged,
   sendPasswordResetEmail,
-} from '@/config/firebase';
-import { $publicApiRequest } from '@/utils/api';
+} from "@/config/firebase";
+import { $publicApiRequest } from "@/utils/api";
 
-const DOMAIN_PATH = '/auth';
+const DOMAIN_PATH = "/auth";
 
 export default {
   signupUser: async (formData: IFormData) => {
-    let userCredential: UserCredential = await createUserWithEmailAndPassword(
+    const userCredential: UserCredential = await createUserWithEmailAndPassword(
       auth,
       formData.email,
       formData.password
@@ -48,16 +48,18 @@ export default {
   initResetUserPassword: async (formData: IFormData) => {
     return await sendPasswordResetEmail(auth, formData.email);
   },
-  initVerifyResetPasswordCode: async (passwordVerificationObject: IVerifyPassword) => {
+  initVerifyResetPasswordCode: async (
+    passwordVerificationObject: IVerifyPassword
+  ) => {
     return await $publicApiRequest({
-      method: 'post',
+      method: "post",
       url: `${DOMAIN_PATH}/verify-password-code`,
       data: { ...passwordVerificationObject },
     });
   },
   setNewPassword: async (passwordConfirmObject: IPasswordConfirm) => {
     return await $publicApiRequest({
-      method: 'post',
+      method: "post",
       url: `${DOMAIN_PATH}/confirm-password-reset`,
       data: { ...passwordConfirmObject },
     });

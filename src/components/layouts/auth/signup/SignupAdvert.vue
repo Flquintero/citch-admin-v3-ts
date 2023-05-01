@@ -1,15 +1,18 @@
 <template>
   <div class="signup-values">
-    <img src="https://files.citch.io/citch-admin-v3/login-advert.png" alt="citch-login-advert" />
+    <img
+      src="https://files.citch.io/citch-admin-v3/login-advert.png"
+      alt="citch-login-advert"
+    />
   </div>
 </template>
 <script lang="ts">
-import Vue from 'vue';
-export default Vue.extend({
-  name: 'SignupValues',
+import { defineComponent } from "vue";
+export default defineComponent({
+  name: "SignupValues",
 });
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .signup-values {
   display: flex;
   justify-content: center;

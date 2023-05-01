@@ -1,12 +1,12 @@
-import { IFormData } from '@/types/forms';
-import { $authedApiRequest } from '@/utils/api';
+import type { IFormData } from "@/types/forms/interfaces";
+import { $authedApiRequest } from "@/utils/api";
 
-const DOMAIN_PATH = '/organizations';
+const DOMAIN_PATH = "/organizations";
 
 export default {
   updateOrganization: async (organizationObject: IFormData) => {
     return await $authedApiRequest({
-      method: 'post',
+      method: "post",
       url: `${DOMAIN_PATH}/update`,
       data: { ...organizationObject },
     });

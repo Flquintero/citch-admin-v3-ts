@@ -53,6 +53,31 @@ $colors: (
     }
 }
 
+//Keep section spaces consistent
+
+@mixin view-web-gutter(){
+    margin: 0 100px;
+}
+@mixin view-mobile-gutter() {
+    margin: 0 20px;
+}
+
+// img auto resize to fit parent
+
+@mixin image-fit(){
+    height: auto;
+    width: auto;
+    max-height: 100%;
+    max-width: 100%;
+}
+
+// uses margin to center
+
+@mixin center-with-margin($max-width, $top: 0, $bottom: 0) {
+    max-width: $max-width;
+    margin: $top auto $bottom;
+}
+
 // Margin and Padding helpers
 // TODO: we should have spacing variables to make sure our spacing is consistent
 @mixin margin($amount, $direction: 'all') {
@@ -130,27 +155,16 @@ $colors: (
     }
 }
 
-@mixin sr-only() {
-    border: 0 !important;
-    clip: rect(1px, 1px, 1px, 1px) !important;
-    /* 1 */
-    -webkit-clip-path: inset(50%) !important;
-    clip-path: inset(50%) !important;
-    /* 2 */
-    height: 1px !important;
-    margin: -1px !important;
-    overflow: hidden !important;
-    padding: 0 !important;
-    position: absolute !important;
-    width: 1px !important;
-    white-space: nowrap !important;
-    /* 3 */
-}
-
 // adds ellipsis at the end of a block of text if content goes beyond the lines-limit count
 @mixin line-clamp($lines-limit) {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: $lines-limit;
     overflow: hidden;
+}
+
+@mixin box-shadow (){
+    -webkit-box-shadow: 1px 1px 1px 0px rgba(48, 45, 45, 0.25);
+    -moz-box-shadow: 1px 1px 1px 0px rgba(48, 45, 45, 0.25);
+    box-shadow: 1px 1px 1px 0px rgba(48, 45, 45, 0.25);  
 }

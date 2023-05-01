@@ -1,5 +1,5 @@
-import { User } from 'firebase/auth';
-import { IUserState } from './types';
+import { User } from "firebase/auth";
+import { IUserState } from "./types";
 
 export const mutations = {
   SET_LOGGED_IN(state: IUserState, value: boolean) {

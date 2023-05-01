@@ -3,9 +3,9 @@
 */
 
 // Main Color Palette
-$dark-red: #b00020;
-$medium-red: #900f26;
-
+$dark-red: #B40000;
+$medium-red: #DA0000;
+$red: #FF4040;
 // Neutral Color Palette
 $white: #ffffff;
 $darker-white: #e6e6e6;
@@ -25,8 +25,10 @@ $black-with-alpha: #2c273814;
 // CITCH NEW
 $medium-blue: #0075ff;
 $light-blue:#d4ebff;
+$pink: #ffbdd9;
 $burgundy: #a3166a;
 $dark-blue: #2e3458;
+$facebook-blue: #0474e7;
 
 // Negative Color Palette
 $negative-darker: #7D0D0D;
@@ -40,19 +42,25 @@ $negative-light: #FDF2F0;
 $primary: $medium-blue !default;
 $primary-light: $light-blue !default;
 $secondary: $burgundy  !default;
+$tertiary: $pink !default;
 $error: $negative  !default;
 
-$success: #4f7228;
+$success: #16A34F;
 $success-light: #e2f6de;
 $info: #045b87;
 $info-light: #e1f5ff;
 $warning: #b97202;
 $warning-light: #f8ecd9;
-// $error: #900f26;
+$error: $medium-red;
 $error-light: #f6e2e2;
 
 // Form elements
 $border: $pale  !default;
+$border-radius: 2px;
+$border-width: 1px;
+$border-type: solid;
+$border-specs: $border-width $border-type $pale;
+$border-specs-primary: $border-width $border-type $primary;
 
 // Buttons
 $button-primary-background: $burgundy  !default;
@@ -136,9 +144,6 @@ $dialog-background-secondary-color: rgba($pale, 0.3) !default;
 
 // Tooltip
 // $tooltip-background-color: $tooltip-green  !default;
-
-//Mega menu
-$mega-menu-active-tab-border-color: $dark-grey  !default;
 
 // Z-Index
 $z-index-loading-overlay: 90;

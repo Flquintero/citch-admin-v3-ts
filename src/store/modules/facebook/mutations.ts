@@ -3,6 +3,7 @@ import {
   IFacebookCampaign,
   IFacebookAudience,
   IFacebookDuration,
+  IFacebookBudget,
 } from "@/types/facebook/campaigns/interfaces";
 import { IFacebookPage } from "@/types/facebook/pages/interfaces";
 import { IFacebookPost } from "@/types/facebook/post/interfaces";
@@ -85,5 +86,11 @@ export const mutations = {
     facebookDuration: IFacebookDuration
   ) {
     state.savedFacebookDuration = facebookDuration;
+  },
+  SET_SAVED_FACEBOOK_BUDGET(
+    state: IFacebookState,
+    facebookBudget: IFacebookBudget
+  ) {
+    state.savedFacebookBudget = facebookBudget;
   },
 };

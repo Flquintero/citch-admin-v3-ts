@@ -25,4 +25,7 @@ export const getters = {
   savedFacebookDuration(state: IFacebookState) {
     return state.savedFacebookDuration;
   },
+  savedFacebookBudget(state: IFacebookState) {
+    return state.savedFacebookBudget;
+  },
 };

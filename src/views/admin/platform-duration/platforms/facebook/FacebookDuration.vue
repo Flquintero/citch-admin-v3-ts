@@ -8,7 +8,7 @@
         {{
           hasDates
             ? `Dates selected:`
-            : `Please select the start and end date for this promotion:`
+            : `Please select the date for this promotion:`
         }}
       </h3>
       <div class="facebook-campaign-duration__content-inputs">
@@ -160,6 +160,7 @@ export default defineComponent({
         }
         await this.setSavedFacebookDuration(this.formData);
         this.$alert.success(`Duration Saved`);
+        await this.continueNextStep();
       } catch (error: any) {
         this.$alert.error(`Error Saving Date`);
       } finally {

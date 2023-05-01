@@ -1,8 +1,6 @@
 <template>
-  <h1 class="facebook-duration-title">
-    <span>{{
-      isAltReachTitle ? `Great, we'll ` : `Great, we'll generate `
-    }}</span>
+  <h1 class="facebook-publish-title">
+    <span>{{ isAltReachTitle ? `We'll ` : `We'll generate ` }}</span>
     <SelectedContent
       v-if="isAltReachTitle"
       v-bind="{
@@ -77,12 +75,30 @@
     <SelectedContent
       v-bind="{ content: currentPlatform, capitalize: true, url: '/post-link' }"
     />
-    post
+    post between
+    <SelectedContent
+      v-bind="{
+        content: campaignDates,
+        capitalize: true,
+        url: 'duration',
+        addQueryParams: true,
+      }"
+    />
+    and won't spend more than
+    <SelectedContent
+      v-bind="{
+        content: campaignBudget,
+        capitalize: true,
+        url: 'budget',
+        addQueryParams: true,
+      }"
+    />
   </h1>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import dayjs from "dayjs";
 import { EFacebookObjectiveIdentifier } from "@/types/facebook/campaigns/enums";
 import type { IFacebookObjective } from "@/types/facebook/campaigns/interfaces";
 import { getFacebookObjectiveByIdentifier } from "../../../platform-objective/platforms/facebook/utils/facebook-objective-identifier-parser";
@@ -94,11 +110,13 @@ const SelectedContent = () =>
   );
 
 export default defineComponent({
-  name: "FacebookDurationTitle",
+  name: "FacebookPublishTitle",
   components: { SelectedContent },
   computed: {
     ...mapGetters("Facebook", {
       savedFacebookAudience: "savedFacebookAudience",
+      savedFacebookDuration: "savedFacebookDuration",
+      savedFacebookBudget: "savedFacebookBudget",
     }),
     isAltReachTitle(): boolean {
       return this.isReachObjective || this.isCitchReachObjective;
@@ -142,7 +160,7 @@ export default defineComponent({
       }
     },
     currentAudienceAge(): string {
-      return `${this.savedFacebookAudience.ageMin}-${this.savedFacebookAudience.ageMax}`;
+      return `${this.savedFacebookAudience.ageMin} - ${this.savedFacebookAudience.ageMax}`;
     },
     currentAudienceLocations(): string {
       let renderLocation = "";
@@ -168,11 +186,19 @@ export default defineComponent({
         return `${this.savedFacebookAudience.chosenInterests[0].name} & other interests`;
       }
     },
+    campaignDates(): string {
+      return `${dayjs(this.savedFacebookDuration?.startDate).format(
+        "MMM D"
+      )} - ${dayjs(this.savedFacebookDuration?.endDate).format("MMM D")}`;
+    },
+    campaignBudget(): string {
+      return `$${this.savedFacebookBudget?.budget}`;
+    },
   },
 });
 </script>
 <style lang="scss" scoped>
-.facebook-duration-title {
+.facebook-publish-title {
   text-align: center;
   line-height: 1.5;
 }

@@ -74,4 +74,11 @@ export interface IFacebookRepository {
   updateCampaignDuration(
     campaignDataObject: IFacebookCampaignData
   ): Promise<IFacebookCampaign>;
+  getCampaignBudget(campaignId: string): Promise<IFacebookDuration>;
+  saveCampaignBudget(
+    campaignDataObject: IFacebookCampaignData
+  ): Promise<IFacebookCampaign>;
+  updateCampaignBudget(
+    campaignDataObject: IFacebookCampaignData
+  ): Promise<IFacebookCampaign>;
 }

@@ -10,6 +10,7 @@ export interface ISaveFacebookCampaignObject {
   saveCampaignObject: {
     campaignId?: string;
     pageId?: string;
+    postId?: string;
     platform?: string;
     campaignData: {
       name?: string;
@@ -78,4 +79,8 @@ export interface IFacebookInterest {
 export interface IFacebookDuration {
   endDate: string | Date;
   startDate: string | Date;
+}
+
+export interface IFacebookBudget {
+  budget: number;
 }

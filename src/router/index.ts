@@ -73,6 +73,30 @@ const routes: Array<RouteConfig> = [
                 /* webpackChunkName: "platformDuration" */ "../views/admin/platform-duration/DurationIndex.vue"
               ),
           },
+          {
+            path: "budget",
+            name: "platform budget",
+            component: () =>
+              import(
+                /* webpackChunkName: "platformBudget" */ "../views/admin/platform-budget/BudgetIndex.vue"
+              ),
+          },
+          {
+            path: "publish",
+            name: "platform publish",
+            component: () =>
+              import(
+                /* webpackChunkName: "platformPublish" */ "../views/admin/platform-publish/PublishIndex.vue"
+              ),
+          },
+          {
+            path: "published",
+            name: "platform published",
+            component: () =>
+              import(
+                /* webpackChunkName: "platformPublishSuccess" */ "../views/admin/platform-publish/PublishSuccess.vue"
+              ),
+          },
         ],
       },
       {

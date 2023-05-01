@@ -1,5 +1,9 @@
-import { IFacebookCampaign } from "@/types/facebook/campaigns/interfaces";
-import { IFacebookAudience } from "@/types/facebook/campaigns/interfaces";
+import {
+  IFacebookCampaign,
+  IFacebookAudience,
+  IFacebookDuration,
+  IFacebookBudget,
+} from "@/types/facebook/campaigns/interfaces";
 import type { IFacebookPage } from "@/types/facebook/pages/interfaces";
 import type { IFacebookPost } from "@/types/facebook/post/interfaces";
 
@@ -18,4 +22,6 @@ export interface IFacebookState {
   savedFacebookAudience?: IFacebookAudience;
   isFacebookAudienceUpdated: boolean;
   currentFacebookAudienceComplete: boolean;
+  savedFacebookDuration?: IFacebookDuration;
+  savedFacebookBudget?: IFacebookBudget;
 }

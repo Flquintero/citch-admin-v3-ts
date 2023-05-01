@@ -4,6 +4,7 @@ import {
   IFacebookCampaign,
   IFacebookAudience,
   IFacebookDuration,
+  IFacebookBudget,
 } from "@/types/facebook/campaigns/interfaces";
 import { IFacebookPage } from "@/types/facebook/pages/interfaces";
 import { IFacebookPost } from "@/types/facebook/post/interfaces";
@@ -55,5 +56,11 @@ export const actions = {
     savedFacebookDuration: IFacebookDuration
   ) {
     await commit("SET_SAVED_FACEBOOK_DURATION", savedFacebookDuration);
+  },
+  async setSavedFacebookBudget(
+    { commit }: { commit: Commit },
+    savedFacebookBudget: IFacebookBudget
+  ) {
+    await commit("SET_SAVED_FACEBOOK_BUDGET", savedFacebookBudget);
   },
 };

@@ -15,6 +15,7 @@ export const state: IFacebookState = {
   isFacebookAudienceUpdated: false,
   currentFacebookAudienceComplete: false,
   savedFacebookDuration: undefined,
+  savedFacebookBudget: undefined,
 };
 
 //SETUP WHAT WILL BE EXPORTED TO MAIN STORE TO BE ACCESSED. NOTICE IT IS USING TYPES FROM PROFILESTATE AND ROOTSTATE WHICH ARE IMPORTED

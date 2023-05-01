@@ -89,6 +89,14 @@ const routes: Array<RouteConfig> = [
                 /* webpackChunkName: "platformPublish" */ "../views/admin/platform-publish/PublishIndex.vue"
               ),
           },
+          {
+            path: "published",
+            name: "platform published",
+            component: () =>
+              import(
+                /* webpackChunkName: "platformPublishSuccess" */ "../views/admin/platform-publish/PublishSuccess.vue"
+              ),
+          },
         ],
       },
       {

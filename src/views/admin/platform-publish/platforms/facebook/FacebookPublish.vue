@@ -55,11 +55,18 @@ export default defineComponent({
           saveCampaignObject,
         });
         this.$alert.success(`Campaign Published`);
+        await this.continueNextStep();
       } catch (error: any) {
         this.$alert.error(`Error Publishing Campaign`);
       } finally {
         this.saving = false;
       }
+    },
+    // TO DO: could be abstracted
+    async continueNextStep() {
+      await this.$router.push({
+        name: "platform published",
+      });
     },
   },
 });

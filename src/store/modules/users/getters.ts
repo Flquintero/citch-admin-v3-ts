@@ -1,4 +1,4 @@
-import { IUserState } from './types';
+import { IUserState } from "./types";
 
 export const getters = {
   currentUser(state: IUserState) {

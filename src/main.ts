@@ -1,9 +1,9 @@
-import Vue from 'vue';
+import Vue from "vue";
 
 // FIREBASE
 
-import { app, analytics, auth, initSetPersistence } from './config/firebase';
-import { firestorePlugin } from 'vuefire';
+import { app, analytics, auth, initSetPersistence } from "./config/firebase";
+import { firestorePlugin } from "vuefire";
 Vue.use(firestorePlugin);
 Vue.prototype.$firebase_app = app;
 Vue.prototype.$firebase_analytics = analytics;
@@ -15,31 +15,40 @@ initSetPersistence();
 
 // NEED firebase first to use it in the store/router
 
-import App from '@/App.vue';
-import store from '@/store';
-import router from '@/router';
+import App from "@/App.vue";
+import store from "@/store";
+import router from "@/router";
 Vue.config.productionTip = false;
 
 // API call helper
 
-import { $authedApiRequest, $publicApiRequest } from './utils/api';
+import { $authedApiRequest, $publicApiRequest } from "./utils/api";
 Vue.prototype.$authedApiRequest = $authedApiRequest;
 Vue.prototype.$publicApiRequest = $publicApiRequest;
 
+// Repository Import
+
+import Repository from "@/api-repository/index";
+Vue.prototype.$apiRepository = Repository;
+
 // Alert component
 
-import { $alert } from './utils/alert';
+import { $alert } from "./utils/alert";
 Vue.prototype.$alert = $alert;
+
+// Click outside
+
+import "./utils/click-outside";
 
 // Form Validation
 
-import Vuelidate from 'vuelidate';
+import Vuelidate from "vuelidate";
 Vue.use(Vuelidate);
 
 // Icons
-
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+// Abstract to another file
+import { IconDefinition, library } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import {
   faCircleExclamation,
   faCircleCheck,
@@ -47,22 +56,49 @@ import {
   faCircleInfo,
   faTriangleExclamation,
   faXmark,
-} from '@fortawesome/pro-duotone-svg-icons';
+  faBars,
+  faArrowRightFromBracket,
+  faArrowRight,
+  faArrowLeft,
+  faArrowDown,
+  faUser,
+  faCircle,
+  faChevronDown,
+  faPlay,
+} from "@fortawesome/pro-duotone-svg-icons";
+import { faFacebook } from "@fortawesome/free-brands-svg-icons";
 library.add(
   faCircleExclamation,
   faCircleNotch,
   faTriangleExclamation,
   faCircleInfo,
   faCircleCheck,
-  faXmark
+  faXmark,
+  faBars,
+  faArrowRightFromBracket,
+  faUser,
+  faArrowRight,
+  faArrowLeft,
+  faCircle,
+  faArrowDown,
+  faChevronDown,
+  faPlay,
+  faFacebook as IconDefinition
 );
-Vue.component('font-awesome-icon', FontAwesomeIcon);
+Vue.component("FontAwesomeIcon", FontAwesomeIcon);
 
 // Analytics
 
-import { analyticsFunctions } from '@/utils/analytics-tracking';
+import { analyticsFunctions } from "@/utils/analytics-tracking";
 
 Vue.prototype.$analyticsFunctions = analyticsFunctions;
+
+// Date picker
+
+import VueFlatPicker from "vue-flatpickr-component";
+import "flatpickr/dist/flatpickr.css";
+
+Vue.component("VueFlatPicker", VueFlatPicker);
 
 // Init
 
@@ -70,4 +106,4 @@ new Vue({
   store,
   router,
   render: (h) => h(App),
-}).$mount('#app');
+}).$mount("#app");

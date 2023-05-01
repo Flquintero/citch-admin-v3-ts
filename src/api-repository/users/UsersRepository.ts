@@ -1,12 +1,12 @@
-import { IFormData } from '@/types/forms';
-import { $authedApiRequest } from '@/utils/api';
+import { IFormData } from "@/types/forms/interfaces";
+import { $authedApiRequest } from "@/utils/api";
 
-const DOMAIN_PATH = '/users';
+const DOMAIN_PATH = "/users";
 
 export default {
   signupUser: async (userObject: IFormData) => {
     return await $authedApiRequest({
-      method: 'post',
+      method: "post",
       url: `${DOMAIN_PATH}/signup`,
       data: { ...userObject },
     });

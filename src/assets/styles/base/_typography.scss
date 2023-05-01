@@ -1,27 +1,29 @@
 // Global Typography rules
 
-/* Font defaults */
+
+
 html {
-    font-size: $font-size-site  !important;
+    font-size: $font-size-site;
 }
 
 body {
     font-weight: normal;
     color: $font-color-default;
-    font-family: $font-family-site;
 }
 
 // Title tags
 h1,
-h2,
-h3 {
+h2
+{
     font-weight: 600;
+    color: $font-color-default ;
 }
-
+h3,
 h4,
 h5,
-h5 {
+h6 {
     font-weight: 500;
+    color: $font-color-default  !important;
 }
 
 // Section titles variations

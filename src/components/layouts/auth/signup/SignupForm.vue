@@ -68,8 +68,13 @@
     <div class="signup-form__terms">
       <span
         >By signing up you agree to our
-        <a href="https://www.citch.io/en/terms-of-service" target="_blank">terms of service</a> and
-        <a href="https://www.citch.io/en/privacy-policy" target="_blank">privacy policy</a></span
+        <a href="https://www.citch.io/en/terms-of-service" target="_blank"
+          >terms of service</a
+        >
+        and
+        <a href="https://www.citch.io/en/privacy-policy" target="_blank"
+          >privacy policy</a
+        ></span
       >
     </div>
     <div class="signup-form__submit">
@@ -77,7 +82,8 @@
         @click.native="submitSignup"
         v-bind="{ variant: 'primary', disabled: $v.$invalid || saving }"
         ><span v-if="saving">
-          <font-awesome-icon icon="fa-duotone fa-circle-notch" spin /> Saving</span
+          <font-awesome-icon icon="fa-duotone fa-circle-notch" spin />
+          Saving</span
         ><span v-else>Register</span></CButton
       >
     </div>
@@ -85,21 +91,28 @@
 </template>
 
 <script lang="ts">
-const CInput = () => import(/* webpackChunkName: "CInput" */ '@/components/elements/Input.vue');
-const CButton = () => import(/* webpackChunkName: "CButton" */ '@/components/elements/Button.vue');
-import { required, minLength, email, sameAs } from 'vuelidate/lib/validators';
-import { FormFunctions } from '@/utils/form-functionality';
-import { IFormData } from '@/types/forms';
-import { User } from '@firebase/auth';
-import { ITrackData } from '@/types/analytics';
-import CurrentUserMixin from '@/mixins/current-user';
-import Repository from '@/api-repository/index';
-const AuthRepository = Repository.get('auth');
-const UsersRepository = Repository.get('users');
+import Vue, { defineComponent } from "vue";
+const CInput = () =>
+  import(
+    /* webpackChunkName: "CInput" */ "@/components/elements/BaseInput.vue"
+  );
+const CButton = () =>
+  import(
+    /* webpackChunkName: "CButton" */ "@/components/elements/BaseButton.vue"
+  );
+import { required, minLength, email, sameAs } from "vuelidate/lib/validators";
+import { FormFunctions } from "@/utils/form-functionality";
+import { User } from "@firebase/auth";
+import CurrentUserMixin from "@/mixins/current-user";
+import type { IFormData } from "@/types/forms/interfaces";
+import type { ITrackData } from "@/types/analytics/interfaces";
+const AuthRepository = Vue.prototype.$apiRepository.get("auth");
+const UsersRepository = Vue.prototype.$apiRepository.get("users");
 
-export default CurrentUserMixin.extend({
-  name: 'SignupForm',
+export default defineComponent({
+  name: "SignupForm",
   components: { CInput, CButton },
+  mixins: [CurrentUserMixin],
   data() {
     return {
       saving: false,
@@ -131,7 +144,7 @@ export default CurrentUserMixin.extend({
       },
       confirmPassword: {
         required,
-        sameAsPassword: sameAs('password'),
+        sameAsPassword: sameAs("password"),
       },
     },
   },
@@ -149,12 +162,14 @@ export default CurrentUserMixin.extend({
         this.initSetCurrentUser(this.getCurrentUserTrackingInfo());
         // add user to db and does necessary steps to create all thats needed to register
         await UsersRepository.signupUser(this.getSignupPayload());
-        this.$router.replace('/');
-        this.$alert.success('Welcome!');
+        this.$router.replace("/");
+        this.$alert.success("Welcome!");
       } catch (error: any) {
-        console.log('Registration Error', error);
+        console.log("Registration Error", error);
         // To Do: better way to handle this error string
-        this.$alert.error(`Registration error: ${this.formatRegistrationError(error)}`);
+        this.$alert.error(
+          `Registration error: ${this.formatRegistrationError(error)}`
+        );
       } finally {
         this.saving = false;
       }
@@ -162,7 +177,7 @@ export default CurrentUserMixin.extend({
     getCurrentUserTrackingInfo() {
       //this.authedUser is in the mixin that we use in this component
       return {
-        event: 'Signup',
+        event: "Signup",
         data: this.getSignupPayload(),
       } as ITrackData;
     },
@@ -180,8 +195,8 @@ export default CurrentUserMixin.extend({
     // TO DO: This needs to be addressed the right way
     formatRegistrationError(error: any) {
       let message = error.message;
-      if (error.message === 'Firebase: Error (auth/email-already-in-use).') {
-        message = 'Account already exists';
+      if (error.message === "Firebase: Error (auth/email-already-in-use).") {
+        message = "Account already exists";
       }
       return message;
     },

@@ -35,7 +35,8 @@
         v-bind="{ variant: 'primary', disabled: $v.$invalid || saving }"
       >
         <span v-if="saving">
-          <font-awesome-icon icon="fa-duotone fa-circle-notch" spin /> Logging You In</span
+          <font-awesome-icon icon="fa-duotone fa-circle-notch" spin /> Logging
+          You In</span
         ><span v-else>Login</span></CButton
       >
     </div>
@@ -43,19 +44,26 @@
 </template>
 
 <script lang="ts">
-const CInput = () => import(/* webpackChunkName: "CInput" */ '@/components/elements/Input.vue');
-const CButton = () => import(/* webpackChunkName: "CButton" */ '@/components/elements/Button.vue');
-import { required } from 'vuelidate/lib/validators';
-import { FormFunctions } from '@/utils/form-functionality';
-import { IFormData } from '@/types/forms';
-import { ITrackData } from '@/types/analytics';
-import CurrentUserMixin from '@/mixins/current-user';
-import Repository from '@/api-repository/index';
-const AuthRepository = Repository.get('auth');
+import Vue, { defineComponent } from "vue";
+const CInput = () =>
+  import(
+    /* webpackChunkName: "CInput" */ "@/components/elements/BaseInput.vue"
+  );
+const CButton = () =>
+  import(
+    /* webpackChunkName: "CButton" */ "@/components/elements/BaseButton.vue"
+  );
+import { required } from "vuelidate/lib/validators";
+import { FormFunctions } from "@/utils/form-functionality";
+import CurrentUserMixin from "@/mixins/current-user";
+import type { IFormData } from "@/types/forms/interfaces";
+import type { ITrackData } from "@/types/analytics/interfaces";
+const AuthRepository = Vue.prototype.$apiRepository.get("auth");
 
-export default CurrentUserMixin.extend({
-  name: 'LoginForm',
+export default defineComponent({
+  name: "LoginForm",
   components: { CInput, CButton },
+  mixins: [CurrentUserMixin],
   data() {
     return {
       saving: false,
@@ -86,9 +94,9 @@ export default CurrentUserMixin.extend({
         );
         // From Mixin
         await this.initSetCurrentUser(this.getCurrentUserTrackingInfo());
-        this.$router.replace('/');
+        this.$router.replace("/");
       } catch (error: any) {
-        console.log('Login error', error);
+        console.log("Login error", error);
         // To Do: better way to handle this error string instead of formatLoginError
         this.$alert.error(`Login Error: ${this.formatLoginError(error)}`);
       } finally {
@@ -98,7 +106,7 @@ export default CurrentUserMixin.extend({
     getCurrentUserTrackingInfo() {
       //this.authedUser is in the mixin that we use in this component
       return {
-        event: 'Login',
+        event: "Login",
         data: { email: this.authedUser?.email },
       } as ITrackData;
     },
@@ -106,10 +114,10 @@ export default CurrentUserMixin.extend({
     formatLoginError(error: any) {
       let message = error.message;
       if (
-        error.message === 'Firebase: Error (auth/wrong-password).' ||
-        error.message === 'Firebase: Error (auth/user-not-found).'
+        error.message === "Firebase: Error (auth/wrong-password)." ||
+        error.message === "Firebase: Error (auth/user-not-found)."
       ) {
-        message = 'Invalid Username Or Password';
+        message = "Invalid Username Or Password";
       }
       return message;
     },

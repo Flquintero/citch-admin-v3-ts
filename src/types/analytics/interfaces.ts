@@ -1,7 +1,5 @@
-import { ID } from "@segment/analytics-next";
-
 export interface IIdentifyData {
-  id: ID;
+  id: string;
   data: {
     [properties: string]: any;
   };

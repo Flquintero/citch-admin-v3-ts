@@ -33,7 +33,6 @@ export default defineComponent({
   },
   methods: {
     goTo() {
-      console.log("query", this.$route.query);
       this.$router.push({
         path: this.url,
         ...(this.addQueryParams ? { query: this.$route.query } : null),

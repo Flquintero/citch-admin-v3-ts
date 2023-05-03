@@ -55,10 +55,9 @@ export default defineComponent({
     ...FormFunctions,
     async saveChanges() {
       try {
-        const updatedUser = await OrganizationsRepository.updateOrganization({
+        await OrganizationsRepository.updateOrganization({
           updateData: FormFunctions.formatFormData(this.formData),
         });
-        console.log("udated user", updatedUser);
       } catch (error: any) {
         console.log("Login error", error);
         this.$alert.error(`Login Error: ${error}`);

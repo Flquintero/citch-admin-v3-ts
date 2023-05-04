@@ -66,7 +66,9 @@ app.use(
       "script-src-attr": "none",
       "upgrade-insecure-requests": [],
     },
-    ...(process.env.NODE_ENV === "development" ? { reportOnly: true } : null), // use CSP report only in dev
+    reportOnly: true,
+    // FIX THIS !!!
+    // ...(process.env.NODE_ENV === "development" ? { reportOnly: true } : null), // use CSP report only in dev
   })
 );
 

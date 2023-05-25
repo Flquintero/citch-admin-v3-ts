@@ -21,4 +21,12 @@ export function parseFacebookPostId(url: string): string | undefined {
   if (url.includes("/pfbid")) {
     return url.split("/")[5];
   }
+  // https://www.facebook.com/photo?fbid=466354982172138&set=a.423797466427890
+  if (url.includes("fbid")) {
+    let postId = url.split("/")[3];
+    if (postId.includes("fbid=")) {
+      postId = postId.split("fbid=")[1];
+    }
+    return postId;
+  }
 }

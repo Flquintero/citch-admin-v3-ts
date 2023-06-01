@@ -1,8 +1,13 @@
 <template>
   <div class="instagram-post">
-    <img
-      src="https://citch-dev.s3.us-east-2.amazonaws.com/citch-admin-v3/Screen+Shot+2022-09-27+at+11.09.18+AM.png"
-    />
+    <iframe
+      :src="post"
+      class="instagram-post__iframe"
+      style="border: none"
+      scrolling="no"
+      frameborder="0"
+      allowfullscreen="true"
+    ></iframe>
   </div>
 </template>
 
@@ -11,15 +16,33 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "InstagramPost",
+  data() {
+    return {
+      post: null as string | null,
+    };
+  },
+  mounted() {
+    this.setPost();
+  },
+  methods: {
+    setPost() {
+      const { post } = this.$route.query;
+      if (post) {
+        this.post = post as string;
+      }
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>
 .instagram-post {
-  height: 350px;
+  height: 600px;
+  overflow-y: auto;
   width: 350px;
   @include flex-config($align-items: center, $justify-content: center);
-  img {
-    @include image-fit();
+  &__iframe {
+    height: 100%;
+    width: 100%;
   }
 }
 </style>

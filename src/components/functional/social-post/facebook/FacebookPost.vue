@@ -26,9 +26,9 @@ export default defineComponent({
   },
   methods: {
     setPost() {
-      const { post } = this.$route.query as string;
+      const { post } = this.$route.query;
       if (post) {
-        this.post = post;
+        this.post = post as string;
       }
     },
   },

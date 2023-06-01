@@ -53,7 +53,7 @@ export default defineComponent({
 .facebook-disconnect-button {
   height: 40px;
   width: 150px;
-  margin: auto;
+  margin: 20px auto;
   &__content {
     &-text {
       margin: 5px;

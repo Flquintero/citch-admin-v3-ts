@@ -158,8 +158,8 @@ $breadcrumbs-font-size: 12px !default;
 $breadcrumbs-font-color: $dark-grey  !default;
 $breadcrumbs-disabled-color: $dark-grey  !default;
 
-// Search overlay
-$search-recent-search-not-found-color: $light-grey  !default;
+// overlay
+$overlay-background-overlay-color: rgb($primary, .3);
 
 // Global
 $hover-background-color: $dark-grey  !default;

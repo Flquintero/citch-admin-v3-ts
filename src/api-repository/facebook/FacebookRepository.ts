@@ -51,6 +51,13 @@ export default {
       data: accountsObject,
     });
   },
+  linkAccounts: async (accountsObject: IFacebookConfirmAccountsData) => {
+    return await $authedApiRequest({
+      method: "post",
+      url: `${DOMAIN_PATH}/link-accounts`,
+      data: accountsObject,
+    });
+  },
   createCampaign: async (campaignObject: IFacebookCampaignData) => {
     return await $authedApiRequest({
       method: "post",

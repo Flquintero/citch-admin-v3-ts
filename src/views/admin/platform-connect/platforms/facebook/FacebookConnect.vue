@@ -153,10 +153,8 @@ export default defineComponent({
             ? { postId: await this.buildPostId() }
             : null),
         };
-        this.linkedAccountObject = await FacebookRepository.confirmAccounts(
-          accountsPayload
-        );
-        console.log(this.linkedAccountObject);
+        this.linkedAccountObject =
+          await FacebookRepository.confirmFacebookAccount(accountsPayload);
         const connectSystemUser =
           this.statusReturned &&
           this.linkedAccountObject.status ===
@@ -200,7 +198,7 @@ export default defineComponent({
             ? { postId: await this.buildPostId() }
             : null),
         };
-        this.linkedAccountObject = await FacebookRepository.linkAccounts(
+        this.linkedAccountObject = await FacebookRepository.linkFacebookAccount(
           accountsPayload
         );
         if (

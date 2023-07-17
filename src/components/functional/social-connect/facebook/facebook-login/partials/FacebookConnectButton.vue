@@ -40,6 +40,7 @@ export default defineComponent({
         const { url, state } = facebookConsentData;
         localStorage.setItem(`redirect-${platform}-path`, this.$route.fullPath);
         localStorage.setItem(`${platform}-state`, state);
+        localStorage.setItem(`platform`, platform);
         location.href = url;
       } catch (error) {
         console.error(`Error Connecting Facebook:`, error);

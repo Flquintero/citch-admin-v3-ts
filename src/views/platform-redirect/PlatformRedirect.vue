@@ -34,7 +34,7 @@ export default defineComponent({
   },
   methods: {
     checkForCode() {
-      this.platform = this.$route.params.platform;
+      this.platform = localStorage.getItem("platform");
       this.redirectPath = localStorage.getItem(
         `redirect-${this.platform}-path`
       );
@@ -51,6 +51,8 @@ export default defineComponent({
       if (localStorage.getItem(`${this.platform}-state`) === state) {
         switch (this.platform) {
           case "instagram":
+            this.initSaveFacebookData();
+            break;
           case "facebook":
             this.initSaveFacebookData();
             break;
@@ -81,11 +83,14 @@ export default defineComponent({
           path: this.redirectPath,
         });
         localStorage.removeItem(`redirect-${this.platform}-path`);
+        localStorage.removeItem(`${this.platform}-state`);
+        localStorage.removeItem(`platform`);
         this.redirectPath = null;
       } else {
         this.$router.push("/");
       }
-      localStorage.removeItem(`${this.platform}-hash`);
+      // localStorage.removeItem(`${this.platform}-hash`);
+      localStorage.removeItem(`${this.platform}-state`);
     },
     errorRedirect() {
       this.$alert.error("Error Connecting to Platform");

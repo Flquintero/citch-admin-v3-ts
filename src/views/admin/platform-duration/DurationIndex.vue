@@ -34,6 +34,7 @@ export default defineComponent({
       isLoading: false,
       savedCampaignAudience: {
         facebook: {} as any,
+        instagram: {} as any,
       } as any,
     };
   },
@@ -51,7 +52,10 @@ export default defineComponent({
     getPlatformPost,
     async getSavedCampaignAudience() {
       switch (this.currentPlatform) {
-        case "facebook" || "instagram":
+        case "facebook":
+          await this.getSavedFacebookCampaignAudience();
+          break;
+        case "instagram":
           await this.getSavedFacebookCampaignAudience();
           break;
         default:

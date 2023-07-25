@@ -10,6 +10,12 @@ export const getters = {
   currentFacebookPost(state: IFacebookState) {
     return state.currentFacebookPost;
   },
+  currentInstagramPost(state: IFacebookState) {
+    return state.currentInstagramPost;
+  },
+  currentInstagramAccount(state: IFacebookState) {
+    return state.currentInstagramAccount;
+  },
   currentFacebookAudience(state: IFacebookState) {
     return state.currentFacebookAudience;
   },

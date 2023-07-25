@@ -10,6 +10,8 @@ export const state: IFacebookState = {
   currentFacebookCampaign: undefined,
   currentFacebookPage: undefined,
   currentFacebookPost: undefined,
+  currentInstagramPost: undefined,
+  currentInstagramAccount: undefined,
   currentFacebookAudience: undefined,
   savedFacebookAudience: undefined,
   isFacebookAudienceUpdated: false,

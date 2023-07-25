@@ -37,6 +37,18 @@ export const mutations = {
   ) {
     state.currentFacebookPost = facebookPost;
   },
+  SET_CURRENT_INSTAGRAM_ACCOUNT(
+    state: IFacebookState,
+    instagramAccount: IFacebookPage
+  ) {
+    state.currentInstagramAccount = instagramAccount;
+  },
+  SET_CURRENT_INSTAGRAM_POST(
+    state: IFacebookState,
+    instagramPost: IFacebookPost
+  ) {
+    state.currentInstagramPost = instagramPost;
+  },
   SET_CURRENT_FACEBOOK_AUDIENCE(
     state: IFacebookState,
     facebookAudience: IFacebookAudience

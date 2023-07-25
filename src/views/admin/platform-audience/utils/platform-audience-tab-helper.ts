@@ -44,8 +44,42 @@ export const facebook: ITabContent[] = [
     component: getPlatformInterests("facebook"),
   },
 ];
+export const instagram: ITabContent[] = [
+  {
+    text: "Age",
+    identifier: EFacebookAudienceItems.age,
+    required: true,
+    completed: false,
+    requiredFields: EFacebookAudienceRequiredFields.age.split(","),
+    component: getPlatformAge("facebook"),
+  },
+  {
+    text: "Gender",
+    identifier: EFacebookAudienceItems.gender,
+    required: true,
+    completed: false,
+    requiredFields: EFacebookAudienceRequiredFields.gender.split(","),
+    component: getPlatformGender("facebook"),
+  },
+  {
+    text: "Location",
+    identifier: EFacebookAudienceItems.location,
+    required: true,
+    completed: false,
+    requiredFields: EFacebookAudienceRequiredFields.location.split(","),
+    component: getPlatformLocation("facebook"),
+  },
+  {
+    text: "Interests",
+    identifier: EFacebookAudienceItems.interests,
+    required: false,
+    completed: false,
+    requiredFields: EFacebookAudienceOptionalFields.interests.split(","),
+    component: getPlatformInterests("facebook"),
+  },
+];
 
-export const platforms: { [platform: string]: any } = { facebook };
+export const platforms: { [platform: string]: any } = { facebook, instagram };
 
 export function getPlatformTabsList(platform: string) {
   return platforms[platform];

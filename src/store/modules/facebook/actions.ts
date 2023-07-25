@@ -34,6 +34,18 @@ export const actions = {
   ) {
     commit("SET_CURRENT_FACEBOOK_POST", facebookPost);
   },
+  setCurrentInstagramAccount(
+    { commit }: { commit: Commit },
+    instagramAccount: IFacebookPage
+  ) {
+    commit("SET_CURRENT_INSTAGRAM_ACCOUNT", instagramAccount);
+  },
+  setCurrentInstagramPost(
+    { commit }: { commit: Commit },
+    instagramPost: IFacebookPost
+  ) {
+    commit("SET_CURRENT_INSTAGRAM_POST", instagramPost);
+  },
   async setCurrentFacebookAudience(
     { state, commit }: { state: IFacebookState; commit: Commit },
     facebookAudience: IFacebookAudience

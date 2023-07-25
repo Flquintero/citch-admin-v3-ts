@@ -44,17 +44,37 @@ export default {
       url: `${DOMAIN_PATH}/post-id/${postString}`,
     });
   },
-  confirmAccounts: async (accountsObject: IFacebookConfirmAccountsData) => {
+  confirmFacebookAccount: async (
+    accountsObject: IFacebookConfirmAccountsData
+  ) => {
     return await $authedApiRequest({
       method: "post",
-      url: `${DOMAIN_PATH}/confirm-accounts`,
+      url: `${DOMAIN_PATH}/confirm-facebook-account`,
       data: accountsObject,
     });
   },
-  linkAccounts: async (accountsObject: IFacebookConfirmAccountsData) => {
+  linkFacebookAccount: async (accountsObject: IFacebookConfirmAccountsData) => {
     return await $authedApiRequest({
       method: "post",
-      url: `${DOMAIN_PATH}/link-accounts`,
+      url: `${DOMAIN_PATH}/link-facebook-account`,
+      data: accountsObject,
+    });
+  },
+  confirmInstagramAccount: async (
+    accountsObject: IFacebookConfirmAccountsData
+  ) => {
+    return await $authedApiRequest({
+      method: "post",
+      url: `${DOMAIN_PATH}/confirm-instagram-account`,
+      data: accountsObject,
+    });
+  },
+  linkInstagramAccount: async (
+    accountsObject: IFacebookConfirmAccountsData
+  ) => {
+    return await $authedApiRequest({
+      method: "post",
+      url: `${DOMAIN_PATH}/link-instagram-account`,
       data: accountsObject,
     });
   },

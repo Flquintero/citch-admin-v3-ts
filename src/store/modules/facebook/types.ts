@@ -17,7 +17,9 @@ export interface IFacebookState {
     | boolean;
   currentFacebookCampaign?: IFacebookCampaign;
   currentFacebookPage?: IFacebookPage;
+  currentInstagramAccount?: IFacebookPage;
   currentFacebookPost?: IFacebookPost;
+  currentInstagramPost?: IFacebookPost;
   currentFacebookAudience?: IFacebookAudience;
   savedFacebookAudience?: IFacebookAudience;
   isFacebookAudienceUpdated: boolean;

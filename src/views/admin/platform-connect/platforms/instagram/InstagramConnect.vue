@@ -133,6 +133,7 @@ export default defineComponent({
         status: null | number;
         postId: null | string;
         postPlacement: null | string;
+        postMediaType: null | string;
         instagramAccountId: null | string;
       },
       showConfirmModal: false,
@@ -204,6 +205,7 @@ export default defineComponent({
         post: this.$route.query.post,
         postId: this.linkedAccountObject.postId,
         postPlacement: this.linkedAccountObject.postPlacement,
+        postMediaType: this.linkedAccountObject.postMediaType,
       });
       await this.setCurrentInstagramAccount({
         id: this.linkedAccountObject.instagramAccountId,
@@ -216,6 +218,7 @@ export default defineComponent({
           postId: this.linkedAccountObject.postId,
           postPlacement: this.linkedAccountObject.postPlacement,
           instagramAccountId: this.currentInstagramAccount.id,
+          postMediaType: this.linkedAccountObject.postMediaType,
           pageId: this.currentFacebookPage.id,
         },
       });

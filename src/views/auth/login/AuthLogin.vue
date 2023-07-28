@@ -5,8 +5,14 @@
         ><div class="login__form-wrapper">
           <h2>Login</h2>
           <LoginForm />
-          <div class="login__form-wrapper__redirect">
+          <!-- <div class="login__form-wrapper__redirect">
             Need an account? <router-link to="/signup">Register</router-link>
+          </div> -->
+          <div class="login__form-wrapper__redirect">
+            Need an account?
+            <a href="https://www.citch.io/get-started" target="_blank"
+              >Register</a
+            >
           </div>
         </div></template
       >

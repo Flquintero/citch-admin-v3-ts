@@ -11,6 +11,8 @@ export interface ISaveFacebookCampaignObject {
     campaignId?: string;
     pageId?: string;
     postId?: string;
+    postPlacement?: string;
+    postMediaType?: string;
     platform?: string;
     campaignData: {
       name?: string;

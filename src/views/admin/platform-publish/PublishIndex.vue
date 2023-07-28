@@ -61,7 +61,12 @@ export default defineComponent({
     getPlatformPost,
     async getSavedCampaignData() {
       switch (this.currentPlatform) {
-        case "facebook" || "instagram":
+        case "facebook":
+          await this.getSavedFacebookCampaignAudience();
+          await this.getSavedFacebookCampaignDuration();
+          await this.getSavedFacebookCampaignBudget();
+          break;
+        case "instagram":
           await this.getSavedFacebookCampaignAudience();
           await this.getSavedFacebookCampaignDuration();
           await this.getSavedFacebookCampaignBudget();

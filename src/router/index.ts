@@ -132,7 +132,7 @@ const routes: Array<RouteConfig> = [
       ),
   },
   {
-    path: "admin-only/signup",
+    path: "/admin-only/signup",
     name: "signup",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route

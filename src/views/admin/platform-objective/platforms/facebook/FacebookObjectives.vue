@@ -96,6 +96,8 @@ export default defineComponent({
         this.saving = true;
         const pageId = this.$route.query.pageId as string; // this.currentPost.split("_")[0]; <--- could be not consistent
         const postId = this.$route.query.postId as string;
+        const postPlacement = this.$route.query.postPlacement as string;
+        const postMediaType = this.$route.query.postMediaType as string;
         const instagramAccountId = this.$route.query
           .instagramAccountId as string;
         const now = dayjs().format("MM-DD-YY-Thhmmss");
@@ -106,6 +108,8 @@ export default defineComponent({
               : null),
             pageId,
             postId,
+            postPlacement,
+            postMediaType,
             ...(instagramAccountId ? { instagramAccountId } : null),
             platform: this.currentPlatform,
             campaignData: {

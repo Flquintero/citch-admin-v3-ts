@@ -124,9 +124,16 @@ export default defineComponent({
       isFacebookAccountConnected: false,
       confirming: false,
       isLinkingAccount: false,
-      linkedAccountObject: { postId: null, status: null } as {
+      linkedAccountObject: {
+        postId: null,
+        postPlacement: null,
+        instagramAccountId: null,
+        status: null,
+      } as {
         status: null | number;
         postId: null | string;
+        postPlacement: null | string;
+        postMediaType: null | string;
         instagramAccountId: null | string;
       },
       showConfirmModal: false,
@@ -149,6 +156,7 @@ export default defineComponent({
         this.confirming = true;
         const accountsPayload = {
           pageId: this.currentFacebookPage.id,
+          postShortCodeId: await this.buildPostId(),
         };
         this.linkedAccountObject =
           await FacebookRepository.confirmInstagramAccount(accountsPayload);
@@ -168,31 +176,12 @@ export default defineComponent({
         this.confirming = false;
       }
     },
-    async setPostAndContinue() {
-      // this probably should be a mixin
-      await this.setCurrentInstagramPost({
-        post: this.$route.query.post,
-        postId: await this.buildPostId(),
-      });
-      await this.setCurrentInstagramAccount({
-        id: this.linkedAccountObject.instagramAccountId,
-      });
-      await this.$router.push({
-        name: "platform objective",
-        params: this.$route.params,
-        query: {
-          ...this.$route.query,
-          postId: await this.buildPostId(),
-          instagramAccountId: this.currentInstagramAccount.id,
-          pageId: this.currentFacebookPage.id,
-        },
-      });
-    },
     async linkAccount() {
       try {
         this.isLinkingAccount = true;
         const accountsPayload = {
           pageId: this.currentFacebookPage.id,
+          postShortCodeId: await this.buildPostId(),
         };
         this.linkedAccountObject =
           await FacebookRepository.linkInstagramAccount(accountsPayload);
@@ -209,6 +198,30 @@ export default defineComponent({
       } finally {
         this.isLinkingAccount = false;
       }
+    },
+    async setPostAndContinue() {
+      // this probably should be a mixin
+      await this.setCurrentInstagramPost({
+        post: this.$route.query.post,
+        postId: this.linkedAccountObject.postId,
+        postPlacement: this.linkedAccountObject.postPlacement,
+        postMediaType: this.linkedAccountObject.postMediaType,
+      });
+      await this.setCurrentInstagramAccount({
+        id: this.linkedAccountObject.instagramAccountId,
+      });
+      await this.$router.push({
+        name: "platform objective",
+        params: this.$route.params,
+        query: {
+          ...this.$route.query,
+          postId: this.linkedAccountObject.postId,
+          postPlacement: this.linkedAccountObject.postPlacement,
+          instagramAccountId: this.currentInstagramAccount.id,
+          postMediaType: this.linkedAccountObject.postMediaType,
+          pageId: this.currentFacebookPage.id,
+        },
+      });
     },
     toggleShowConfirmUpdateSettingsModal() {
       this.showConfirmModal = !this.showConfirmModal;

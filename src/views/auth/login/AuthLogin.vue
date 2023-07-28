@@ -10,7 +10,7 @@
           </div> -->
           <div class="login__form-wrapper__redirect">
             Need an account?
-            <a href="https://www.citch.io/get-started" target="_blank"
+            <a href="https://www.citch.io/en/get-started" target="_blank"
               >Register</a
             >
           </div>

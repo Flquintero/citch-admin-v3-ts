@@ -107,7 +107,11 @@ export default defineComponent({
     },
     async getSavedCampaignAudience() {
       switch (this.currentPlatform) {
-        case "facebook" || "instagram":
+        case "facebook":
+          await this.getSavedFacebookCampaignAudience();
+          await this.updateFacebookAudienceTabs();
+          break;
+        case "instagram":
           await this.getSavedFacebookCampaignAudience();
           await this.updateFacebookAudienceTabs();
           break;

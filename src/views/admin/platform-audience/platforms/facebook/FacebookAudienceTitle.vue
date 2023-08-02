@@ -32,23 +32,26 @@
       post?
     </h1>
     <h1 v-else class="facebook-audience-title__title">
-      What audience are you looking for to generate
-      <SelectedContent
-        v-bind="{
-          content: savedObjectiveGoal,
-          url: 'objective-goal',
-          addQueryParams: true,
-        }"
-      />
-      of
-      <SelectedContent
-        v-bind="{
-          content: savedObjectiveDisplayName,
-          capitalize: true,
-          url: `objective`,
-          addQueryParams: true,
-        }"
-      />
+      What audience are you looking
+      <template v-if="savedObjectiveGoal">
+        for to generate
+        <SelectedContent
+          v-bind="{
+            content: savedObjectiveGoal,
+            url: 'objective-goal',
+            addQueryParams: true,
+          }"
+        />
+        of
+        <SelectedContent
+          v-bind="{
+            content: savedObjectiveDisplayName,
+            capitalize: true,
+            url: `objective`,
+            addQueryParams: true,
+          }"
+        />
+      </template>
       for your
       <SelectedContent
         v-bind="{
@@ -112,6 +115,7 @@ export default defineComponent({
   @include mobile() {
     @include view-mobile-gutter();
   }
+  text-align: center;
   &__content {
     text-align: center;
     line-height: 1.5;

@@ -30,8 +30,8 @@
         @click.native="confirmAccounts"
         v-bind="{
           variant: 'primary',
-          disabled: confirming,
-          loading: confirming,
+          disabled: isLoadingButton, //confirming,
+          loading: isLoadingButton, //confirming,
           textContent: 'Confirm',
           textIcon: 'fa-arrow-right',
           loadingContent: 'Saving',
@@ -89,6 +89,12 @@ import { mapActions, mapGetters } from "vuex";
 import { parseInstagramPostId } from "@/utils/facebook/instagram-post-id-finder";
 const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");
 import { EFacebookPageLinkedStatus } from "@/types/facebook/pages/enums";
+import { FacebookObjectivesList } from "@/views/admin/platform-objective/platforms/facebook/utils/facebook-platform-objectives";
+import type {
+  IFacebookObjective,
+  ISaveFacebookCampaignObject,
+} from "@/types/facebook/campaigns/interfaces";
+import dayjs from "dayjs";
 
 const FacebookLogin = () =>
   import(
@@ -124,6 +130,8 @@ export default defineComponent({
       isFacebookAccountConnected: false,
       confirming: false,
       isLinkingAccount: false,
+      isSavingCampaign: false,
+      isSettingPostAndCampaign: false,
       linkedAccountObject: {
         postId: null,
         postPlacement: null,
@@ -137,12 +145,14 @@ export default defineComponent({
         instagramAccountId: null | string;
       },
       showConfirmModal: false,
+      chosenObjective: FacebookObjectivesList[2] as IFacebookObjective, // Engagements,
     };
   },
   methods: {
     ...mapActions("Facebook", [
       "setCurrentInstagramPost",
       "setCurrentInstagramAccount",
+      "setCurrentFacebookCampaign",
     ]),
     // FACEBOOK Login component has a function to check connection, maybe in the future we move that function out to use globally for now no use case
     setIsFacebookAccountConnected(connectionStatus: boolean) {
@@ -200,6 +210,7 @@ export default defineComponent({
       }
     },
     async setPostAndContinue() {
+      this.isSettingPostAndCampaign = true;
       // this probably should be a mixin
       await this.setCurrentInstagramPost({
         post: this.$route.query.post,
@@ -210,8 +221,10 @@ export default defineComponent({
       await this.setCurrentInstagramAccount({
         id: this.linkedAccountObject.instagramAccountId,
       });
+      // create campaign with engagement as objective
+      const campaignId = await this.initSaveCampaign();
       await this.$router.push({
-        name: "platform objective",
+        name: "platform audience",
         params: this.$route.params,
         query: {
           ...this.$route.query,
@@ -220,8 +233,55 @@ export default defineComponent({
           instagramAccountId: this.currentInstagramAccount.id,
           postMediaType: this.linkedAccountObject.postMediaType,
           pageId: this.currentFacebookPage.id,
+          campaignId,
+          objective: this.chosenObjective?.identifier.toString(),
         },
       });
+      this.isSettingPostAndCampaign = false;
+    },
+    // we want to create a campaign right of the bat
+    async initSaveCampaign() {
+      try {
+        this.isSavingCampaign = true;
+        const pageId = this.currentFacebookPage.id as string; // this.currentPost.split("_")[0]; <--- could be not consistent
+        const postId = this.linkedAccountObject.postId as string;
+        const postPlacement = this.linkedAccountObject.postPlacement as string;
+        const postMediaType = this.linkedAccountObject.postMediaType as string;
+        const instagramAccountId = this.linkedAccountObject
+          .instagramAccountId as string;
+        const now = dayjs().format("MM-DD-YY-Thhmmss");
+        const campaignObject: ISaveFacebookCampaignObject = {
+          saveCampaignObject: {
+            ...(this.isSavedCampaign
+              ? { campaignId: this.savedCampaign as string }
+              : null),
+            pageId,
+            postId,
+            postPlacement,
+            postMediaType,
+            ...(instagramAccountId ? { instagramAccountId } : null),
+            platform: this.currentPlatform,
+            campaignData: {
+              name: `${now}-${pageId}-${this.currentPlatform}-${this.chosenObjective?.displayName}`,
+              facebookObjectiveValues: this.chosenObjective
+                ?.facebookValues as IFacebookObjective["facebookValues"],
+              facebookObjectiveIdentifier: this.chosenObjective
+                ?.identifier as IFacebookObjective["identifier"],
+            },
+          },
+        };
+        const savedCampaign: string =
+          await FacebookRepository.saveCampaignObjective(campaignObject);
+        const campaignId: string = savedCampaign;
+        await this.setCurrentFacebookCampaign({
+          campaignId,
+        });
+        return campaignId;
+      } catch (error: any) {
+        this.$alert.error(`Error Saving Campaign Instagram: ${error}`);
+      } finally {
+        this.isSavingCampaign = false;
+      }
     },
     toggleShowConfirmUpdateSettingsModal() {
       this.showConfirmModal = !this.showConfirmModal;
@@ -236,6 +296,17 @@ export default defineComponent({
     statusReturned() {
       // if its a number we got it back
       return typeof this.linkedAccountObject?.status === "number";
+    },
+    currentPlatform(): string {
+      return this.$route.params.platform;
+    },
+    isLoadingButton(): boolean {
+      return (
+        this.confirming ||
+        this.isLinkingAccount ||
+        this.isSavingCampaign ||
+        this.isSettingPostAndCampaign
+      );
     },
   },
 });

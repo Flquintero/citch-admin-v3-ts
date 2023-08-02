@@ -1,27 +1,9 @@
 <template>
   <h1 class="facebook-publish-title">
-    <span>{{ isAltReachTitle ? `We'll ` : `We'll generate ` }}</span>
-    <SelectedContent
-      v-if="isAltReachTitle"
-      v-bind="{
-        content: savedObjectiveDisplayName,
-        capitalize: true,
-        url: `objective`,
-        addQueryParams: true,
-      }"
-    />
-    <span>{{ ` ` }}</span>
-    <SelectedContent
-      v-bind="{
-        content: savedObjectiveGoal,
-        url: `objective-goal`,
-        addQueryParams: true,
-      }"
-    />
-    <span>{{ ` ` }}</span>
-    <template v-if="!isAltReachTitle">
-      <!-- Impressions -->
+    <template v-if="savedObjectiveGoal">
+      <span>{{ isAltReachTitle ? `We'll ` : `We'll generate ` }}</span>
       <SelectedContent
+        v-if="isAltReachTitle"
         v-bind="{
           content: savedObjectiveDisplayName,
           capitalize: true,
@@ -29,7 +11,27 @@
           addQueryParams: true,
         }"
       />
-      from
+      <span>{{ ` ` }}</span>
+      <SelectedContent
+        v-bind="{
+          content: savedObjectiveGoal,
+          url: `objective-goal`,
+          addQueryParams: true,
+        }"
+      />
+      <span>{{ ` ` }}</span>
+      <template v-if="!isAltReachTitle">
+        <!-- Impressions -->
+        <SelectedContent
+          v-bind="{
+            content: savedObjectiveDisplayName,
+            capitalize: true,
+            url: `objective`,
+            addQueryParams: true,
+          }"
+        />
+        from
+      </template>
     </template>
     <!-- gender -->
     <SelectedContent

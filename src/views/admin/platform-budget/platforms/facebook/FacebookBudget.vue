@@ -4,7 +4,10 @@
       <BaseLoader v-bind="{ size: '3x' }" />
     </div>
     <div v-else class="facebook-campaign-budget__content">
-      <div class="facebook-campaign-budget__content-recomendation">
+      <div
+        v-if="savedObjectiveGoal"
+        class="facebook-campaign-budget__content-recomendation"
+      >
         <h3>We estimate that that this promotion will cost about:</h3>
         <div class="facebook-campaign-budget__content-recomendation-digits">
           <span>${{ budgetRecomendation }}</span>
@@ -190,6 +193,9 @@ export default defineComponent({
     },
     isSavedBudget(): boolean {
       return !!this.savedFacebookBudget;
+    },
+    savedObjectiveGoal(): string {
+      return this.$route.query.objectiveGoal as string;
     },
     formatContinueButton() {
       let renderButtonContent = "Confirm Budget";

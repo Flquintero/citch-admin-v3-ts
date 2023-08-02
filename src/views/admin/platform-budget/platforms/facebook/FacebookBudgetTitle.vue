@@ -1,29 +1,11 @@
 <template>
   <h1 class="facebook-budget-title">
-    <span>{{
-      isAltReachTitle ? `Great, we'll ` : `Great, we'll generate `
-    }}</span>
-    <SelectedContent
-      v-if="isAltReachTitle"
-      v-bind="{
-        content: savedObjectiveDisplayName,
-        capitalize: true,
-        url: `objective`,
-        addQueryParams: true,
-      }"
-    />
-    <span>{{ ` ` }}</span>
-    <SelectedContent
-      v-bind="{
-        content: savedObjectiveGoal,
-        url: `objective-goal`,
-        addQueryParams: true,
-      }"
-    />
-    <span>{{ ` ` }}</span>
-    <template v-if="!isAltReachTitle">
-      <!-- Impressions -->
+    <template v-if="savedObjectiveGoal">
+      <span>{{
+        isAltReachTitle ? `Great, we'll ` : `Great, we'll generate `
+      }}</span>
       <SelectedContent
+        v-if="isAltReachTitle"
         v-bind="{
           content: savedObjectiveDisplayName,
           capitalize: true,
@@ -31,7 +13,30 @@
           addQueryParams: true,
         }"
       />
-      from
+      <span>{{ ` ` }}</span>
+      <SelectedContent
+        v-bind="{
+          content: savedObjectiveGoal,
+          url: `objective-goal`,
+          addQueryParams: true,
+        }"
+      />
+      <span>{{ ` ` }}</span>
+      <template v-if="!isAltReachTitle">
+        <!-- Impressions -->
+        <SelectedContent
+          v-bind="{
+            content: savedObjectiveDisplayName,
+            capitalize: true,
+            url: `objective`,
+            addQueryParams: true,
+          }"
+        />
+        from
+      </template>
+    </template>
+    <template v-else>
+      <span>Great, so </span>
     </template>
     <!-- gender -->
     <SelectedContent

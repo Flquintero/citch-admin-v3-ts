@@ -89,6 +89,12 @@ import { mapActions, mapGetters } from "vuex";
 import { parseFacebookPostId } from "@/utils/facebook/facebook-post-id-finder";
 const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");
 import { EFacebookPageLinkedStatus } from "@/types/facebook/pages/enums";
+import { FacebookObjectivesList } from "@/views/admin/platform-objective/platforms/facebook/utils/facebook-platform-objectives";
+import type {
+  IFacebookObjective,
+  ISaveFacebookCampaignObject,
+} from "@/types/facebook/campaigns/interfaces";
+import dayjs from "dayjs";
 
 const FacebookLogin = () =>
   import(
@@ -124,15 +130,21 @@ export default defineComponent({
       isFacebookAccountConnected: false,
       confirming: false,
       isLinkingAccount: false,
+      isSavingCampaign: false,
+      isSettingPostAndCampaign: false,
       linkedAccountObject: { postId: null, status: null } as {
         status: null | number;
         postId: null | string;
       },
       showConfirmModal: false,
+      chosenObjective: FacebookObjectivesList[2] as IFacebookObjective,
     };
   },
   methods: {
-    ...mapActions("Facebook", ["setCurrentFacebookPost"]),
+    ...mapActions("Facebook", [
+      "setCurrentFacebookPost",
+      "setCurrentFacebookCampaign",
+    ]),
     // FACEBOOK Login component has a function to check connection, maybe in the future we move that function out to use globally for now no use case
     setIsFacebookAccountConnected(connectionStatus: boolean) {
       this.isFacebookAccountConnected = connectionStatus;
@@ -177,13 +189,17 @@ export default defineComponent({
         post: this.$route.query.post,
         postId: this.linkedAccountObject.postId,
       });
+      // create campaign with engagement as objective
+      const campaignId = await this.initSaveCampaign();
       await this.$router.push({
-        name: "platform objective",
+        name: "platform audience",
         params: this.$route.params,
         query: {
           ...this.$route.query,
           postId: this.linkedAccountObject.postId,
           pageId: this.currentFacebookPage.id,
+          campaignId,
+          objective: this.chosenObjective?.identifier.toString(),
         },
       });
     },
@@ -215,6 +231,50 @@ export default defineComponent({
         this.isLinkingAccount = false;
       }
     },
+    // we want to create a campaign right of the bat
+    async initSaveCampaign() {
+      try {
+        this.isSavingCampaign = true;
+        const pageId = this.currentFacebookPage.id as string; // this.currentPost.split("_")[0]; <--- could be not consistent
+        const postId = this.linkedAccountObject.postId as string;
+        // const postPlacement = this.linkedAccountObject.postPlacement as string;
+        // const postMediaType = this.linkedAccountObject.postMediaType as string;
+        // const instagramAccountId = this.linkedAccountObject
+        //   .instagramAccountId as string;
+        const now = dayjs().format("MM-DD-YY-Thhmmss");
+        const campaignObject: ISaveFacebookCampaignObject = {
+          saveCampaignObject: {
+            ...(this.isSavedCampaign
+              ? { campaignId: this.savedCampaign as string }
+              : null),
+            pageId,
+            postId,
+            // postPlacement,
+            // postMediaType,
+            // ...(instagramAccountId ? { instagramAccountId } : null),
+            platform: this.currentPlatform,
+            campaignData: {
+              name: `${now}-${pageId}-${this.currentPlatform}-${this.chosenObjective?.displayName}`,
+              facebookObjectiveValues: this.chosenObjective
+                ?.facebookValues as IFacebookObjective["facebookValues"],
+              facebookObjectiveIdentifier: this.chosenObjective
+                ?.identifier as IFacebookObjective["identifier"],
+            },
+          },
+        };
+        const savedCampaign: string =
+          await FacebookRepository.saveCampaignObjective(campaignObject);
+        const campaignId: string = savedCampaign;
+        await this.setCurrentFacebookCampaign({
+          campaignId,
+        });
+        return campaignId;
+      } catch (error: any) {
+        this.$alert.error(`Error Saving Campaign Facebook: ${error}`);
+      } finally {
+        this.isSavingCampaign = false;
+      }
+    },
     toggleShowConfirmUpdateSettingsModal() {
       this.showConfirmModal = !this.showConfirmModal;
     },
@@ -224,6 +284,9 @@ export default defineComponent({
     statusReturned() {
       // if its a number we got it back
       return typeof this.linkedAccountObject?.status === "number";
+    },
+    currentPlatform(): string {
+      return this.$route.params.platform;
     },
   },
 });

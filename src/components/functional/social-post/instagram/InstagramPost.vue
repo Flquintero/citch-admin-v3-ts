@@ -251,8 +251,11 @@ export default defineComponent({
       post: null as string | null,
     };
   },
-  mounted() {
+  created() {
     this.setPost();
+  },
+  async mounted() {
+    (window as any).instgrm.Embeds.process();
   },
   methods: {
     setPost() {
@@ -266,7 +269,6 @@ export default defineComponent({
 </script>
 <style lang="scss" scoped>
 .instagram-post {
-  height: 600px;
   overflow-y: auto;
   width: 350px;
   @include flex-config($align-items: center, $justify-content: center);

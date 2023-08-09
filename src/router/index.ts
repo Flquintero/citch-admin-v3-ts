@@ -117,6 +117,24 @@ const routes: Array<RouteConfig> = [
           },
         ],
       },
+      {
+        path: "/campaigns",
+        name: "campaigns",
+        meta: { requiresAuth: true },
+        component: () =>
+          import(
+            /* webpackChunkName: "settings" */ "../views/admin/campaigns/CampaignList.vue"
+          ),
+      },
+      {
+        path: "/campaign/:campaignId",
+        name: "campaign",
+        meta: { requiresAuth: true },
+        component: () =>
+          import(
+            /* webpackChunkName: "settings" */ "../views/admin/campaigns/CampaignDashboard.vue"
+          ),
+      },
     ],
   },
   // NO AUTH REQUIRED

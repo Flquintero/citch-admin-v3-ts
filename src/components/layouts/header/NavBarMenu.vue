@@ -24,8 +24,8 @@
       </div>
       <div class="nav-bar-menu__content-pages">
         <CButton @click.native="goTo('/post-link')">Promote Post</CButton>
-        <CButton>Campaigns</CButton>
-        <CButton>User Settings</CButton>
+        <CButton @click.native="goTo('/campaigns')">Campaigns</CButton>
+        <!-- <CButton>User Settings</CButton> -->
       </div>
       <div class="nav-bar-menu__content-logout">
         <CButton @click.native="signOut"

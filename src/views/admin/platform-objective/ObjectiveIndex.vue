@@ -18,7 +18,10 @@
       ></component>
       <!-- This renders the post chosen with the link -->
       <div class="objective-index__content-post">
-        <component :is="getPlatformPost($route.params.platform)"></component>
+        <component
+          :is="getPlatformPost($route.params.platform)"
+          :current-post="$route.query.post"
+        ></component>
       </div>
     </div>
   </div>

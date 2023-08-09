@@ -13,7 +13,10 @@
     </h1>
     <div class="connect-index__content">
       <!-- This renders the post chosen with the link -->
-      <component :is="getPlatformPost($route.params.platform)"></component>
+      <component
+        :is="getPlatformPost($route.params.platform)"
+        :current-post="$route.query.post"
+      ></component>
       <!-- This renders the info to connect platforms in the bottom left rectangle -->
       <component :is="getPlatformConnect($route.params.platform)"></component>
     </div>

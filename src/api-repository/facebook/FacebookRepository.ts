@@ -78,6 +78,11 @@ export default {
       data: accountsObject,
     });
   },
+  getFacebookCampaigns: async () => {
+    return await $authedApiRequest({
+      url: `${DOMAIN_PATH}/campaigns`,
+    });
+  },
   createCampaign: async (campaignObject: IFacebookCampaignData) => {
     return await $authedApiRequest({
       method: "post",

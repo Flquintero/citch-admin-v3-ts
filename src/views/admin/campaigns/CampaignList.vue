@@ -19,15 +19,23 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import Vue, { defineComponent } from "vue";
 import { getPlatformPost } from "@/components/functional/social-post/post-component-loader";
+const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");
 
 export default defineComponent({
   name: "CampaignsList",
+  mounted() {
+    this.getUserCampaigns();
+  },
   methods: {
     getPlatformPost,
     setCurrentCampaign(campaignId: number) {
       console.log(campaignId);
+    },
+    async getUserCampaigns() {
+      const facebookCampaigns = await FacebookRepository.getFacebookCampaigns();
+      console.log("facebookCampaigns", facebookCampaigns);
     },
   },
 });

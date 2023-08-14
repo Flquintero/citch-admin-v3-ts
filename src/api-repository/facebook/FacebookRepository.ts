@@ -78,9 +78,14 @@ export default {
       data: accountsObject,
     });
   },
-  getFacebookCampaigns: async () => {
+  getPromotedPostCampaigns: async () => {
     return await $authedApiRequest({
-      url: `${DOMAIN_PATH}/campaigns`,
+      url: `${DOMAIN_PATH}/campaigns/promoted-post`,
+    });
+  },
+  getCampaignInsights: async (campaignId: string) => {
+    return await $authedApiRequest({
+      url: `${DOMAIN_PATH}/campaigns/${campaignId}/insights`,
     });
   },
   createCampaign: async (campaignObject: IFacebookCampaignData) => {

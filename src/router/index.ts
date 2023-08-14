@@ -127,7 +127,7 @@ const routes: Array<RouteConfig> = [
           ),
       },
       {
-        path: "/campaign/:campaignId",
+        path: "/campaigns/:campaignId",
         name: "campaign",
         meta: { requiresAuth: true },
         component: () =>

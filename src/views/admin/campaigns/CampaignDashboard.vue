@@ -22,26 +22,35 @@
               <font-awesome-icon icon="fa-duotone fa-calendar" size="2x" />
             </div>
             <p>
-              The post started on <b>Dec, 12 2023</b> and will run until
-              <b>Dec, 20 2023</b>
+              The post started on <b>{{ campaignDateStart }}</b> and will run
+              until
+              <b>{{ campaignDateEnd }}</b>
             </p>
           </div>
         </div>
         <div class="campaign-dashboard__insights__metrics">
           <div class="campaign-dashboard__insights__metrics__item">
-            <div><h1>10,000</h1></div>
+            <div>
+              <h1>{{ campaignReach }}</h1>
+            </div>
             <div><h3>People have seen your post</h3></div>
           </div>
           <div class="campaign-dashboard__insights__metrics__item">
-            <div><h1>50</h1></div>
+            <div>
+              <h1>{{ campaignComments }}</h1>
+            </div>
             <div><h3>Comments</h3></div>
           </div>
           <div class="campaign-dashboard__insights__metrics__item">
-            <div><h1>10,00</h1></div>
+            <div>
+              <h1>{{ campaignReactions }}</h1>
+            </div>
             <div><h3>Reactions</h3></div>
           </div>
           <div class="campaign-dashboard__insights__metrics__item">
-            <div><h1>250</h1></div>
+            <div>
+              <h1>{{ campaignShares }}</h1>
+            </div>
             <div><h3>Shares</h3></div>
           </div>
         </div>
@@ -95,6 +104,38 @@ export default defineComponent({
       } finally {
         this.isLoading = false;
       }
+    },
+    getActionValue(actionType: string) {
+      return this.campaignInsights?.actions.find(
+        (action: { action_type: string; value: any }) =>
+          action.action_type === actionType
+      ).value;
+    },
+  },
+  computed: {
+    campaignInsights() {
+      return (this.itemInsights as any).data[0];
+    },
+    campaignDateStart() {
+      return this.campaignInsights?.date_start;
+    },
+    campaignDateEnd() {
+      return this.campaignInsights?.date_stop;
+    },
+    campaignReach() {
+      return this.campaignInsights?.reach;
+    },
+    campaignSpend() {
+      return this.campaignInsights?.spend;
+    },
+    campaignComments() {
+      return this.getActionValue("comment");
+    },
+    campaignShares() {
+      return this.getActionValue("post");
+    },
+    campaignReactions() {
+      return this.getActionValue("post_reaction");
     },
   },
 });

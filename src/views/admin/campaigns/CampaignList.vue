@@ -11,7 +11,7 @@
           class="campaigns-list__posts__item"
           v-for="campaign in facebookCampaigns"
           :key="campaign.id"
-          @click.stop="setCurrentCampaign(campaign.id)"
+          @click.stop="setCurrentCampaign(campaign)"
         >
           <component
             :is="getPlatformPost(campaign.platform)"
@@ -50,8 +50,11 @@ export default defineComponent({
   },
   methods: {
     getPlatformPost,
-    setCurrentCampaign(campaignId: number) {
-      this.$router.push(`/campaigns/${campaignId}`);
+    setCurrentCampaign(campaign: any) {
+      this.$router.push({
+        path: `/campaigns/${campaign.id}`,
+        query: { post: campaign.postUrl, platform: campaign.platform },
+      });
     },
     async getUserCampaigns() {
       try {

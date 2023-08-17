@@ -13,8 +13,8 @@
               <font-awesome-icon icon="fa-duotone fa-dollar-sign" size="2x" />
             </div>
             <p>
-              You have spent $100 from your total of $500, with a total of $400
-              remaining.
+              You have spent <b>$100</b> from your total of <b>$500</b>, with a
+              total of <b>$400</b> remaining.
             </p>
           </div>
           <div class="campaign-dashboard__insights__details__item">
@@ -22,7 +22,8 @@
               <font-awesome-icon icon="fa-duotone fa-calendar" size="2x" />
             </div>
             <p>
-              The post started on Dec, 12 2023 and will run until Dec, 20 2023
+              The post started on <b>Dec, 12 2023</b> and will run until
+              <b>Dec, 20 2023</b>
             </p>
           </div>
         </div>

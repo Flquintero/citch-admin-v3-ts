@@ -10,21 +10,20 @@
         <div class="campaign-dashboard__insights__details">
           <div class="campaign-dashboard__insights__details__item">
             <div class="campaign-dashboard__insights__details__item__icon">
-              <font-awesome-icon icon="fa-duotone fa-dollar-sign" size="2x" />
-            </div>
-            <p>
-              You have spent <b>$100</b> from your total of <b>$500</b>, with a
-              total of <b>$400</b> remaining.
-            </p>
-          </div>
-          <div class="campaign-dashboard__insights__details__item">
-            <div class="campaign-dashboard__insights__details__item__icon">
               <font-awesome-icon icon="fa-duotone fa-calendar" size="2x" />
             </div>
             <p>
               The post started on <b>{{ campaignDateStart }}</b> and will run
               until
               <b>{{ campaignDateEnd }}</b>
+            </p>
+          </div>
+          <div class="campaign-dashboard__insights__details__item">
+            <div class="campaign-dashboard__insights__details__item__icon">
+              <font-awesome-icon icon="fa-duotone fa-dollar-sign" size="2x" />
+            </div>
+            <p>
+              You have spent <b>$ {{ campaignSpend }}</b>
             </p>
           </div>
         </div>
@@ -72,6 +71,8 @@
 import Vue, { defineComponent } from "vue";
 import { getPlatformPost } from "@/components/functional/social-post/post-component-loader";
 const FacebookRepository = Vue.prototype.$apiRepository.get("facebook");
+import dayjs from "dayjs";
+
 const BaseLoader = () =>
   import(
     /* webpackChunkName: "BaseLoader" */ "@/components/functional/BaseLoader.vue"
@@ -117,25 +118,31 @@ export default defineComponent({
       return (this.itemInsights as any).data[0];
     },
     campaignDateStart() {
-      return this.campaignInsights?.date_start;
+      const startData = dayjs(this.campaignInsights?.date_start).format(
+        "MMM D, YYYY"
+      );
+      return startData;
     },
     campaignDateEnd() {
-      return this.campaignInsights?.date_stop;
+      const endData = dayjs(this.campaignInsights?.date_stop).format(
+        "MMM D, YYYY"
+      );
+      return endData;
     },
     campaignReach() {
-      return this.campaignInsights?.reach;
+      return this.campaignInsights?.reach || 0;
     },
     campaignSpend() {
-      return this.campaignInsights?.spend;
+      return this.campaignInsights?.spend || 0;
     },
     campaignComments() {
-      return this.getActionValue("comment");
+      return this.getActionValue("comment") || 0;
     },
     campaignShares() {
-      return this.getActionValue("post");
+      return this.getActionValue("post") || 0;
     },
     campaignReactions() {
-      return this.getActionValue("post_reaction");
+      return this.getActionValue("post_reaction") || 0;
     },
   },
 });

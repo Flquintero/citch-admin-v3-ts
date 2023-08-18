@@ -7,7 +7,10 @@
     <div class="budget-index__content">
       <component :is="getPlatformBudget(currentPlatform)"></component>
       <div class="budget-index__content-post">
-        <component :is="getPlatformPost(currentPlatform)"></component>
+        <component
+          :is="getPlatformPost(currentPlatform)"
+          :current-post="$route.query.post"
+        ></component>
       </div>
     </div>
   </div>

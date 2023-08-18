@@ -3,7 +3,7 @@
     <blockquote
       class="instagram-media"
       data-instgrm-captioned
-      :data-instgrm-permalink="post"
+      :data-instgrm-permalink="currentPost"
       data-instgrm-version="14"
       style="
         background: #fff;
@@ -12,17 +12,17 @@
         box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.5),
           0 1px 10px 0 rgba(0, 0, 0, 0.15);
         margin: 1px;
-        max-width: 540px;
-        min-width: 326px;
         padding: 0;
         width: 99.375%;
         width: -webkit-calc(100% - 2px);
         width: calc(100% - 2px);
+        pointer-events: none;
       "
+      :style="{ maxWidth, minWidth }"
     >
       <div style="padding: 16px">
         <a
-          :href="post"
+          :href="currentPost"
           style="
             background: #ffffff;
             line-height: 0;
@@ -246,31 +246,27 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "InstagramPost",
-  data() {
-    return {
-      post: null as string | null,
-    };
-  },
-  created() {
-    this.setPost();
+  props: {
+    currentPost: {
+      type: String,
+    },
+    maxWidth: {
+      type: String,
+      default: "540px",
+    },
+    minWidth: {
+      type: String,
+      default: "326px",
+    },
   },
   async mounted() {
     (window as any).instgrm.Embeds.process();
-  },
-  methods: {
-    setPost() {
-      const { post } = this.$route.query;
-      if (post) {
-        this.post = post as string;
-      }
-    },
   },
 });
 </script>
 <style lang="scss" scoped>
 .instagram-post {
   overflow-y: auto;
-  width: 350px;
   @include flex-config($align-items: center, $justify-content: center);
   &__iframe {
     height: 100%;

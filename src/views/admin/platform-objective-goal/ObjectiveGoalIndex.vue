@@ -4,7 +4,10 @@
     <div class="objective-goal-index__content">
       <component :is="getPlatformObjectiveGoal(currentPlatform)"></component>
       <div class="objective-goal-index__content-post">
-        <component :is="getPlatformPost(currentPlatform)"></component>
+        <component
+          :is="getPlatformPost(currentPlatform)"
+          :current-post="$route.query.post"
+        ></component>
       </div>
     </div>
   </div>

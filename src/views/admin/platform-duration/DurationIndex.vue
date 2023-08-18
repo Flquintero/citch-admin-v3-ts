@@ -7,7 +7,10 @@
     <div class="duration-index__content">
       <component :is="getPlatformDuration(currentPlatform)"></component>
       <div class="duration-index__content-post">
-        <component :is="getPlatformPost(currentPlatform)"></component>
+        <component
+          :is="getPlatformPost(currentPlatform)"
+          :current-post="$route.query.post"
+        ></component>
       </div>
     </div>
   </div>

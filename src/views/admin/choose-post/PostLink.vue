@@ -83,6 +83,7 @@ export default defineComponent({
         this.saving = true;
         //get platform
         const postPlatform = this.determinePlatform();
+        this.checkPostFormat(postPlatform);
         const url = `/builder/${postPlatform}/connect?post=${this.formData.postUrl}`;
         this.$router.push(url);
       } catch (error: any) {
@@ -90,6 +91,24 @@ export default defineComponent({
         this.$alert.error(`Login Error: ${error}`);
       } finally {
         this.saving = false;
+      }
+    },
+    checkPostFormat(platform: string) {
+      switch (platform) {
+        case "instagram": {
+          // abstract this in future - we need to make sure
+          const reelMatch = new RegExp(/reel/);
+          const hasReel = this.formData.postUrl.match(reelMatch);
+          if (hasReel) {
+            this.formData.postUrl = this.formData.postUrl.replace("reel", "p");
+          }
+          const queryMatch = new RegExp(/\?/);
+          const hasQuery = this.formData.postUrl.match(queryMatch);
+          if (hasQuery) {
+            this.formData.postUrl = this.formData.postUrl.split("?")[0];
+          }
+          break;
+        }
       }
     },
     // TO DO: Move to an abstraction, maybe general utils

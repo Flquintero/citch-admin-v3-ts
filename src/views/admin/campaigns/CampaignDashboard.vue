@@ -6,7 +6,7 @@
       <BaseLoader v-bind="{ size: '3x' }" />
     </div>
     <template v-else>
-      <div v-if="itemInsights" class="campaign-dashboard__insights">
+      <div v-if="campaignInsights" class="campaign-dashboard__insights">
         <div class="campaign-dashboard__insights__details">
           <div class="campaign-dashboard__insights__details__item">
             <div class="campaign-dashboard__insights__details__item__icon">
@@ -115,7 +115,7 @@ export default defineComponent({
   },
   computed: {
     campaignInsights() {
-      return (this.itemInsights as any).data[0];
+      return (this.itemInsights as any)?.data[0];
     },
     campaignDateStart() {
       const startData = dayjs(this.campaignInsights?.date_start).format(
@@ -161,7 +161,7 @@ export default defineComponent({
     color: $secondary;
   }
   &__insights {
-    padding: rem(40);
+    padding: rem(40) 0;
     &__details {
       @include center-with-margin($max-width: 600px);
       text-align: left;

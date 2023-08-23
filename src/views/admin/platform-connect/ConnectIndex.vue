@@ -63,7 +63,7 @@ export default defineComponent({
     }
     div[class*="-connect"],
     div[class*="-post"] {
-      margin: 0 auto;
+      margin: 50px auto;
     }
     div[class*="-connect"] {
       max-width: 285px;

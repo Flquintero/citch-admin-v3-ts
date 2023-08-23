@@ -52,6 +52,15 @@
             </div>
             <div><h3>Shares</h3></div>
           </div>
+          <div
+            v-if="hasCampaignVideoViews"
+            class="campaign-dashboard__insights__metrics__item"
+          >
+            <div>
+              <h1>{{ campaignVideoViews }}</h1>
+            </div>
+            <div><h3>Video Views</h3></div>
+          </div>
         </div>
         <div class="campaign-dashboard__insights__post">
           <component
@@ -107,10 +116,11 @@ export default defineComponent({
       }
     },
     getActionValue(actionType: string) {
-      return this.campaignInsights?.actions.find(
+      const actionObject = this.campaignInsights?.actions.find(
         (action: { action_type: string; value: any }) =>
           action.action_type === actionType
-      ).value;
+      );
+      if (actionObject) return actionObject.value;
     },
   },
   computed: {
@@ -143,6 +153,12 @@ export default defineComponent({
     },
     campaignReactions() {
       return this.getActionValue("post_reaction") || 0;
+    },
+    hasCampaignVideoViews() {
+      return this.getActionValue("video_view");
+    },
+    campaignVideoViews() {
+      return this.getActionValue("video_view") || 0;
     },
   },
 });

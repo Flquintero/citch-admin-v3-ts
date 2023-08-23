@@ -85,7 +85,7 @@ export default defineComponent({
 .tabs {
   @include flex-config($flex-direction: column);
   &__list {
-    @include flex-config();
+    @include flex-config($justify-content: center, $flex-wrap: wrap);
   }
 }
 </style>

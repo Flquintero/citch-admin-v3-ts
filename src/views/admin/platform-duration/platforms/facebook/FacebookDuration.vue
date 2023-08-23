@@ -271,6 +271,12 @@ export default defineComponent({
         @include flex-config($align-items: center, $justify-content: center);
         margin: 0 10px;
       }
+      @include mobile() {
+        flex-direction: column;
+        &-separator {
+          margin: 20px;
+        }
+      }
     }
     &-confirm {
       @include center-with-margin($max-width: 350px, $top: 45px, $bottom: 40px);

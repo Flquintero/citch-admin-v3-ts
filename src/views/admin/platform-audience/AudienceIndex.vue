@@ -189,7 +189,7 @@ export default defineComponent({
   }
   &__content {
     &-tabs {
-      @include center-with-margin($max-width: 800px);
+      @include center-with-margin($max-width: 1600px);
       margin-top: 40px;
       @include flex-config($justify-content: center);
     }

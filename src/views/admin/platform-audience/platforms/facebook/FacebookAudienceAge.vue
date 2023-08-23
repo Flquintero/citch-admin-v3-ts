@@ -146,6 +146,7 @@ export default defineComponent({
     &-item {
       flex-grow: 1;
       margin: 10px;
+      @include flex-config($justify-content: center);
     }
   }
 }

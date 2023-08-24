@@ -23,7 +23,9 @@
               <font-awesome-icon icon="fa-duotone fa-dollar-sign" size="2x" />
             </div>
             <p>
-              You have spent <b>$ {{ campaignSpend }}</b>
+              You have spent <b>$ {{ campaignSpend }}</b> out of a total of
+              <b>$ {{ campaignBudgetTotal }}</b> with
+              <b>$ {{ campaignBudgetRemaining }}</b> remaining
             </p>
           </div>
         </div>
@@ -94,7 +96,7 @@ export default defineComponent({
   },
   data() {
     return {
-      itemInsights: null,
+      campaignInsights: null as any, //type this correctly
       isLoading: false,
     };
   },
@@ -106,7 +108,7 @@ export default defineComponent({
     async getPromotedPostInsights() {
       try {
         this.isLoading = true;
-        this.itemInsights = await FacebookRepository.getCampaignInsights(
+        this.campaignInsights = await FacebookRepository.getCampaignInsights(
           this.$route.params.campaignId
         );
       } catch (error: any) {
@@ -124,20 +126,23 @@ export default defineComponent({
     },
   },
   computed: {
-    campaignInsights() {
-      return (this.itemInsights as any)?.data[0];
-    },
     campaignDateStart() {
-      const startData = dayjs(this.campaignInsights?.date_start).format(
+      const startData = dayjs(this.campaignInsights?.start_time).format(
         "MMM D, YYYY"
       );
       return startData;
     },
     campaignDateEnd() {
-      const endData = dayjs(this.campaignInsights?.date_stop).format(
+      const endData = dayjs(this.campaignInsights?.stop_time).format(
         "MMM D, YYYY"
       );
       return endData;
+    },
+    campaignBudgetTotal() {
+      return this.campaignInsights?.lifetime_budget / 100;
+    },
+    campaignBudgetRemaining() {
+      return this.campaignInsights?.budget_remaining;
     },
     campaignReach() {
       return this.campaignInsights?.reach || 0;

@@ -104,7 +104,12 @@ export default defineComponent({
   right: 10px;
   // left: 0;
   z-index: $z-index-alert;
-  @include flex-config($flex-direction: column, $align-items: flex-end);
+  width: 100%;
+  @include flex-config(
+    $flex-direction: column,
+    $justify-content: center,
+    $align-items: center
+  );
 }
 
 .c-alert {

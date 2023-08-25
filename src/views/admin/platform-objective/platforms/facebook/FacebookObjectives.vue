@@ -132,7 +132,7 @@ export default defineComponent({
         });
         await this.continueNextStep(campaignId);
       } catch (error: any) {
-        this.$alert.error(`Error Saving Objective: ${error}`);
+        this.$alert.error(`${error.title}: ${error.message}`);
       } finally {
         this.saving = false;
       }

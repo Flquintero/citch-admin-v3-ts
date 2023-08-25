@@ -162,7 +162,7 @@ export default defineComponent({
         this.$alert.success(`Duration Saved`);
         await this.continueNextStep();
       } catch (error: any) {
-        this.$alert.error(`Error Saving Date`);
+        this.$alert.error(`${error.title}: ${error.message}`);
       } finally {
         this.saving = false;
       }

@@ -57,7 +57,7 @@ export default defineComponent({
         this.$alert.success(`Campaign Published`);
         await this.continueNextStep();
       } catch (error: any) {
-        this.$alert.error(`Error Publishing Campaign`);
+        this.$alert.error(`${error.title}: ${error.message}`);
       } finally {
         this.saving = false;
       }

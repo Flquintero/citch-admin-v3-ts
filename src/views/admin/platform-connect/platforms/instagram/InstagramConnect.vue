@@ -181,7 +181,7 @@ export default defineComponent({
         }
       } catch (error: any) {
         console.log("Error Confirming Accounts", error);
-        this.$alert.error(`Error Confirming Accounts: ${error}`);
+        this.$alert.error(`${error.title}: ${error.message}`);
       } finally {
         this.confirming = false;
       }

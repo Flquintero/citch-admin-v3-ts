@@ -113,6 +113,7 @@ export default defineComponent({
         );
       } catch (error: any) {
         console.log("Get Facebook Insights Error", error);
+        this.$alert.error(`${error.title}: ${error.message}`);
       } finally {
         this.isLoading = false;
       }

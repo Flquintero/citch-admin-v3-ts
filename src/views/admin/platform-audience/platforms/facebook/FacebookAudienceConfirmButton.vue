@@ -87,8 +87,8 @@ export default defineComponent({
         this.$alert.success(`Audience Saved`);
         this.continueNextStep();
       } catch (error: any) {
-        this.$alert.error(`Error Saving Audience`);
-        console.log(`Error: ${error.title} - ${error.message}`);
+        this.$alert.error(`${error.title}: ${error.message}`);
+        console.log(`Error: ${error.title} - ${error.message}`, error);
       } finally {
         this.saving = false;
       }

@@ -144,7 +144,7 @@ export default defineComponent({
         await this.setSavedFacebookBudget(this.formData);
         await this.continueNextStep();
       } catch (error: any) {
-        this.$alert.error(`Error Saving Budget`);
+        this.$alert.error(`${error.title}: ${error.message}`);
       } finally {
         this.saving = false;
       }

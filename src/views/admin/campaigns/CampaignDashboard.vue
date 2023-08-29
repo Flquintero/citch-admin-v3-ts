@@ -143,7 +143,7 @@ export default defineComponent({
       return this.campaignInsights?.lifetime_budget / 100;
     },
     campaignBudgetRemaining() {
-      return this.campaignInsights?.budget_remaining;
+      return this.campaignInsights?.budget_remaining / 100;
     },
     campaignReach() {
       return this.campaignInsights?.reach || 0;

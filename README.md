@@ -7,7 +7,11 @@ npm install
 
 ### Compiles and hot-reloads for development
 ```
-npm run serve
+Need to use node 14: run nvm use 14
+
+Run: doppler setup so it picks up the env from doppler.yaml
+To run project just use doppler run -- npm run serve
+
 ```
 
 ### Compiles and minifies for production
